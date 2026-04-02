@@ -77,6 +77,7 @@ function Particles({ progress }: { progress: React.MutableRefObject<number> }) {
 }
 
 
+function TunnelScene({ progress }: { progress: React.MutableRefObject<number> }) {
   const { camera } = useThree();
   const lightRef = useRef<THREE.PointLight>(null);
 
