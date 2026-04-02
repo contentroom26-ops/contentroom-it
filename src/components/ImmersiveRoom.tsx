@@ -1,12 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import corridorBg from "@/assets/corridor-room.jpg";
 
 /**
- * Fixed corridor background that scales up as you scroll,
- * creating the illusion of walking toward the end wall.
+ * Fixed corridor background with smooth RAF-driven zoom
+ * simulating walking toward the end wall.
  */
 export default function ImmersiveRoom() {
-  const [progress, setProgress] = useState(0);
+  const imgRef = useRef<HTMLDivElement>(null);
+  const progressRef = useRef(0);
+  const currentRef = useRef(0);
+  const rafRef = useRef(0);
 
   useEffect(() => {
     let max = 1;
@@ -14,33 +17,52 @@ export default function ImmersiveRoom() {
       max = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
     };
     calc();
-    const onScroll = () => setProgress(window.scrollY / max);
+
+    const onScroll = () => {
+      progressRef.current = window.scrollY / max;
+    };
+
+    // Lerp loop for buttery smooth interpolation
+    const tick = () => {
+      // Ease toward target (lower = smoother, higher = snappier)
+      currentRef.current += (progressRef.current - currentRef.current) * 0.06;
+
+      const p = currentRef.current;
+      const scale = 1 + p * 2.2;
+      const ty = p * -6;
+      const brightness = 0.88 - p * 0.3;
+
+      if (imgRef.current) {
+        imgRef.current.style.transform = `scale(${scale}) translateY(${ty}%)`;
+        imgRef.current.style.filter = `brightness(${brightness})`;
+      }
+
+      rafRef.current = requestAnimationFrame(tick);
+    };
+
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", calc);
+    rafRef.current = requestAnimationFrame(tick);
+
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", calc);
+      cancelAnimationFrame(rafRef.current);
     };
   }, []);
 
-  // Scale from 1 → 2.8 as user scrolls to bottom
-  const scale = 1 + progress * 1.8;
-  // Slight upward shift to keep vanishing point centered
-  const translateY = progress * -8;
-
   return (
     <div className="fixed inset-0 overflow-hidden" style={{ zIndex: 0 }}>
-      <img
-        src={corridorBg}
-        alt=""
-        className="w-full h-full object-cover will-change-transform"
+      <div
+        ref={imgRef}
+        className="w-full h-full will-change-transform"
         style={{
-          transform: `scale(${scale}) translateY(${translateY}%)`,
-          filter: `brightness(${0.85 - progress * 0.25})`,
-          transition: "transform 0.15s ease-out, filter 0.15s ease-out",
+          backgroundImage: `url(${corridorBg})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          transformOrigin: "center 45%",
         }}
       />
-      {/* Vignette */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
