@@ -40,10 +40,10 @@ const Index = () => {
           <ResultsSection />
           <div className="h-[20vh]" />
           <div id="contatti"><CTASection /></div>
-          <footer className="py-10 px-6 border-t border-border/30">
+          <footer className="py-8 px-6 relative z-10">
             <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-              <span className="font-display font-bold text-foreground tracking-tight">Content Room</span>
-              <p className="text-muted-foreground font-body text-sm">© 2026 — Tutti i diritti riservati</p>
+              <span className="font-display font-bold tracking-tight" style={{ color: "hsl(0 0% 25%)", textShadow: "0 1px 3px hsl(0 0% 0% / 0.8)" }}>Content Room</span>
+              <p className="font-body text-sm" style={{ color: "hsl(0 0% 30%)", textShadow: "0 1px 3px hsl(0 0% 0% / 0.8)" }}>© 2026 — Tutti i diritti riservati</p>
             </div>
           </footer>
         </main>
