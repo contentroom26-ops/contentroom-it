@@ -35,7 +35,7 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
             ? {
                 opacity: [0, 1, 1, 1],
                 scale: [0, 1.3, 1, 1],
-                rotate: [-90, 10, -5, 0],
+                rotate: [-90, 10, -5, 360],
               }
             : phase === "move"
             ? {
