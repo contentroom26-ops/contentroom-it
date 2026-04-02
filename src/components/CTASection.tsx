@@ -4,7 +4,7 @@ import ScrollReveal from "./ScrollReveal";
 
 const CTASection = () => (
   <section className="py-32 px-6 relative overflow-hidden">
-    <div className="absolute inset-0 bg-background/40 backdrop-blur-sm" />
+    <div className="absolute inset-0 bg-background/20 backdrop-blur-[2px]" />
     <div className="absolute inset-0 bg-gradient-to-t from-primary/10 via-transparent to-transparent" />
     <div className="max-w-4xl mx-auto text-center relative z-10">
       <ScrollReveal>
