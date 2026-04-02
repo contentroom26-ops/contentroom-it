@@ -77,6 +77,55 @@ function Particles({ progress }: { progress: React.MutableRefObject<number> }) {
 }
 
 
+function VolumetricLight() {
+  const meshRef = useRef<THREE.Mesh>(null);
+  const glowRef = useRef<THREE.Mesh>(null);
+
+  useFrame((state) => {
+    const t = state.clock.elapsedTime;
+    if (meshRef.current) {
+      meshRef.current.material.opacity = 0.12 + Math.sin(t * 0.8) * 0.04;
+    }
+    if (glowRef.current) {
+      glowRef.current.scale.setScalar(1 + Math.sin(t * 1.2) * 0.08);
+      (glowRef.current.material as THREE.MeshBasicMaterial).opacity = 0.06 + Math.sin(t * 0.6) * 0.03;
+    }
+  });
+
+  const endZ = -TUNNEL_LENGTH;
+
+  return (
+    <group position={[0, 0, endZ]}>
+      {/* Core bright disc */}
+      <mesh ref={meshRef}>
+        <circleGeometry args={[TUNNEL_RADIUS * 0.8, 32]} />
+        <meshBasicMaterial color="#d4a843" transparent opacity={0.12} side={THREE.DoubleSide} />
+      </mesh>
+
+      {/* Outer glow halo */}
+      <mesh ref={glowRef} position={[0, 0, 0.5]}>
+        <circleGeometry args={[TUNNEL_RADIUS * 2, 32]} />
+        <meshBasicMaterial color="#d4a843" transparent opacity={0.06} side={THREE.DoubleSide} blending={THREE.AdditiveBlending} depthWrite={false} />
+      </mesh>
+
+      {/* God rays — radial planes */}
+      {[...Array(6)].map((_, i) => {
+        const angle = (i / 6) * Math.PI;
+        return (
+          <mesh key={`ray-${i}`} rotation={[0, 0, angle]} position={[0, 0, 5]}>
+            <planeGeometry args={[0.15, TUNNEL_RADIUS * 6]} />
+            <meshBasicMaterial color="#d4a843" transparent opacity={0.03} side={THREE.DoubleSide} blending={THREE.AdditiveBlending} depthWrite={false} />
+          </mesh>
+        );
+      })}
+
+      {/* Strong point light at end */}
+      <pointLight color="#d4a843" intensity={2} distance={60} decay={2} />
+      <pointLight color="#fff5e0" intensity={0.8} distance={30} decay={2} position={[0, 0, 5]} />
+    </group>
+  );
+}
+
 function TunnelScene({ progress }: { progress: React.MutableRefObject<number> }) {
   const { camera } = useThree();
   const lightRef = useRef<THREE.PointLight>(null);
