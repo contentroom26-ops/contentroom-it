@@ -107,6 +107,9 @@ function TunnelScene({ progress }: { progress: React.MutableRefObject<number> })
           })}
         </group>
       ))}
+
+      {/* Floating particles */}
+      <Particles progress={progress} />
     </>
   );
 }
