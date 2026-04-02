@@ -1,7 +1,8 @@
 import { useRef, useState, useCallback } from "react";
-import { motion } from "framer-motion";
-import { Aperture, Share2, Rocket, Code2 } from "lucide-react";
-import ScrollReveal from "./ScrollReveal";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { Aperture, Share2, Rocket, Code2, ArrowUpRight } from "lucide-react";
+
+const CYAN = "hsl(200 80% 74%)";
 
 const services = [
   {
@@ -9,200 +10,247 @@ const services = [
     num: "01",
     title: "Content\nCreation",
     desc: "Produciamo video, foto e grafiche che catturano l'attenzione e raccontano il tuo brand.",
+    accent: CYAN,
   },
   {
     icon: Share2,
     num: "02",
     title: "Social Media\nManagement",
     desc: "Gestione strategica dei tuoi canali social con un piano editoriale su misura.",
+    accent: "hsl(200 60% 85%)",
   },
   {
     icon: Rocket,
     num: "03",
     title: "Growth &\nMarketing",
     desc: "Strategie data-driven e campagne ads per scalare il tuo business online.",
+    accent: CYAN,
   },
   {
     icon: Code2,
     num: "04",
     title: "Siti &\nDigitalizzazione",
     desc: "Design e sviluppo di esperienze digitali che convertono e distinguono.",
+    accent: "hsl(200 60% 85%)",
   },
 ];
 
-const CYAN = "hsl(200 80% 74%)";
-
-/** 3D tilt card with glow border */
-function TiltCard({ children }: { children: React.ReactNode }) {
+function ServiceCard({
+  service,
+  index,
+}: {
+  service: (typeof services)[0];
+  index: number;
+}) {
   const cardRef = useRef<HTMLDivElement>(null);
-  const [style, setStyle] = useState({
-    transform: "perspective(800px) rotateX(0deg) rotateY(0deg) scale(1)",
-    glowX: "50%",
-    glowY: "50%",
-    glowOpacity: 0,
-  });
+  const [hovered, setHovered] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
 
   const handleMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const card = cardRef.current;
-    if (!card) return;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateX = ((y - centerY) / centerY) * -10;
-    const rotateY = ((x - centerX) / centerX) * 10;
-    setStyle({
-      transform: `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`,
-      glowX: `${(x / rect.width) * 100}%`,
-      glowY: `${(y / rect.height) * 100}%`,
-      glowOpacity: 1,
+    const rect = cardRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    setMousePos({
+      x: ((e.clientX - rect.left) / rect.width) * 100,
+      y: ((e.clientY - rect.top) / rect.height) * 100,
     });
   }, []);
 
-  const handleLeave = useCallback(() => {
-    setStyle({
-      transform: "perspective(800px) rotateX(0deg) rotateY(0deg) scale(1)",
-      glowX: "50%",
-      glowY: "50%",
-      glowOpacity: 0,
-    });
-  }, []);
+  const isEven = index % 2 === 0;
 
   return (
-    <div
+    <motion.div
       ref={cardRef}
-      onMouseMove={handleMove}
-      onMouseLeave={handleLeave}
-      className="relative rounded-3xl cursor-pointer group"
-      style={{
-        transform: style.transform,
-        transition: "transform 0.2s cubic-bezier(0.22, 1, 0.36, 1)",
-        transformStyle: "preserve-3d",
+      initial={{ opacity: 0, y: 120, scale: 0.85 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: -60 }}
+      viewport={{ once: false, margin: "-80px" }}
+      transition={{
+        duration: 0.9,
+        delay: index * 0.12,
+        ease: [0.22, 1, 0.36, 1],
       }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onMouseMove={handleMove}
+      className="relative cursor-pointer group"
+      style={{ perspective: "1200px" }}
     >
-      {/* Glow border */}
-      <div
-        className="absolute -inset-px rounded-3xl pointer-events-none"
-        style={{
-          background: `radial-gradient(500px circle at ${style.glowX} ${style.glowY}, hsl(200 80% 74% / 0.3), transparent 50%)`,
-          opacity: style.glowOpacity,
-          transition: "opacity 0.4s ease-out",
+      <motion.div
+        animate={{
+          rotateX: hovered ? (mousePos.y - 50) * -0.08 : 0,
+          rotateY: hovered ? (mousePos.x - 50) * 0.08 : 0,
         }}
-      />
-      <div
-        className="absolute -inset-px rounded-3xl pointer-events-none"
-        style={{
-          boxShadow: style.glowOpacity > 0
-            ? "0 0 40px 4px hsl(200 80% 74% / 0.08), 0 20px 60px -10px hsl(200 80% 74% / 0.06)"
-            : "none",
-          transition: "box-shadow 0.4s ease-out",
-        }}
-      />
-      {/* Card body */}
-      <div
-        className="relative rounded-3xl border border-border/20 p-10 md:p-12 h-full overflow-hidden"
-        style={{
-          background: "linear-gradient(135deg, hsl(0 0% 10% / 0.6), hsl(0 0% 7% / 0.6))",
-          backdropFilter: "blur(12px)",
-          transform: "translateZ(0)",
-        }}
+        transition={{ type: "spring", stiffness: 200, damping: 30 }}
+        className="relative rounded-2xl overflow-hidden"
+        style={{ transformStyle: "preserve-3d" }}
       >
-        {/* Spotlight */}
+        {/* Main card body */}
         <div
-          className="absolute inset-0 rounded-3xl pointer-events-none"
+          className="relative flex flex-col md:flex-row items-stretch min-h-[280px] md:min-h-[320px] border border-border/20 rounded-2xl overflow-hidden"
           style={{
-            background: `radial-gradient(350px circle at ${style.glowX} ${style.glowY}, hsl(200 80% 74% / 0.05), transparent 60%)`,
-            opacity: style.glowOpacity,
-            transition: "opacity 0.4s ease-out",
+            background: "linear-gradient(135deg, hsl(0 0% 8% / 0.8), hsl(0 0% 5% / 0.9))",
+            backdropFilter: "blur(20px)",
           }}
-        />
-        {children}
-      </div>
-    </div>
+        >
+          {/* Spotlight glow */}
+          <div
+            className="absolute inset-0 pointer-events-none rounded-2xl transition-opacity duration-500"
+            style={{
+              background: `radial-gradient(600px circle at ${mousePos.x}% ${mousePos.y}%, hsl(200 80% 74% / 0.06), transparent 50%)`,
+              opacity: hovered ? 1 : 0,
+            }}
+          />
+
+          {/* Accent color block — editorial style */}
+          <motion.div
+            className={`relative w-full md:w-[35%] flex items-center justify-center overflow-hidden ${
+              isEven ? "order-1" : "order-1 md:order-2"
+            }`}
+            style={{
+              background: hovered
+                ? `linear-gradient(135deg, ${service.accent}, hsl(200 80% 60%))`
+                : `linear-gradient(135deg, hsl(200 80% 74% / 0.08), hsl(200 80% 74% / 0.03))`,
+              transition: "background 0.6s cubic-bezier(0.22, 1, 0.36, 1)",
+              minHeight: "160px",
+            }}
+          >
+            {/* Large number watermark */}
+            <motion.span
+              className="absolute font-display font-bold select-none"
+              style={{
+                fontSize: "clamp(120px, 15vw, 200px)",
+                lineHeight: 1,
+                color: hovered ? "hsl(0 0% 0% / 0.12)" : "hsl(200 80% 74% / 0.08)",
+                transition: "color 0.6s ease",
+              }}
+            >
+              {service.num}
+            </motion.span>
+
+            {/* Icon */}
+            <motion.div
+              animate={{
+                scale: hovered ? 1.2 : 1,
+                rotate: hovered ? 15 : 0,
+              }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              className="relative z-10 w-16 h-16 rounded-2xl flex items-center justify-center"
+              style={{
+                background: hovered ? "hsl(0 0% 0% / 0.15)" : "hsl(200 80% 74% / 0.1)",
+                border: `1px solid ${hovered ? "hsl(0 0% 0% / 0.2)" : "hsl(200 80% 74% / 0.15)"}`,
+                transition: "background 0.5s ease, border 0.5s ease",
+              }}
+            >
+              <service.icon
+                className="w-7 h-7 transition-colors duration-500"
+                style={{ color: hovered ? "hsl(0 0% 5%)" : CYAN }}
+                strokeWidth={1.5}
+              />
+            </motion.div>
+          </motion.div>
+
+          {/* Text content */}
+          <div
+            className={`flex-1 flex flex-col justify-between p-8 md:p-10 relative z-10 ${
+              isEven ? "order-2" : "order-2 md:order-1"
+            }`}
+          >
+            <div>
+              {/* Title */}
+              <motion.h3
+                className="font-display font-bold tracking-tight leading-[1.05] whitespace-pre-line mb-4"
+                style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)" }}
+                animate={{
+                  x: hovered ? 8 : 0,
+                  color: hovered ? CYAN : "hsl(40 20% 92%)",
+                }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              >
+                {service.title}
+              </motion.h3>
+
+              {/* Description */}
+              <motion.p
+                className="text-muted-foreground font-body text-sm md:text-base leading-relaxed max-w-sm"
+                animate={{ opacity: hovered ? 1 : 0.7, x: hovered ? 8 : 0 }}
+                transition={{ duration: 0.5, delay: 0.05 }}
+              >
+                {service.desc}
+              </motion.p>
+            </div>
+
+            {/* Bottom row: explore link */}
+            <motion.div
+              className="flex items-center gap-2 mt-6"
+              animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 10 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+            >
+              <span className="font-display text-xs tracking-[0.3em] uppercase" style={{ color: CYAN }}>
+                Scopri di più
+              </span>
+              <motion.div
+                animate={{ x: hovered ? 4 : 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <ArrowUpRight className="w-4 h-4" style={{ color: CYAN }} />
+              </motion.div>
+            </motion.div>
+          </div>
+
+          {/* Animated border line */}
+          <motion.div
+            className="absolute bottom-0 left-0 h-[2px]"
+            style={{
+              background: `linear-gradient(90deg, ${CYAN}, transparent)`,
+            }}
+            animate={{ width: hovered ? "100%" : "0%" }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          />
+        </div>
+      </motion.div>
+    </motion.div>
   );
 }
 
-const ServicesSection = () => (
-  <section className="py-32 px-6 relative">
-    <div className="max-w-6xl mx-auto relative z-10">
-      <ScrollReveal>
-        <div className="flex items-center gap-4 mb-6">
-          <div className="w-12 h-px" style={{ background: CYAN }} />
-          <p className="font-body text-xs tracking-[0.4em] uppercase" style={{ color: CYAN }}>
-            Servizi
-          </p>
-        </div>
-        <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight mb-20 leading-[1.1]">
-          Tutto ciò che serve<br />
-          <span className="text-muted-foreground">per dominare i social.</span>
-        </h2>
-      </ScrollReveal>
+const ServicesSection = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
 
-      <div className="grid md:grid-cols-2 gap-5">
-        {services.map((s, i) => (
-          <motion.div
-            key={s.title}
-            initial={{ opacity: 0, y: 80, scale: 0.9, rotateX: 15 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
-            exit={{ opacity: 0, y: -40, scale: 0.95 }}
-            viewport={{ once: false, margin: "-60px" }}
-            transition={{
-              duration: 0.7,
-              delay: i * 0.1,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-            style={{ perspective: "1000px" }}
+  const headerY = useTransform(scrollYProgress, [0, 0.3], [100, 0]);
+  const headerOpacity = useTransform(scrollYProgress, [0, 0.2], [0, 1]);
+
+  return (
+    <section ref={sectionRef} className="py-32 px-6 relative">
+      <div className="max-w-6xl mx-auto relative z-10">
+        {/* Header */}
+        <motion.div style={{ y: headerY, opacity: headerOpacity }}>
+          <div className="flex items-center gap-4 mb-6">
+            <div className="w-12 h-px" style={{ background: CYAN }} />
+            <p className="font-body text-xs tracking-[0.4em] uppercase" style={{ color: CYAN }}>
+              Servizi
+            </p>
+          </div>
+          <h2
+            className="font-display font-bold tracking-tight mb-20 leading-[1.05]"
+            style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}
           >
-            <TiltCard>
-              <div className="relative z-10 flex flex-col h-full min-h-[220px]">
-                {/* Top row: number + icon */}
-                <div className="flex items-start justify-between mb-8">
-                  <span
-                    className="font-display text-5xl md:text-6xl font-extralight tracking-tighter opacity-20 leading-none"
-                    style={{ color: CYAN }}
-                  >
-                    {s.num}
-                  </span>
-                  <motion.div
-                    className="w-12 h-12 rounded-2xl flex items-center justify-center"
-                    style={{
-                      border: `1px solid hsl(200 80% 74% / 0.2)`,
-                      background: "hsl(200 80% 74% / 0.05)",
-                    }}
-                    whileHover={{ rotate: 90, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } }}
-                  >
-                    <s.icon className="w-5 h-5" style={{ color: CYAN }} strokeWidth={1.5} />
-                  </motion.div>
-                </div>
+            I nostri<br />
+            <span className="text-muted-foreground">servizi.</span>
+          </h2>
+        </motion.div>
 
-                {/* Title — multi-line */}
-                <h3
-                  className="font-display font-semibold text-2xl md:text-3xl tracking-tight leading-[1.15] mb-4 whitespace-pre-line group-hover:text-[hsl(200,80%,74%)] transition-colors duration-500"
-                >
-                  {s.title}
-                </h3>
-
-                {/* Description */}
-                <p className="text-muted-foreground font-body text-sm leading-relaxed mt-auto">
-                  {s.desc}
-                </p>
-
-                {/* Bottom accent line */}
-                <motion.div
-                  className="mt-8 h-px w-0 group-hover:w-full"
-                  style={{
-                    background: `linear-gradient(90deg, ${CYAN}, transparent)`,
-                    transition: "width 0.6s cubic-bezier(0.22, 1, 0.36, 1)",
-                  }}
-                />
-              </div>
-            </TiltCard>
-          </motion.div>
-        ))}
+        {/* Cards — stacked editorial layout */}
+        <div className="flex flex-col gap-6">
+          {services.map((s, i) => (
+            <ServiceCard key={s.num} service={s} index={i} />
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default ServicesSection;
