@@ -23,7 +23,7 @@ function Tunnel({ scrollRef }: { scrollRef: React.MutableRefObject<number> }) {
   return (
     <group>
       {/* Ambient */}
-      <ambientLight intensity={0.15} color="#a0c8e8" />
+      <ambientLight intensity={0.3} color="#a0c8e8" />
 
       {/* Floor */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, -LEN / 2]}>
