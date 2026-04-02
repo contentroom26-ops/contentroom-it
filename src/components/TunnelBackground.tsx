@@ -6,7 +6,7 @@ const CORRIDOR_LENGTH = 120;
 const CORRIDOR_WIDTH = 4;
 const CORRIDOR_HEIGHT = 3.5;
 const PARTICLE_COUNT = 80;
-const SECTION_DEPTH = 6; // depth of each architectural bay
+const SECTION_DEPTH = 6;
 
 /* ── Dust Particles ── */
 function DustParticles({ progress }: { progress: React.MutableRefObject<number> }) {
@@ -34,7 +34,6 @@ function DustParticles({ progress }: { progress: React.MutableRefObject<number> 
     const pos = ref.current.geometry.attributes.position.array as Float32Array;
     const t = state.clock.elapsedTime;
     const camZ = camera.position.z;
-
     for (let i = 0; i < PARTICLE_COUNT; i++) {
       pos[i * 3] += Math.sin(t * speeds[i] + i) * 0.002;
       pos[i * 3 + 1] += Math.cos(t * speeds[i] * 0.7 + i) * 0.001;
@@ -57,9 +56,8 @@ function DustParticles({ progress }: { progress: React.MutableRefObject<number> 
   );
 }
 
-/* ── Corridor Architecture ── */
+/* ── Architectural Corridor ── */
 function Corridor() {
-  const wallMat = useMemo(() => new THREE.MeshStandardMaterial({
   const halfW = CORRIDOR_WIDTH / 2;
   const bays = Math.floor(CORRIDOR_LENGTH / SECTION_DEPTH);
 
@@ -68,7 +66,7 @@ function Corridor() {
       {/* Floor */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, -CORRIDOR_LENGTH / 2]}>
         <planeGeometry args={[CORRIDOR_WIDTH, CORRIDOR_LENGTH]} />
-        <meshStandardMaterial color="#0a0a0a" roughness={0.6} metalness={0.3} />
+        <meshStandardMaterial color="#0a0a0a" roughness={0.5} metalness={0.4} />
       </mesh>
 
       {/* Ceiling */}
@@ -89,7 +87,7 @@ function Corridor() {
         <meshStandardMaterial color="#0f0f0f" roughness={0.85} metalness={0.1} side={THREE.DoubleSide} />
       </mesh>
 
-      {/* Architectural bays — pilasters & ceiling beams */}
+      {/* Architectural bays */}
       {Array.from({ length: bays }).map((_, i) => {
         const z = -i * SECTION_DEPTH;
         const isAccent = i % 3 === 0;
@@ -98,52 +96,51 @@ function Corridor() {
             {/* Left pilaster */}
             <mesh position={[-halfW + 0.06, CORRIDOR_HEIGHT / 2, z]}>
               <boxGeometry args={[0.12, CORRIDOR_HEIGHT, 0.3]} />
-              {accentMat}
+              <meshStandardMaterial color="#1a1a1a" roughness={0.7} metalness={0.2} />
             </mesh>
             {/* Right pilaster */}
             <mesh position={[halfW - 0.06, CORRIDOR_HEIGHT / 2, z]}>
               <boxGeometry args={[0.12, CORRIDOR_HEIGHT, 0.3]} />
-              {accentMat}
+              <meshStandardMaterial color="#1a1a1a" roughness={0.7} metalness={0.2} />
             </mesh>
 
             {/* Ceiling beam */}
             <mesh position={[0, CORRIDOR_HEIGHT - 0.06, z]}>
               <boxGeometry args={[CORRIDOR_WIDTH, 0.12, 0.2]} />
-              {accentMat}
+              <meshStandardMaterial color="#1a1a1a" roughness={0.7} metalness={0.2} />
             </mesh>
 
-            {/* Floor edge lines (gold accents) */}
+            {/* Floor gold edge lines */}
             <mesh position={[-halfW + 0.02, 0.005, z - SECTION_DEPTH / 2]}>
               <boxGeometry args={[0.02, 0.01, SECTION_DEPTH]} />
-              {isAccent ? glowEdgeMat : edgeMat}
+              <meshBasicMaterial color="#d4a843" transparent opacity={isAccent ? 0.15 : 0.06} />
             </mesh>
             <mesh position={[halfW - 0.02, 0.005, z - SECTION_DEPTH / 2]}>
               <boxGeometry args={[0.02, 0.01, SECTION_DEPTH]} />
-              {isAccent ? glowEdgeMat : edgeMat}
+              <meshBasicMaterial color="#d4a843" transparent opacity={isAccent ? 0.15 : 0.06} />
             </mesh>
 
-            {/* Ceiling edge lines */}
+            {/* Ceiling gold edge lines */}
             <mesh position={[-halfW + 0.02, CORRIDOR_HEIGHT - 0.005, z - SECTION_DEPTH / 2]}>
               <boxGeometry args={[0.02, 0.01, SECTION_DEPTH]} />
-              {edgeMat}
+              <meshBasicMaterial color="#d4a843" transparent opacity={0.06} />
             </mesh>
             <mesh position={[halfW - 0.02, CORRIDOR_HEIGHT - 0.005, z - SECTION_DEPTH / 2]}>
               <boxGeometry args={[0.02, 0.01, SECTION_DEPTH]} />
-              {edgeMat}
+              <meshBasicMaterial color="#d4a843" transparent opacity={0.06} />
             </mesh>
 
-            {/* Recessed wall panels (left) */}
+            {/* Recessed wall panels */}
             <mesh position={[-halfW + 0.01, CORRIDOR_HEIGHT * 0.5, z - SECTION_DEPTH / 2]} rotation={[0, Math.PI / 2, 0]}>
               <planeGeometry args={[SECTION_DEPTH * 0.7, CORRIDOR_HEIGHT * 0.5]} />
               <meshStandardMaterial color="#0c0c0c" roughness={0.95} metalness={0.05} side={THREE.DoubleSide} />
             </mesh>
-            {/* Recessed wall panels (right) */}
             <mesh position={[halfW - 0.01, CORRIDOR_HEIGHT * 0.5, z - SECTION_DEPTH / 2]} rotation={[0, -Math.PI / 2, 0]}>
               <planeGeometry args={[SECTION_DEPTH * 0.7, CORRIDOR_HEIGHT * 0.5]} />
               <meshStandardMaterial color="#0c0c0c" roughness={0.95} metalness={0.05} side={THREE.DoubleSide} />
             </mesh>
 
-            {/* Accent strip lights on ceiling every 3 bays */}
+            {/* Accent ceiling strip light */}
             {isAccent && (
               <mesh position={[0, CORRIDOR_HEIGHT - 0.01, z]}>
                 <boxGeometry args={[CORRIDOR_WIDTH * 0.3, 0.02, 0.08]} />
@@ -154,7 +151,7 @@ function Corridor() {
         );
       })}
 
-      {/* End wall with light portal */}
+      {/* End wall */}
       <mesh position={[0, CORRIDOR_HEIGHT / 2, -CORRIDOR_LENGTH]}>
         <planeGeometry args={[CORRIDOR_WIDTH, CORRIDOR_HEIGHT]} />
         <meshStandardMaterial color="#0a0a0a" roughness={0.9} />
@@ -177,12 +174,10 @@ function EndLight() {
 
   return (
     <group position={[0, CORRIDOR_HEIGHT / 2, -CORRIDOR_LENGTH + 0.1]}>
-      {/* Glow disc */}
       <mesh ref={glowRef}>
         <circleGeometry args={[3, 32]} />
         <meshBasicMaterial color="#d4a843" transparent opacity={0.08} blending={THREE.AdditiveBlending} depthWrite={false} side={THREE.DoubleSide} />
       </mesh>
-      {/* God rays */}
       {[...Array(5)].map((_, i) => (
         <mesh key={i} rotation={[0, 0, (i / 5) * Math.PI]} position={[0, 0, 2]}>
           <planeGeometry args={[0.08, 8]} />
@@ -195,7 +190,7 @@ function EndLight() {
   );
 }
 
-/* ── Corridor Lights (recessed spots) ── */
+/* ── Recessed Spot Lights ── */
 function CorridorLights() {
   const count = Math.floor(CORRIDOR_LENGTH / SECTION_DEPTH);
   return (
@@ -207,16 +202,13 @@ function CorridorLights() {
           <group key={`light-${i}`}>
             <spotLight
               position={[0, CORRIDOR_HEIGHT - 0.1, z]}
-              target-position={[0, 0, z]}
               angle={0.6}
               penumbra={0.8}
               intensity={0.4}
               color="#d4a843"
               distance={8}
               decay={2}
-              castShadow={false}
             />
-            {/* Visible light fixture */}
             <mesh position={[0, CORRIDOR_HEIGHT - 0.02, z]}>
               <boxGeometry args={[0.3, 0.02, 0.15]} />
               <meshBasicMaterial color="#d4a843" transparent opacity={0.3} />
