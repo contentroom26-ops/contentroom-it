@@ -234,7 +234,9 @@ function Wall({ transform, active, children }: { transform: string; active: bool
         }}
       />
       {/* Content */}
-      {children}
+      <div className="absolute inset-0" style={{ zIndex: 5 }}>
+        {children}
+      </div>
     </div>
   );
 }
