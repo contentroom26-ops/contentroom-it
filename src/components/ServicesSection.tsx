@@ -12,7 +12,7 @@ const services = [
 const ServicesSection = () => (
   <section className="py-32 px-6 relative">
     <div className="absolute inset-0 bg-background/40 backdrop-blur-sm" />
-    <div className="max-w-6xl mx-auto">
+    <div className="max-w-6xl mx-auto relative z-10">
       <ScrollReveal>
         <p className="text-primary font-body text-sm tracking-[0.3em] uppercase mb-4">Servizi</p>
         <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight mb-20">
