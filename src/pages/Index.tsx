@@ -5,7 +5,7 @@ import RoomExperience from "@/components/RoomExperience";
 import SplashScreen from "@/components/SplashScreen";
 
 const WALL_COUNT = 4;
-const SCROLL_HEIGHT_VH = 800;
+const SCROLL_HEIGHT_VH = 500;
 
 const Index = () => {
   const [splashDone, setSplashDone] = useState(false);

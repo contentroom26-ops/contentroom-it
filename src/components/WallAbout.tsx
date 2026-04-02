@@ -23,7 +23,7 @@ interface Props {
 
 export default function WallAbout({ isActive, progress }: Props) {
   return (
-    <div className="absolute inset-0 flex items-center justify-center px-10 md:px-16 py-8">
+    <div className="absolute inset-0 flex items-center justify-center px-8 md:px-16">
       <div className="max-w-4xl w-full">
         {/* Header */}
         <motion.div
