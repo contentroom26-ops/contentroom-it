@@ -141,7 +141,19 @@ const ServicesSection = () => (
 
       <div className="grid md:grid-cols-2 gap-5">
         {services.map((s, i) => (
-          <ScrollReveal key={s.title} delay={i * 0.1}>
+          <motion.div
+            key={s.title}
+            initial={{ opacity: 0, y: 80, scale: 0.9, rotateX: 15 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
+            exit={{ opacity: 0, y: -40, scale: 0.95 }}
+            viewport={{ once: false, margin: "-60px" }}
+            transition={{
+              duration: 0.7,
+              delay: i * 0.1,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            style={{ perspective: "1000px" }}
+          >
             <TiltCard>
               <div className="relative z-10 flex flex-col h-full min-h-[220px]">
                 {/* Top row: number + icon */}
