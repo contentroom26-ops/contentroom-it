@@ -28,7 +28,7 @@ export default function ImmersiveRoom() {
   const walkZ = scrollProgress * 3000;
   const swayX = Math.sin(scrollProgress * 4) * 2;
 
-  const cyan = "hsl(200 80% 74%)";
+  const cyan = "hsl(192 49% 76%)";
   const cyanGlow = "hsl(200 80% 74% / 0.15)";
   const cyanFrame = "hsl(200 70% 60% / 0.5)";
   const cyanFrameGlow = "hsl(200 70% 60% / 0.1)";
