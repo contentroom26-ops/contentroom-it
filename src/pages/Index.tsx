@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
@@ -10,12 +10,13 @@ import SplashScreen from "@/components/SplashScreen";
 
 const Index = () => {
   const [splashDone, setSplashDone] = useState(false);
+  const navIconRef = useRef<HTMLImageElement>(null);
 
   return (
     <>
       <AnimatePresence>
         {!splashDone && (
-          <SplashScreen key="splash" onComplete={() => setSplashDone(true)} />
+          <SplashScreen key="splash" onComplete={() => setSplashDone(true)} navIconRef={navIconRef} />
         )}
       </AnimatePresence>
 
@@ -25,7 +26,7 @@ const Index = () => {
         transition={{ duration: 0.6 }}
         className="bg-background min-h-screen overflow-x-hidden"
       >
-        <Navbar />
+        <Navbar ref={navIconRef} />
         <HeroSection />
         <div id="servizi"><ServicesSection /></div>
         <ResultsSection />
