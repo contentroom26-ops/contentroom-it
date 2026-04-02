@@ -3,6 +3,10 @@ import { Aperture, Share2, Rocket, Code2 } from "lucide-react";
 import textureWall from "@/assets/texture-wall.jpg";
 import textureFloor from "@/assets/texture-floor.jpg";
 import textureCeiling from "@/assets/texture-ceiling.jpg";
+import portfolio1 from "@/assets/portfolio-1.jpg";
+import portfolio2 from "@/assets/portfolio-2.jpg";
+import portfolio3 from "@/assets/portfolio-3.jpg";
+import portfolio4 from "@/assets/portfolio-4.jpg";
 
 const CYAN = "hsl(200 80% 74%)";
 
@@ -13,9 +17,17 @@ const serviceFrames = [
   { icon: Code2, num: "04", title: "Siti &\nDigital" },
 ];
 
+const portfolioFrames = [
+  { img: portfolio1, name: "Luxe Fashion" },
+  { img: portfolio2, name: "Gusto Ristorante" },
+  { img: portfolio3, name: "FitPro Academy" },
+  { img: portfolio4, name: "Glow Skincare" },
+];
+
 export default function ImmersiveRoom() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [activeService, setActiveService] = useState(-1);
+  const [activePortfolio, setActivePortfolio] = useState(-1);
 
   useEffect(() => {
     let max = 1;
@@ -24,31 +36,31 @@ export default function ImmersiveRoom() {
     };
     calc();
 
-    const onScroll = () => {
-      const progress = window.scrollY / max;
-      setScrollProgress(progress);
-    };
+    const onScroll = () => setScrollProgress(window.scrollY / max);
 
-    const onServiceChange = (e: Event) => {
+    const onServiceChange = (e: Event) =>
       setActiveService((e as CustomEvent).detail as number);
-    };
+    const onPortfolioChange = (e: Event) =>
+      setActivePortfolio((e as CustomEvent).detail as number);
 
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", calc);
     window.addEventListener("serviceActiveChange", onServiceChange);
+    window.addEventListener("portfolioActiveChange", onPortfolioChange);
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", calc);
       window.removeEventListener("serviceActiveChange", onServiceChange);
+      window.removeEventListener("portfolioActiveChange", onPortfolioChange);
     };
   }, []);
 
   const walkZ = scrollProgress * 3000;
   const swayX = Math.sin(scrollProgress * 4) * 2;
 
-  const cyanGlow = "hsl(200 80% 74% / 0.15)";
   const cyanFrame = "hsl(200 70% 60% / 0.5)";
   const cyanFrameGlow = "hsl(200 70% 60% / 0.1)";
+  const cyanGlow = "hsl(200 80% 74% / 0.15)";
   const cyanBaseboard = "hsl(200 80% 74% / 0.25)";
   const texRepeat = "repeat";
 
@@ -88,7 +100,7 @@ export default function ImmersiveRoom() {
             }}
           />
 
-          {/* Floor reflection line */}
+          {/* Floor reflection */}
           <div
             style={{
               position: "absolute",
@@ -135,7 +147,7 @@ export default function ImmersiveRoom() {
             }}
           />
 
-          {/* ── LEFT WALL ── */}
+          {/* ── LEFT WALL — Service frames ── */}
           <div
             style={{
               position: "absolute",
@@ -150,23 +162,11 @@ export default function ImmersiveRoom() {
               left: "0",
             }}
           >
-            {/* Service frames — first 4 are interactive */}
             {Array.from({ length: 12 }).map((_, i) => {
               const isService = i < 4;
               const isActive = isService && activeService === i;
               const isNearby = isService && activeService >= 0 && Math.abs(activeService - i) <= 1;
-
               const glowLevel = isActive ? 1 : isNearby ? 0.4 : 0;
-              const borderColor = isActive
-                ? "hsl(200 80% 74% / 0.9)"
-                : isNearby
-                ? "hsl(200 70% 60% / 0.6)"
-                : cyanFrame;
-              const glowVal = isActive
-                ? "hsl(200 80% 74% / 0.4)"
-                : isNearby
-                ? "hsl(200 70% 60% / 0.2)"
-                : cyanFrameGlow;
 
               return (
                 <div
@@ -177,14 +177,18 @@ export default function ImmersiveRoom() {
                     top: "20%",
                     width: "200px",
                     height: "55%",
-                    backgroundImage: isService && isActive
+                    backgroundImage: isActive
                       ? `linear-gradient(135deg, hsl(200 80% 74% / 0.08), hsl(200 60% 40% / 0.15))`
                       : `url(${textureWall})`,
-                    backgroundSize: isService && isActive ? undefined : "256px 256px",
+                    backgroundSize: isActive ? undefined : "256px 256px",
                     backgroundRepeat: texRepeat,
                     filter: isActive ? "brightness(1)" : "brightness(0.7)",
-                    border: `2px solid ${borderColor}`,
-                    boxShadow: `inset 0 0 30px rgba(0,0,0,0.5), 0 0 ${15 + glowLevel * 50}px ${glowVal}`,
+                    border: `2px solid ${
+                      isActive ? "hsl(200 80% 74% / 0.9)" : isNearby ? "hsl(200 70% 60% / 0.6)" : cyanFrame
+                    }`,
+                    boxShadow: `inset 0 0 30px rgba(0,0,0,0.5), 0 0 ${15 + glowLevel * 50}px ${
+                      isActive ? "hsl(200 80% 74% / 0.4)" : isNearby ? "hsl(200 70% 60% / 0.2)" : cyanFrameGlow
+                    }`,
                     transition: "all 0.6s cubic-bezier(0.22, 1, 0.36, 1)",
                     display: "flex",
                     flexDirection: "column",
@@ -198,24 +202,18 @@ export default function ImmersiveRoom() {
                     const Icon = svc.icon;
                     return (
                       <>
-                        {/* Number watermark */}
                         <span
                           style={{
                             position: "absolute",
                             fontSize: "80px",
                             fontWeight: 900,
                             lineHeight: 1,
-                            color: isActive
-                              ? "hsl(200 80% 74% / 0.15)"
-                              : "hsl(200 80% 74% / 0.05)",
+                            color: isActive ? "hsl(200 80% 74% / 0.15)" : "hsl(200 80% 74% / 0.05)",
                             transition: "color 0.6s ease",
-                            fontFamily: "inherit",
                           }}
                         >
                           {svc.num}
                         </span>
-
-                        {/* Icon */}
                         <div
                           style={{
                             position: "relative",
@@ -226,9 +224,7 @@ export default function ImmersiveRoom() {
                             alignItems: "center",
                             justifyContent: "center",
                             borderRadius: 10,
-                            background: isActive
-                              ? "hsl(200 80% 74% / 0.15)"
-                              : "hsl(200 80% 74% / 0.05)",
+                            background: isActive ? "hsl(200 80% 74% / 0.15)" : "hsl(200 80% 74% / 0.05)",
                             border: `1px solid hsl(200 80% 74% / ${isActive ? 0.4 : 0.1})`,
                             transition: "all 0.6s ease",
                             transform: isActive ? "scale(1.15)" : "scale(1)",
@@ -237,14 +233,9 @@ export default function ImmersiveRoom() {
                           <Icon
                             size={20}
                             strokeWidth={1.5}
-                            style={{
-                              color: isActive ? CYAN : "hsl(200 80% 74% / 0.4)",
-                              transition: "color 0.5s ease",
-                            }}
+                            style={{ color: isActive ? CYAN : "hsl(200 80% 74% / 0.4)", transition: "color 0.5s ease" }}
                           />
                         </div>
-
-                        {/* Title */}
                         <span
                           style={{
                             position: "relative",
@@ -263,8 +254,6 @@ export default function ImmersiveRoom() {
                         >
                           {svc.title}
                         </span>
-
-                        {/* Active indicator line */}
                         <div
                           style={{
                             position: "absolute",
@@ -283,20 +272,16 @@ export default function ImmersiveRoom() {
               );
             })}
 
-            {/* Cyan baseboard */}
             <div
               style={{
-                position: "absolute",
-                bottom: "0",
-                left: "0",
-                width: "100%",
-                height: "3px",
+                position: "absolute", bottom: "0", left: "0",
+                width: "100%", height: "3px",
                 background: `linear-gradient(90deg, transparent, ${cyanBaseboard}, transparent)`,
               }}
             />
           </div>
 
-          {/* ── RIGHT WALL ── */}
+          {/* ── RIGHT WALL — Portfolio frames ── */}
           <div
             style={{
               position: "absolute",
@@ -311,32 +296,92 @@ export default function ImmersiveRoom() {
               right: "0",
             }}
           >
-            {Array.from({ length: 12 }).map((_, i) => (
-              <div
-                key={`r-${i}`}
-                style={{
-                  position: "absolute",
-                  right: `${i * 320 + 60}px`,
-                  top: "20%",
-                  width: "200px",
-                  height: "55%",
-                  backgroundImage: `url(${textureWall})`,
-                  backgroundSize: "256px 256px",
-                  backgroundRepeat: texRepeat,
-                  filter: "brightness(0.7)",
-                  border: `2px solid ${cyanFrame}`,
-                  boxShadow: `inset 0 0 30px rgba(0,0,0,0.5), 0 0 15px ${cyanFrameGlow}`,
-                }}
-              />
-            ))}
+            {Array.from({ length: 12 }).map((_, i) => {
+              const isPortfolio = i < 4;
+              const isActive = isPortfolio && activePortfolio === i;
+              const isNearby = isPortfolio && activePortfolio >= 0 && Math.abs(activePortfolio - i) <= 1;
+              const glowLevel = isActive ? 1 : isNearby ? 0.4 : 0;
+
+              return (
+                <div
+                  key={`r-${i}`}
+                  style={{
+                    position: "absolute",
+                    right: `${i * 320 + 60}px`,
+                    top: "20%",
+                    width: "200px",
+                    height: "55%",
+                    backgroundImage: isPortfolio
+                      ? `url(${portfolioFrames[i].img})`
+                      : `url(${textureWall})`,
+                    backgroundSize: isPortfolio ? "cover" : "256px 256px",
+                    backgroundPosition: isPortfolio ? "center" : undefined,
+                    backgroundRepeat: texRepeat,
+                    filter: isActive ? "brightness(1) saturate(1.2)" : isPortfolio ? "brightness(0.35) saturate(0.3)" : "brightness(0.7)",
+                    border: `2px solid ${
+                      isActive ? "hsl(200 80% 74% / 0.9)" : isNearby ? "hsl(200 70% 60% / 0.6)" : cyanFrame
+                    }`,
+                    boxShadow: `inset 0 0 ${isPortfolio ? 15 : 30}px rgba(0,0,0,${isActive ? 0.2 : 0.5}), 0 0 ${15 + glowLevel * 50}px ${
+                      isActive ? "hsl(200 80% 74% / 0.4)" : isNearby ? "hsl(200 70% 60% / 0.2)" : cyanFrameGlow
+                    }`,
+                    transition: "all 0.6s cubic-bezier(0.22, 1, 0.36, 1)",
+                    overflow: "hidden",
+                    display: "flex",
+                    alignItems: "flex-end",
+                    justifyContent: "center",
+                  }}
+                >
+                  {/* Portfolio label overlay */}
+                  {isPortfolio && (
+                    <div
+                      style={{
+                        width: "100%",
+                        padding: "12px 8px 8px",
+                        background: isActive
+                          ? "linear-gradient(transparent, hsl(0 0% 0% / 0.7))"
+                          : "linear-gradient(transparent, hsl(0 0% 0% / 0.4))",
+                        transition: "background 0.5s ease",
+                      }}
+                    >
+                      <span
+                        style={{
+                          display: "block",
+                          fontSize: 10,
+                          fontWeight: 700,
+                          textAlign: "center",
+                          letterSpacing: "0.08em",
+                          textTransform: "uppercase",
+                          color: isActive ? CYAN : "hsl(200 80% 74% / 0.4)",
+                          transition: "color 0.5s ease",
+                        }}
+                      >
+                        {portfolioFrames[i].name}
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Active indicator */}
+                  {isPortfolio && (
+                    <div
+                      style={{
+                        position: "absolute",
+                        bottom: 0,
+                        left: 0,
+                        height: 3,
+                        width: isActive ? "100%" : "0%",
+                        background: `linear-gradient(90deg, transparent, ${CYAN}, transparent)`,
+                        transition: "width 0.8s cubic-bezier(0.22, 1, 0.36, 1)",
+                      }}
+                    />
+                  )}
+                </div>
+              );
+            })}
 
             <div
               style={{
-                position: "absolute",
-                bottom: "0",
-                right: "0",
-                width: "100%",
-                height: "3px",
+                position: "absolute", bottom: "0", right: "0",
+                width: "100%", height: "3px",
                 background: `linear-gradient(90deg, transparent, ${cyanBaseboard}, transparent)`,
               }}
             />

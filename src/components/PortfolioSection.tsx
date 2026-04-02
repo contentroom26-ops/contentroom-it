@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
+import { X, ArrowUpRight } from "lucide-react";
 import portfolio1 from "@/assets/portfolio-1.jpg";
 import portfolio2 from "@/assets/portfolio-2.jpg";
 import portfolio3 from "@/assets/portfolio-3.jpg";
@@ -16,55 +16,153 @@ const projects = [
 ];
 
 const PortfolioSection = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(-1);
   const [selected, setSelected] = useState<number | null>(null);
 
-  return (
-    <section className="py-32 px-6 relative">
-      <div className="max-w-6xl mx-auto relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 60 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, margin: "-60px" }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <div className="flex items-center gap-4 mb-6">
-            <div className="w-12 h-px" style={{ background: CYAN }} />
-            <p className="font-body text-xs tracking-[0.4em] uppercase" style={{ color: CYAN }}>Portfolio</p>
-          </div>
-          <h2 className="font-display font-bold text-4xl md:text-5xl tracking-tight mb-20">
-            Progetti selezionati.
-          </h2>
-        </motion.div>
+  useEffect(() => {
+    const onScroll = () => {
+      if (!sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      const sectionHeight = rect.height;
+      const viewportH = window.innerHeight;
+      const scrolled = -rect.top;
+      const totalScroll = sectionHeight - viewportH;
 
-        <div className="grid md:grid-cols-2 gap-6">
-          {projects.map((p, i) => (
-            <motion.div
-              key={p.name}
-              initial={{ opacity: 0, y: 80, scale: 0.9, rotateX: 15 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
-              viewport={{ once: false, margin: "-60px" }}
-              transition={{
-                duration: 0.7,
-                delay: i * 0.1,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              style={{ perspective: "1000px" }}
+      if (scrolled < 0 || scrolled > totalScroll) {
+        setActiveIndex(-1);
+        window.dispatchEvent(new CustomEvent("portfolioActiveChange", { detail: -1 }));
+        return;
+      }
+
+      const progress = scrolled / totalScroll;
+      const idx = Math.min(3, Math.floor(progress * 4));
+      setActiveIndex(idx);
+      window.dispatchEvent(new CustomEvent("portfolioActiveChange", { detail: idx }));
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const active = activeIndex >= 0 ? projects[activeIndex] : null;
+
+  return (
+    <section ref={sectionRef} className="relative" style={{ height: "300vh" }}>
+      {/* Sticky content */}
+      <div className="sticky top-0 h-screen flex items-center justify-center px-6">
+        <div className="max-w-3xl w-full">
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="mb-10"
+          >
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-12 h-px" style={{ background: CYAN }} />
+              <p className="font-body text-xs tracking-[0.4em] uppercase" style={{ color: CYAN }}>
+                Portfolio
+              </p>
+            </div>
+            <h2
+              className="font-display font-bold tracking-tight leading-[1.05]"
+              style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
             >
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                transition={{ duration: 0.5 }}
-                onClick={() => setSelected(i)}
-                className="relative rounded-2xl overflow-hidden cursor-pointer group aspect-[4/3]"
+              Progetti<br />
+              <span className="text-muted-foreground">selezionati.</span>
+            </h2>
+          </motion.div>
+
+          {/* Active project card */}
+          <div className="relative min-h-[320px]">
+            <AnimatePresence mode="wait">
+              {active && (
+                <motion.div
+                  key={activeIndex}
+                  initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, y: -20, filter: "blur(10px)" }}
+                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  className="absolute inset-0"
+                >
+                  <div
+                    className="rounded-2xl overflow-hidden cursor-pointer"
+                    style={{
+                      background: "hsl(0 0% 8% / 0.6)",
+                      backdropFilter: "blur(20px)",
+                      border: "1px solid hsl(200 80% 74% / 0.15)",
+                      boxShadow: "0 0 40px hsl(200 80% 74% / 0.08), 0 20px 50px -15px rgba(0,0,0,0.4)",
+                    }}
+                    onClick={() => setSelected(activeIndex)}
+                  >
+                    {/* Image */}
+                    <div className="relative aspect-[16/7] overflow-hidden">
+                      <img
+                        src={active.img}
+                        alt={active.name}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
+                      <div className="absolute bottom-4 left-6">
+                        <span
+                          className="font-display font-bold text-sm"
+                          style={{ color: CYAN }}
+                        >
+                          {active.result}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Info */}
+                    <div className="p-6 md:p-8">
+                      <h3
+                        className="font-display font-bold tracking-tight mb-3"
+                        style={{ fontSize: "clamp(1.4rem, 3vw, 2rem)" }}
+                      >
+                        {active.name}
+                      </h3>
+                      <p className="text-muted-foreground font-body text-sm leading-relaxed mb-5 max-w-md">
+                        {active.desc}
+                      </p>
+                      <div className="flex items-center gap-2">
+                        <span className="font-display text-xs tracking-[0.25em] uppercase" style={{ color: CYAN }}>
+                          Vedi progetto
+                        </span>
+                        <ArrowUpRight className="w-4 h-4" style={{ color: CYAN }} />
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {!active && (
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.4 }}
+                className="text-muted-foreground font-body text-sm italic"
               >
-                <img src={p.img} alt={p.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
-                <div className="absolute bottom-0 left-0 p-6 md:p-8">
-                  <p className="font-display font-semibold text-sm mb-1" style={{ color: CYAN }}>{p.result}</p>
-                  <h3 className="font-display font-bold text-xl md:text-2xl text-foreground">{p.name}</h3>
-                </div>
-              </motion.div>
-            </motion.div>
-          ))}
+                Scorri per esplorare i progetti sulla parete →
+              </motion.p>
+            )}
+          </div>
+
+          {/* Progress dots */}
+          <div className="flex gap-3 mt-8">
+            {projects.map((_, i) => (
+              <div
+                key={i}
+                className="h-1 rounded-full transition-all duration-500"
+                style={{
+                  width: activeIndex === i ? 32 : 8,
+                  background: activeIndex === i ? CYAN : "hsl(200 80% 74% / 0.2)",
+                  boxShadow: activeIndex === i ? `0 0 10px hsl(200 80% 74% / 0.3)` : "none",
+                }}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
@@ -79,17 +177,23 @@ const PortfolioSection = () => {
             onClick={() => setSelected(null)}
           >
             <motion.div
-              initial={{ scale: 0.85, opacity: 0, rotateX: 10 }}
-              animate={{ scale: 1, opacity: 1, rotateX: 0 }}
-              exit={{ scale: 0.85, opacity: 0, rotateX: -10 }}
+              initial={{ scale: 0.85, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.85, opacity: 0 }}
               transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="glass-card rounded-2xl overflow-hidden max-w-2xl w-full"
-              style={{ perspective: "1000px" }}
+              className="rounded-2xl overflow-hidden max-w-2xl w-full"
+              style={{
+                background: "hsl(0 0% 8% / 0.9)",
+                border: "1px solid hsl(200 80% 74% / 0.2)",
+              }}
               onClick={(e) => e.stopPropagation()}
             >
               <div className="relative aspect-video">
                 <img src={projects[selected].img} alt={projects[selected].name} className="w-full h-full object-cover" />
-                <button onClick={() => setSelected(null)} className="absolute top-4 right-4 w-10 h-10 rounded-full bg-background/80 flex items-center justify-center text-foreground hover:bg-background transition-colors">
+                <button
+                  onClick={() => setSelected(null)}
+                  className="absolute top-4 right-4 w-10 h-10 rounded-full bg-background/80 flex items-center justify-center text-foreground hover:bg-background transition-colors"
+                >
                   <X className="w-5 h-5" />
                 </button>
               </div>
