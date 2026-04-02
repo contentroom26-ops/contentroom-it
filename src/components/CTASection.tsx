@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 const CELESTE = "hsl(192 49% 76%)";
-const ARANCIONE = "hsl(14 97% 51%)";
+const ACCENT = CELESTE;
 
 const recessedFieldShadow =
   "inset 0 2px 10px hsl(0 0% 0% / 0.38), inset 0 1px 0 hsl(0 0% 100% / 0.04), 0 0 0 1px hsl(0 0% 100% / 0.03)";
@@ -55,9 +55,9 @@ const CTASection = () => {
               className="font-display font-bold tracking-tight leading-[1.02] mt-2"
               style={{
                 fontSize: "clamp(1.6rem, 3.9vw, 2.8rem)",
-                color: ARANCIONE,
+                color: ACCENT,
                 textShadow:
-                  "0 0 22px hsl(192 49% 76% / 0.32), 0 0 48px hsl(14 97% 51% / 0.2), 0 2px 4px hsl(0 0% 0% / 0.82)",
+                  "0 0 22px hsl(192 49% 76% / 0.32), 0 0 48px hsl(192 49% 76% / 0.2), 0 2px 4px hsl(0 0% 0% / 0.82)",
               }}
             >
               Raccontaci il tuo progetto
@@ -108,11 +108,11 @@ const CTASection = () => {
               size="lg"
               className="w-full h-12 rounded-full font-display text-xs uppercase tracking-[0.26em]"
               style={{
-                background: `linear-gradient(135deg, hsl(14 97% 51% / 0.2), hsl(14 97% 51% / 0.1))`,
-                color: ARANCIONE,
-                border: "1px solid hsl(14 97% 51% / 0.35)",
+                background: `linear-gradient(135deg, hsl(192 49% 76% / 0.2), hsl(192 49% 76% / 0.1))`,
+                color: ACCENT,
+                border: "1px solid hsl(192 49% 76% / 0.35)",
                 boxShadow:
-                  "inset 0 1px 0 hsl(0 0% 100% / 0.06), 0 0 24px hsl(14 97% 51% / 0.2)",
+                  "inset 0 1px 0 hsl(0 0% 100% / 0.06), 0 0 24px hsl(192 49% 76% / 0.2)",
               }}
             >
               Prenota una call
