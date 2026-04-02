@@ -35,9 +35,9 @@ const Index = () => {
           <div className="h-[30vh]" />
           <div id="servizi"><ServicesSection /></div>
           <div className="h-[20vh]" />
-          <ResultsSection />
-          <div className="h-[20vh]" />
           <div id="portfolio"><PortfolioSection /></div>
+          <div className="h-[20vh]" />
+          <ResultsSection />
           <div className="h-[20vh]" />
           <div id="contatti"><CTASection /></div>
           <footer className="py-10 px-6 border-t border-border/30">
