@@ -220,6 +220,7 @@ function Wall({ transform, active, children }: { transform: string; active: bool
       <div
         className="absolute inset-0"
         style={{
+          zIndex: 1,
           background: `
             linear-gradient(to right, hsl(0 0% 0% / 0.45) 0%, transparent 8%, transparent 92%, hsl(0 0% 0% / 0.45) 100%),
             linear-gradient(to bottom, hsl(0 0% 0% / 0.3) 0%, transparent 10%, transparent 90%, hsl(0 0% 0% / 0.35) 100%)
@@ -230,6 +231,7 @@ function Wall({ transform, active, children }: { transform: string; active: bool
       <div
         className="absolute inset-0 transition-opacity duration-700"
         style={{
+          zIndex: 2,
           background: "radial-gradient(ellipse at center 50%, hsl(200 80% 74% / 0.04), transparent 60%)",
           opacity: active ? 1 : 0,
         }}
