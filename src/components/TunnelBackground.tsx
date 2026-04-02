@@ -2,203 +2,179 @@ import { useRef, useEffect } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 
-const LEN = 80;
+const LEN = 70;
 const W = 5;
 const H = 4;
 const HW = W / 2;
 const EYE = 1.6;
-const BAYS = 16;
-const BAY_D = LEN / BAYS;
+const BAYS = 14;
+const BD = LEN / BAYS;
 
-/* ── Corridor geometry ── */
-function Corridor({ scrollRef }: { scrollRef: React.MutableRefObject<number> }) {
+function Tunnel({ scrollRef }: { scrollRef: React.MutableRefObject<number> }) {
   const { camera } = useThree();
 
   useFrame(() => {
     const p = scrollRef.current;
-    camera.position.set(
-      Math.sin(p * 2) * 0.03,
-      EYE,
-      THREE.MathUtils.lerp(camera.position.z, 1 - p * LEN * 0.92, 0.06)
-    );
+    camera.position.x = Math.sin(p * 2) * 0.03;
+    camera.position.y = EYE;
+    camera.position.z = THREE.MathUtils.lerp(camera.position.z, 1 - p * LEN * 0.9, 0.06);
   });
 
   return (
-    <>
-      {/* ── Lighting ── */}
-      <ambientLight intensity={0.08} color="#b0d4f1" />
+    <group>
+      {/* Ambient */}
+      <ambientLight intensity={0.15} color="#a0c8e8" />
 
-      {/* Central ceiling light strip — cool blue/cyan */}
-      {Array.from({ length: BAYS }).map((_, i) => {
-        const z = -i * BAY_D - BAY_D / 2;
-        return (
-          <group key={`light-${i}`}>
-            {/* Cyan ceiling strip light */}
-            <mesh position={[0, H - 0.01, z]}>
-              <boxGeometry args={[0.15, 0.02, BAY_D * 0.85]} />
-              <meshBasicMaterial color="#7dd3fc" transparent opacity={0.9} />
-            </mesh>
-            {/* Glow halo around strip */}
-            <mesh position={[0, H - 0.02, z]}>
-              <boxGeometry args={[0.8, 0.01, BAY_D * 0.85]} />
-              <meshBasicMaterial color="#7dd3fc" transparent opacity={0.15} blending={THREE.AdditiveBlending} depthWrite={false} />
-            </mesh>
-            {/* Wide glow */}
-            <mesh position={[0, H - 0.03, z]}>
-              <boxGeometry args={[2, 0.01, BAY_D * 0.85]} />
-              <meshBasicMaterial color="#7dd3fc" transparent opacity={0.04} blending={THREE.AdditiveBlending} depthWrite={false} />
-            </mesh>
-            {/* Actual light source */}
-            <rectAreaLight
-              width={0.3}
-              height={BAY_D * 0.7}
-              intensity={3}
-              color="#7dd3fc"
-              position={[0, H - 0.05, z]}
-              rotation={[Math.PI / 2, 0, 0]}
-            />
-          </group>
-        );
-      })}
-
-      {/* ── Floor ── dark polished */}
-      <mesh rotation-x={-Math.PI / 2} position={[0, 0, -LEN / 2]}>
+      {/* Floor */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, -LEN / 2]}>
         <planeGeometry args={[W, LEN]} />
         <meshStandardMaterial color="#0e0e0e" roughness={0.25} metalness={0.7} />
       </mesh>
-      {/* Floor reflection hint */}
-      <mesh rotation-x={-Math.PI / 2} position={[0, -0.001, -LEN / 2]}>
+
+      {/* Ceiling */}
+      <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, H, -LEN / 2]}>
         <planeGeometry args={[W, LEN]} />
-        <meshStandardMaterial color="#0a0a0a" roughness={0.15} metalness={0.85} transparent opacity={0.4} />
+        <meshStandardMaterial color="#0a0a0a" roughness={0.9} />
       </mesh>
 
-      {/* ── Ceiling ── */}
-      <mesh rotation-x={Math.PI / 2} position={[0, H, -LEN / 2]}>
-        <planeGeometry args={[W, LEN]} />
-        <meshStandardMaterial color="#0a0a0a" roughness={0.9} metalness={0.05} />
-      </mesh>
-
-      {/* ── Left wall ── */}
-      <mesh rotation-y={Math.PI / 2} position={[-HW, H / 2, -LEN / 2]}>
+      {/* Left wall */}
+      <mesh rotation={[0, Math.PI / 2, 0]} position={[-HW, H / 2, -LEN / 2]}>
         <planeGeometry args={[LEN, H]} />
-        <meshStandardMaterial color="#111111" roughness={0.8} metalness={0.1} side={THREE.DoubleSide} />
+        <meshStandardMaterial color="#121212" roughness={0.8} metalness={0.1} side={THREE.DoubleSide} />
       </mesh>
 
-      {/* ── Right wall ── */}
-      <mesh rotation-y={-Math.PI / 2} position={[HW, H / 2, -LEN / 2]}>
+      {/* Right wall */}
+      <mesh rotation={[0, -Math.PI / 2, 0]} position={[HW, H / 2, -LEN / 2]}>
         <planeGeometry args={[LEN, H]} />
-        <meshStandardMaterial color="#111111" roughness={0.8} metalness={0.1} side={THREE.DoubleSide} />
+        <meshStandardMaterial color="#121212" roughness={0.8} metalness={0.1} side={THREE.DoubleSide} />
       </mesh>
 
-      {/* ── End wall ── */}
+      {/* End wall */}
       <mesh position={[0, H / 2, -LEN]}>
         <planeGeometry args={[W, H]} />
-        <meshStandardMaterial color="#080808" roughness={0.9} emissive="#7dd3fc" emissiveIntensity={0.015} />
+        <meshStandardMaterial color="#080808" roughness={0.9} />
       </mesh>
 
-      {/* ── Architectural details per bay ── */}
+      {/* Bay details + lights */}
       {Array.from({ length: BAYS }).map((_, i) => {
-        const z = -i * BAY_D;
-        const zMid = z - BAY_D / 2;
+        const z = -i * BD;
+        const zm = z - BD / 2;
 
         return (
-          <group key={`bay-${i}`}>
-            {/* Pilasters */}
-            {[-1, 1].map((s) => (
-              <mesh key={`p${s}`} position={[s * (HW - 0.09), H / 2, z]}>
-                <boxGeometry args={[0.18, H, 0.2]} />
-                <meshStandardMaterial color="#1a1a1a" roughness={0.6} metalness={0.25} />
-              </mesh>
-            ))}
+          <group key={i}>
+            {/* ── Cyan ceiling light strip ── */}
+            <mesh position={[0, H - 0.005, zm]}>
+              <boxGeometry args={[0.12, 0.01, BD * 0.8]} />
+              <meshBasicMaterial color="#7dd3fc" />
+            </mesh>
+            {/* Glow around strip */}
+            <mesh position={[0, H - 0.01, zm]}>
+              <boxGeometry args={[0.6, 0.005, BD * 0.8]} />
+              <meshBasicMaterial color="#7dd3fc" transparent opacity={0.2} blending={THREE.AdditiveBlending} depthWrite={false} />
+            </mesh>
+            <mesh position={[0, H - 0.015, zm]}>
+              <boxGeometry args={[1.8, 0.005, BD * 0.8]} />
+              <meshBasicMaterial color="#7dd3fc" transparent opacity={0.06} blending={THREE.AdditiveBlending} depthWrite={false} />
+            </mesh>
+            {/* Actual light */}
+            <pointLight position={[0, H - 0.1, zm]} color="#7dd3fc" intensity={1.5} distance={8} decay={2} />
 
-            {/* Ceiling beam */}
+            {/* ── Pilasters ── */}
+            <mesh position={[-HW + 0.09, H / 2, z]}>
+              <boxGeometry args={[0.18, H, 0.2]} />
+              <meshStandardMaterial color="#1a1a1a" roughness={0.6} metalness={0.25} />
+            </mesh>
+            <mesh position={[HW - 0.09, H / 2, z]}>
+              <boxGeometry args={[0.18, H, 0.2]} />
+              <meshStandardMaterial color="#1a1a1a" roughness={0.6} metalness={0.25} />
+            </mesh>
+
+            {/* ── Ceiling beam ── */}
             <mesh position={[0, H - 0.1, z]}>
-              <boxGeometry args={[W + 0.05, 0.2, 0.12]} />
+              <boxGeometry args={[W, 0.2, 0.12]} />
               <meshStandardMaterial color="#151515" roughness={0.7} metalness={0.2} />
             </mesh>
 
-            {/* Baseboards */}
-            {[-1, 1].map((s) => (
-              <mesh key={`b${s}`} position={[s * (HW - 0.03), 0.06, zMid]}>
-                <boxGeometry args={[0.06, 0.12, BAY_D * 0.92]} />
-                <meshStandardMaterial color="#1e1e1e" roughness={0.5} metalness={0.3} />
-              </mesh>
-            ))}
+            {/* ── Baseboards ── */}
+            <mesh position={[-HW + 0.03, 0.06, zm]}>
+              <boxGeometry args={[0.06, 0.12, BD * 0.9]} />
+              <meshStandardMaterial color="#1e1e1e" roughness={0.5} metalness={0.3} />
+            </mesh>
+            <mesh position={[HW - 0.03, 0.06, zm]}>
+              <boxGeometry args={[0.06, 0.12, BD * 0.9]} />
+              <meshStandardMaterial color="#1e1e1e" roughness={0.5} metalness={0.3} />
+            </mesh>
 
-            {/* Wall panels — placeholder for future portfolio frames */}
-            {[-1, 1].map((s) => (
-              <group key={`frame-${s}`}>
-                {/* Panel background (dark recess) */}
-                <mesh position={[s * (HW - 0.008), H * 0.48, zMid]} rotation-y={s * -Math.PI / 2}>
-                  <planeGeometry args={[BAY_D * 0.72, H * 0.5]} />
-                  <meshStandardMaterial color="#0c0c0c" roughness={0.95} side={THREE.DoubleSide} />
-                </mesh>
-                {/* Frame border — thin gold outline */}
-                {/* Top */}
-                <mesh position={[s * (HW - 0.015), H * 0.73, zMid]}>
-                  <boxGeometry args={[0.03, 0.02, BAY_D * 0.72]} />
-                  <meshStandardMaterial color="#c9a84c" roughness={0.3} metalness={0.7} />
-                </mesh>
-                {/* Bottom */}
-                <mesh position={[s * (HW - 0.015), H * 0.23, zMid]}>
-                  <boxGeometry args={[0.03, 0.02, BAY_D * 0.72]} />
-                  <meshStandardMaterial color="#c9a84c" roughness={0.3} metalness={0.7} />
-                </mesh>
-                {/* Left vertical */}
-                <mesh position={[s * (HW - 0.015), H * 0.48, zMid - BAY_D * 0.36]}>
-                  <boxGeometry args={[0.03, H * 0.5, 0.02]} />
-                  <meshStandardMaterial color="#c9a84c" roughness={0.3} metalness={0.7} />
-                </mesh>
-                {/* Right vertical */}
-                <mesh position={[s * (HW - 0.015), H * 0.48, zMid + BAY_D * 0.36]}>
-                  <boxGeometry args={[0.03, H * 0.5, 0.02]} />
-                  <meshStandardMaterial color="#c9a84c" roughness={0.3} metalness={0.7} />
-                </mesh>
+            {/* ── Wall panel (dark recess) ── */}
+            <mesh position={[-HW + 0.005, H * 0.48, zm]} rotation={[0, Math.PI / 2, 0]}>
+              <planeGeometry args={[BD * 0.7, H * 0.5]} />
+              <meshStandardMaterial color="#0c0c0c" roughness={0.95} side={THREE.DoubleSide} />
+            </mesh>
+            <mesh position={[HW - 0.005, H * 0.48, zm]} rotation={[0, -Math.PI / 2, 0]}>
+              <planeGeometry args={[BD * 0.7, H * 0.5]} />
+              <meshStandardMaterial color="#0c0c0c" roughness={0.95} side={THREE.DoubleSide} />
+            </mesh>
 
-                {/* Small spotlight illuminating the frame */}
-                <spotLight
-                  position={[s * (HW - 0.4), H - 0.15, zMid]}
-                  target-position={[s * HW, H * 0.48, zMid]}
-                  angle={0.5}
-                  penumbra={0.8}
-                  intensity={0.4}
-                  color="#e8c675"
-                  distance={4}
-                  decay={2}
-                />
-              </group>
-            ))}
+            {/* ── Gold frame around panel ── */}
+            {/* Top */}
+            <mesh position={[-HW + 0.015, H * 0.73, zm]}>
+              <boxGeometry args={[0.03, 0.02, BD * 0.7]} />
+              <meshStandardMaterial color="#c9a84c" roughness={0.3} metalness={0.7} />
+            </mesh>
+            <mesh position={[HW - 0.015, H * 0.73, zm]}>
+              <boxGeometry args={[0.03, 0.02, BD * 0.7]} />
+              <meshStandardMaterial color="#c9a84c" roughness={0.3} metalness={0.7} />
+            </mesh>
+            {/* Bottom */}
+            <mesh position={[-HW + 0.015, H * 0.23, zm]}>
+              <boxGeometry args={[0.03, 0.02, BD * 0.7]} />
+              <meshStandardMaterial color="#c9a84c" roughness={0.3} metalness={0.7} />
+            </mesh>
+            <mesh position={[HW - 0.015, H * 0.23, zm]}>
+              <boxGeometry args={[0.03, 0.02, BD * 0.7]} />
+              <meshStandardMaterial color="#c9a84c" roughness={0.3} metalness={0.7} />
+            </mesh>
+            {/* Verticals */}
+            <mesh position={[-HW + 0.015, H * 0.48, zm - BD * 0.35]}>
+              <boxGeometry args={[0.03, H * 0.5, 0.02]} />
+              <meshStandardMaterial color="#c9a84c" roughness={0.3} metalness={0.7} />
+            </mesh>
+            <mesh position={[-HW + 0.015, H * 0.48, zm + BD * 0.35]}>
+              <boxGeometry args={[0.03, H * 0.5, 0.02]} />
+              <meshStandardMaterial color="#c9a84c" roughness={0.3} metalness={0.7} />
+            </mesh>
+            <mesh position={[HW - 0.015, H * 0.48, zm - BD * 0.35]}>
+              <boxGeometry args={[0.03, H * 0.5, 0.02]} />
+              <meshStandardMaterial color="#c9a84c" roughness={0.3} metalness={0.7} />
+            </mesh>
+            <mesh position={[HW - 0.015, H * 0.48, zm + BD * 0.35]}>
+              <boxGeometry args={[0.03, H * 0.5, 0.02]} />
+              <meshStandardMaterial color="#c9a84c" roughness={0.3} metalness={0.7} />
+            </mesh>
 
-            {/* Floor light strip under each wall — subtle cyan reflection */}
-            {[-1, 1].map((s) => (
-              <mesh key={`fl${s}`} position={[s * (HW - 0.01), 0.003, zMid]}>
-                <boxGeometry args={[0.03, 0.006, BAY_D * 0.9]} />
-                <meshBasicMaterial color="#7dd3fc" transparent opacity={0.08} />
-              </mesh>
-            ))}
+            {/* ── Frame spotlights ── */}
+            <spotLight position={[-HW + 0.5, H - 0.2, zm]} angle={0.5} penumbra={0.8} intensity={0.5} color="#e8c675" distance={4} decay={2} />
+            <spotLight position={[HW - 0.5, H - 0.2, zm]} angle={0.5} penumbra={0.8} intensity={0.5} color="#e8c675" distance={4} decay={2} />
+
+            {/* ── Floor cyan glow strips ── */}
+            <mesh position={[-HW + 0.01, 0.003, zm]}>
+              <boxGeometry args={[0.02, 0.006, BD * 0.9]} />
+              <meshBasicMaterial color="#7dd3fc" transparent opacity={0.1} />
+            </mesh>
+            <mesh position={[HW - 0.01, 0.003, zm]}>
+              <boxGeometry args={[0.02, 0.006, BD * 0.9]} />
+              <meshBasicMaterial color="#7dd3fc" transparent opacity={0.1} />
+            </mesh>
           </group>
         );
       })}
 
-      {/* Central ceiling light strip — continuous gold accent */}
-      <mesh position={[0, H - 0.005, -LEN / 2]}>
-        <boxGeometry args={[0.08, 0.01, LEN]} />
-        <meshBasicMaterial color="#7dd3fc" transparent opacity={0.4} />
-      </mesh>
-
-      {/* Floor center line */}
-      <mesh position={[0, 0.002, -LEN / 2]}>
-        <boxGeometry args={[0.02, 0.004, LEN]} />
-        <meshBasicMaterial color="#1a1a1a" />
-      </mesh>
-
       {/* End glow */}
-      <pointLight position={[0, H * 0.6, -LEN + 1]} color="#7dd3fc" intensity={1.5} distance={30} decay={1.5} />
-    </>
+      <pointLight position={[0, H * 0.5, -LEN + 1]} color="#7dd3fc" intensity={2} distance={35} decay={1.5} />
+    </group>
   );
 }
 
-/* ── Mount ── */
 export default function TunnelBackground() {
   const scrollRef = useRef(0);
   const maxRef = useRef(1);
@@ -221,18 +197,14 @@ export default function TunnelBackground() {
   }, []);
 
   return (
-    <div style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", zIndex: 0 }}>
+    <div className="fixed inset-0 w-full h-screen" style={{ zIndex: 0 }}>
       <Canvas
-        camera={{ fov: 65, near: 0.1, far: 120, position: [0, EYE, 1] }}
-        gl={{
-          antialias: true,
-          toneMapping: THREE.ACESFilmicToneMapping,
-          toneMappingExposure: 1.2,
-        }}
+        camera={{ fov: 65, near: 0.1, far: 100, position: [0, EYE, 1] }}
+        gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.3 }}
         onCreated={({ gl }) => gl.setClearColor("#050508")}
       >
-        <fog attach="fog" args={["#050508", 3, 35]} />
-        <Corridor scrollRef={scrollRef} />
+        <fog attach="fog" args={["#050508", 4, 40]} />
+        <Tunnel scrollRef={scrollRef} />
       </Canvas>
     </div>
   );
