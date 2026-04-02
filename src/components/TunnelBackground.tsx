@@ -200,7 +200,7 @@ export default function TunnelBackground() {
     <div className="fixed inset-0 w-full h-screen" style={{ zIndex: 0 }}>
       <Canvas
         camera={{ fov: 65, near: 0.1, far: 100, position: [0, EYE, 1] }}
-        gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.3 }}
+        gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.8 }}
         onCreated={({ gl }) => gl.setClearColor("#050508")}
       >
         <fog attach="fog" args={["#050508", 4, 40]} />
