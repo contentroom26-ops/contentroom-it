@@ -14,7 +14,7 @@ const Navbar = () => (
         <motion.img
           src={contentRoomIcon}
           alt="Content Room"
-          className="h-10 w-auto"
+          className="h-26 w-auto"
           animate={{
             rotate: [0, 8, -8, 5, -5, 0],
             scale: [1, 1.05, 1, 1.03, 1],
@@ -25,7 +25,7 @@ const Navbar = () => (
             ease: "easeInOut",
           }}
         />
-        <img src={contentRoomLogo} alt="Content Room" className="h-8 w-auto" />
+        <img src={contentRoomLogo} alt="Content Room" className="h-24 w-auto" />
       </div>
       <div className="hidden md:flex items-center gap-8 text-sm font-body text-muted-foreground">
         <a href="#servizi" className="hover:text-foreground transition-colors duration-300">Servizi</a>
