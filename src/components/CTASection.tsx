@@ -66,10 +66,10 @@ const CTASection = () => {
             </h2>
 
             <p
-              className="font-body text-xs md:text-sm max-w-md mx-auto mt-2"
+              className="font-body text-sm md:text-base font-normal max-w-md mx-auto mt-2"
               style={{
-                color: "hsl(0 0% 34%)",
-                textShadow: "0 1px 2px hsl(0 0% 0% / 0.65)",
+                color: "hsl(0 0% 76%)",
+                textShadow: "0 1px 2px hsl(0 0% 0% / 0.5)",
               }}
             >
               Obiettivi, visione e tempistiche: ti ricontattiamo con il prossimo step giusto.
