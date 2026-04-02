@@ -2,11 +2,11 @@ import { useEffect, useRef } from "react";
 import corridorBg from "@/assets/corridor-room.jpg";
 
 /**
- * Fixed corridor background with smooth RAF-driven zoom
- * simulating walking toward the end wall.
+ * Immersive corridor using CSS 3D perspective + translateZ
+ * for a realistic first-person walk effect with head-bob.
  */
 export default function ImmersiveRoom() {
-  const imgRef = useRef<HTMLDivElement>(null);
+  const sceneRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef(0);
   const currentRef = useRef(0);
   const rafRef = useRef(0);
@@ -22,19 +22,23 @@ export default function ImmersiveRoom() {
       progressRef.current = window.scrollY / max;
     };
 
-    // Lerp loop for buttery smooth interpolation
     const tick = () => {
-      // Ease toward target (lower = smoother, higher = snappier)
-      currentRef.current += (progressRef.current - currentRef.current) * 0.06;
-
+      currentRef.current += (progressRef.current - currentRef.current) * 0.045;
       const p = currentRef.current;
-      const scale = 1 + p * 2.2;
-      const ty = p * -6;
-      const brightness = 0.88 - p * 0.3;
 
-      if (imgRef.current) {
-        imgRef.current.style.transform = `scale(${scale}) translateY(${ty}%)`;
-        imgRef.current.style.filter = `brightness(${brightness})`;
+      // Walk forward via translateZ
+      const walkZ = p * 420;
+      // Subtle head bob
+      const bobY = Math.sin(p * Math.PI * 6) * (1.5 - p * 1.2);
+      const bobX = Math.cos(p * Math.PI * 3) * (0.8 - p * 0.6);
+      // Slight tilt
+      const tiltZ = Math.sin(p * Math.PI * 4) * (0.3 - p * 0.2);
+      const brightness = 0.9 - p * 0.35;
+
+      if (sceneRef.current) {
+        sceneRef.current.style.transform =
+          `translateZ(${walkZ}px) translateY(${bobY}px) translateX(${bobX}px) rotateZ(${tiltZ}deg)`;
+        sceneRef.current.style.filter = `brightness(${brightness})`;
       }
 
       rafRef.current = requestAnimationFrame(tick);
@@ -52,22 +56,38 @@ export default function ImmersiveRoom() {
   }, []);
 
   return (
-    <div className="fixed inset-0 overflow-hidden" style={{ zIndex: 0 }}>
+    <div
+      className="fixed inset-0 overflow-hidden"
+      style={{
+        zIndex: 0,
+        perspective: "600px",
+        perspectiveOrigin: "50% 48%",
+      }}
+    >
       <div
-        ref={imgRef}
-        className="w-full h-full will-change-transform"
+        ref={sceneRef}
+        className="absolute will-change-transform"
         style={{
+          /* Oversized plane so zoom-in doesn't reveal edges */
+          width: "160vw",
+          height: "160vh",
+          left: "-30vw",
+          top: "-30vh",
           backgroundImage: `url(${corridorBg})`,
           backgroundSize: "cover",
-          backgroundPosition: "center",
-          transformOrigin: "center 45%",
+          backgroundPosition: "center 45%",
+          transformOrigin: "center center",
         }}
       />
+
+      {/* Depth fog overlay — darkens edges for tunnel feel */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background:
-            "radial-gradient(ellipse at center, transparent 40%, hsl(0 0% 0% / 0.6) 100%)",
+          background: `
+            radial-gradient(ellipse 70% 60% at center 48%, transparent 30%, hsl(0 0% 0% / 0.7) 100%),
+            linear-gradient(180deg, hsl(0 0% 0% / 0.15) 0%, transparent 20%, transparent 80%, hsl(0 0% 0% / 0.3) 100%)
+          `,
         }}
       />
     </div>
