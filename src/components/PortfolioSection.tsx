@@ -60,7 +60,7 @@ const PortfolioSection = () => {
                 <img src={p.img} alt={p.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
                 <div className="absolute bottom-0 left-0 p-6 md:p-8">
-                  <p className="font-display font-semibold text-sm mb-1" style={{ color: ARANCIONE }}>{p.result}</p>
+                  <p className="font-display font-semibold text-sm mb-1" style={{ color: ACCENT }}>{p.result}</p>
                   <h3 className="font-display font-bold text-xl md:text-2xl text-foreground">{p.name}</h3>
                 </div>
               </motion.div>
