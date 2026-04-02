@@ -101,7 +101,7 @@ const CTASection = () => {
 
             <Textarea
               placeholder="Raccontaci il tuo progetto"
-              className="min-h-[120px] rounded-[1.5rem] border-border/40 bg-transparent px-4 py-3 text-foreground placeholder:text-muted-foreground/70 focus-visible:ring-1 focus-visible:ring-offset-0 resize-none"
+              className="min-h-[120px] rounded-[1.5rem] border-border/60 bg-white/5 px-4 py-3 text-white placeholder:text-white/50 focus-visible:ring-1 focus-visible:ring-offset-0 resize-none"
               style={{ boxShadow: recessedFieldShadow }}
             />
 
