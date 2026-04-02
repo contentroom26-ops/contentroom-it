@@ -15,7 +15,7 @@ const Index = () => (
     <div id="contatti"><CTASection /></div>
     <footer className="py-10 px-6 border-t border-border">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-        <span className="font-display font-bold text-foreground tracking-tight">STUDIO</span>
+        <span className="font-display font-bold text-foreground tracking-tight">Content Room</span>
         <p className="text-muted-foreground font-body text-sm">© 2026 — Tutti i diritti riservati</p>
       </div>
     </footer>
