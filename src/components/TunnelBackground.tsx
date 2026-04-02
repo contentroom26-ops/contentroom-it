@@ -8,7 +8,75 @@ const TUNNEL_SEGMENTS = 60;
 const TUNNEL_LENGTH = 120;
 const TUNNEL_RADIUS = 3.5;
 
-function TunnelScene({ progress }: { progress: React.MutableRefObject<number> }) {
+function Particles({ progress }: { progress: React.MutableRefObject<number> }) {
+  const pointsRef = useRef<THREE.Points>(null);
+  const { camera } = useThree();
+
+  const { positions, speeds, angles, radii, opacities } = useMemo(() => {
+    const pos = new Float32Array(PARTICLE_COUNT * 3);
+    const spd = new Float32Array(PARTICLE_COUNT);
+    const ang = new Float32Array(PARTICLE_COUNT);
+    const rad = new Float32Array(PARTICLE_COUNT);
+    const opa = new Float32Array(PARTICLE_COUNT);
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      ang[i] = Math.random() * Math.PI * 2;
+      rad[i] = 0.3 + Math.random() * (TUNNEL_RADIUS - 0.5);
+      pos[i * 3] = Math.cos(ang[i]) * rad[i];
+      pos[i * 3 + 1] = Math.sin(ang[i]) * rad[i];
+      pos[i * 3 + 2] = -Math.random() * TUNNEL_LENGTH;
+      spd[i] = 0.2 + Math.random() * 0.6;
+      opa[i] = 0.3 + Math.random() * 0.7;
+    }
+    return { positions: pos, speeds: spd, angles: ang, radii: rad, opacities: opa };
+  }, []);
+
+  const sizesAttr = useMemo(() => {
+    const s = new Float32Array(PARTICLE_COUNT);
+    for (let i = 0; i < PARTICLE_COUNT; i++) s[i] = 1.5 + Math.random() * 3;
+    return s;
+  }, []);
+
+  useFrame((state) => {
+    if (!pointsRef.current) return;
+    const geo = pointsRef.current.geometry;
+    const posArr = geo.attributes.position.array as Float32Array;
+    const t = state.clock.elapsedTime;
+    const camZ = camera.position.z;
+
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      // Gentle orbit
+      angles[i] += speeds[i] * 0.003;
+      posArr[i * 3] = Math.cos(angles[i]) * radii[i] + Math.sin(t * speeds[i] * 0.5) * 0.15;
+      posArr[i * 3 + 1] = Math.sin(angles[i]) * radii[i] + Math.cos(t * speeds[i] * 0.3) * 0.15;
+
+      // If particle is behind camera, respawn ahead
+      if (posArr[i * 3 + 2] > camZ + 5) {
+        posArr[i * 3 + 2] = camZ - 20 - Math.random() * 40;
+      }
+    }
+    geo.attributes.position.needsUpdate = true;
+  });
+
+  return (
+    <points ref={pointsRef}>
+      <bufferGeometry>
+        <bufferAttribute attach="attributes-position" array={positions} count={PARTICLE_COUNT} itemSize={3} />
+        <bufferAttribute attach="attributes-size" array={sizesAttr} count={PARTICLE_COUNT} itemSize={1} />
+      </bufferGeometry>
+      <pointsMaterial
+        color="#d4a843"
+        transparent
+        opacity={0.6}
+        size={2.5}
+        sizeAttenuation
+        blending={THREE.AdditiveBlending}
+        depthWrite={false}
+      />
+    </points>
+  );
+}
+
+
   const { camera } = useThree();
   const lightRef = useRef<THREE.PointLight>(null);
 
