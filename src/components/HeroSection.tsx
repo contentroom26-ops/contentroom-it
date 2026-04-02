@@ -14,8 +14,16 @@ const HeroSection = () => {
 
   return (
     <section ref={ref} className="relative h-screen overflow-hidden flex items-center justify-center">
-      {/* No background image — the 3D room IS the background */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background/20 to-transparent pointer-events-none" />
+      {/* Video background */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover"
+        src="/hero-video.mov"
+      />
+      <div className="absolute inset-0 bg-black/40 pointer-events-none" />
 
       {/* Content */}
       <motion.div
