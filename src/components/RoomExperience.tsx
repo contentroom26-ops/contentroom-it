@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import WallServices from "./WallServices";
 import WallPortfolio from "./WallPortfolio";
 import WallAbout from "./WallAbout";
@@ -23,32 +23,31 @@ function getRotationState(p: number) {
     if (p <= wallEnd || i === WALL_COUNT - 1) {
       if (p <= plateauEnd) {
         const wallProgress = (p - wallStart) / (wallSize * PLATEAU_RATIO);
-        return { rotation: i * 90, activeWall: i, wallProgress: Math.min(1, wallProgress) };
+        return { rotation: 0, activeWall: i, wallProgress: Math.min(1, wallProgress), transitioning: false, transitionT: 0 };
       } else {
         const t = Math.min(1, (p - plateauEnd) / (wallEnd - plateauEnd));
         const eased = easeInOutCubic(t);
-        return { rotation: i * 90 + eased * 90, activeWall: i, wallProgress: 1 };
+        return { rotation: eased * 90, activeWall: i, wallProgress: 1, transitioning: true, transitionT: eased };
       }
     }
   }
-  return { rotation: 270, activeWall: 3, wallProgress: 1 };
+  return { rotation: 0, activeWall: 3, wallProgress: 1, transitioning: false, transitionT: 0 };
 }
+
+const walls = [
+  { key: "servizi", Component: WallServices },
+  { key: "portfolio", Component: WallPortfolio },
+  { key: "chi-siamo", Component: WallAbout },
+  { key: "contatti", Component: WallContact },
+];
 
 export default function RoomExperience() {
   const [progress, setProgress] = useState(0);
   const [activeWall, setActiveWall] = useState(0);
   const [wallProgress, setWallProgress] = useState(0);
-  const [depth, setDepth] = useState(300);
-  const rotateY = useMotionValue(0);
-  const smoothRotate = useSpring(rotateY, { stiffness: 70, damping: 28, mass: 0.7 });
-
-  // Compute depth based on viewport width so the room feels proportioned
-  useEffect(() => {
-    const updateDepth = () => setDepth(Math.round(window.innerWidth * 0.35));
-    updateDepth();
-    window.addEventListener("resize", updateDepth);
-    return () => window.removeEventListener("resize", updateDepth);
-  }, []);
+  const [rotation, setRotation] = useState(0);
+  const [transitioning, setTransitioning] = useState(false);
+  const [transitionT, setTransitionT] = useState(0);
 
   useEffect(() => {
     const onScroll = () => {
@@ -56,92 +55,129 @@ export default function RoomExperience() {
       const p = Math.min(1, Math.max(0, window.scrollY / maxScroll));
       setProgress(p);
       const state = getRotationState(p);
-      rotateY.set(-state.rotation);
       setActiveWall(state.activeWall);
       setWallProgress(state.wallProgress);
+      setRotation(state.rotation);
+      setTransitioning(state.transitioning);
+      setTransitionT(state.transitionT);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
-  }, [rotateY]);
+  }, []);
 
-  const D = depth;
-  const perspVal = D * 3; // 3× depth → minimal distortion, nice 3D
+  const nextWall = Math.min(WALL_COUNT - 1, activeWall + 1);
 
   return (
-    <div
-      className="fixed inset-0 z-0 overflow-hidden"
-      style={{
-        perspective: `${perspVal}px`,
-        perspectiveOrigin: "50% 50%",
-        background: "hsl(0 0% 5%)",
-      }}
-    >
-      {/* Vignette overlay */}
+    <div className="fixed inset-0 z-0 overflow-hidden" style={{ perspective: "1200px", perspectiveOrigin: "50% 50%" }}>
+      {/* Room ambient — floor/ceiling edges */}
+      <div className="absolute inset-0" style={{ background: "hsl(0 0% 5%)" }} />
+      
+      {/* Floor */}
       <div
-        className="absolute inset-0 pointer-events-none z-10"
-        style={{ background: "radial-gradient(ellipse at center, transparent 50%, hsl(0 0% 2% / 0.6) 100%)" }}
+        className="absolute left-0 right-0 bottom-0"
+        style={{
+          height: "18vh",
+          backgroundImage: `url(${textureFloor})`,
+          backgroundSize: "200px 200px",
+          backgroundRepeat: "repeat",
+          maskImage: "linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 100%)",
+          WebkitMaskImage: "linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 100%)",
+          opacity: 0.4,
+        }}
       />
 
-      {/* Rotating room */}
-      <motion.div
+      {/* Ceiling */}
+      <div
+        className="absolute left-0 right-0 top-0"
         style={{
-          rotateY: smoothRotate,
-          transformStyle: "preserve-3d",
-          position: "absolute",
-          inset: 0,
+          height: "12vh",
+          backgroundImage: `url(${textureFloor})`,
+          backgroundSize: "200px 200px",
+          backgroundRepeat: "repeat",
+          maskImage: "linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 100%)",
+          WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 100%)",
+          opacity: 0.2,
+          filter: "brightness(0.4)",
+        }}
+      />
+
+      {/* Wall texture background */}
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: `url(${textureWall})`,
+          backgroundSize: "512px 512px",
+          backgroundRepeat: "repeat",
+          opacity: 0.6,
+        }}
+      />
+
+      {/* Edge shadows for room depth */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          boxShadow: "inset 0 0 150px 60px rgba(0,0,0,0.6)",
+        }}
+      />
+
+      {/* Vignette */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: "radial-gradient(ellipse at center, transparent 50%, hsl(0 0% 2% / 0.5) 100%)" }}
+      />
+
+      {/* Active wall content */}
+      <div
+        className="absolute inset-0"
+        style={{
+          transform: transitioning
+            ? `perspective(1200px) rotateY(-${rotation}deg)`
+            : "none",
+          transformOrigin: "center center",
+          transition: "none",
         }}
       >
-        {/* FLOOR */}
-        <div style={{
-          position: "absolute",
-          width: "400vw", height: "400vw",
-          left: "-150vw", top: "50%",
-          transform: `rotateX(90deg) translateZ(${D}px)`,
-          transformOrigin: "center top",
-          backgroundImage: `url(${textureFloor})`,
-          backgroundSize: "200px 200px",
-          backgroundRepeat: "repeat",
-          opacity: 0.35,
-        }} />
+        {walls.map((wall, i) => {
+          const { Component } = wall;
+          const isActive = activeWall === i;
+          const isNext = transitioning && nextWall === i;
+          const show = isActive || isNext;
 
-        {/* CEILING */}
-        <div style={{
-          position: "absolute",
-          width: "400vw", height: "400vw",
-          left: "-150vw", bottom: "50%",
-          transform: `rotateX(-90deg) translateZ(${D}px)`,
-          transformOrigin: "center bottom",
-          backgroundImage: `url(${textureFloor})`,
-          backgroundSize: "200px 200px",
-          backgroundRepeat: "repeat",
-          opacity: 0.12,
-          filter: "brightness(0.3)",
-        }} />
+          if (!show) return null;
 
-        {/* 4 WALLS — each wall is 100vw×100vh, pushed out by D */}
-        {/* Wall 0: FRONT (Servizi) — at Z = -D */}
-        <Wall transform={`translateZ(-${D}px)`} active={activeWall === 0}>
-          <WallServices isActive={activeWall === 0} progress={activeWall === 0 ? wallProgress : 0} />
-        </Wall>
+          return (
+            <div
+              key={wall.key}
+              className="absolute inset-0"
+              style={{
+                opacity: isActive ? (transitioning ? 1 - transitionT : 1) : transitionT,
+                pointerEvents: isActive && !transitioning ? "auto" : "none",
+              }}
+            >
+              <Component isActive={true} progress={isActive ? wallProgress : 0} />
+            </div>
+          );
+        })}
+      </div>
 
-        {/* Wall 1: RIGHT (Portfolio) — rotateY(-90) pushes to X = +D */}
-        <Wall transform={`rotateY(-90deg) translateZ(-${D}px)`} active={activeWall === 1}>
-          <WallPortfolio isActive={activeWall === 1} progress={activeWall === 1 ? wallProgress : 0} />
-        </Wall>
+      {/* Side walls hint (perspective lines) */}
+      <div
+        className="absolute left-0 top-0 bottom-0 pointer-events-none"
+        style={{
+          width: "8vw",
+          background: "linear-gradient(to right, hsl(0 0% 0% / 0.5), transparent)",
+        }}
+      />
+      <div
+        className="absolute right-0 top-0 bottom-0 pointer-events-none"
+        style={{
+          width: "8vw",
+          background: "linear-gradient(to left, hsl(0 0% 0% / 0.5), transparent)",
+        }}
+      />
 
-        {/* Wall 2: BACK (Chi siamo) — rotateY(180) pushes to Z = +D */}
-        <Wall transform={`rotateY(180deg) translateZ(-${D}px)`} active={activeWall === 2}>
-          <WallAbout isActive={activeWall === 2} progress={activeWall === 2 ? wallProgress : 0} />
-        </Wall>
-
-        {/* Wall 3: LEFT (Contatti) — rotateY(90) pushes to X = -D */}
-        <Wall transform={`rotateY(90deg) translateZ(-${D}px)`} active={activeWall === 3}>
-          <WallContact isActive={activeWall === 3} progress={activeWall === 3 ? wallProgress : 0} />
-        </Wall>
-      </motion.div>
-
-      {/* Nav */}
+      {/* Nav indicators */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-5">
         {["Servizi", "Portfolio", "Chi siamo", "Contatti"].map((label, i) => (
           <button
@@ -189,27 +225,6 @@ export default function RoomExperience() {
           </motion.div>
         </motion.div>
       )}
-    </div>
-  );
-}
-
-function Wall({ transform, active, children }: { transform: string; active: boolean; children: React.ReactNode }) {
-  return (
-    <div
-      style={{
-        position: "absolute",
-        width: "100vw",
-        height: "100vh",
-        left: 0,
-        top: 0,
-        transform,
-        backgroundImage: `url(${textureWall})`,
-        backgroundSize: "512px 512px",
-        backgroundRepeat: "repeat",
-        boxShadow: "inset 0 0 120px 40px rgba(0,0,0,0.5)",
-      }}
-    >
-      {children}
     </div>
   );
 }
