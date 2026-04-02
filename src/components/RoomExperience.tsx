@@ -8,8 +8,6 @@ import textureWall from "@/assets/texture-wall.jpg";
 import textureFloor from "@/assets/texture-floor.jpg";
 
 const WALL_COUNT = 4;
-
-// Plateau: camera stays facing the wall. Transition: camera rotates to next wall.
 const PLATEAU_RATIO = 0.65;
 
 function easeInOutCubic(t: number) {
@@ -36,9 +34,6 @@ function getRotationState(p: number) {
   return { rotation: 270, activeWall: 3, wallProgress: 1 };
 }
 
-// Half-size of the cube in CSS units
-const HALF = "50vmin";
-
 export default function RoomExperience() {
   const [progress, setProgress] = useState(0);
   const [activeWall, setActiveWall] = useState(0);
@@ -61,33 +56,34 @@ export default function RoomExperience() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [rotateY]);
 
-  const wallStyle = (rotY: number): React.CSSProperties => ({
+  // The cube depth = half of viewport width so left/right walls fit
+  // Wall faces: width=100vw, height=100vh, placed at Z = ±50vw
+  const halfDepth = "50vw";
+
+  const wallBase: React.CSSProperties = {
     position: "absolute",
-    width: "100vmin",
-    height: "100vmin",
-    left: "50%",
-    top: "50%",
-    marginLeft: "-50vmin",
-    marginTop: "-50vmin",
-    transform: `rotateY(${rotY}deg) translateZ(50vmin)`,
+    width: "100vw",
+    height: "100vh",
+    left: 0,
+    top: 0,
     backfaceVisibility: "hidden",
     overflow: "hidden",
-  });
+  };
 
   return (
     <div
       className="fixed inset-0 z-0 overflow-hidden"
-      style={{ perspective: "800px", perspectiveOrigin: "50% 50%" }}
+      style={{ perspective: "900px", perspectiveOrigin: "50% 50%" }}
     >
       {/* Vignette */}
       <div
         className="absolute inset-0 pointer-events-none z-10"
         style={{
-          background: "radial-gradient(ellipse at center, transparent 40%, hsl(0 0% 2% / 0.7) 100%)",
+          background: "radial-gradient(ellipse at center, transparent 40%, hsl(0 0% 2% / 0.75) 100%)",
         }}
       />
 
-      {/* Room cube — rotates around Y axis */}
+      {/* Room cube */}
       <motion.div
         style={{
           rotateY: smoothRotate,
@@ -100,17 +96,16 @@ export default function RoomExperience() {
         <div
           style={{
             position: "absolute",
-            width: "100vmin",
-            height: "100vmin",
-            left: "50%",
+            width: "200vw",
+            height: "200vw",
+            left: "-50vw",
             top: "50%",
-            marginLeft: "-50vmin",
-            marginTop: "-50vmin",
-            transform: "rotateX(90deg) translateZ(50vmin)",
+            transform: `rotateX(90deg) translateZ(${halfDepth})`,
+            transformOrigin: "center top",
             backgroundImage: `url(${textureFloor})`,
             backgroundSize: "300px 300px",
             backgroundRepeat: "repeat",
-            opacity: 0.6,
+            opacity: 0.5,
           }}
         />
 
@@ -118,64 +113,47 @@ export default function RoomExperience() {
         <div
           style={{
             position: "absolute",
-            width: "100vmin",
-            height: "100vmin",
-            left: "50%",
-            top: "50%",
-            marginLeft: "-50vmin",
-            marginTop: "-50vmin",
-            transform: "rotateX(-90deg) translateZ(50vmin)",
+            width: "200vw",
+            height: "200vw",
+            left: "-50vw",
+            bottom: "50%",
+            transform: `rotateX(-90deg) translateZ(${halfDepth})`,
+            transformOrigin: "center bottom",
             backgroundImage: `url(${textureFloor})`,
             backgroundSize: "300px 300px",
             backgroundRepeat: "repeat",
-            opacity: 0.25,
+            opacity: 0.2,
             filter: "brightness(0.3)",
           }}
         />
 
-        {/* Ceiling light strip */}
-        <div
-          style={{
-            position: "absolute",
-            width: "2px",
-            height: "100vmin",
-            left: "50%",
-            top: "50%",
-            marginLeft: "-1px",
-            marginTop: "-50vmin",
-            transform: "rotateX(-90deg) translateZ(50vmin)",
-            background: "linear-gradient(180deg, hsl(200 80% 74% / 0.4), hsl(200 80% 74% / 0.1), hsl(200 80% 74% / 0.4))",
-            boxShadow: "0 0 20px 8px hsl(200 80% 74% / 0.06)",
-          }}
-        />
-
-        {/* ── WALL 1: FRONT → Servizi (rotateY 0°) ── */}
-        <div style={wallStyle(0)}>
+        {/* ── FRONT WALL (Servizi) ── */}
+        <div style={{ ...wallBase, transform: `translateZ(-${halfDepth})` }}>
           <WallBg active={activeWall === 0} />
           <WallServices isActive={activeWall === 0} progress={activeWall === 0 ? wallProgress : 0} />
         </div>
 
-        {/* ── WALL 2: RIGHT → Portfolio (rotateY 90°) ── */}
-        <div style={wallStyle(90)}>
+        {/* ── RIGHT WALL (Portfolio) ── */}
+        <div style={{ ...wallBase, transformOrigin: "right center", transform: `rotateY(90deg) translateZ(-${halfDepth})` }}>
           <WallBg active={activeWall === 1} />
           <WallPortfolio isActive={activeWall === 1} progress={activeWall === 1 ? wallProgress : 0} />
         </div>
 
-        {/* ── WALL 3: BACK → Chi Siamo (rotateY 180°) ── */}
-        <div style={wallStyle(180)}>
+        {/* ── BACK WALL (Chi siamo) ── */}
+        <div style={{ ...wallBase, transform: `rotateY(180deg) translateZ(-${halfDepth})` }}>
           <WallBg active={activeWall === 2} />
           <WallAbout isActive={activeWall === 2} progress={activeWall === 2 ? wallProgress : 0} />
         </div>
 
-        {/* ── WALL 4: LEFT → Contatti (rotateY -90° / 270°) ── */}
-        <div style={wallStyle(-90)}>
+        {/* ── LEFT WALL (Contatti) ── */}
+        <div style={{ ...wallBase, transformOrigin: "left center", transform: `rotateY(-90deg) translateZ(-${halfDepth})` }}>
           <WallBg active={activeWall === 3} />
           <WallContact isActive={activeWall === 3} progress={activeWall === 3 ? wallProgress : 0} />
         </div>
       </motion.div>
 
-      {/* Navigation indicators */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-4">
+      {/* Nav indicators */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-4">
         {["Servizi", "Portfolio", "Chi siamo", "Contatti"].map((label, i) => (
           <button
             key={label}
@@ -185,22 +163,20 @@ export default function RoomExperience() {
               const target = i * wallSize + (wallSize * PLATEAU_RATIO) / 2;
               window.scrollTo({ top: target * maxScroll, behavior: "smooth" });
             }}
-            className="flex flex-col items-center gap-2"
+            className="flex flex-col items-center gap-1.5"
           >
             <span
-              className="text-[10px] font-body tracking-[0.2em] uppercase transition-all duration-500"
-              style={{
-                color: activeWall === i ? "hsl(200 80% 74%)" : "hsl(0 0% 40%)",
-              }}
+              className="text-[9px] font-body tracking-[0.2em] uppercase transition-all duration-500"
+              style={{ color: activeWall === i ? "hsl(200 80% 74%)" : "hsl(0 0% 35%)" }}
             >
               {label}
             </span>
             <div
-              className="h-1 rounded-full transition-all duration-500"
+              className="h-0.5 rounded-full transition-all duration-500"
               style={{
-                width: activeWall === i ? 28 : 6,
+                width: activeWall === i ? 24 : 6,
                 background: activeWall === i ? "hsl(200 80% 74%)" : "hsl(0 0% 20%)",
-                boxShadow: activeWall === i ? "0 0 10px hsl(200 80% 74% / 0.4)" : "none",
+                boxShadow: activeWall === i ? "0 0 8px hsl(200 80% 74% / 0.4)" : "none",
               }}
             />
           </button>
@@ -213,18 +189,18 @@ export default function RoomExperience() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="absolute bottom-24 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2"
+          className="absolute bottom-20 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2"
         >
-          <span className="text-muted-foreground/40 text-[10px] tracking-[0.3em] uppercase font-body">
+          <span className="text-muted-foreground/40 text-[9px] tracking-[0.3em] uppercase font-body">
             Scorri per esplorare
           </span>
           <motion.div
-            animate={{ y: [0, 8, 0] }}
+            animate={{ y: [0, 6, 0] }}
             transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
-            className="w-5 h-8 rounded-full border border-muted-foreground/20 flex justify-center pt-2"
+            className="w-4 h-7 rounded-full border border-muted-foreground/20 flex justify-center pt-1.5"
           >
             <motion.div
-              animate={{ height: ["4px", "10px", "4px"], opacity: [0.3, 0.8, 0.3] }}
+              animate={{ height: ["3px", "8px", "3px"], opacity: [0.3, 0.8, 0.3] }}
               transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
               className="w-0.5 rounded-full bg-primary/50"
             />
@@ -246,21 +222,19 @@ function WallBg({ active }: { active: boolean }) {
           backgroundRepeat: "repeat",
         }}
       />
-      {/* Edge shadows for depth */}
       <div
         className="absolute inset-0"
         style={{
           background: `
-            linear-gradient(to right, hsl(0 0% 0% / 0.5) 0%, transparent 12%, transparent 88%, hsl(0 0% 0% / 0.5) 100%),
-            linear-gradient(to bottom, hsl(0 0% 0% / 0.35) 0%, transparent 15%, transparent 85%, hsl(0 0% 0% / 0.45) 100%)
+            linear-gradient(to right, hsl(0 0% 0% / 0.5) 0%, transparent 10%, transparent 90%, hsl(0 0% 0% / 0.5) 100%),
+            linear-gradient(to bottom, hsl(0 0% 0% / 0.35) 0%, transparent 12%, transparent 88%, hsl(0 0% 0% / 0.45) 100%)
           `,
         }}
       />
-      {/* Active wall glow */}
       <div
         className="absolute inset-0 transition-opacity duration-700"
         style={{
-          background: "radial-gradient(ellipse at center 60%, hsl(200 80% 74% / 0.04), transparent 70%)",
+          background: "radial-gradient(ellipse at center 55%, hsl(200 80% 74% / 0.03), transparent 60%)",
           opacity: active ? 1 : 0,
         }}
       />
