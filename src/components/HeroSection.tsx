@@ -19,7 +19,7 @@ const HeroSection = () => {
   return (
     <section ref={ref} className="relative h-screen overflow-hidden flex items-center justify-center">
       {/* Semi-transparent overlay so content is readable over 3D tunnel */}
-      <div className="absolute inset-0 bg-background/30" />
+      <div className="absolute inset-0 bg-background/10" />
 
       {/* Gradient edges */}
       <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background/60 to-transparent pointer-events-none" />
