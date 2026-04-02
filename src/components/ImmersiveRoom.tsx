@@ -9,6 +9,7 @@ import textureCeiling from "@/assets/texture-ceiling.jpg";
  */
 export default function ImmersiveRoom() {
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [frameGlow, setFrameGlow] = useState(0);
 
   useEffect(() => {
     let max = 1;
@@ -16,7 +17,13 @@ export default function ImmersiveRoom() {
       max = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
     };
     calc();
-    const onScroll = () => setScrollProgress(window.scrollY / max);
+    const onScroll = () => {
+      const progress = window.scrollY / max;
+      setScrollProgress(progress);
+      // Glow frames when in services section (roughly 15-45% of page)
+      const servicesProximity = 1 - Math.min(1, Math.abs(progress - 0.3) * 4);
+      setFrameGlow(Math.max(0, servicesProximity));
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", calc);
     return () => {
