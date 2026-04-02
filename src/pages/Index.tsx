@@ -6,6 +6,7 @@ import ServicesSection from "@/components/ServicesSection";
 import ResultsSection from "@/components/ResultsSection";
 import PortfolioSection from "@/components/PortfolioSection";
 import CTASection from "@/components/CTASection";
+import TunnelSection from "@/components/TunnelSection";
 import SplashScreen from "@/components/SplashScreen";
 
 const Index = () => {
