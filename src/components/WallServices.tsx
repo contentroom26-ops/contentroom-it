@@ -33,7 +33,7 @@ export default function WallServices({ isActive, progress }: Props) {
   const activeCard = isActive ? Math.min(2, Math.floor(progress * 3)) : -1;
 
   return (
-    <div className="absolute inset-0 flex flex-col items-center justify-center px-12 md:px-20 py-10" style={{ transform: "scale(0.82)", transformOrigin: "center center" }}>
+    <div className="absolute inset-0 flex flex-col items-center justify-center px-10 md:px-16 py-8">
       {/* Title */}
       <motion.div
         initial={false}

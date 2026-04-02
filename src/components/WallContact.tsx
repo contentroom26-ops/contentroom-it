@@ -20,7 +20,7 @@ export default function WallContact({ isActive, progress }: Props) {
   };
 
   return (
-    <div className="absolute inset-0 flex items-center justify-center px-12 md:px-20 py-10" style={{ transform: "scale(0.82)", transformOrigin: "center center" }}>
+    <div className="absolute inset-0 flex items-center justify-center px-10 md:px-16 py-8">
       <div className="max-w-xl w-full">
         {/* Header */}
         <motion.div

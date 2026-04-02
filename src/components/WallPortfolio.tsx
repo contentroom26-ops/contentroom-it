@@ -23,7 +23,7 @@ export default function WallPortfolio({ isActive, progress }: Props) {
   const activeProject = isActive ? Math.min(3, Math.floor(progress * 4)) : -1;
 
   return (
-    <div className="absolute inset-0 flex flex-col items-center justify-center px-12 md:px-16 py-10" style={{ transform: "scale(0.78)", transformOrigin: "center center" }}>
+    <div className="absolute inset-0 flex flex-col items-center justify-center px-10 md:px-16 py-8">
       {/* Title */}
       <motion.div
         initial={false}
