@@ -22,9 +22,11 @@ const CTASection = () => {
         <div
           className="absolute inset-0 rounded-[1.75rem] pointer-events-none"
           style={{
+            background: "hsl(0 0% 8% / 0.92)",
+            backdropFilter: "blur(20px)",
             boxShadow:
-              "inset 0 1px 0 hsl(0 0% 100% / 0.04), inset 0 -18px 30px hsl(0 0% 0% / 0.14), inset 0 0 36px hsl(0 0% 0% / 0.08)",
-            border: "1px solid hsl(0 0% 100% / 0.04)",
+              "inset 0 1px 0 hsl(0 0% 100% / 0.08), 0 8px 40px hsl(0 0% 0% / 0.5)",
+            border: "1px solid hsl(0 0% 100% / 0.1)",
           }}
         />
 
