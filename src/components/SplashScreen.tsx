@@ -1,44 +1,27 @@
 import { motion } from "framer-motion";
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import contentRoomIcon from "@/assets/contentroom-icon.png";
 
 interface SplashScreenProps {
   onComplete: () => void;
-  navIconRef: React.RefObject<HTMLImageElement | null>;
 }
 
-const SplashScreen = ({ onComplete, navIconRef }: SplashScreenProps) => {
-  const [phase, setPhase] = useState<"intro" | "move" | "exit">("intro");
-  const splashIconRef = useRef<HTMLImageElement>(null);
-  const [target, setTarget] = useState({ x: 0, y: 0, scale: 1 });
-
-  useEffect(() => {
-    if (phase === "move" && navIconRef.current && splashIconRef.current) {
-      const navRect = navIconRef.current.getBoundingClientRect();
-      const splashRect = splashIconRef.current.getBoundingClientRect();
-
-      const dx = navRect.left + navRect.width / 2 - (splashRect.left + splashRect.width / 2);
-      const dy = navRect.top + navRect.height / 2 - (splashRect.top + splashRect.height / 2);
-      const scaleRatio = navRect.height / splashRect.height;
-
-      setTarget({ x: dx, y: dy, scale: scaleRatio });
-    }
-  }, [phase, navIconRef]);
+const SplashScreen = ({ onComplete }: SplashScreenProps) => {
+  const [phase, setPhase] = useState<"intro" | "zoom" | "exit">("intro");
 
   return (
     <motion.div
-      className="fixed inset-0 z-[100] bg-background flex items-center justify-center"
+      className="fixed inset-0 z-[100] bg-background flex items-center justify-center overflow-hidden"
       animate={phase === "exit" ? { opacity: 0 } : { opacity: 1 }}
-      transition={{ duration: 0.4 }}
+      transition={{ duration: 0.3 }}
       onAnimationComplete={() => {
         if (phase === "exit") onComplete();
       }}
     >
       <motion.img
-        ref={splashIconRef}
         src={contentRoomIcon}
         alt=""
-        className="h-16 w-auto"
+        className="h-28 w-auto"
         initial={{ opacity: 0, scale: 0, rotate: -90 }}
         animate={
           phase === "intro"
@@ -47,11 +30,10 @@ const SplashScreen = ({ onComplete, navIconRef }: SplashScreenProps) => {
                 scale: [0, 1.3, 1, 1],
                 rotate: [-90, 10, -5, 360],
               }
-            : phase === "move"
+            : phase === "zoom"
             ? {
-                x: target.x,
-                y: target.y,
-                scale: target.scale,
+                scale: 15,
+                opacity: 0,
               }
             : {}
         }
@@ -68,8 +50,8 @@ const SplashScreen = ({ onComplete, navIconRef }: SplashScreenProps) => {
               }
         }
         onAnimationComplete={() => {
-          if (phase === "intro") setPhase("move");
-          else if (phase === "move") setPhase("exit");
+          if (phase === "intro") setPhase("zoom");
+          else if (phase === "zoom") setPhase("exit");
         }}
       />
 
