@@ -80,13 +80,13 @@ function Corridor() {
       {/* Left wall */}
       <mesh rotation={[0, Math.PI / 2, 0]} position={[-halfW, CORRIDOR_HEIGHT / 2, -CORRIDOR_LENGTH / 2]}>
         <planeGeometry args={[CORRIDOR_LENGTH, CORRIDOR_HEIGHT]} />
-        {wallMat}
+        <meshStandardMaterial color="#0f0f0f" roughness={0.85} metalness={0.1} side={THREE.DoubleSide} />
       </mesh>
 
       {/* Right wall */}
       <mesh rotation={[0, -Math.PI / 2, 0]} position={[halfW, CORRIDOR_HEIGHT / 2, -CORRIDOR_LENGTH / 2]}>
         <planeGeometry args={[CORRIDOR_LENGTH, CORRIDOR_HEIGHT]} />
-        {wallMat}
+        <meshStandardMaterial color="#0f0f0f" roughness={0.85} metalness={0.1} side={THREE.DoubleSide} />
       </mesh>
 
       {/* Architectural bays — pilasters & ceiling beams */}
