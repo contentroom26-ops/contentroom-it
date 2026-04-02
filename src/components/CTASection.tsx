@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
-const CYAN = "hsl(200 80% 74%)";
+const CELESTE = "hsl(192 49% 76%)";
+const ARANCIONE = "hsl(14 97% 51%)";
 
 const recessedFieldShadow =
   "inset 0 2px 10px hsl(0 0% 0% / 0.38), inset 0 1px 0 hsl(0 0% 100% / 0.04), 0 0 0 1px hsl(0 0% 100% / 0.03)";

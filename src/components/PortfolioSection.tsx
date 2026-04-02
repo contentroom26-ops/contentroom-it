@@ -6,7 +6,8 @@ import portfolio2 from "@/assets/portfolio-2.jpg";
 import portfolio3 from "@/assets/portfolio-3.jpg";
 import portfolio4 from "@/assets/portfolio-4.jpg";
 
-const CYAN = "hsl(200 80% 74%)";
+const CELESTE = "hsl(192 49% 76%)";
+const ARANCIONE = "hsl(14 97% 51%)";
 
 const projects = [
   { img: portfolio1, name: "Luxe Fashion", result: "+200k views", desc: "Strategia social completa per brand di moda con contenuti editoriali e campagne ads." },

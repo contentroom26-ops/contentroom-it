@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 
-const CYAN = "hsl(200 80% 74%)";
+const CELESTE = "hsl(192 49% 76%)";
 
 const stats = [
   { value: 500, suffix: "k", prefix: "+", label: "Visualizzazioni generate" },

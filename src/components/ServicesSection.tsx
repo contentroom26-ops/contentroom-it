@@ -2,7 +2,7 @@ import { useRef, useState, useCallback } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Aperture, Share2, Rocket, Code2 } from "lucide-react";
 
-const CYAN = "hsl(200 80% 74%)";
+const CELESTE = "hsl(192 49% 76%)";
 
 const services = [
   {
