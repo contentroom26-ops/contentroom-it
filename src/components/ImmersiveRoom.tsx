@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
+import textureWall from "@/assets/texture-wall.jpg";
+import textureFloor from "@/assets/texture-floor.jpg";
+import textureCeiling from "@/assets/texture-ceiling.jpg";
 
 /**
- * Immersive CSS 3D room that responds to global scroll.
+ * Immersive CSS 3D room with realistic textures that responds to global scroll.
  * Anthracite grey walls, cyan/celeste accents matching the logo.
  */
 export default function ImmersiveRoom() {
@@ -25,18 +28,13 @@ export default function ImmersiveRoom() {
   const walkZ = scrollProgress * 3000;
   const swayX = Math.sin(scrollProgress * 4) * 2;
 
-  /* ── Color palette ── */
-  const anthracite = "#2a2a2e";
-  const anthraciteDark = "#1e1e22";
-  const anthraciteLight = "#353539";
-  const floorDark = "#222226";
-  const ceilingDark = "#1a1a1e";
-  const cyan = "hsl(200 80% 74%)";     // matches logo
-  const cyanDim = "hsl(200 70% 55%)";
+  const cyan = "hsl(200 80% 74%)";
   const cyanGlow = "hsl(200 80% 74% / 0.15)";
   const cyanFrame = "hsl(200 70% 60% / 0.5)";
   const cyanFrameGlow = "hsl(200 70% 60% / 0.1)";
   const cyanBaseboard = "hsl(200 80% 74% / 0.25)";
+
+  const texRepeat = "repeat";
 
   return (
     <div className="fixed inset-0 overflow-hidden" style={{ zIndex: 0 }}>
@@ -64,7 +62,9 @@ export default function ImmersiveRoom() {
               position: "absolute",
               width: "100vw",
               height: "4000px",
-              background: `linear-gradient(180deg, ${floorDark} 0%, ${anthraciteDark} 100%)`,
+              backgroundImage: `url(${textureFloor})`,
+              backgroundSize: "512px 512px",
+              backgroundRepeat: texRepeat,
               transform: "rotateX(90deg) translateZ(-50vh)",
               transformOrigin: "center top",
               top: "50%",
@@ -93,7 +93,9 @@ export default function ImmersiveRoom() {
               position: "absolute",
               width: "100vw",
               height: "4000px",
-              background: `linear-gradient(180deg, ${ceilingDark} 0%, ${anthraciteDark} 100%)`,
+              backgroundImage: `url(${textureCeiling})`,
+              backgroundSize: "512px 512px",
+              backgroundRepeat: texRepeat,
               transform: "rotateX(-90deg) translateZ(-50vh)",
               transformOrigin: "center bottom",
               bottom: "50%",
@@ -123,7 +125,9 @@ export default function ImmersiveRoom() {
               position: "absolute",
               width: "4000px",
               height: "100vh",
-              background: `linear-gradient(90deg, ${anthraciteDark} 0%, ${anthracite} 50%, ${anthraciteDark} 100%)`,
+              backgroundImage: `url(${textureWall})`,
+              backgroundSize: "512px 512px",
+              backgroundRepeat: texRepeat,
               transform: "rotateY(90deg) translateZ(-50vw)",
               transformOrigin: "left center",
               top: "0",
@@ -140,7 +144,10 @@ export default function ImmersiveRoom() {
                   top: "20%",
                   width: "200px",
                   height: "55%",
-                  background: anthraciteDark,
+                  backgroundImage: `url(${textureWall})`,
+                  backgroundSize: "256px 256px",
+                  backgroundRepeat: texRepeat,
+                  filter: "brightness(0.7)",
                   border: `2px solid ${cyanFrame}`,
                   boxShadow: `inset 0 0 30px rgba(0,0,0,0.5), 0 0 15px ${cyanFrameGlow}`,
                 }}
@@ -166,7 +173,9 @@ export default function ImmersiveRoom() {
               position: "absolute",
               width: "4000px",
               height: "100vh",
-              background: `linear-gradient(90deg, ${anthraciteDark} 0%, ${anthracite} 50%, ${anthraciteDark} 100%)`,
+              backgroundImage: `url(${textureWall})`,
+              backgroundSize: "512px 512px",
+              backgroundRepeat: texRepeat,
               transform: "rotateY(-90deg) translateZ(-50vw)",
               transformOrigin: "right center",
               top: "0",
@@ -183,7 +192,10 @@ export default function ImmersiveRoom() {
                   top: "20%",
                   width: "200px",
                   height: "55%",
-                  background: anthraciteDark,
+                  backgroundImage: `url(${textureWall})`,
+                  backgroundSize: "256px 256px",
+                  backgroundRepeat: texRepeat,
+                  filter: "brightness(0.7)",
                   border: `2px solid ${cyanFrame}`,
                   boxShadow: `inset 0 0 30px rgba(0,0,0,0.5), 0 0 15px ${cyanFrameGlow}`,
                 }}
@@ -209,7 +221,9 @@ export default function ImmersiveRoom() {
               position: "absolute",
               width: "100vw",
               height: "100vh",
-              background: `radial-gradient(ellipse at center, ${anthraciteLight} 0%, ${anthraciteDark} 70%)`,
+              backgroundImage: `url(${textureWall})`,
+              backgroundSize: "512px 512px",
+              backgroundRepeat: texRepeat,
               transform: "translateZ(-3800px)",
               top: "0",
               left: "0",
@@ -229,7 +243,6 @@ export default function ImmersiveRoom() {
               }}
             />
           </div>
-
         </div>
       </div>
 
@@ -237,7 +250,7 @@ export default function ImmersiveRoom() {
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: `radial-gradient(ellipse at center, transparent 40%, ${anthraciteDark} / 0.5 100%)`,
+          background: "radial-gradient(ellipse at center, transparent 40%, hsl(0 0% 8% / 0.5) 100%)",
         }}
       />
     </div>
