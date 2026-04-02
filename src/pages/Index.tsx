@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "@/components/Navbar";
-import RoomExperience from "@/components/RoomExperience";
 import SplashScreen from "@/components/SplashScreen";
-
-const WALL_COUNT = 4;
-const SCROLL_HEIGHT_VH = 500;
+import HeroSection from "@/components/sections/HeroSection";
+import ServicesSection from "@/components/sections/ServicesSection";
+import PortfolioSection from "@/components/sections/PortfolioSection";
+import AboutSection from "@/components/sections/AboutSection";
+import ContactSection from "@/components/sections/ContactSection";
+import FooterSection from "@/components/sections/FooterSection";
 
 const Index = () => {
   const [splashDone, setSplashDone] = useState(false);
@@ -21,18 +23,17 @@ const Index = () => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: splashDone ? 1 : 0 }}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: 0.8 }}
       >
-        {/* Fixed navbar */}
-        <div className="relative z-50">
-          <Navbar />
-        </div>
-
-        {/* The 3D room is fixed, scroll drives rotation */}
-        <RoomExperience />
-
-        {/* Scroll spacer - creates the scrollable area */}
-        <div style={{ height: `${SCROLL_HEIGHT_VH}vh` }} />
+        <Navbar />
+        <main>
+          <HeroSection />
+          <ServicesSection />
+          <PortfolioSection />
+          <AboutSection />
+          <ContactSection />
+        </main>
+        <FooterSection />
       </motion.div>
     </>
   );
