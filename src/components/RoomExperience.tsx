@@ -203,7 +203,8 @@ function Wall({ transform, active, children }: { transform: string; active: bool
         left: 0,
         top: 0,
         transform,
-        overflow: "hidden",
+        transformStyle: "preserve-3d",
+        overflow: "visible",
       }}
     >
       {/* Texture background */}
