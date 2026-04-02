@@ -55,9 +55,9 @@ const CTASection = () => {
               className="font-display font-bold tracking-tight leading-[1.02] mt-2"
               style={{
                 fontSize: "clamp(1.6rem, 3.9vw, 2.8rem)",
-                color: ARANCIONE,
+                color: ACCENT,
                 textShadow:
-                  "0 0 22px hsl(192 49% 76% / 0.32), 0 0 48px hsl(14 97% 51% / 0.2), 0 2px 4px hsl(0 0% 0% / 0.82)",
+                  "0 0 22px hsl(192 49% 76% / 0.32), 0 0 48px hsl(192 49% 76% / 0.2), 0 2px 4px hsl(0 0% 0% / 0.82)",
               }}
             >
               Raccontaci il tuo progetto
