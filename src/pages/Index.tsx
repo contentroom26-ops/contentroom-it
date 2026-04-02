@@ -30,6 +30,7 @@ const Index = () => {
         <HeroSection />
         <div id="servizi"><ServicesSection /></div>
         <ResultsSection />
+        <TunnelSection />
         <div id="portfolio"><PortfolioSection /></div>
         <div id="contatti"><CTASection /></div>
         <footer className="py-10 px-6 border-t border-border">
