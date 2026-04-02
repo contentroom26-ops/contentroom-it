@@ -203,7 +203,7 @@ export default function TunnelBackground() {
         gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.8 }}
         onCreated={({ gl }) => gl.setClearColor("#050508")}
       >
-        <fog attach="fog" args={["#050508", 4, 40]} />
+        <fog attach="fog" args={["#050508", 6, 50]} />
         <Tunnel scrollRef={scrollRef} />
       </Canvas>
     </div>
