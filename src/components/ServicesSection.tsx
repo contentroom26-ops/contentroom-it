@@ -90,7 +90,7 @@ function ServiceCard({
           <div
             className="absolute inset-0 pointer-events-none transition-opacity duration-700"
             style={{
-              background: `radial-gradient(500px circle at ${mousePos.x}% ${mousePos.y}%, hsl(200 80% 74% / 0.07), transparent 50%)`,
+              background: `radial-gradient(500px circle at ${mousePos.x}% ${mousePos.y}%, hsl(192 49% 76% / 0.07), transparent 50%)`,
               opacity: hovered ? 1 : 0,
             }}
           />
@@ -119,9 +119,9 @@ function ServiceCard({
               className="w-14 h-14 rounded-2xl flex items-center justify-center"
               style={{
                 background: hovered
-                  ? "linear-gradient(135deg, hsl(200 80% 74% / 0.2), hsl(200 80% 74% / 0.05))"
+                  ? "linear-gradient(135deg, hsl(192 49% 76% / 0.2), hsl(192 49% 76% / 0.05))"
                   : "hsl(0 0% 100% / 0.03)",
-                border: `1px solid ${hovered ? "hsl(200 80% 74% / 0.3)" : "hsl(0 0% 100% / 0.06)"}`,
+                border: `1px solid ${hovered ? "hsl(192 49% 76% / 0.3)" : "hsl(0 0% 100% / 0.06)"}`,
                 transition: "all 0.5s ease",
               }}
             >
@@ -169,7 +169,7 @@ function ServiceCard({
           <motion.div
             className="absolute -bottom-20 -right-20 w-40 h-40 rounded-full pointer-events-none"
             style={{
-              background: `radial-gradient(circle, hsl(200 80% 74% / 0.1), transparent 70%)`,
+              background: `radial-gradient(circle, hsl(192 49% 76% / 0.1), transparent 70%)`,
             }}
             animate={{ opacity: hovered ? 1 : 0, scale: hovered ? 1.5 : 0.8 }}
             transition={{ duration: 0.8 }}
