@@ -47,8 +47,8 @@ const CTASection = () => {
             />
 
             <p
-              className="font-body text-[10px] uppercase tracking-[0.35em]"
-              style={{ color: "hsl(0 0% 38%)" }}
+              className="font-body text-[11px] font-medium uppercase tracking-[0.35em]"
+              style={{ color: "hsl(0 0% 76%)" }}
             >
               Contattaci
             </p>
