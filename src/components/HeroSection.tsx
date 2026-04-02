@@ -18,20 +18,12 @@ const HeroSection = () => {
 
   return (
     <section ref={ref} className="relative h-screen overflow-hidden flex items-center justify-center">
-      {/* Background with parallax + scale */}
-      <motion.div style={{ y: bgY, scale: bgScale }} className="absolute inset-0 -top-20">
-        <img src={heroBg} alt="" className="w-full h-[120%] object-cover" width={1920} height={1080} />
-        <div className="absolute inset-0 bg-background/60" />
-      </motion.div>
+      {/* Semi-transparent overlay so content is readable over 3D tunnel */}
+      <div className="absolute inset-0 bg-background/30" />
 
-      {/* Animated gradient overlay */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none"
-        style={{ opacity }}
-      >
-        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent" />
-        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-background/50 to-transparent" />
-      </motion.div>
+      {/* Gradient edges */}
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background/60 to-transparent pointer-events-none" />
+      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-background/40 to-transparent pointer-events-none" />
 
       {/* Floating particles */}
       {[...Array(5)].map((_, i) => (
