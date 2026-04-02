@@ -7,13 +7,13 @@ interface SplashScreenProps {
 }
 
 const SplashScreen = ({ onComplete }: SplashScreenProps) => {
-  const [phase, setPhase] = useState<"intro" | "zoom" | "exit">("intro");
+  const [phase, setPhase] = useState<"intro" | "exit">("intro");
 
   return (
     <motion.div
-      className="fixed inset-0 z-[100] bg-background flex items-center justify-center overflow-hidden"
+      className="fixed inset-0 z-[100] bg-background flex items-center justify-center"
       animate={phase === "exit" ? { opacity: 0 } : { opacity: 1 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.5 }}
       onAnimationComplete={() => {
         if (phase === "exit") onComplete();
       }}
@@ -23,36 +23,17 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
         alt=""
         className="h-28 w-auto"
         initial={{ opacity: 0, scale: 0, rotate: -90 }}
-        animate={
-          phase === "intro"
-            ? {
-                opacity: [0, 1, 1, 1],
-                scale: [0, 1.3, 1, 1],
-                rotate: [-90, 10, -5, 360],
-              }
-            : phase === "zoom"
-            ? {
-                scale: 15,
-                opacity: 0,
-              }
-            : {}
-        }
-        transition={
-          phase === "intro"
-            ? {
-                duration: 3,
-                times: [0, 0.3, 0.6, 1],
-                ease: "easeInOut",
-              }
-            : {
-                duration: 0.8,
-                ease: [0.76, 0, 0.24, 1],
-              }
-        }
-        onAnimationComplete={() => {
-          if (phase === "intro") setPhase("zoom");
-          else if (phase === "zoom") setPhase("exit");
+        animate={{
+          opacity: [0, 1, 1, 1],
+          scale: [0, 1.3, 1, 1],
+          rotate: [-90, 10, -5, 360],
         }}
+        transition={{
+          duration: 3,
+          times: [0, 0.3, 0.6, 1],
+          ease: "easeInOut",
+        }}
+        onAnimationComplete={() => setPhase("exit")}
       />
 
       {phase === "intro" && (
