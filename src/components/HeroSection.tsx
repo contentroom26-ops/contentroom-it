@@ -18,12 +18,8 @@ const HeroSection = () => {
 
   return (
     <section ref={ref} className="relative h-screen overflow-hidden flex items-center justify-center">
-      {/* Semi-transparent overlay so content is readable over 3D tunnel */}
-      <div className="absolute inset-0 bg-background/10" />
-
-      {/* Gradient edges */}
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background/60 to-transparent pointer-events-none" />
-      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-background/40 to-transparent pointer-events-none" />
+      {/* Gradient edges only — no overlay so 3D corridor shows through */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background/30 to-transparent pointer-events-none" />
 
       {/* Floating particles */}
       {[...Array(5)].map((_, i) => (
