@@ -220,8 +220,10 @@ export default function RoomExperience() {
             key={label}
             onClick={() => {
               const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-              const target = (i / WALL_COUNT) * maxScroll + maxScroll / (WALL_COUNT * 2);
-              window.scrollTo({ top: target, behavior: "smooth" });
+              // Scroll to the middle of the plateau for this wall
+              const wallSize = 1 / WALL_COUNT;
+              const plateauCenter = i * wallSize + (wallSize * PLATEAU_RATIO) / 2;
+              window.scrollTo({ top: plateauCenter * maxScroll, behavior: "smooth" });
             }}
             className="group flex flex-col items-center gap-2"
           >
