@@ -84,7 +84,7 @@ function VolumetricLight() {
   useFrame((state) => {
     const t = state.clock.elapsedTime;
     if (meshRef.current) {
-      meshRef.current.material.opacity = 0.12 + Math.sin(t * 0.8) * 0.04;
+      (meshRef.current.material as THREE.MeshBasicMaterial).opacity = 0.12 + Math.sin(t * 0.8) * 0.04;
     }
     if (glowRef.current) {
       glowRef.current.scale.setScalar(1 + Math.sin(t * 1.2) * 0.08);
