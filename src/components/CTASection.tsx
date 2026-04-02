@@ -94,7 +94,7 @@ const CTASection = () => {
               <Input
                 type="email"
                 placeholder="Email"
-                className="h-11 rounded-2xl border-border/40 bg-transparent px-4 text-foreground placeholder:text-muted-foreground/70 focus-visible:ring-1 focus-visible:ring-offset-0"
+                className="h-11 rounded-2xl border-border/60 bg-white/5 px-4 text-white placeholder:text-white/50 focus-visible:ring-1 focus-visible:ring-offset-0"
                 style={{ boxShadow: recessedFieldShadow }}
               />
             </div>
