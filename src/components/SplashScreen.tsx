@@ -1,34 +1,44 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import contentRoomIcon from "@/assets/contentroom-icon.png";
 
 interface SplashScreenProps {
   onComplete: () => void;
+  navIconRef: React.RefObject<HTMLImageElement | null>;
 }
 
-const SplashScreen = ({ onComplete }: SplashScreenProps) => {
+const SplashScreen = ({ onComplete, navIconRef }: SplashScreenProps) => {
   const [phase, setPhase] = useState<"intro" | "move" | "exit">("intro");
+  const splashIconRef = useRef<HTMLImageElement>(null);
+  const [target, setTarget] = useState({ x: 0, y: 0, scale: 1 });
 
-  // Target: navbar icon position (top-left, with padding)
-  // Navbar: px-6 py-4, icon h-16, flex items-center
-  // Approx target: left ~24px + half icon, top ~16px + half icon
-  const navIconX = -(window.innerWidth / 2 - 56);
-  const navIconY = -(window.innerHeight / 2 - 40);
+  useEffect(() => {
+    if (phase === "move" && navIconRef.current && splashIconRef.current) {
+      const navRect = navIconRef.current.getBoundingClientRect();
+      const splashRect = splashIconRef.current.getBoundingClientRect();
+
+      const dx = navRect.left + navRect.width / 2 - (splashRect.left + splashRect.width / 2);
+      const dy = navRect.top + navRect.height / 2 - (splashRect.top + splashRect.height / 2);
+      const scaleRatio = navRect.height / splashRect.height;
+
+      setTarget({ x: dx, y: dy, scale: scaleRatio });
+    }
+  }, [phase, navIconRef]);
 
   return (
     <motion.div
       className="fixed inset-0 z-[100] bg-background flex items-center justify-center"
       animate={phase === "exit" ? { opacity: 0 } : { opacity: 1 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.4 }}
       onAnimationComplete={() => {
         if (phase === "exit") onComplete();
       }}
     >
       <motion.img
+        ref={splashIconRef}
         src={contentRoomIcon}
         alt=""
         className="h-16 w-auto"
-        // Phase 1: intro animation (3s)
         initial={{ opacity: 0, scale: 0, rotate: -90 }}
         animate={
           phase === "intro"
@@ -39,10 +49,9 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
               }
             : phase === "move"
             ? {
-                x: navIconX,
-                y: navIconY,
-                scale: 1,
-                opacity: 1,
+                x: target.x,
+                y: target.y,
+                scale: target.scale,
               }
             : {}
         }
@@ -54,7 +63,7 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
                 ease: "easeInOut",
               }
             : {
-                duration: 0.7,
+                duration: 0.8,
                 ease: [0.76, 0, 0.24, 1],
               }
         }
@@ -64,7 +73,6 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
         }}
       />
 
-      {/* Subtle pulsing glow during intro */}
       {phase === "intro" && (
         <motion.div
           className="absolute w-32 h-32 rounded-full"

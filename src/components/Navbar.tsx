@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
+import { forwardRef } from "react";
 import contentRoomIcon from "@/assets/contentroom-icon.png";
 import contentRoomLogo from "@/assets/contentroom-logo.png";
 
-const Navbar = () => (
+const Navbar = forwardRef<HTMLImageElement>((_props, iconRef) => (
   <motion.nav
     initial={{ opacity: 0, y: -20 }}
     animate={{ opacity: 1, y: 0 }}
@@ -12,6 +13,7 @@ const Navbar = () => (
     <div className="max-w-6xl mx-auto flex items-center justify-between">
       <div className="flex items-center gap-2">
         <motion.img
+          ref={iconRef}
           src={contentRoomIcon}
           alt="Content Room"
           className="h-16 w-auto"
@@ -34,6 +36,8 @@ const Navbar = () => (
       </div>
     </div>
   </motion.nav>
-);
+));
+
+Navbar.displayName = "Navbar";
 
 export default Navbar;
