@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import ScrollReveal from "./ScrollReveal";
+
+const CYAN = "hsl(200 80% 74%)";
 
 const stats = [
   { value: 500, suffix: "k", prefix: "+", label: "Visualizzazioni generate" },
@@ -10,11 +11,11 @@ const stats = [
 
 const AnimatedCounter = ({ value, suffix, prefix }: { value: number; suffix: string; prefix: string }) => {
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true });
+  const inView = useInView(ref, { once: false, margin: "-60px" });
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    if (!inView) return;
+    if (!inView) { setCount(0); return; }
     let start = 0;
     const duration = 2000;
     const step = (timestamp: number) => {
@@ -36,23 +37,40 @@ const AnimatedCounter = ({ value, suffix, prefix }: { value: number; suffix: str
 
 const ResultsSection = () => (
   <section className="py-32 px-6 relative overflow-hidden">
-    
     <div className="max-w-6xl mx-auto relative z-10">
-      <ScrollReveal>
-        <p className="text-primary font-body text-sm tracking-[0.3em] uppercase mb-4">Risultati</p>
+      <motion.div
+        initial={{ opacity: 0, y: 60 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: false, margin: "-60px" }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <div className="flex items-center gap-4 mb-6">
+          <div className="w-12 h-px" style={{ background: CYAN }} />
+          <p className="font-body text-xs tracking-[0.4em] uppercase" style={{ color: CYAN }}>Risultati</p>
+        </div>
         <h2 className="font-display font-bold text-4xl md:text-5xl tracking-tight mb-20">
           I numeri parlano.
         </h2>
-      </ScrollReveal>
+      </motion.div>
 
       <div className="grid md:grid-cols-3 gap-12 md:gap-8">
         {stats.map((stat, i) => (
-          <ScrollReveal key={stat.label} delay={i * 0.15}>
-            <div className="text-center md:text-left">
-              <AnimatedCounter value={stat.value} suffix={stat.suffix} prefix={stat.prefix} />
-              <p className="text-muted-foreground font-body text-base mt-3">{stat.label}</p>
-            </div>
-          </ScrollReveal>
+          <motion.div
+            key={stat.label}
+            initial={{ opacity: 0, y: 80, scale: 0.9, rotateX: 15 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
+            viewport={{ once: false, margin: "-60px" }}
+            transition={{
+              duration: 0.7,
+              delay: i * 0.15,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            style={{ perspective: "1000px" }}
+            className="text-center md:text-left"
+          >
+            <AnimatedCounter value={stat.value} suffix={stat.suffix} prefix={stat.prefix} />
+            <p className="text-muted-foreground font-body text-base mt-3">{stat.label}</p>
+          </motion.div>
         ))}
       </div>
     </div>
