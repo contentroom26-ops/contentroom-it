@@ -198,7 +198,7 @@ const ServicesSection = () => (
                 />
               </div>
             </TiltCard>
-          </ScrollReveal>
+          </motion.div>
         ))}
       </div>
     </div>
