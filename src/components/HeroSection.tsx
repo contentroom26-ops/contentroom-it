@@ -2,6 +2,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import heroBg from "@/assets/hero-bg.jpg";
+import contentRoomLogo from "@/assets/contentroom-logo.png";
 
 const HeroSection = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -12,8 +13,6 @@ const HeroSection = () => {
   const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const textY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-
-  const titleWords = ["Creiamo", "contenuti", "che", "fanno", "crescere."];
 
   return (
     <section ref={ref} className="relative h-screen overflow-hidden flex items-center justify-center">
