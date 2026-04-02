@@ -1,91 +1,124 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 const CYAN = "hsl(200 80% 74%)";
 
+const recessedFieldShadow =
+  "inset 0 2px 10px hsl(0 0% 0% / 0.38), inset 0 1px 0 hsl(0 0% 100% / 0.04), 0 0 0 1px hsl(0 0% 100% / 0.03)";
+
 const CTASection = () => {
   return (
-    <section className="relative px-4 py-28 md:py-40">
-      {/* No background at all — pure transparency to show the 3D room wall */}
-      <div className="relative z-10 flex flex-col items-center justify-center text-center px-6">
-        {/* Engraved heading — carved into concrete */}
-        <motion.h2
-          className="font-display font-bold tracking-tight leading-[1.05] mb-5"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false }}
-          transition={{ duration: 1.2, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <span
-            className="block"
-            style={{
-              fontSize: "clamp(2rem, 6vw, 4.5rem)",
-              color: "hsl(0 0% 15%)",
-              textShadow:
-                "0 2px 3px hsl(0 0% 25% / 0.6), 0 -1px 1px hsl(0 0% 0% / 0.9), inset 0 0 0 transparent",
-              WebkitTextStroke: "0.5px hsl(0 0% 20%)",
-              mixBlendMode: "luminosity",
-            }}
-          >
-            Vuoi crescere davvero
-          </span>
-          <span
-            className="block mt-2"
-            style={{
-              fontSize: "clamp(2rem, 6vw, 4.5rem)",
-              color: CYAN,
-              textShadow: `0 0 40px hsl(200 80% 74% / 0.5), 0 0 100px hsl(200 80% 74% / 0.2), 0 2px 4px hsl(0 0% 0% / 0.9), 0 -1px 1px hsl(0 0% 25% / 0.3)`,
-              mixBlendMode: "screen",
-            }}
-          >
-            sui social?
-          </span>
-        </motion.h2>
-
-        {/* Etched subtitle */}
-        <motion.p
-          className="font-body text-sm md:text-base max-w-md mx-auto mb-12"
+    <section className="relative min-h-[calc(100vh-5rem)] px-4 pt-16 pb-6 md:pt-20 md:pb-8 flex items-center justify-center">
+      <motion.div
+        initial={{ opacity: 0, y: 40, scale: 0.985 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+        viewport={{ once: false, margin: "-80px" }}
+        transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+        className="relative z-10 w-full max-w-[620px] mx-auto"
+      >
+        <div
+          className="absolute inset-0 rounded-[1.75rem] pointer-events-none"
           style={{
-            color: "hsl(0 0% 32%)",
-            textShadow: "0 1px 2px hsl(0 0% 25% / 0.4), 0 -1px 1px hsl(0 0% 0% / 0.8)",
-            mixBlendMode: "luminosity",
+            boxShadow:
+              "inset 0 1px 0 hsl(0 0% 100% / 0.04), inset 0 -18px 30px hsl(0 0% 0% / 0.14), inset 0 0 36px hsl(0 0% 0% / 0.08)",
+            border: "1px solid hsl(0 0% 100% / 0.04)",
           }}
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false }}
-          transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-        >
-          Prenota una call e analizziamo il tuo brand
-        </motion.p>
+        />
 
-        {/* CTA button — engraved/recessed into wall */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false }}
-          transition={{ duration: 0.8, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <Button
-            variant="outline"
-            size="lg"
-            className="h-14 px-10 rounded-full text-sm font-display tracking-widest uppercase bg-transparent hover:bg-transparent relative overflow-hidden group"
-            style={{
-              color: CYAN,
-              borderColor: "hsl(200 80% 74% / 0.25)",
-              boxShadow: `inset 0 2px 4px hsl(0 0% 0% / 0.5), inset 0 -1px 2px hsl(0 0% 25% / 0.3), 0 0 30px hsl(200 80% 74% / 0.08)`,
-              textShadow: `0 0 15px hsl(200 80% 74% / 0.5)`,
-            }}
+        <div className="relative px-5 py-6 md:px-7 md:py-7">
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false }}
+            transition={{ duration: 0.7, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+            className="text-center mb-5"
           >
-            <span className="relative z-10">Prenota ora</span>
             <div
-              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+              className="mx-auto mb-3 h-px w-12"
               style={{
-                background: `radial-gradient(ellipse at center, hsl(200 80% 74% / 0.08), transparent 70%)`,
+                background: `linear-gradient(90deg, transparent, ${CYAN}, transparent)`,
+                boxShadow: `0 0 18px hsl(200 80% 74% / 0.26)`,
               }}
             />
-          </Button>
-        </motion.div>
-      </div>
+
+            <p
+              className="font-body text-[10px] uppercase tracking-[0.35em]"
+              style={{ color: "hsl(0 0% 38%)" }}
+            >
+              Contattaci
+            </p>
+
+            <h2
+              className="font-display font-bold tracking-tight leading-[1.02] mt-2"
+              style={{
+                fontSize: "clamp(1.6rem, 3.9vw, 2.8rem)",
+                color: CYAN,
+                textShadow:
+                  "0 0 22px hsl(200 80% 74% / 0.32), 0 0 48px hsl(200 80% 74% / 0.14), 0 2px 4px hsl(0 0% 0% / 0.82)",
+              }}
+            >
+              Raccontaci il tuo progetto
+            </h2>
+
+            <p
+              className="font-body text-xs md:text-sm max-w-md mx-auto mt-2"
+              style={{
+                color: "hsl(0 0% 34%)",
+                textShadow: "0 1px 2px hsl(0 0% 0% / 0.65)",
+              }}
+            >
+              Obiettivi, visione e tempistiche: ti ricontattiamo con il prossimo step giusto.
+            </p>
+          </motion.div>
+
+          <motion.form
+            onSubmit={(event) => event.preventDefault()}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false }}
+            transition={{ duration: 0.75, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+            className="space-y-3"
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <Input
+                placeholder="Nome"
+                className="h-11 rounded-2xl border-border/40 bg-transparent px-4 text-foreground placeholder:text-muted-foreground/70 focus-visible:ring-1 focus-visible:ring-offset-0"
+                style={{ boxShadow: recessedFieldShadow }}
+              />
+
+              <Input
+                type="email"
+                placeholder="Email"
+                className="h-11 rounded-2xl border-border/40 bg-transparent px-4 text-foreground placeholder:text-muted-foreground/70 focus-visible:ring-1 focus-visible:ring-offset-0"
+                style={{ boxShadow: recessedFieldShadow }}
+              />
+            </div>
+
+            <Textarea
+              placeholder="Raccontaci il tuo progetto"
+              className="min-h-[120px] rounded-[1.5rem] border-border/40 bg-transparent px-4 py-3 text-foreground placeholder:text-muted-foreground/70 focus-visible:ring-1 focus-visible:ring-offset-0 resize-none"
+              style={{ boxShadow: recessedFieldShadow }}
+            />
+
+            <Button
+              type="submit"
+              size="lg"
+              className="w-full h-12 rounded-full font-display text-xs uppercase tracking-[0.26em]"
+              style={{
+                background: `linear-gradient(135deg, hsl(200 80% 74% / 0.16), hsl(200 80% 74% / 0.08))`,
+                color: CYAN,
+                border: "1px solid hsl(200 80% 74% / 0.24)",
+                boxShadow:
+                  "inset 0 1px 0 hsl(0 0% 100% / 0.06), 0 0 24px hsl(200 80% 74% / 0.14)",
+              }}
+            >
+              Prenota una call
+            </Button>
+          </motion.form>
+        </div>
+      </motion.div>
     </section>
   );
 };

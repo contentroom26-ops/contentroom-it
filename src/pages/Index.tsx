@@ -29,7 +29,7 @@ const Index = () => {
         <ImmersiveRoom />
 
         {/* All content floats above the room */}
-        <main className="relative z-10 min-h-screen overflow-x-hidden">
+        <main className="relative z-10 min-h-screen overflow-x-hidden pb-24">
           <Navbar />
           <HeroSection />
           <div className="h-[30vh]" />
@@ -38,9 +38,8 @@ const Index = () => {
           <div id="portfolio"><PortfolioSection /></div>
           <div className="h-[20vh]" />
           <ResultsSection />
-          <div className="h-[20vh]" />
           <div id="contatti"><CTASection /></div>
-          <footer className="py-8 px-6 relative z-10">
+          <footer className="absolute bottom-0 left-0 right-0 py-8 px-6 z-20 pointer-events-none">
             <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
               <span className="font-display font-bold tracking-tight" style={{ color: "hsl(0 0% 25%)", textShadow: "0 1px 3px hsl(0 0% 0% / 0.8)" }}>Content Room</span>
               <p className="font-body text-sm" style={{ color: "hsl(0 0% 30%)", textShadow: "0 1px 3px hsl(0 0% 0% / 0.8)" }}>© 2026 — Tutti i diritti riservati</p>
