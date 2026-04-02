@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 
-const CYAN = "hsl(200 80% 74%)";
+const CELESTE = "hsl(192 49% 76%)";
 
 const stats = [
   { value: 500, suffix: "k", prefix: "+", label: "Visualizzazioni generate" },
@@ -45,8 +45,8 @@ const ResultsSection = () => (
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
       >
         <div className="flex items-center gap-4 mb-6">
-          <div className="w-12 h-px" style={{ background: CYAN }} />
-          <p className="font-body text-xs tracking-[0.4em] uppercase" style={{ color: CYAN }}>Risultati</p>
+          <div className="w-12 h-px" style={{ background: CELESTE }} />
+          <p className="font-body text-xs tracking-[0.4em] uppercase" style={{ color: CELESTE }}>Risultati</p>
         </div>
         <h2 className="font-display font-bold text-4xl md:text-5xl tracking-tight mb-20">
           I numeri parlano.

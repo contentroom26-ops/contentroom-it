@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
-const CYAN = "hsl(200 80% 74%)";
+const CELESTE = "hsl(192 49% 76%)";
+const ARANCIONE = "hsl(14 97% 51%)";
 
 const recessedFieldShadow =
   "inset 0 2px 10px hsl(0 0% 0% / 0.38), inset 0 1px 0 hsl(0 0% 100% / 0.04), 0 0 0 1px hsl(0 0% 100% / 0.03)";
@@ -38,8 +39,8 @@ const CTASection = () => {
             <div
               className="mx-auto mb-3 h-px w-12"
               style={{
-                background: `linear-gradient(90deg, transparent, ${CYAN}, transparent)`,
-                boxShadow: `0 0 18px hsl(200 80% 74% / 0.26)`,
+                background: `linear-gradient(90deg, transparent, ${CELESTE}, transparent)`,
+                boxShadow: `0 0 18px hsl(192 49% 76% / 0.26)`,
               }}
             />
 
@@ -54,9 +55,9 @@ const CTASection = () => {
               className="font-display font-bold tracking-tight leading-[1.02] mt-2"
               style={{
                 fontSize: "clamp(1.6rem, 3.9vw, 2.8rem)",
-                color: CYAN,
+                color: ARANCIONE,
                 textShadow:
-                  "0 0 22px hsl(200 80% 74% / 0.32), 0 0 48px hsl(200 80% 74% / 0.14), 0 2px 4px hsl(0 0% 0% / 0.82)",
+                  "0 0 22px hsl(192 49% 76% / 0.32), 0 0 48px hsl(14 97% 51% / 0.2), 0 2px 4px hsl(0 0% 0% / 0.82)",
               }}
             >
               Raccontaci il tuo progetto
@@ -107,11 +108,11 @@ const CTASection = () => {
               size="lg"
               className="w-full h-12 rounded-full font-display text-xs uppercase tracking-[0.26em]"
               style={{
-                background: `linear-gradient(135deg, hsl(200 80% 74% / 0.16), hsl(200 80% 74% / 0.08))`,
-                color: CYAN,
-                border: "1px solid hsl(200 80% 74% / 0.24)",
+                background: `linear-gradient(135deg, hsl(14 97% 51% / 0.2), hsl(14 97% 51% / 0.1))`,
+                color: ARANCIONE,
+                border: "1px solid hsl(14 97% 51% / 0.35)",
                 boxShadow:
-                  "inset 0 1px 0 hsl(0 0% 100% / 0.06), 0 0 24px hsl(200 80% 74% / 0.14)",
+                  "inset 0 1px 0 hsl(0 0% 100% / 0.06), 0 0 24px hsl(14 97% 51% / 0.2)",
               }}
             >
               Prenota una call

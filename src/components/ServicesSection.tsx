@@ -2,7 +2,7 @@ import { useRef, useState, useCallback } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Aperture, Share2, Rocket, Code2 } from "lucide-react";
 
-const CYAN = "hsl(200 80% 74%)";
+const CELESTE = "hsl(192 49% 76%)";
 
 const services = [
   {
@@ -90,7 +90,7 @@ function ServiceCard({
           <div
             className="absolute inset-0 pointer-events-none transition-opacity duration-700"
             style={{
-              background: `radial-gradient(500px circle at ${mousePos.x}% ${mousePos.y}%, hsl(200 80% 74% / 0.07), transparent 50%)`,
+              background: `radial-gradient(500px circle at ${mousePos.x}% ${mousePos.y}%, hsl(192 49% 76% / 0.07), transparent 50%)`,
               opacity: hovered ? 1 : 0,
             }}
           />
@@ -102,7 +102,7 @@ function ServiceCard({
               style={{
                 fontSize: "clamp(3.5rem, 8vw, 5.5rem)",
                 lineHeight: 0.85,
-                WebkitTextStroke: hovered ? `1px ${CYAN}` : "1px hsl(0 0% 25%)",
+                WebkitTextStroke: hovered ? `1px ${CELESTE}` : "1px hsl(0 0% 25%)",
                 color: "transparent",
                 transition: "all 0.6s cubic-bezier(0.22, 1, 0.36, 1)",
               }}
@@ -119,15 +119,15 @@ function ServiceCard({
               className="w-14 h-14 rounded-2xl flex items-center justify-center"
               style={{
                 background: hovered
-                  ? "linear-gradient(135deg, hsl(200 80% 74% / 0.2), hsl(200 80% 74% / 0.05))"
+                  ? "linear-gradient(135deg, hsl(192 49% 76% / 0.2), hsl(192 49% 76% / 0.05))"
                   : "hsl(0 0% 100% / 0.03)",
-                border: `1px solid ${hovered ? "hsl(200 80% 74% / 0.3)" : "hsl(0 0% 100% / 0.06)"}`,
+                border: `1px solid ${hovered ? "hsl(192 49% 76% / 0.3)" : "hsl(0 0% 100% / 0.06)"}`,
                 transition: "all 0.5s ease",
               }}
             >
               <service.icon
                 className="w-6 h-6 transition-colors duration-500"
-                style={{ color: hovered ? CYAN : "hsl(0 0% 45%)" }}
+                style={{ color: hovered ? CELESTE : "hsl(0 0% 45%)" }}
                 strokeWidth={1.2}
               />
             </motion.div>
@@ -138,7 +138,7 @@ function ServiceCard({
             className="font-display font-semibold tracking-tight leading-[1.1] mb-4 relative z-10"
             style={{ fontSize: "clamp(1.4rem, 3vw, 2rem)" }}
             animate={{
-              color: hovered ? CYAN : "hsl(40 20% 92%)",
+              color: hovered ? CELESTE : "hsl(40 20% 92%)",
               x: hovered ? 4 : 0,
             }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
@@ -159,7 +159,7 @@ function ServiceCard({
           <motion.div
             className="absolute bottom-0 left-0 h-[1px]"
             style={{
-              background: `linear-gradient(90deg, ${CYAN}, transparent)`,
+              background: `linear-gradient(90deg, ${CELESTE}, transparent)`,
             }}
             animate={{ width: hovered ? "100%" : "0%" }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
@@ -169,7 +169,7 @@ function ServiceCard({
           <motion.div
             className="absolute -bottom-20 -right-20 w-40 h-40 rounded-full pointer-events-none"
             style={{
-              background: `radial-gradient(circle, hsl(200 80% 74% / 0.1), transparent 70%)`,
+              background: `radial-gradient(circle, hsl(192 49% 76% / 0.1), transparent 70%)`,
             }}
             animate={{ opacity: hovered ? 1 : 0, scale: hovered ? 1.5 : 0.8 }}
             transition={{ duration: 0.8 }}
@@ -196,8 +196,8 @@ const ServicesSection = () => {
         {/* Header */}
         <motion.div style={{ y: headerY, opacity: headerOpacity }}>
           <div className="flex items-center gap-4 mb-6">
-            <div className="w-12 h-px" style={{ background: CYAN }} />
-            <p className="font-body text-xs tracking-[0.4em] uppercase" style={{ color: CYAN }}>
+            <div className="w-12 h-px" style={{ background: CELESTE }} />
+            <p className="font-body text-xs tracking-[0.4em] uppercase" style={{ color: CELESTE }}>
               Servizi
             </p>
           </div>

@@ -28,11 +28,11 @@ export default function ImmersiveRoom() {
   const walkZ = scrollProgress * 3000;
   const swayX = Math.sin(scrollProgress * 4) * 2;
 
-  const cyan = "hsl(200 80% 74%)";
-  const cyanGlow = "hsl(200 80% 74% / 0.15)";
-  const cyanFrame = "hsl(200 70% 60% / 0.5)";
-  const cyanFrameGlow = "hsl(200 70% 60% / 0.1)";
-  const cyanBaseboard = "hsl(200 80% 74% / 0.25)";
+  const cyan = "hsl(192 49% 76%)";
+  const cyanGlow = "hsl(192 49% 76% / 0.15)";
+  const cyanFrame = "hsl(192 45% 60% / 0.5)";
+  const cyanFrameGlow = "hsl(192 45% 60% / 0.1)";
+  const cyanBaseboard = "hsl(192 49% 76% / 0.25)";
 
   const texRepeat = "repeat";
 
@@ -109,7 +109,7 @@ export default function ImmersiveRoom() {
               position: "absolute",
               width: "3px",
               height: "4000px",
-              background: `linear-gradient(180deg, hsl(200 80% 74% / 0.6), hsl(200 80% 74% / 0.2), hsl(200 80% 74% / 0.6))`,
+              background: `linear-gradient(180deg, hsl(192 49% 76% / 0.6), hsl(192 49% 76% / 0.2), hsl(192 49% 76% / 0.6))`,
               transform: "rotateX(-90deg) translateZ(-50vh)",
               transformOrigin: "center bottom",
               bottom: "50%",
@@ -238,7 +238,7 @@ export default function ImmersiveRoom() {
                 height: "200px",
                 marginLeft: "-100px",
                 borderRadius: "50%",
-                background: "radial-gradient(circle, hsl(200 80% 74% / 0.3) 0%, transparent 70%)",
+                background: "radial-gradient(circle, hsl(192 49% 76% / 0.3) 0%, transparent 70%)",
                 filter: "blur(40px)",
               }}
             />

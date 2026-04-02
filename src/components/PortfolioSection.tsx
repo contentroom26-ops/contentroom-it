@@ -6,7 +6,8 @@ import portfolio2 from "@/assets/portfolio-2.jpg";
 import portfolio3 from "@/assets/portfolio-3.jpg";
 import portfolio4 from "@/assets/portfolio-4.jpg";
 
-const CYAN = "hsl(200 80% 74%)";
+const CELESTE = "hsl(192 49% 76%)";
+const ARANCIONE = "hsl(14 97% 51%)";
 
 const projects = [
   { img: portfolio1, name: "Luxe Fashion", result: "+200k views", desc: "Strategia social completa per brand di moda con contenuti editoriali e campagne ads." },
@@ -28,8 +29,8 @@ const PortfolioSection = () => {
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
           <div className="flex items-center gap-4 mb-6">
-            <div className="w-12 h-px" style={{ background: CYAN }} />
-            <p className="font-body text-xs tracking-[0.4em] uppercase" style={{ color: CYAN }}>Portfolio</p>
+            <div className="w-12 h-px" style={{ background: CELESTE }} />
+            <p className="font-body text-xs tracking-[0.4em] uppercase" style={{ color: CELESTE }}>Portfolio</p>
           </div>
           <h2 className="font-display font-bold text-4xl md:text-5xl tracking-tight mb-20">
             Progetti selezionati.
@@ -59,7 +60,7 @@ const PortfolioSection = () => {
                 <img src={p.img} alt={p.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
                 <div className="absolute bottom-0 left-0 p-6 md:p-8">
-                  <p className="font-display font-semibold text-sm mb-1" style={{ color: CYAN }}>{p.result}</p>
+                  <p className="font-display font-semibold text-sm mb-1" style={{ color: ARANCIONE }}>{p.result}</p>
                   <h3 className="font-display font-bold text-xl md:text-2xl text-foreground">{p.name}</h3>
                 </div>
               </motion.div>
@@ -94,7 +95,7 @@ const PortfolioSection = () => {
                 </button>
               </div>
               <div className="p-8">
-                <p className="font-display font-semibold text-lg mb-2" style={{ color: CYAN }}>{projects[selected].result}</p>
+                <p className="font-display font-semibold text-lg mb-2" style={{ color: ARANCIONE }}>{projects[selected].result}</p>
                 <h3 className="font-display font-bold text-2xl md:text-3xl mb-4">{projects[selected].name}</h3>
                 <p className="text-muted-foreground font-body">{projects[selected].desc}</p>
               </div>
