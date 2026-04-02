@@ -2,7 +2,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import contentRoomLogo from "@/assets/contentroom-logo.png";
-import heroBgMinimal from "@/assets/hero-bg-minimal.jpg";
+import heroBgTunnel from "@/assets/hero-bg-tunnel.jpg";
 
 const HeroSection = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -17,7 +17,7 @@ const HeroSection = () => {
     <section ref={ref} className="relative h-screen overflow-hidden flex items-center justify-center">
       {/* Static background image */}
       <img
-        src={heroBgMinimal}
+        src={heroBgTunnel}
         alt=""
         aria-hidden="true"
         width={1920}
