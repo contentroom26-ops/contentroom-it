@@ -18,35 +18,10 @@ const HeroSection = () => {
 
   return (
     <section ref={ref} className="relative h-screen overflow-hidden flex items-center justify-center">
-      {/* Semi-transparent overlay so content is readable over 3D tunnel */}
-      <div className="absolute inset-0 bg-background/10" />
+      {/* Gradient edges only — no overlay so 3D corridor shows through */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background/30 to-transparent pointer-events-none" />
 
-      {/* Gradient edges */}
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background/60 to-transparent pointer-events-none" />
-      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-background/40 to-transparent pointer-events-none" />
-
-      {/* Floating particles */}
-      {[...Array(5)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-1 h-1 rounded-full bg-primary/30"
-          style={{
-            left: `${15 + i * 18}%`,
-            top: `${20 + (i % 3) * 25}%`,
-          }}
-          animate={{
-            y: [0, -30, 0],
-            opacity: [0.2, 0.6, 0.2],
-            scale: [1, 1.5, 1],
-          }}
-          transition={{
-            duration: 4 + i,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: i * 0.8,
-          }}
-        />
-      ))}
+      {/* No floating particles — let 3D corridor show */}
 
       {/* Content */}
       <motion.div
@@ -59,7 +34,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, scale: 0.85, filter: "blur(12px)" }}
           animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
           transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="h-112 w-auto mx-auto mb-6"
+          className="h-64 md:h-80 w-auto mx-auto mb-6"
         />
 
         {/* Tagline below logo */}
