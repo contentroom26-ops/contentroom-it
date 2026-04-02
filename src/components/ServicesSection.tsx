@@ -10,7 +10,8 @@ const services = [
 ];
 
 const ServicesSection = () => (
-  <section className="py-32 px-6">
+  <section className="py-32 px-6 relative">
+    <div className="absolute inset-0 bg-background/40 backdrop-blur-sm" />
     <div className="max-w-6xl mx-auto">
       <ScrollReveal>
         <p className="text-primary font-body text-sm tracking-[0.3em] uppercase mb-4">Servizi</p>
