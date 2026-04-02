@@ -30,8 +30,8 @@ export default function ImmersiveRoom() {
 
   const cyan = "hsl(192 49% 76%)";
   const cyanGlow = "hsl(192 49% 76% / 0.15)";
-  const cyanFrame = "hsl(200 70% 60% / 0.5)";
-  const cyanFrameGlow = "hsl(200 70% 60% / 0.1)";
+  const cyanFrame = "hsl(192 45% 60% / 0.5)";
+  const cyanFrameGlow = "hsl(192 45% 60% / 0.1)";
   const cyanBaseboard = "hsl(192 49% 76% / 0.25)";
 
   const texRepeat = "repeat";
