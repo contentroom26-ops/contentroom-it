@@ -44,7 +44,7 @@ const HeroSection = () => {
               transition={{ duration: 0.8, delay: 1.2 }}
               className="w-10 h-px bg-gradient-to-r from-transparent to-primary/40 origin-right"
             />
-            <p className="text-muted-foreground/50 font-body text-[10px] md:text-[11px] tracking-[0.5em] uppercase whitespace-nowrap">
+            <p className="text-foreground font-body text-[10px] md:text-[11px] tracking-[0.5em] uppercase whitespace-nowrap">
               Content Creation · Social Media
             </p>
             <motion.span
