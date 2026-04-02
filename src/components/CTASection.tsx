@@ -22,9 +22,11 @@ const CTASection = () => {
         <div
           className="absolute inset-0 rounded-[1.75rem] pointer-events-none"
           style={{
+            background: "hsl(0 0% 8% / 0.92)",
+            backdropFilter: "blur(20px)",
             boxShadow:
-              "inset 0 1px 0 hsl(0 0% 100% / 0.04), inset 0 -18px 30px hsl(0 0% 0% / 0.14), inset 0 0 36px hsl(0 0% 0% / 0.08)",
-            border: "1px solid hsl(0 0% 100% / 0.04)",
+              "inset 0 1px 0 hsl(0 0% 100% / 0.08), 0 8px 40px hsl(0 0% 0% / 0.5)",
+            border: "1px solid hsl(0 0% 100% / 0.1)",
           }}
         />
 
@@ -45,8 +47,8 @@ const CTASection = () => {
             />
 
             <p
-              className="font-body text-[10px] uppercase tracking-[0.35em]"
-              style={{ color: "hsl(0 0% 38%)" }}
+              className="font-body text-[11px] font-medium uppercase tracking-[0.35em]"
+              style={{ color: "hsl(0 0% 76%)" }}
             >
               Contattaci
             </p>
@@ -64,10 +66,10 @@ const CTASection = () => {
             </h2>
 
             <p
-              className="font-body text-xs md:text-sm max-w-md mx-auto mt-2"
+              className="font-body text-sm md:text-base font-normal max-w-md mx-auto mt-2"
               style={{
-                color: "hsl(0 0% 34%)",
-                textShadow: "0 1px 2px hsl(0 0% 0% / 0.65)",
+                color: "hsl(0 0% 76%)",
+                textShadow: "0 1px 2px hsl(0 0% 0% / 0.5)",
               }}
             >
               Obiettivi, visione e tempistiche: ti ricontattiamo con il prossimo step giusto.
@@ -85,21 +87,21 @@ const CTASection = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <Input
                 placeholder="Nome"
-                className="h-11 rounded-2xl border-border/40 bg-transparent px-4 text-foreground placeholder:text-muted-foreground/70 focus-visible:ring-1 focus-visible:ring-offset-0"
+                className="h-11 rounded-2xl border-border/60 bg-white/5 px-4 text-white placeholder:text-white/50 focus-visible:ring-1 focus-visible:ring-offset-0"
                 style={{ boxShadow: recessedFieldShadow }}
               />
 
               <Input
                 type="email"
                 placeholder="Email"
-                className="h-11 rounded-2xl border-border/40 bg-transparent px-4 text-foreground placeholder:text-muted-foreground/70 focus-visible:ring-1 focus-visible:ring-offset-0"
+                className="h-11 rounded-2xl border-border/60 bg-white/5 px-4 text-white placeholder:text-white/50 focus-visible:ring-1 focus-visible:ring-offset-0"
                 style={{ boxShadow: recessedFieldShadow }}
               />
             </div>
 
             <Textarea
               placeholder="Raccontaci il tuo progetto"
-              className="min-h-[120px] rounded-[1.5rem] border-border/40 bg-transparent px-4 py-3 text-foreground placeholder:text-muted-foreground/70 focus-visible:ring-1 focus-visible:ring-offset-0 resize-none"
+              className="min-h-[120px] rounded-[1.5rem] border-border/60 bg-white/5 px-4 py-3 text-white placeholder:text-white/50 focus-visible:ring-1 focus-visible:ring-offset-0 resize-none"
               style={{ boxShadow: recessedFieldShadow }}
             />
 
