@@ -14,7 +14,7 @@ const Navbar = () => (
         <motion.img
           src={contentRoomIcon}
           alt="Content Room"
-          className="h-26 w-auto"
+          className="h-16 w-auto"
           animate={{
             rotate: [0, 8, -8, 5, -5, 0],
             scale: [1, 1.05, 1, 1.03, 1],
