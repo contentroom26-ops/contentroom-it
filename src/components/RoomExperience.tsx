@@ -10,11 +10,53 @@ import textureFloor from "@/assets/texture-floor.jpg";
 const WALL_COUNT = 4;
 const SCROLL_HEIGHT = 500; // vh per wall
 
+// Each wall: 70% plateau (facing wall), 30% transition (rotating)
+const PLATEAU_RATIO = 0.70;
+const TRANSITION_RATIO = 1 - PLATEAU_RATIO;
+
+function easeInOutCubic(t: number) {
+  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+}
+
+/**
+ * Maps linear scroll progress (0→1) to rotation with plateaus.
+ * Each wall section: [plateau where rotation is locked] → [smooth transition to next wall]
+ * Returns { rotation, activeWall, wallProgress }
+ */
+function getRotationState(p: number) {
+  const wallSize = 1 / WALL_COUNT; // 0.25
+
+  for (let i = 0; i < WALL_COUNT; i++) {
+    const wallStart = i * wallSize;
+    const wallEnd = wallStart + wallSize;
+    const plateauEnd = wallStart + wallSize * PLATEAU_RATIO;
+
+    if (p <= wallEnd || i === WALL_COUNT - 1) {
+      if (p <= plateauEnd) {
+        // In plateau — locked to this wall's angle
+        const wallProgress = (p - wallStart) / (wallSize * PLATEAU_RATIO);
+        return { rotation: i * 90, activeWall: i, wallProgress: Math.min(1, wallProgress) };
+      } else {
+        // In transition zone to next wall
+        const transStart = plateauEnd;
+        const transEnd = wallEnd;
+        const t = Math.min(1, (p - transStart) / (transEnd - transStart));
+        const eased = easeInOutCubic(t);
+        const rotation = i * 90 + eased * 90;
+        // During transition, keep active wall as current
+        return { rotation, activeWall: i, wallProgress: 1 };
+      }
+    }
+  }
+  return { rotation: 270, activeWall: 3, wallProgress: 1 };
+}
+
 export default function RoomExperience() {
   const [progress, setProgress] = useState(0);
   const [activeWall, setActiveWall] = useState(0);
+  const [wallProgress, setWallProgress] = useState(0);
   const rotateY = useMotionValue(0);
-  const smoothRotate = useSpring(rotateY, { stiffness: 60, damping: 25, mass: 0.8 });
+  const smoothRotate = useSpring(rotateY, { stiffness: 80, damping: 30, mass: 0.6 });
 
   useEffect(() => {
     const onScroll = () => {
@@ -22,22 +64,16 @@ export default function RoomExperience() {
       const p = Math.min(1, Math.max(0, window.scrollY / maxScroll));
       setProgress(p);
 
-      // Map progress to rotation: 0 → 0°, 1 → 270° (4 walls, 90° each, but we only turn 3 times)
-      const rotation = p * 270;
-      rotateY.set(-rotation);
-
-      // Determine active wall
-      const wall = Math.min(WALL_COUNT - 1, Math.floor(p * WALL_COUNT));
-      setActiveWall(wall);
+      const state = getRotationState(p);
+      rotateY.set(-state.rotation);
+      setActiveWall(state.activeWall);
+      setWallProgress(state.wallProgress);
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
   }, [rotateY]);
-
-  // Per-wall progress (0-1 within each wall)
-  const wallProgress = (progress * WALL_COUNT) - activeWall;
 
   return (
     <div className="fixed inset-0 z-0 overflow-hidden" style={{ perspective: "1200px", perspectiveOrigin: "50% 50%" }}>
@@ -184,8 +220,10 @@ export default function RoomExperience() {
             key={label}
             onClick={() => {
               const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-              const target = (i / WALL_COUNT) * maxScroll + maxScroll / (WALL_COUNT * 2);
-              window.scrollTo({ top: target, behavior: "smooth" });
+              // Scroll to the middle of the plateau for this wall
+              const wallSize = 1 / WALL_COUNT;
+              const plateauCenter = i * wallSize + (wallSize * PLATEAU_RATIO) / 2;
+              window.scrollTo({ top: plateauCenter * maxScroll, behavior: "smooth" });
             }}
             className="group flex flex-col items-center gap-2"
           >
