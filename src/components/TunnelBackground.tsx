@@ -1,6 +1,8 @@
-import { useRef, useMemo, useEffect, useState } from "react";
+import { useRef, useMemo, useEffect, useState, useCallback } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
+
+const PARTICLE_COUNT = 120;
 
 const TUNNEL_SEGMENTS = 60;
 const TUNNEL_LENGTH = 120;
