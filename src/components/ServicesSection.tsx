@@ -1,6 +1,6 @@
 import { useRef, useState, useCallback } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Aperture, Share2, Rocket, Code2, ArrowUpRight } from "lucide-react";
+import { Aperture, Share2, Rocket, Code2 } from "lucide-react";
 
 const CYAN = "hsl(200 80% 74%)";
 
@@ -8,30 +8,26 @@ const services = [
   {
     icon: Aperture,
     num: "01",
-    title: "Content\nCreation",
+    title: "Content Creation",
     desc: "Produciamo video, foto e grafiche che catturano l'attenzione e raccontano il tuo brand.",
-    accent: CYAN,
   },
   {
     icon: Share2,
     num: "02",
-    title: "Social Media\nManagement",
+    title: "Social Media Management",
     desc: "Gestione strategica dei tuoi canali social con un piano editoriale su misura.",
-    accent: "hsl(200 60% 85%)",
   },
   {
     icon: Rocket,
     num: "03",
-    title: "Growth &\nMarketing",
+    title: "Growth & Marketing",
     desc: "Strategie data-driven e campagne ads per scalare il tuo business online.",
-    accent: CYAN,
   },
   {
     icon: Code2,
     num: "04",
-    title: "Siti &\nDigitalizzazione",
+    title: "Siti & Digitalizzazione",
     desc: "Design e sviluppo di esperienze digitali che convertono e distinguono.",
-    accent: "hsl(200 60% 85%)",
   },
 ];
 
@@ -55,156 +51,128 @@ function ServiceCard({
     });
   }, []);
 
-  const isEven = index % 2 === 0;
-
   return (
     <motion.div
       ref={cardRef}
-      initial={{ opacity: 0, y: 120, scale: 0.85 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      initial={{ opacity: 0, y: 100, rotateX: 12 }}
+      whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
       exit={{ opacity: 0, y: -60 }}
-      viewport={{ once: false, margin: "-80px" }}
+      viewport={{ once: false, margin: "-60px" }}
       transition={{
-        duration: 0.9,
-        delay: index * 0.12,
-        ease: [0.22, 1, 0.36, 1],
+        duration: 1,
+        delay: index * 0.15,
+        ease: [0.16, 1, 0.3, 1],
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onMouseMove={handleMove}
       className="relative cursor-pointer group"
-      style={{ perspective: "1200px" }}
+      style={{ perspective: "1400px" }}
     >
       <motion.div
         animate={{
-          rotateX: hovered ? (mousePos.y - 50) * -0.08 : 0,
-          rotateY: hovered ? (mousePos.x - 50) * 0.08 : 0,
+          rotateX: hovered ? (mousePos.y - 50) * -0.06 : 0,
+          rotateY: hovered ? (mousePos.x - 50) * 0.06 : 0,
+          scale: hovered ? 1.02 : 1,
         }}
-        transition={{ type: "spring", stiffness: 200, damping: 30 }}
-        className="relative rounded-2xl overflow-hidden"
+        transition={{ type: "spring", stiffness: 180, damping: 25 }}
+        className="relative rounded-3xl overflow-hidden"
         style={{ transformStyle: "preserve-3d" }}
       >
-        {/* Main card body */}
         <div
-          className="relative flex flex-col md:flex-row items-stretch min-h-[280px] md:min-h-[320px] border border-border/20 rounded-2xl overflow-hidden"
+          className="relative p-8 md:p-10 rounded-3xl overflow-hidden border border-border/10"
           style={{
-            background: "linear-gradient(135deg, hsl(0 0% 8% / 0.8), hsl(0 0% 5% / 0.9))",
-            backdropFilter: "blur(20px)",
+            background: "linear-gradient(160deg, hsl(0 0% 7% / 0.85), hsl(0 0% 4% / 0.95))",
+            backdropFilter: "blur(30px)",
           }}
         >
-          {/* Spotlight glow */}
+          {/* Cursor spotlight */}
           <div
-            className="absolute inset-0 pointer-events-none rounded-2xl transition-opacity duration-500"
+            className="absolute inset-0 pointer-events-none transition-opacity duration-700"
             style={{
-              background: `radial-gradient(600px circle at ${mousePos.x}% ${mousePos.y}%, hsl(200 80% 74% / 0.06), transparent 50%)`,
+              background: `radial-gradient(500px circle at ${mousePos.x}% ${mousePos.y}%, hsl(200 80% 74% / 0.07), transparent 50%)`,
               opacity: hovered ? 1 : 0,
             }}
           />
 
-          {/* Accent color block — editorial style */}
-          <motion.div
-            className={`relative w-full md:w-[35%] flex items-center justify-center overflow-hidden ${
-              isEven ? "order-1" : "order-1 md:order-2"
-            }`}
-            style={{
-              background: hovered
-                ? `linear-gradient(135deg, ${service.accent}, hsl(200 80% 60%))`
-                : `linear-gradient(135deg, hsl(200 80% 74% / 0.08), hsl(200 80% 74% / 0.03))`,
-              transition: "background 0.6s cubic-bezier(0.22, 1, 0.36, 1)",
-              minHeight: "160px",
-            }}
-          >
-            {/* Large number watermark */}
+          {/* Top row: number + icon */}
+          <div className="flex items-start justify-between mb-12 relative z-10">
             <motion.span
-              className="absolute font-display font-bold select-none"
+              className="font-display font-light tracking-tight"
               style={{
-                fontSize: "clamp(120px, 15vw, 200px)",
-                lineHeight: 1,
-                color: hovered ? "hsl(0 0% 0% / 0.12)" : "hsl(200 80% 74% / 0.08)",
-                transition: "color 0.6s ease",
+                fontSize: "clamp(3.5rem, 8vw, 5.5rem)",
+                lineHeight: 0.85,
+                WebkitTextStroke: hovered ? `1px ${CYAN}` : "1px hsl(0 0% 25%)",
+                color: "transparent",
+                transition: "all 0.6s cubic-bezier(0.22, 1, 0.36, 1)",
               }}
             >
               {service.num}
             </motion.span>
 
-            {/* Icon */}
             <motion.div
               animate={{
-                scale: hovered ? 1.2 : 1,
-                rotate: hovered ? 15 : 0,
+                scale: hovered ? 1.15 : 1,
+                rotate: hovered ? -10 : 0,
               }}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="relative z-10 w-16 h-16 rounded-2xl flex items-center justify-center"
+              className="w-14 h-14 rounded-2xl flex items-center justify-center"
               style={{
-                background: hovered ? "hsl(0 0% 0% / 0.15)" : "hsl(200 80% 74% / 0.1)",
-                border: `1px solid ${hovered ? "hsl(0 0% 0% / 0.2)" : "hsl(200 80% 74% / 0.15)"}`,
-                transition: "background 0.5s ease, border 0.5s ease",
+                background: hovered
+                  ? "linear-gradient(135deg, hsl(200 80% 74% / 0.2), hsl(200 80% 74% / 0.05))"
+                  : "hsl(0 0% 100% / 0.03)",
+                border: `1px solid ${hovered ? "hsl(200 80% 74% / 0.3)" : "hsl(0 0% 100% / 0.06)"}`,
+                transition: "all 0.5s ease",
               }}
             >
               <service.icon
-                className="w-7 h-7 transition-colors duration-500"
-                style={{ color: hovered ? "hsl(0 0% 5%)" : CYAN }}
-                strokeWidth={1.5}
+                className="w-6 h-6 transition-colors duration-500"
+                style={{ color: hovered ? CYAN : "hsl(0 0% 45%)" }}
+                strokeWidth={1.2}
               />
-            </motion.div>
-          </motion.div>
-
-          {/* Text content */}
-          <div
-            className={`flex-1 flex flex-col justify-between p-8 md:p-10 relative z-10 ${
-              isEven ? "order-2" : "order-2 md:order-1"
-            }`}
-          >
-            <div>
-              {/* Title */}
-              <motion.h3
-                className="font-display font-bold tracking-tight leading-[1.05] whitespace-pre-line mb-4"
-                style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)" }}
-                animate={{
-                  x: hovered ? 8 : 0,
-                  color: hovered ? CYAN : "hsl(40 20% 92%)",
-                }}
-                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              >
-                {service.title}
-              </motion.h3>
-
-              {/* Description */}
-              <motion.p
-                className="text-muted-foreground font-body text-sm md:text-base leading-relaxed max-w-sm"
-                animate={{ opacity: hovered ? 1 : 0.7, x: hovered ? 8 : 0 }}
-                transition={{ duration: 0.5, delay: 0.05 }}
-              >
-                {service.desc}
-              </motion.p>
-            </div>
-
-            {/* Bottom row: explore link */}
-            <motion.div
-              className="flex items-center gap-2 mt-6"
-              animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 10 }}
-              transition={{ duration: 0.4, delay: 0.1 }}
-            >
-              <span className="font-display text-xs tracking-[0.3em] uppercase" style={{ color: CYAN }}>
-                Scopri di più
-              </span>
-              <motion.div
-                animate={{ x: hovered ? 4 : 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <ArrowUpRight className="w-4 h-4" style={{ color: CYAN }} />
-              </motion.div>
             </motion.div>
           </div>
 
-          {/* Animated border line */}
+          {/* Title */}
+          <motion.h3
+            className="font-display font-semibold tracking-tight leading-[1.1] mb-4 relative z-10"
+            style={{ fontSize: "clamp(1.4rem, 3vw, 2rem)" }}
+            animate={{
+              color: hovered ? CYAN : "hsl(40 20% 92%)",
+              x: hovered ? 4 : 0,
+            }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {service.title}
+          </motion.h3>
+
+          {/* Description */}
+          <motion.p
+            className="text-muted-foreground font-body text-sm leading-relaxed max-w-xs relative z-10"
+            animate={{ opacity: hovered ? 0.9 : 0.5, x: hovered ? 4 : 0 }}
+            transition={{ duration: 0.5, delay: 0.05 }}
+          >
+            {service.desc}
+          </motion.p>
+
+          {/* Bottom accent line */}
           <motion.div
-            className="absolute bottom-0 left-0 h-[2px]"
+            className="absolute bottom-0 left-0 h-[1px]"
             style={{
               background: `linear-gradient(90deg, ${CYAN}, transparent)`,
             }}
             animate={{ width: hovered ? "100%" : "0%" }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          />
+
+          {/* Corner glow */}
+          <motion.div
+            className="absolute -bottom-20 -right-20 w-40 h-40 rounded-full pointer-events-none"
+            style={{
+              background: `radial-gradient(circle, hsl(200 80% 74% / 0.1), transparent 70%)`,
+            }}
+            animate={{ opacity: hovered ? 1 : 0, scale: hovered ? 1.5 : 0.8 }}
+            transition={{ duration: 0.8 }}
           />
         </div>
       </motion.div>
@@ -242,8 +210,8 @@ const ServicesSection = () => {
           </h2>
         </motion.div>
 
-        {/* Cards — stacked editorial layout */}
-        <div className="flex flex-col gap-6">
+        {/* 2x2 Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
           {services.map((s, i) => (
             <ServiceCard key={s.num} service={s} index={i} />
           ))}
