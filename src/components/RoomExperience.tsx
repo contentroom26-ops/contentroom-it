@@ -203,44 +203,13 @@ function Wall({ transform, active, children }: { transform: string; active: bool
         left: 0,
         top: 0,
         transform,
-        transformStyle: "preserve-3d",
-        overflow: "visible",
+        backgroundImage: `url(${textureWall})`,
+        backgroundSize: "512px 512px",
+        backgroundRepeat: "repeat",
+        boxShadow: "inset 0 0 120px 40px rgba(0,0,0,0.5)",
       }}
     >
-      {/* Texture background */}
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: `url(${textureWall})`,
-          backgroundSize: "512px 512px",
-          backgroundRepeat: "repeat",
-          zIndex: 0,
-        }}
-      />
-      {/* Edge shadows */}
-      <div
-        className="absolute inset-0"
-        style={{
-          zIndex: 1,
-          background: `
-            linear-gradient(to right, hsl(0 0% 0% / 0.45) 0%, transparent 8%, transparent 92%, hsl(0 0% 0% / 0.45) 100%),
-            linear-gradient(to bottom, hsl(0 0% 0% / 0.3) 0%, transparent 10%, transparent 90%, hsl(0 0% 0% / 0.35) 100%)
-          `,
-        }}
-      />
-      {/* Active wall glow */}
-      <div
-        className="absolute inset-0 transition-opacity duration-700"
-        style={{
-          zIndex: 2,
-          background: "radial-gradient(ellipse at center 50%, hsl(200 80% 74% / 0.04), transparent 60%)",
-          opacity: active ? 1 : 0,
-        }}
-      />
-      {/* Content — pushed forward in 3D to render above wall texture */}
-      <div className="absolute inset-0" style={{ transform: "translateZ(1px)" }}>
-        {children}
-      </div>
+      {children}
     </div>
   );
 }
