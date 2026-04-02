@@ -15,6 +15,7 @@ const TunnelSection = () => {
   const brightness = useTransform(scrollYProgress, [0, 0.5, 1], [0.6, 1, 1.4]);
   const brightnessFilter = useMotionTemplate`brightness(${brightness})`;
   const textY = useTransform(scrollYProgress, [0.3, 0.55], ["40px", "0px"]);
+  const textOpacity = useTransform(scrollYProgress, [0.3, 0.45, 0.7, 0.85], [0, 1, 1, 0]);
   const vignette = useTransform(scrollYProgress, [0, 0.5, 1], [0.4, 0.6, 0.9]);
 
   return (
