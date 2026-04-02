@@ -6,6 +6,7 @@ import ServicesSection from "@/components/ServicesSection";
 import ResultsSection from "@/components/ResultsSection";
 import PortfolioSection from "@/components/PortfolioSection";
 import CTASection from "@/components/CTASection";
+import TunnelSection from "@/components/TunnelSection";
 import SplashScreen from "@/components/SplashScreen";
 
 const Index = () => {
@@ -29,6 +30,7 @@ const Index = () => {
         <HeroSection />
         <div id="servizi"><ServicesSection /></div>
         <ResultsSection />
+        <TunnelSection />
         <div id="portfolio"><PortfolioSection /></div>
         <div id="contatti"><CTASection /></div>
         <footer className="py-10 px-6 border-t border-border">
