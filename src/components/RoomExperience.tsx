@@ -9,6 +9,8 @@ import textureFloor from "@/assets/texture-floor.jpg";
 
 const WALL_COUNT = 4;
 const PLATEAU_RATIO = 0.65;
+const DEPTH = 150; // px — half-cube depth, small for less distortion
+const PERSPECTIVE = 1000; // px
 
 function easeInOutCubic(t: number) {
   return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -56,31 +58,33 @@ export default function RoomExperience() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [rotateY]);
 
-  // The cube depth = half of viewport width so left/right walls fit
-  // Wall faces: width=100vw, height=100vh, placed at Z = ±50vw
-  const halfDepth = "50vw";
+  // Scale factor to compensate perspective shrinking:
+  // At Z = -DEPTH, apparent scale = PERSPECTIVE / (PERSPECTIVE + DEPTH)
+  const scale = PERSPECTIVE / (PERSPECTIVE + DEPTH);
+  // We make walls wider/taller to fill viewport after shrinking
+  const wallW = 100 / scale; // vw
+  const wallH = 100 / scale; // vh
+  const offsetX = -(wallW - 100) / 2; // vw offset to center
+  const offsetY = -(wallH - 100) / 2; // vh offset to center
 
   const wallBase: React.CSSProperties = {
     position: "absolute",
-    width: "100vw",
-    height: "100vh",
-    left: 0,
-    top: 0,
-    backfaceVisibility: "hidden",
+    width: `${wallW}vw`,
+    height: `${wallH}vh`,
+    left: `${offsetX}vw`,
+    top: `${offsetY}vh`,
     overflow: "hidden",
   };
 
   return (
     <div
       className="fixed inset-0 z-0 overflow-hidden"
-      style={{ perspective: "900px", perspectiveOrigin: "50% 50%" }}
+      style={{ perspective: `${PERSPECTIVE}px`, perspectiveOrigin: "50% 50%" }}
     >
       {/* Vignette */}
       <div
         className="absolute inset-0 pointer-events-none z-10"
-        style={{
-          background: "radial-gradient(ellipse at center, transparent 40%, hsl(0 0% 2% / 0.75) 100%)",
-        }}
+        style={{ background: "radial-gradient(ellipse at center, transparent 40%, hsl(0 0% 2% / 0.7) 100%)" }}
       />
 
       {/* Room cube */}
@@ -96,16 +100,16 @@ export default function RoomExperience() {
         <div
           style={{
             position: "absolute",
-            width: "200vw",
-            height: "200vw",
-            left: "-50vw",
+            width: "300vw",
+            height: "300vw",
+            left: "-100vw",
             top: "50%",
-            transform: `rotateX(90deg) translateZ(${halfDepth})`,
+            transform: `rotateX(90deg) translateZ(${DEPTH}px)`,
             transformOrigin: "center top",
             backgroundImage: `url(${textureFloor})`,
-            backgroundSize: "300px 300px",
+            backgroundSize: "250px 250px",
             backgroundRepeat: "repeat",
-            opacity: 0.5,
+            opacity: 0.45,
           }}
         />
 
@@ -113,42 +117,50 @@ export default function RoomExperience() {
         <div
           style={{
             position: "absolute",
-            width: "200vw",
-            height: "200vw",
-            left: "-50vw",
+            width: "300vw",
+            height: "300vw",
+            left: "-100vw",
             bottom: "50%",
-            transform: `rotateX(-90deg) translateZ(${halfDepth})`,
+            transform: `rotateX(-90deg) translateZ(${DEPTH}px)`,
             transformOrigin: "center bottom",
             backgroundImage: `url(${textureFloor})`,
-            backgroundSize: "300px 300px",
+            backgroundSize: "250px 250px",
             backgroundRepeat: "repeat",
-            opacity: 0.2,
+            opacity: 0.15,
             filter: "brightness(0.3)",
           }}
         />
 
-        {/* ── FRONT WALL (Servizi) ── */}
-        <div style={{ ...wallBase, transform: `translateZ(-${halfDepth})` }}>
+        {/* ── WALL 0: FRONT → Servizi ── */}
+        <div style={{ ...wallBase, transform: `translateZ(-${DEPTH}px)` }}>
           <WallBg active={activeWall === 0} />
-          <WallServices isActive={activeWall === 0} progress={activeWall === 0 ? wallProgress : 0} />
+          <WallContent>
+            <WallServices isActive={activeWall === 0} progress={activeWall === 0 ? wallProgress : 0} />
+          </WallContent>
         </div>
 
-        {/* ── RIGHT WALL (Portfolio) ── */}
-        <div style={{ ...wallBase, transformOrigin: "right center", transform: `rotateY(90deg) translateZ(-${halfDepth})` }}>
+        {/* ── WALL 1: RIGHT → Portfolio ── */}
+        <div style={{ ...wallBase, transform: `rotateY(-90deg) translateZ(-${DEPTH}px)` }}>
           <WallBg active={activeWall === 1} />
-          <WallPortfolio isActive={activeWall === 1} progress={activeWall === 1 ? wallProgress : 0} />
+          <WallContent>
+            <WallPortfolio isActive={activeWall === 1} progress={activeWall === 1 ? wallProgress : 0} />
+          </WallContent>
         </div>
 
-        {/* ── BACK WALL (Chi siamo) ── */}
-        <div style={{ ...wallBase, transform: `rotateY(180deg) translateZ(-${halfDepth})` }}>
+        {/* ── WALL 2: BACK → Chi Siamo ── */}
+        <div style={{ ...wallBase, transform: `rotateY(180deg) translateZ(-${DEPTH}px)` }}>
           <WallBg active={activeWall === 2} />
-          <WallAbout isActive={activeWall === 2} progress={activeWall === 2 ? wallProgress : 0} />
+          <WallContent>
+            <WallAbout isActive={activeWall === 2} progress={activeWall === 2 ? wallProgress : 0} />
+          </WallContent>
         </div>
 
-        {/* ── LEFT WALL (Contatti) ── */}
-        <div style={{ ...wallBase, transformOrigin: "left center", transform: `rotateY(-90deg) translateZ(-${halfDepth})` }}>
+        {/* ── WALL 3: LEFT → Contatti ── */}
+        <div style={{ ...wallBase, transform: `rotateY(90deg) translateZ(-${DEPTH}px)` }}>
           <WallBg active={activeWall === 3} />
-          <WallContact isActive={activeWall === 3} progress={activeWall === 3 ? wallProgress : 0} />
+          <WallContent>
+            <WallContact isActive={activeWall === 3} progress={activeWall === 3 ? wallProgress : 0} />
+          </WallContent>
         </div>
       </motion.div>
 
@@ -211,6 +223,27 @@ export default function RoomExperience() {
   );
 }
 
+/** Centers content within the oversized wall panel */
+function WallContent({ children }: { children: React.ReactNode }) {
+  const scale = PERSPECTIVE / (PERSPECTIVE + DEPTH);
+  // Content area = 100vw × 100vh centered in the oversized wall
+  const insetX = ((100 / scale) - 100) / 2;
+  const insetY = ((100 / scale) - 100) / 2;
+  return (
+    <div
+      className="absolute"
+      style={{
+        left: `${insetX}vw`,
+        top: `${insetY}vh`,
+        width: "100vw",
+        height: "100vh",
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
 function WallBg({ active }: { active: boolean }) {
   return (
     <div className="absolute inset-0">
@@ -226,15 +259,15 @@ function WallBg({ active }: { active: boolean }) {
         className="absolute inset-0"
         style={{
           background: `
-            linear-gradient(to right, hsl(0 0% 0% / 0.5) 0%, transparent 10%, transparent 90%, hsl(0 0% 0% / 0.5) 100%),
-            linear-gradient(to bottom, hsl(0 0% 0% / 0.35) 0%, transparent 12%, transparent 88%, hsl(0 0% 0% / 0.45) 100%)
+            linear-gradient(to right, hsl(0 0% 0% / 0.5) 0%, transparent 8%, transparent 92%, hsl(0 0% 0% / 0.5) 100%),
+            linear-gradient(to bottom, hsl(0 0% 0% / 0.35) 0%, transparent 10%, transparent 90%, hsl(0 0% 0% / 0.4) 100%)
           `,
         }}
       />
       <div
         className="absolute inset-0 transition-opacity duration-700"
         style={{
-          background: "radial-gradient(ellipse at center 55%, hsl(200 80% 74% / 0.03), transparent 60%)",
+          background: "radial-gradient(ellipse at center 50%, hsl(200 80% 74% / 0.03), transparent 60%)",
           opacity: active ? 1 : 0,
         }}
       />
