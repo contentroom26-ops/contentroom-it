@@ -61,28 +61,40 @@ const HeroSection = () => {
         style={{ y: textY, opacity, filter: blur.get() > 0 ? `blur(${blur.get()}px)` : undefined }}
         className="relative z-10 text-center px-6 max-w-5xl"
       >
-        {/* Tagline */}
-        <motion.div
-          initial={{ opacity: 0, y: 15, filter: "blur(6px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="flex items-center justify-center gap-3 mb-8"
-        >
-          <span className="w-8 h-px bg-primary/50" />
-          <p className="text-muted-foreground/60 font-body text-[10px] md:text-xs tracking-[0.4em] uppercase">
-            Content Creation & Social Media
-          </p>
-          <span className="w-8 h-px bg-primary/50" />
-        </motion.div>
-
         <motion.img
           src={contentRoomLogo}
           alt="Content Room"
           initial={{ opacity: 0, scale: 0.85, filter: "blur(12px)" }}
           animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-          transition={{ duration: 1.2, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="h-112 w-auto mx-auto mb-10"
+          transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          className="h-112 w-auto mx-auto mb-6"
         />
+
+        {/* Tagline below logo */}
+        <motion.div
+          initial={{ opacity: 0, width: 0 }}
+          animate={{ opacity: 1, width: "auto" }}
+          transition={{ duration: 1, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="overflow-hidden mb-10"
+        >
+          <div className="flex items-center justify-center gap-4">
+            <motion.span
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 0.8, delay: 1.2 }}
+              className="w-10 h-px bg-gradient-to-r from-transparent to-primary/40 origin-right"
+            />
+            <p className="text-muted-foreground/50 font-body text-[10px] md:text-[11px] tracking-[0.5em] uppercase whitespace-nowrap">
+              Content Creation · Social Media
+            </p>
+            <motion.span
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 0.8, delay: 1.2 }}
+              className="w-10 h-px bg-gradient-to-l from-transparent to-primary/40 origin-left"
+            />
+          </div>
+        </motion.div>
 
 
         <motion.div
