@@ -31,11 +31,7 @@ const TunnelSection = () => {
             src={tunnelBg}
             alt=""
             className="w-full h-full object-cover"
-            style={{
-              filter: brightness.get()
-                ? `brightness(${brightness.get()})`
-                : undefined,
-            }}
+            style={{ filter: brightnessFilter }}
           />
         </motion.div>
 
