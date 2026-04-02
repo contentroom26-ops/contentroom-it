@@ -34,7 +34,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, scale: 0.85, filter: "blur(12px)" }}
           animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
           transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="h-112 w-auto mx-auto mb-6"
+          className="h-64 md:h-80 w-auto mx-auto mb-6"
         />
 
         {/* Tagline below logo */}
