@@ -60,33 +60,6 @@ function DustParticles({ progress }: { progress: React.MutableRefObject<number> 
 /* ── Corridor Architecture ── */
 function Corridor() {
   const wallMat = useMemo(() => new THREE.MeshStandardMaterial({
-    color: "#0f0f0f",
-    roughness: 0.85,
-    metalness: 0.1,
-    side: THREE.DoubleSide,
-  }), []);
-
-  const accentMat = useMemo(() => new THREE.MeshStandardMaterial({
-    color: "#1a1a1a",
-    roughness: 0.7,
-    metalness: 0.2,
-    side: THREE.DoubleSide,
-  }), []);
-
-  const edgeMat = useMemo(() => new THREE.MeshBasicMaterial({
-    color: "#d4a843",
-    transparent: true,
-    opacity: 0.08,
-  }), []);
-
-  const glowEdgeMat = useMemo(() => new THREE.MeshBasicMaterial({
-    color: "#d4a843",
-    transparent: true,
-    opacity: 0.15,
-    blending: THREE.AdditiveBlending,
-    depthWrite: false,
-  }), []);
-
   const halfW = CORRIDOR_WIDTH / 2;
   const bays = Math.floor(CORRIDOR_LENGTH / SECTION_DEPTH);
 
