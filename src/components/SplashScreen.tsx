@@ -10,82 +10,78 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
   return (
     <AnimatePresence>
       <motion.div
-        className="fixed inset-0 z-[100] bg-background flex items-center justify-center"
+        className="fixed inset-0 z-[100] bg-background flex items-center justify-center overflow-hidden"
         exit={{ opacity: 0 }}
         transition={{ duration: 0.6 }}
       >
-        {/* Radial pulse rings */}
-        {[0, 1, 2].map((i) => (
-          <motion.div
-            key={i}
-            className="absolute w-32 h-32 rounded-full border border-primary/20"
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: [0, 5 + i * 2], opacity: [0.4, 0] }}
-            transition={{ duration: 2, delay: 0.6 + i * 0.3, ease: "easeOut" }}
-          />
-        ))}
-
-        <div className="flex items-center gap-4">
-          {/* Pittogramma - drops in from above with bounce */}
+        <div className="relative flex items-center justify-center">
+          {/* Pittogramma - starts centered, then shifts left */}
           <motion.img
             src={contentRoomIcon}
             alt=""
-            className="h-20 md:h-24 w-auto"
-            initial={{ opacity: 0, y: -120, scale: 0.5 }}
+            className="h-20 md:h-24 w-auto relative z-10"
+            initial={{ opacity: 0, scale: 0 }}
             animate={{
-              opacity: 1,
-              y: [null, 10, -5, 0],
-              scale: [0.5, 1.1, 0.95, 1],
+              opacity: [0, 1, 1, 1],
+              scale: [0, 1.3, 1, 1],
+              x: [0, 0, 0, -20],
             }}
             transition={{
-              duration: 1.4,
+              duration: 2.4,
+              times: [0, 0.3, 0.5, 0.75],
               ease: [0.22, 1, 0.36, 1],
             }}
           />
 
-          {/* Divider line that draws itself */}
+          {/* Logo text - unfolds/scales out from behind the icon */}
           <motion.div
-            className="w-px bg-primary/40"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 48, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 1.2, ease: "easeOut" }}
-          />
-
-          {/* Logo slides in from right */}
-          <motion.img
-            src={contentRoomLogo}
-            alt="Content Room"
-            className="h-14 md:h-18 w-auto"
-            initial={{ opacity: 0, x: 40, filter: "blur(12px)" }}
-            animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-            transition={{
-              duration: 1,
-              delay: 1.4,
-              ease: [0.22, 1, 0.36, 1],
+            className="overflow-hidden relative z-0"
+            initial={{ width: 0, opacity: 0 }}
+            animate={{
+              width: "auto",
+              opacity: 1,
             }}
-          />
+            transition={{
+              width: { duration: 1, delay: 1.4, ease: [0.22, 1, 0.36, 1] },
+              opacity: { duration: 0.4, delay: 1.4 },
+            }}
+          >
+            <motion.img
+              src={contentRoomLogo}
+              alt="Content Room"
+              className="h-14 md:h-18 w-auto ml-2"
+              initial={{ x: -40, opacity: 0, scale: 0.7 }}
+              animate={{ x: 0, opacity: 1, scale: 1 }}
+              transition={{
+                duration: 1,
+                delay: 1.5,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+            />
+          </motion.div>
         </div>
 
-        {/* Progress dot trail */}
-        <div className="absolute bottom-16 flex gap-2">
-          {[0, 1, 2, 3, 4].map((i) => (
-            <motion.div
-              key={i}
-              className="w-1.5 h-1.5 rounded-full bg-primary/40"
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{
-                opacity: [0, 1, 0.3],
-                scale: [0, 1.2, 1],
-              }}
-              transition={{
-                duration: 0.5,
-                delay: 2 + i * 0.15,
-                ease: "easeOut",
-              }}
-              onAnimationComplete={i === 4 ? onComplete : undefined}
-            />
-          ))}
-        </div>
+        {/* Curtain reveal - two halves that split open */}
+        <motion.div
+          className="absolute inset-0 flex pointer-events-none z-20"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 2.8 }}
+        >
+          <motion.div
+            className="w-1/2 h-full bg-background"
+            initial={{ x: 0 }}
+            animate={{ x: "-100%" }}
+            transition={{ duration: 0.9, delay: 3, ease: [0.76, 0, 0.24, 1] }}
+          />
+          <motion.div
+            className="w-1/2 h-full bg-background"
+            initial={{ x: 0 }}
+            animate={{ x: "100%" }}
+            transition={{ duration: 0.9, delay: 3, ease: [0.76, 0, 0.24, 1] }}
+            onAnimationComplete={onComplete}
+          />
+        </motion.div>
       </motion.div>
     </AnimatePresence>
   );
