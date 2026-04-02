@@ -195,24 +195,29 @@ export default function ImmersiveRoom() {
             }}
           >
             {/* Wall panels with cyan frames */}
-            {Array.from({ length: 12 }).map((_, i) => (
-              <div
-                key={`r-${i}`}
-                style={{
-                  position: "absolute",
-                  right: `${i * 320 + 60}px`,
-                  top: "20%",
-                  width: "200px",
-                  height: "55%",
-                  backgroundImage: `url(${textureWall})`,
-                  backgroundSize: "256px 256px",
-                  backgroundRepeat: texRepeat,
-                  filter: "brightness(0.7)",
-                  border: `2px solid ${cyanFrame}`,
-                  boxShadow: `inset 0 0 30px rgba(0,0,0,0.5), 0 0 15px ${cyanFrameGlow}`,
-                }}
-              />
-            ))}
+            {Array.from({ length: 12 }).map((_, i) => {
+              const frameCyanBorder = `hsl(200 70% 60% / ${0.5 + frameGlow * 0.4})`;
+              const frameCyanGlowVal = `hsl(200 70% 60% / ${0.1 + frameGlow * 0.25})`;
+              return (
+                <div
+                  key={`r-${i}`}
+                  style={{
+                    position: "absolute",
+                    right: `${i * 320 + 60}px`,
+                    top: "20%",
+                    width: "200px",
+                    height: "55%",
+                    backgroundImage: `url(${textureWall})`,
+                    backgroundSize: "256px 256px",
+                    backgroundRepeat: texRepeat,
+                    filter: "brightness(0.7)",
+                    border: `2px solid ${frameCyanBorder}`,
+                    boxShadow: `inset 0 0 30px rgba(0,0,0,0.5), 0 0 ${15 + frameGlow * 30}px ${frameCyanGlowVal}`,
+                    transition: "border-color 0.5s ease, box-shadow 0.5s ease",
+                  }}
+                />
+              );
+            })}
 
             {/* Cyan baseboard */}
             <div
