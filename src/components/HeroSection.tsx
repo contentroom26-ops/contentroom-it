@@ -17,7 +17,7 @@ const HeroSection = () => {
     <section ref={ref} className="relative h-screen overflow-hidden flex items-center justify-center">
       {/* Static background image */}
       <img
-        src={heroBgEvents}
+        src={heroBgMinimal}
         alt=""
         aria-hidden="true"
         width={1920}
