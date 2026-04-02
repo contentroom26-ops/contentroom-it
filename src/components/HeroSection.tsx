@@ -87,15 +87,6 @@ const HeroSection = () => {
           className="h-112 w-auto mx-auto mb-10"
         />
 
-        {/* Subtitle with stagger */}
-        <motion.p
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.9 }}
-          className="text-muted-foreground/70 font-body text-base md:text-lg mb-10 max-w-lg mx-auto"
-        >
-          Trasformiamo la tua presenza digitale in risultati concreti
-        </motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 30, scale: 0.9 }}

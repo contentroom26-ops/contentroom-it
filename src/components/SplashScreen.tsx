@@ -14,102 +14,78 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.6 }}
       >
-        {/* Glow behind icon */}
-        <motion.div
-          className="absolute w-40 h-40 rounded-full"
-          style={{ background: "radial-gradient(circle, hsl(var(--primary) / 0.15), transparent 70%)" }}
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: [0, 3, 2.5], opacity: [0, 0.8, 0] }}
-          transition={{ duration: 2.2, delay: 0.3, ease: "easeOut" }}
-        />
+        {/* Radial pulse rings */}
+        {[0, 1, 2].map((i) => (
+          <motion.div
+            key={i}
+            className="absolute w-32 h-32 rounded-full border border-primary/20"
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: [0, 5 + i * 2], opacity: [0.4, 0] }}
+            transition={{ duration: 2, delay: 0.6 + i * 0.3, ease: "easeOut" }}
+          />
+        ))}
 
-        {/* Ring burst */}
-        <motion.div
-          className="absolute w-24 h-24 rounded-full border-2 border-primary/30"
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: [0, 4], opacity: [0.6, 0] }}
-          transition={{ duration: 1.5, delay: 0.8, ease: "easeOut" }}
-        />
-
-        <div className="flex flex-col items-center">
-          {/* Pittogramma - starts spinning and scaling in */}
+        <div className="flex items-center gap-4">
+          {/* Pittogramma - drops in from above with bounce */}
           <motion.img
             src={contentRoomIcon}
             alt=""
-            className="h-20 md:h-28 w-auto"
-            initial={{ opacity: 0, scale: 0, rotate: -180 }}
+            className="h-20 md:h-24 w-auto"
+            initial={{ opacity: 0, y: -120, scale: 0.5 }}
             animate={{
-              opacity: [0, 1, 1, 1],
-              scale: [0, 1.2, 1, 0.6],
-              rotate: [-180, 0, 0, 0],
-              y: [0, 0, 0, -10],
+              opacity: 1,
+              y: [null, 10, -5, 0],
+              scale: [0.5, 1.1, 0.95, 1],
             }}
             transition={{
-              duration: 2.4,
-              times: [0, 0.35, 0.6, 1],
+              duration: 1.4,
               ease: [0.22, 1, 0.36, 1],
             }}
           />
 
-          {/* Logo text - appears after icon settles */}
+          {/* Divider line that draws itself */}
+          <motion.div
+            className="w-px bg-primary/40"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 48, opacity: 1 }}
+            transition={{ duration: 0.6, delay: 1.2, ease: "easeOut" }}
+          />
+
+          {/* Logo slides in from right */}
           <motion.img
             src={contentRoomLogo}
             alt="Content Room"
-            className="h-16 md:h-20 w-auto mt-4"
-            initial={{ opacity: 0, y: 20, scale: 0.8, filter: "blur(10px)" }}
-            animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+            className="h-14 md:h-18 w-auto"
+            initial={{ opacity: 0, x: 40, filter: "blur(12px)" }}
+            animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
             transition={{
               duration: 1,
-              delay: 1.6,
+              delay: 1.4,
               ease: [0.22, 1, 0.36, 1],
             }}
           />
-
-          {/* Tagline */}
-          <motion.p
-            className="text-muted-foreground font-body text-xs md:text-sm tracking-[0.3em] uppercase mt-6"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 2.2 }}
-          >
-            Content Creation & Social Media
-          </motion.p>
-
-          {/* Loading bar */}
-          <motion.div
-            className="w-32 h-px bg-border mt-8 rounded-full overflow-hidden"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 2.4 }}
-          >
-            <motion.div
-              className="h-full bg-primary rounded-full"
-              initial={{ width: "0%" }}
-              animate={{ width: "100%" }}
-              transition={{ duration: 1.2, delay: 2.5, ease: "easeInOut" }}
-              onAnimationComplete={onComplete}
-            />
-          </motion.div>
         </div>
 
-        {/* Corner accents */}
-        {[
-          "top-8 left-8",
-          "top-8 right-8 rotate-90",
-          "bottom-8 left-8 -rotate-90",
-          "bottom-8 right-8 rotate-180",
-        ].map((pos, i) => (
-          <motion.div
-            key={i}
-            className={`absolute ${pos} w-8 h-8`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.2 }}
-            transition={{ delay: 1 + i * 0.15, duration: 0.5 }}
-          >
-            <div className="w-full h-px bg-primary/40" />
-            <div className="w-px h-full bg-primary/40" />
-          </motion.div>
-        ))}
+        {/* Progress dot trail */}
+        <div className="absolute bottom-16 flex gap-2">
+          {[0, 1, 2, 3, 4].map((i) => (
+            <motion.div
+              key={i}
+              className="w-1.5 h-1.5 rounded-full bg-primary/40"
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{
+                opacity: [0, 1, 0.3],
+                scale: [0, 1.2, 1],
+              }}
+              transition={{
+                duration: 0.5,
+                delay: 2 + i * 0.15,
+                ease: "easeOut",
+              }}
+              onAnimationComplete={i === 4 ? onComplete : undefined}
+            />
+          ))}
+        </div>
       </motion.div>
     </AnimatePresence>
   );
