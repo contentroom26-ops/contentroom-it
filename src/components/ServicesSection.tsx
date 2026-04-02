@@ -1,5 +1,5 @@
-import { useRef, useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useRef, useState, useCallback } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Aperture, Share2, Rocket, Code2, ArrowUpRight } from "lucide-react";
 
 const CYAN = "hsl(200 80% 74%)";
@@ -8,187 +8,245 @@ const services = [
   {
     icon: Aperture,
     num: "01",
-    title: "Content Creation",
-    desc: "Produciamo video, foto e grafiche che catturano l'attenzione e raccontano il tuo brand con uno stile unico e riconoscibile.",
+    title: "Content\nCreation",
+    desc: "Produciamo video, foto e grafiche che catturano l'attenzione e raccontano il tuo brand.",
+    accent: CYAN,
   },
   {
     icon: Share2,
     num: "02",
-    title: "Social Media Management",
-    desc: "Gestione strategica dei tuoi canali social con un piano editoriale su misura per massimizzare reach e engagement.",
+    title: "Social Media\nManagement",
+    desc: "Gestione strategica dei tuoi canali social con un piano editoriale su misura.",
+    accent: "hsl(200 60% 85%)",
   },
   {
     icon: Rocket,
     num: "03",
-    title: "Growth & Marketing",
-    desc: "Strategie data-driven e campagne ads per scalare il tuo business online con risultati misurabili.",
+    title: "Growth &\nMarketing",
+    desc: "Strategie data-driven e campagne ads per scalare il tuo business online.",
+    accent: CYAN,
   },
   {
     icon: Code2,
     num: "04",
-    title: "Siti & Digitalizzazione",
-    desc: "Design e sviluppo di esperienze digitali che convertono visitatori in clienti.",
+    title: "Siti &\nDigitalizzazione",
+    desc: "Design e sviluppo di esperienze digitali che convertono e distinguono.",
+    accent: "hsl(200 60% 85%)",
   },
 ];
 
-const ServicesSection = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(-1);
+function ServiceCard({
+  service,
+  index,
+}: {
+  service: (typeof services)[0];
+  index: number;
+}) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [hovered, setHovered] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
 
-  useEffect(() => {
-    const onScroll = () => {
-      if (!sectionRef.current) return;
-      const rect = sectionRef.current.getBoundingClientRect();
-      const sectionHeight = rect.height;
-      const viewportH = window.innerHeight;
-
-      // How far we've scrolled into the section
-      const scrolled = -rect.top;
-      const totalScroll = sectionHeight - viewportH;
-
-      if (scrolled < 0 || scrolled > totalScroll) {
-        setActiveIndex(-1);
-        window.dispatchEvent(new CustomEvent("serviceActiveChange", { detail: -1 }));
-        return;
-      }
-
-      const progress = scrolled / totalScroll;
-      const idx = Math.min(3, Math.floor(progress * 4));
-      setActiveIndex(idx);
-      window.dispatchEvent(new CustomEvent("serviceActiveChange", { detail: idx }));
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+  const handleMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = cardRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    setMousePos({
+      x: ((e.clientX - rect.left) / rect.width) * 100,
+      y: ((e.clientY - rect.top) / rect.height) * 100,
+    });
   }, []);
 
-  const active = activeIndex >= 0 ? services[activeIndex] : null;
+  const isEven = index % 2 === 0;
 
   return (
-    <section ref={sectionRef} className="relative" style={{ height: "300vh" }}>
-      {/* Sticky content panel */}
-      <div className="sticky top-0 h-screen flex items-center justify-center px-6">
-        <div className="max-w-2xl w-full">
-          {/* Header */}
+    <motion.div
+      ref={cardRef}
+      initial={{ opacity: 0, y: 120, scale: 0.85 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: -60 }}
+      viewport={{ once: false, margin: "-80px" }}
+      transition={{
+        duration: 0.9,
+        delay: index * 0.12,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onMouseMove={handleMove}
+      className="relative cursor-pointer group"
+      style={{ perspective: "1200px" }}
+    >
+      <motion.div
+        animate={{
+          rotateX: hovered ? (mousePos.y - 50) * -0.08 : 0,
+          rotateY: hovered ? (mousePos.x - 50) * 0.08 : 0,
+        }}
+        transition={{ type: "spring", stiffness: 200, damping: 30 }}
+        className="relative rounded-2xl overflow-hidden"
+        style={{ transformStyle: "preserve-3d" }}
+      >
+        {/* Main card body */}
+        <div
+          className="relative flex flex-col md:flex-row items-stretch min-h-[280px] md:min-h-[320px] border border-border/20 rounded-2xl overflow-hidden"
+          style={{
+            background: "linear-gradient(135deg, hsl(0 0% 8% / 0.8), hsl(0 0% 5% / 0.9))",
+            backdropFilter: "blur(20px)",
+          }}
+        >
+          {/* Spotlight glow */}
+          <div
+            className="absolute inset-0 pointer-events-none rounded-2xl transition-opacity duration-500"
+            style={{
+              background: `radial-gradient(600px circle at ${mousePos.x}% ${mousePos.y}%, hsl(200 80% 74% / 0.06), transparent 50%)`,
+              opacity: hovered ? 1 : 0,
+            }}
+          />
+
+          {/* Accent color block — editorial style */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="mb-12"
+            className={`relative w-full md:w-[35%] flex items-center justify-center overflow-hidden ${
+              isEven ? "order-1" : "order-1 md:order-2"
+            }`}
+            style={{
+              background: hovered
+                ? `linear-gradient(135deg, ${service.accent}, hsl(200 80% 60%))`
+                : `linear-gradient(135deg, hsl(200 80% 74% / 0.08), hsl(200 80% 74% / 0.03))`,
+              transition: "background 0.6s cubic-bezier(0.22, 1, 0.36, 1)",
+              minHeight: "160px",
+            }}
           >
-            <div className="flex items-center gap-4 mb-4">
-              <div className="w-12 h-px" style={{ background: CYAN }} />
-              <p className="font-body text-xs tracking-[0.4em] uppercase" style={{ color: CYAN }}>
-                Servizi
-              </p>
-            </div>
-            <h2
-              className="font-display font-bold tracking-tight leading-[1.05]"
-              style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
+            {/* Large number watermark */}
+            <motion.span
+              className="absolute font-display font-bold select-none"
+              style={{
+                fontSize: "clamp(120px, 15vw, 200px)",
+                lineHeight: 1,
+                color: hovered ? "hsl(0 0% 0% / 0.12)" : "hsl(200 80% 74% / 0.08)",
+                transition: "color 0.6s ease",
+              }}
             >
-              I nostri<br />
-              <span className="text-muted-foreground">servizi.</span>
-            </h2>
+              {service.num}
+            </motion.span>
+
+            {/* Icon */}
+            <motion.div
+              animate={{
+                scale: hovered ? 1.2 : 1,
+                rotate: hovered ? 15 : 0,
+              }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              className="relative z-10 w-16 h-16 rounded-2xl flex items-center justify-center"
+              style={{
+                background: hovered ? "hsl(0 0% 0% / 0.15)" : "hsl(200 80% 74% / 0.1)",
+                border: `1px solid ${hovered ? "hsl(0 0% 0% / 0.2)" : "hsl(200 80% 74% / 0.15)"}`,
+                transition: "background 0.5s ease, border 0.5s ease",
+              }}
+            >
+              <service.icon
+                className="w-7 h-7 transition-colors duration-500"
+                style={{ color: hovered ? "hsl(0 0% 5%)" : CYAN }}
+                strokeWidth={1.5}
+              />
+            </motion.div>
           </motion.div>
 
-          {/* Active service detail */}
-          <div className="relative min-h-[220px]">
-            <AnimatePresence mode="wait">
-              {active && (
-                <motion.div
-                  key={activeIndex}
-                  initial={{ opacity: 0, x: -30, filter: "blur(8px)" }}
-                  animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, x: 30, filter: "blur(8px)" }}
-                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                  className="absolute inset-0"
-                >
-                  <div
-                    className="rounded-2xl p-8 md:p-10"
-                    style={{
-                      background: "hsl(0 0% 8% / 0.6)",
-                      backdropFilter: "blur(20px)",
-                      border: "1px solid hsl(200 80% 74% / 0.15)",
-                      boxShadow: "0 0 40px hsl(200 80% 74% / 0.08), 0 20px 50px -15px rgba(0,0,0,0.4)",
-                    }}
-                  >
-                    {/* Number + Icon row */}
-                    <div className="flex items-center gap-4 mb-6">
-                      <span
-                        className="font-display font-bold text-5xl md:text-6xl"
-                        style={{ color: "hsl(200 80% 74% / 0.15)" }}
-                      >
-                        {active.num}
-                      </span>
-                      <div
-                        className="w-12 h-12 rounded-xl flex items-center justify-center"
-                        style={{
-                          background: "hsl(200 80% 74% / 0.1)",
-                          border: "1px solid hsl(200 80% 74% / 0.2)",
-                        }}
-                      >
-                        <active.icon size={22} strokeWidth={1.5} style={{ color: CYAN }} />
-                      </div>
-                    </div>
-
-                    {/* Title */}
-                    <h3
-                      className="font-display font-bold tracking-tight mb-4"
-                      style={{
-                        fontSize: "clamp(1.5rem, 3.5vw, 2.2rem)",
-                        color: CYAN,
-                      }}
-                    >
-                      {active.title}
-                    </h3>
-
-                    {/* Description */}
-                    <p className="text-muted-foreground font-body text-sm md:text-base leading-relaxed mb-6 max-w-md">
-                      {active.desc}
-                    </p>
-
-                    {/* CTA */}
-                    <div className="flex items-center gap-2">
-                      <span
-                        className="font-display text-xs tracking-[0.25em] uppercase"
-                        style={{ color: CYAN }}
-                      >
-                        Scopri di più
-                      </span>
-                      <ArrowUpRight className="w-4 h-4" style={{ color: CYAN }} />
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* Placeholder when no service active */}
-            {!active && (
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 0.4 }}
-                className="text-muted-foreground font-body text-sm italic"
-              >
-                Scorri per esplorare i servizi sulla parete ←
-              </motion.p>
-            )}
-          </div>
-
-          {/* Progress dots */}
-          <div className="flex gap-3 mt-8">
-            {services.map((_, i) => (
-              <div
-                key={i}
-                className="h-1 rounded-full transition-all duration-500"
-                style={{
-                  width: activeIndex === i ? 32 : 8,
-                  background: activeIndex === i ? CYAN : "hsl(200 80% 74% / 0.2)",
-                  boxShadow: activeIndex === i ? `0 0 10px hsl(200 80% 74% / 0.3)` : "none",
+          {/* Text content */}
+          <div
+            className={`flex-1 flex flex-col justify-between p-8 md:p-10 relative z-10 ${
+              isEven ? "order-2" : "order-2 md:order-1"
+            }`}
+          >
+            <div>
+              {/* Title */}
+              <motion.h3
+                className="font-display font-bold tracking-tight leading-[1.05] whitespace-pre-line mb-4"
+                style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)" }}
+                animate={{
+                  x: hovered ? 8 : 0,
+                  color: hovered ? CYAN : "hsl(40 20% 92%)",
                 }}
-              />
-            ))}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              >
+                {service.title}
+              </motion.h3>
+
+              {/* Description */}
+              <motion.p
+                className="text-muted-foreground font-body text-sm md:text-base leading-relaxed max-w-sm"
+                animate={{ opacity: hovered ? 1 : 0.7, x: hovered ? 8 : 0 }}
+                transition={{ duration: 0.5, delay: 0.05 }}
+              >
+                {service.desc}
+              </motion.p>
+            </div>
+
+            {/* Bottom row: explore link */}
+            <motion.div
+              className="flex items-center gap-2 mt-6"
+              animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 10 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+            >
+              <span className="font-display text-xs tracking-[0.3em] uppercase" style={{ color: CYAN }}>
+                Scopri di più
+              </span>
+              <motion.div
+                animate={{ x: hovered ? 4 : 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <ArrowUpRight className="w-4 h-4" style={{ color: CYAN }} />
+              </motion.div>
+            </motion.div>
           </div>
+
+          {/* Animated border line */}
+          <motion.div
+            className="absolute bottom-0 left-0 h-[2px]"
+            style={{
+              background: `linear-gradient(90deg, ${CYAN}, transparent)`,
+            }}
+            animate={{ width: hovered ? "100%" : "0%" }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          />
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+const ServicesSection = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+
+  const headerY = useTransform(scrollYProgress, [0, 0.3], [100, 0]);
+  const headerOpacity = useTransform(scrollYProgress, [0, 0.2], [0, 1]);
+
+  return (
+    <section ref={sectionRef} className="py-32 px-6 relative">
+      <div className="max-w-6xl mx-auto relative z-10">
+        {/* Header */}
+        <motion.div style={{ y: headerY, opacity: headerOpacity }}>
+          <div className="flex items-center gap-4 mb-6">
+            <div className="w-12 h-px" style={{ background: CYAN }} />
+            <p className="font-body text-xs tracking-[0.4em] uppercase" style={{ color: CYAN }}>
+              Servizi
+            </p>
+          </div>
+          <h2
+            className="font-display font-bold tracking-tight mb-20 leading-[1.05]"
+            style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}
+          >
+            I nostri<br />
+            <span className="text-muted-foreground">servizi.</span>
+          </h2>
+        </motion.div>
+
+        {/* Cards — stacked editorial layout */}
+        <div className="flex flex-col gap-6">
+          {services.map((s, i) => (
+            <ServiceCard key={s.num} service={s} index={i} />
+          ))}
         </div>
       </div>
     </section>
