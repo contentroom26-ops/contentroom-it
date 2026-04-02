@@ -61,22 +61,19 @@ const HeroSection = () => {
         style={{ y: textY, opacity, filter: blur.get() > 0 ? `blur(${blur.get()}px)` : undefined }}
         className="relative z-10 text-center px-6 max-w-5xl"
       >
-        {/* Decorative line */}
+        {/* Tagline */}
         <motion.div
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ duration: 1.2, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-          className="w-16 h-px bg-primary/60 mx-auto mb-8 origin-center"
-        />
-
-        <motion.p
-          initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
+          initial={{ opacity: 0, y: 15, filter: "blur(6px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="text-muted-foreground font-body text-sm tracking-[0.3em] uppercase mb-8"
+          className="flex items-center justify-center gap-3 mb-8"
         >
-          Content Creation & Social Media
-        </motion.p>
+          <span className="w-8 h-px bg-primary/50" />
+          <p className="text-muted-foreground/60 font-body text-[10px] md:text-xs tracking-[0.4em] uppercase">
+            Content Creation & Social Media
+          </p>
+          <span className="w-8 h-px bg-primary/50" />
+        </motion.div>
 
         <motion.img
           src={contentRoomLogo}
