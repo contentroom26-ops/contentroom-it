@@ -2,6 +2,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import heroBg from "@/assets/hero-bg.jpg";
+import contentRoomLogo from "@/assets/contentroom-logo.png";
 
 const HeroSection = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -12,8 +13,6 @@ const HeroSection = () => {
   const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const textY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-
-  const titleWords = ["Creiamo", "contenuti", "che", "fanno", "crescere."];
 
   return (
     <section ref={ref} className="relative h-screen overflow-hidden flex items-center justify-center">
@@ -34,20 +33,14 @@ const HeroSection = () => {
           Content Creation & Social Media
         </motion.p>
 
-        <h1 className="font-display font-bold text-5xl md:text-7xl lg:text-8xl xl:text-9xl leading-[0.95] tracking-tight mb-10">
-          {titleWords.map((word, i) => (
-            <motion.span
-              key={i}
-              initial={{ opacity: 0, y: 80, rotateX: -40 }}
-              animate={{ opacity: 1, y: 0, rotateX: 0 }}
-              transition={{ duration: 0.9, delay: 0.4 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className={`inline-block mr-[0.3em] ${i === 4 ? "text-gradient" : "text-foreground"}`}
-              style={{ perspective: "600px" }}
-            >
-              {word}
-            </motion.span>
-          ))}
-        </h1>
+        <motion.img
+          src={contentRoomLogo}
+          alt="Content Room"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          className="h-20 md:h-28 lg:h-36 w-auto mx-auto mb-10"
+        />
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}
