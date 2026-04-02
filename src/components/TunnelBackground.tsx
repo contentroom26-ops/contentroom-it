@@ -228,6 +228,9 @@ function TunnelScene({ progress }: { progress: React.MutableRefObject<number> })
 
       {/* Floating particles */}
       <Particles progress={progress} />
+
+      {/* Volumetric light at tunnel end */}
+      <VolumetricLight />
     </>
   );
 }
