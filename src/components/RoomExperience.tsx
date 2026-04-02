@@ -236,8 +236,8 @@ function Wall({ transform, active, children }: { transform: string; active: bool
           opacity: active ? 1 : 0,
         }}
       />
-      {/* Content */}
-      <div className="absolute inset-0" style={{ zIndex: 5 }}>
+      {/* Content — pushed forward in 3D to render above wall texture */}
+      <div className="absolute inset-0" style={{ transform: "translateZ(1px)" }}>
         {children}
       </div>
     </div>
