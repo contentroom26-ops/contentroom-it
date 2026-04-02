@@ -2,6 +2,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import contentRoomLogo from "@/assets/contentroom-logo.png";
+import heroBgEvents from "@/assets/hero-bg-events.jpg";
 
 const HeroSection = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -14,8 +15,19 @@ const HeroSection = () => {
 
   return (
     <section ref={ref} className="relative h-screen overflow-hidden flex items-center justify-center">
-      {/* Subtle bottom gradient only */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background/20 to-transparent pointer-events-none" />
+      {/* Static background image */}
+      <img
+        src={heroBgEvents}
+        alt=""
+        aria-hidden="true"
+        width={1920}
+        height={1080}
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+      {/* Dark overlay for readability */}
+      <div className="absolute inset-0 bg-background/50" />
+      {/* Bottom fade into page */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent pointer-events-none" />
 
       {/* Content */}
       <motion.div
