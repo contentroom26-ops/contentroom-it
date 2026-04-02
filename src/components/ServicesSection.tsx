@@ -102,7 +102,7 @@ function ServiceCard({
               style={{
                 fontSize: "clamp(3.5rem, 8vw, 5.5rem)",
                 lineHeight: 0.85,
-                WebkitTextStroke: hovered ? `1px ${CYAN}` : "1px hsl(0 0% 25%)",
+                WebkitTextStroke: hovered ? `1px ${CELESTE}` : "1px hsl(0 0% 25%)",
                 color: "transparent",
                 transition: "all 0.6s cubic-bezier(0.22, 1, 0.36, 1)",
               }}
@@ -127,7 +127,7 @@ function ServiceCard({
             >
               <service.icon
                 className="w-6 h-6 transition-colors duration-500"
-                style={{ color: hovered ? CYAN : "hsl(0 0% 45%)" }}
+                style={{ color: hovered ? CELESTE : "hsl(0 0% 45%)" }}
                 strokeWidth={1.2}
               />
             </motion.div>
@@ -138,7 +138,7 @@ function ServiceCard({
             className="font-display font-semibold tracking-tight leading-[1.1] mb-4 relative z-10"
             style={{ fontSize: "clamp(1.4rem, 3vw, 2rem)" }}
             animate={{
-              color: hovered ? CYAN : "hsl(40 20% 92%)",
+              color: hovered ? CELESTE : "hsl(40 20% 92%)",
               x: hovered ? 4 : 0,
             }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
@@ -159,7 +159,7 @@ function ServiceCard({
           <motion.div
             className="absolute bottom-0 left-0 h-[1px]"
             style={{
-              background: `linear-gradient(90deg, ${CYAN}, transparent)`,
+              background: `linear-gradient(90deg, ${CELESTE}, transparent)`,
             }}
             animate={{ width: hovered ? "100%" : "0%" }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
@@ -196,8 +196,8 @@ const ServicesSection = () => {
         {/* Header */}
         <motion.div style={{ y: headerY, opacity: headerOpacity }}>
           <div className="flex items-center gap-4 mb-6">
-            <div className="w-12 h-px" style={{ background: CYAN }} />
-            <p className="font-body text-xs tracking-[0.4em] uppercase" style={{ color: CYAN }}>
+            <div className="w-12 h-px" style={{ background: CELESTE }} />
+            <p className="font-body text-xs tracking-[0.4em] uppercase" style={{ color: CELESTE }}>
               Servizi
             </p>
           </div>

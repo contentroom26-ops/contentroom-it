@@ -39,7 +39,7 @@ const CTASection = () => {
             <div
               className="mx-auto mb-3 h-px w-12"
               style={{
-                background: `linear-gradient(90deg, transparent, ${CYAN}, transparent)`,
+                background: `linear-gradient(90deg, transparent, ${CELESTE}, transparent)`,
                 boxShadow: `0 0 18px hsl(200 80% 74% / 0.26)`,
               }}
             />
@@ -55,7 +55,7 @@ const CTASection = () => {
               className="font-display font-bold tracking-tight leading-[1.02] mt-2"
               style={{
                 fontSize: "clamp(1.6rem, 3.9vw, 2.8rem)",
-                color: CYAN,
+                color: CELESTE,
                 textShadow:
                   "0 0 22px hsl(200 80% 74% / 0.32), 0 0 48px hsl(200 80% 74% / 0.14), 0 2px 4px hsl(0 0% 0% / 0.82)",
               }}
@@ -109,7 +109,7 @@ const CTASection = () => {
               className="w-full h-12 rounded-full font-display text-xs uppercase tracking-[0.26em]"
               style={{
                 background: `linear-gradient(135deg, hsl(200 80% 74% / 0.16), hsl(200 80% 74% / 0.08))`,
-                color: CYAN,
+                color: CELESTE,
                 border: "1px solid hsl(200 80% 74% / 0.24)",
                 boxShadow:
                   "inset 0 1px 0 hsl(0 0% 100% / 0.06), 0 0 24px hsl(200 80% 74% / 0.14)",
