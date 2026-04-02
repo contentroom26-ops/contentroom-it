@@ -1,6 +1,8 @@
 import { useRef, useMemo, useEffect, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { useTexture } from "@react-three/drei";
 import * as THREE from "three";
+import tunnelImg from "@/assets/tunnel-bg.jpg";
 
 const LENGTH = 100;
 const WIDTH = 5;
@@ -10,182 +12,248 @@ const EYE_H = 1.6;
 const BAY = 5;
 const BAYS = Math.floor(LENGTH / BAY);
 
-/* ── Floor Tiles ── */
+/* ── Procedural concrete-like canvas texture ── */
+function makeTexture(
+  base: [number, number, number],
+  size = 512,
+  grain = true
+): THREE.CanvasTexture {
+  const canvas = document.createElement("canvas");
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext("2d")!;
+
+  // Base color
+  ctx.fillStyle = `rgb(${base[0]},${base[1]},${base[2]})`;
+  ctx.fillRect(0, 0, size, size);
+
+  // Grain noise
+  if (grain) {
+    const imageData = ctx.getImageData(0, 0, size, size);
+    const d = imageData.data;
+    for (let i = 0; i < d.length; i += 4) {
+      const n = (Math.random() - 0.5) * 18;
+      d[i] = Math.max(0, Math.min(255, d[i] + n));
+      d[i + 1] = Math.max(0, Math.min(255, d[i + 1] + n));
+      d[i + 2] = Math.max(0, Math.min(255, d[i + 2] + n));
+    }
+    ctx.putImageData(imageData, 0, 0);
+  }
+
+  // Subtle cracks / stains
+  ctx.globalAlpha = 0.04;
+  for (let i = 0; i < 12; i++) {
+    ctx.strokeStyle = Math.random() > 0.5 ? "#000" : "#222";
+    ctx.lineWidth = Math.random() * 2;
+    ctx.beginPath();
+    ctx.moveTo(Math.random() * size, Math.random() * size);
+    ctx.lineTo(Math.random() * size, Math.random() * size);
+    ctx.stroke();
+  }
+
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+  return tex;
+}
+
+/* ── Floor ── */
 function Floor() {
-  const geo = useMemo(() => new THREE.PlaneGeometry(WIDTH, LENGTH, 1, 1), []);
+  const tex = useMemo(() => {
+    const t = makeTexture([18, 18, 18]);
+    t.repeat.set(4, LENGTH / 2);
+    return t;
+  }, []);
+
   return (
     <group>
-      {/* Main floor */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, -LENGTH / 2]} geometry={geo}>
-        <meshStandardMaterial color="#111111" roughness={0.4} metalness={0.6} />
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, -LENGTH / 2]}>
+        <planeGeometry args={[WIDTH, LENGTH]} />
+        <meshStandardMaterial map={tex} roughness={0.35} metalness={0.5} color="#1a1a1a" />
       </mesh>
-      {/* Tile grid lines — longitudinal */}
-      {[-HALF_W + 0.5, -0.5, 0.5, HALF_W - 0.5].map((x, i) => (
-        <mesh key={`fl-${i}`} position={[x, 0.002, -LENGTH / 2]}>
-          <boxGeometry args={[0.015, 0.004, LENGTH]} />
-          <meshBasicMaterial color="#222222" />
-        </mesh>
-      ))}
-      {/* Tile grid lines — lateral */}
-      {Array.from({ length: BAYS + 1 }).map((_, i) => (
-        <mesh key={`ft-${i}`} position={[0, 0.002, -i * BAY]}>
-          <boxGeometry args={[WIDTH, 0.004, 0.015]} />
-          <meshBasicMaterial color="#222222" />
-        </mesh>
-      ))}
+      {/* Subtle floor reflection plane */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.002, -LENGTH / 2]}>
+        <planeGeometry args={[WIDTH, LENGTH]} />
+        <meshStandardMaterial color="#111" roughness={0.2} metalness={0.8} transparent opacity={0.3} />
+      </mesh>
     </group>
   );
 }
 
 /* ── Ceiling ── */
-function Ceiling() {
+function CeilingComp() {
+  const tex = useMemo(() => {
+    const t = makeTexture([12, 12, 12]);
+    t.repeat.set(3, LENGTH / 3);
+    return t;
+  }, []);
+
   return (
     <group>
       <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, HEIGHT, -LENGTH / 2]}>
         <planeGeometry args={[WIDTH, LENGTH]} />
-        <meshStandardMaterial color="#0a0a0a" roughness={0.95} metalness={0.0} />
+        <meshStandardMaterial map={tex} roughness={0.9} metalness={0.05} color="#0d0d0d" />
       </mesh>
       {/* Ceiling beams */}
       {Array.from({ length: BAYS + 1 }).map((_, i) => (
-        <mesh key={`cb-${i}`} position={[0, HEIGHT - 0.1, -i * BAY]}>
-          <boxGeometry args={[WIDTH + 0.2, 0.2, 0.15]} />
-          <meshStandardMaterial color="#151515" roughness={0.8} metalness={0.15} />
+        <mesh key={i} position={[0, HEIGHT - 0.12, -i * BAY]}>
+          <boxGeometry args={[WIDTH + 0.1, 0.24, 0.18]} />
+          <meshStandardMaterial color="#161616" roughness={0.7} metalness={0.2} />
         </mesh>
       ))}
     </group>
   );
 }
 
-/* ── Walls with Panels ── */
-function Walls() {
+/* ── Walls ── */
+function WallsComp() {
+  const wallTex = useMemo(() => {
+    const t = makeTexture([16, 15, 14]);
+    t.repeat.set(LENGTH / 4, 2);
+    return t;
+  }, []);
+
+  const panelTex = useMemo(() => {
+    const t = makeTexture([10, 10, 10], 256, false);
+    t.repeat.set(1, 1);
+    return t;
+  }, []);
+
   return (
     <group>
-      {/* Left wall base */}
+      {/* Left wall */}
       <mesh rotation={[0, Math.PI / 2, 0]} position={[-HALF_W, HEIGHT / 2, -LENGTH / 2]}>
         <planeGeometry args={[LENGTH, HEIGHT]} />
-        <meshStandardMaterial color="#0e0e0e" roughness={0.8} metalness={0.1} side={THREE.DoubleSide} />
+        <meshStandardMaterial map={wallTex} roughness={0.82} metalness={0.08} color="#121110" side={THREE.DoubleSide} />
       </mesh>
-      {/* Right wall base */}
+      {/* Right wall */}
       <mesh rotation={[0, -Math.PI / 2, 0]} position={[HALF_W, HEIGHT / 2, -LENGTH / 2]}>
         <planeGeometry args={[LENGTH, HEIGHT]} />
-        <meshStandardMaterial color="#0e0e0e" roughness={0.8} metalness={0.1} side={THREE.DoubleSide} />
+        <meshStandardMaterial map={wallTex} roughness={0.82} metalness={0.08} color="#121110" side={THREE.DoubleSide} />
       </mesh>
 
-      {/* Wall panels & pilasters per bay */}
+      {/* Per-bay details */}
       {Array.from({ length: BAYS }).map((_, i) => {
-        const z = -i * BAY - BAY / 2;
+        const z = -i * BAY;
+        const zMid = z - BAY / 2;
         return (
-          <group key={`wp-${i}`}>
-            {/* Left pilaster front */}
-            <mesh position={[-HALF_W + 0.08, HEIGHT / 2, -i * BAY]}>
-              <boxGeometry args={[0.16, HEIGHT, 0.25]} />
-              <meshStandardMaterial color="#181818" roughness={0.6} metalness={0.25} />
-            </mesh>
-            {/* Right pilaster front */}
-            <mesh position={[HALF_W - 0.08, HEIGHT / 2, -i * BAY]}>
-              <boxGeometry args={[0.16, HEIGHT, 0.25]} />
-              <meshStandardMaterial color="#181818" roughness={0.6} metalness={0.25} />
-            </mesh>
+          <group key={i}>
+            {/* Pilasters */}
+            {[-1, 1].map((side) => (
+              <mesh key={side} position={[side * (HALF_W - 0.07), HEIGHT / 2, z]}>
+                <boxGeometry args={[0.14, HEIGHT, 0.28]} />
+                <meshStandardMaterial color="#1a1917" roughness={0.55} metalness={0.3} />
+              </mesh>
+            ))}
 
-            {/* Left recessed panel */}
-            <mesh position={[-HALF_W + 0.02, HEIGHT * 0.45, z]} rotation={[0, Math.PI / 2, 0]}>
-              <planeGeometry args={[BAY * 0.75, HEIGHT * 0.55]} />
-              <meshStandardMaterial color="#0b0b0b" roughness={0.92} metalness={0.05} side={THREE.DoubleSide} />
-            </mesh>
-            {/* Right recessed panel */}
-            <mesh position={[HALF_W - 0.02, HEIGHT * 0.45, z]} rotation={[0, -Math.PI / 2, 0]}>
-              <planeGeometry args={[BAY * 0.75, HEIGHT * 0.55]} />
-              <meshStandardMaterial color="#0b0b0b" roughness={0.92} metalness={0.05} side={THREE.DoubleSide} />
-            </mesh>
+            {/* Recessed panels */}
+            {[-1, 1].map((side) => (
+              <mesh key={`p${side}`} position={[side * (HALF_W - 0.015), HEIGHT * 0.47, zMid]} rotation={[0, side * -Math.PI / 2, 0]}>
+                <planeGeometry args={[BAY * 0.72, HEIGHT * 0.52]} />
+                <meshStandardMaterial map={panelTex} roughness={0.9} metalness={0.05} color="#0c0c0b" side={THREE.DoubleSide} />
+              </mesh>
+            ))}
 
-            {/* Baseboard left */}
-            <mesh position={[-HALF_W + 0.04, 0.08, z]}>
-              <boxGeometry args={[0.08, 0.16, BAY * 0.8]} />
-              <meshStandardMaterial color="#1c1c1c" roughness={0.5} metalness={0.3} />
-            </mesh>
-            {/* Baseboard right */}
-            <mesh position={[HALF_W - 0.04, 0.08, z]}>
-              <boxGeometry args={[0.08, 0.16, BAY * 0.8]} />
-              <meshStandardMaterial color="#1c1c1c" roughness={0.5} metalness={0.3} />
-            </mesh>
+            {/* Panel frame / moulding */}
+            {[-1, 1].map((side) => (
+              <group key={`frame${side}`}>
+                {/* Top rail */}
+                <mesh position={[side * (HALF_W - 0.04), HEIGHT * 0.73, zMid]}>
+                  <boxGeometry args={[0.05, 0.03, BAY * 0.72]} />
+                  <meshStandardMaterial color="#1e1d1a" roughness={0.5} metalness={0.35} />
+                </mesh>
+                {/* Bottom rail */}
+                <mesh position={[side * (HALF_W - 0.04), HEIGHT * 0.21, zMid]}>
+                  <boxGeometry args={[0.05, 0.03, BAY * 0.72]} />
+                  <meshStandardMaterial color="#1e1d1a" roughness={0.5} metalness={0.35} />
+                </mesh>
+              </group>
+            ))}
 
-            {/* Crown molding left */}
-            <mesh position={[-HALF_W + 0.04, HEIGHT - 0.06, z]}>
-              <boxGeometry args={[0.08, 0.12, BAY * 0.8]} />
-              <meshStandardMaterial color="#1c1c1c" roughness={0.5} metalness={0.3} />
-            </mesh>
-            {/* Crown molding right */}
-            <mesh position={[HALF_W - 0.04, HEIGHT - 0.06, z]}>
-              <boxGeometry args={[0.08, 0.12, BAY * 0.8]} />
-              <meshStandardMaterial color="#1c1c1c" roughness={0.5} metalness={0.3} />
-            </mesh>
+            {/* Baseboard */}
+            {[-1, 1].map((side) => (
+              <mesh key={`base${side}`} position={[side * (HALF_W - 0.035), 0.06, zMid]}>
+                <boxGeometry args={[0.07, 0.12, BAY * 0.85]} />
+                <meshStandardMaterial color="#1a1917" roughness={0.45} metalness={0.35} />
+              </mesh>
+            ))}
+
+            {/* Crown moulding */}
+            {[-1, 1].map((side) => (
+              <mesh key={`crown${side}`} position={[side * (HALF_W - 0.035), HEIGHT - 0.05, zMid]}>
+                <boxGeometry args={[0.07, 0.1, BAY * 0.85]} />
+                <meshStandardMaterial color="#1a1917" roughness={0.45} metalness={0.35} />
+              </mesh>
+            ))}
           </group>
         );
       })}
 
-      {/* End wall */}
-      <mesh position={[0, HEIGHT / 2, -LENGTH]}>
-        <planeGeometry args={[WIDTH, HEIGHT]} />
-        <meshStandardMaterial color="#0a0a0a" roughness={0.9} metalness={0.05} />
-      </mesh>
+      {/* End wall with the real corridor image */}
+      <EndWall />
     </group>
   );
 }
 
-/* ── Gold Accent Lines ── */
+/* ── End wall with real photo ── */
+function EndWall() {
+  const tex = useTexture(tunnelImg);
+  return (
+    <mesh position={[0, HEIGHT / 2, -LENGTH + 0.05]}>
+      <planeGeometry args={[WIDTH, HEIGHT]} />
+      <meshBasicMaterial map={tex} toneMapped={false} />
+    </mesh>
+  );
+}
+
+/* ── Gold accent lines ── */
 function GoldAccents() {
   return (
     <group>
-      {/* Continuous floor edge lines */}
-      <mesh position={[-HALF_W + 0.01, 0.003, -LENGTH / 2]}>
-        <boxGeometry args={[0.02, 0.006, LENGTH]} />
-        <meshBasicMaterial color="#d4a843" transparent opacity={0.2} />
-      </mesh>
-      <mesh position={[HALF_W - 0.01, 0.003, -LENGTH / 2]}>
-        <boxGeometry args={[0.02, 0.006, LENGTH]} />
-        <meshBasicMaterial color="#d4a843" transparent opacity={0.2} />
-      </mesh>
-      {/* Ceiling edge accent */}
-      <mesh position={[-HALF_W + 0.01, HEIGHT - 0.003, -LENGTH / 2]}>
-        <boxGeometry args={[0.015, 0.006, LENGTH]} />
-        <meshBasicMaterial color="#d4a843" transparent opacity={0.1} />
-      </mesh>
-      <mesh position={[HALF_W - 0.01, HEIGHT - 0.003, -LENGTH / 2]}>
-        <boxGeometry args={[0.015, 0.006, LENGTH]} />
-        <meshBasicMaterial color="#d4a843" transparent opacity={0.1} />
-      </mesh>
+      {/* Floor edge strips */}
+      {[-1, 1].map((side) => (
+        <mesh key={`fe${side}`} position={[side * (HALF_W - 0.005), 0.004, -LENGTH / 2]}>
+          <boxGeometry args={[0.012, 0.008, LENGTH]} />
+          <meshBasicMaterial color="#d4a843" transparent opacity={0.22} />
+        </mesh>
+      ))}
+      {/* Ceiling edge strips */}
+      {[-1, 1].map((side) => (
+        <mesh key={`ce${side}`} position={[side * (HALF_W - 0.005), HEIGHT - 0.004, -LENGTH / 2]}>
+          <boxGeometry args={[0.012, 0.008, LENGTH]} />
+          <meshBasicMaterial color="#d4a843" transparent opacity={0.1} />
+        </mesh>
+      ))}
     </group>
   );
 }
 
-/* ── Ceiling Spot Lights ── */
-function RoomLights() {
+/* ── Ceiling recessed lights ── */
+function Lights() {
   return (
     <>
       {Array.from({ length: BAYS }).map((_, i) => {
         if (i % 2 !== 0) return null;
         const z = -i * BAY - BAY / 2;
         return (
-          <group key={`rl-${i}`}>
+          <group key={i}>
             <spotLight
-              position={[0, HEIGHT - 0.15, z]}
-              angle={0.7}
-              penumbra={0.9}
-              intensity={0.6}
-              color="#d4a843"
+              position={[0, HEIGHT - 0.2, z]}
+              angle={0.65}
+              penumbra={0.85}
+              intensity={0.7}
+              color="#e8c675"
               distance={10}
               decay={2}
-              target-position={[0, 0, z]}
             />
-            {/* Light fixture */}
-            <mesh position={[0, HEIGHT - 0.03, z]}>
-              <cylinderGeometry args={[0.12, 0.15, 0.04, 16]} />
-              <meshBasicMaterial color="#d4a843" transparent opacity={0.4} />
+            {/* Fixture body */}
+            <mesh position={[0, HEIGHT - 0.04, z]}>
+              <cylinderGeometry args={[0.1, 0.13, 0.05, 12]} />
+              <meshStandardMaterial color="#2a2720" roughness={0.4} metalness={0.6} />
             </mesh>
-            {/* Light glow ring */}
-            <mesh position={[0, HEIGHT - 0.05, z]}>
-              <ringGeometry args={[0.15, 0.22, 16]} />
-              <meshBasicMaterial color="#d4a843" transparent opacity={0.15} blending={THREE.AdditiveBlending} depthWrite={false} side={THREE.DoubleSide} />
+            {/* Glow disc */}
+            <mesh position={[0, HEIGHT - 0.07, z]} rotation={[Math.PI / 2, 0, 0]}>
+              <circleGeometry args={[0.1, 12]} />
+              <meshBasicMaterial color="#d4a843" transparent opacity={0.5} blending={THREE.AdditiveBlending} depthWrite={false} />
             </mesh>
           </group>
         );
@@ -194,25 +262,25 @@ function RoomLights() {
   );
 }
 
-/* ── Dust Particles ── */
+/* ── Dust ── */
 function Dust({ progress }: { progress: React.MutableRefObject<number> }) {
   const ref = useRef<THREE.Points>(null);
   const { camera } = useThree();
-  const count = 60;
+  const N = 50;
 
   const positions = useMemo(() => {
-    const arr = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      arr[i * 3] = (Math.random() - 0.5) * WIDTH * 0.7;
-      arr[i * 3 + 1] = 0.3 + Math.random() * (HEIGHT - 0.6);
-      arr[i * 3 + 2] = -Math.random() * LENGTH;
+    const a = new Float32Array(N * 3);
+    for (let i = 0; i < N; i++) {
+      a[i * 3] = (Math.random() - 0.5) * WIDTH * 0.6;
+      a[i * 3 + 1] = 0.4 + Math.random() * (HEIGHT - 0.8);
+      a[i * 3 + 2] = -Math.random() * LENGTH;
     }
-    return arr;
+    return a;
   }, []);
 
   const speeds = useMemo(() => {
-    const s = new Float32Array(count);
-    for (let i = 0; i < count; i++) s[i] = 0.2 + Math.random() * 0.4;
+    const s = new Float32Array(N);
+    for (let i = 0; i < N; i++) s[i] = 0.15 + Math.random() * 0.35;
     return s;
   }, []);
 
@@ -221,13 +289,13 @@ function Dust({ progress }: { progress: React.MutableRefObject<number> }) {
     const pos = ref.current.geometry.attributes.position.array as Float32Array;
     const t = state.clock.elapsedTime;
     const camZ = camera.position.z;
-    for (let i = 0; i < count; i++) {
-      pos[i * 3] += Math.sin(t * speeds[i] + i * 3) * 0.001;
-      pos[i * 3 + 1] += Math.cos(t * speeds[i] * 0.5 + i) * 0.0008;
-      if (pos[i * 3 + 2] > camZ + 6) {
-        pos[i * 3 + 2] = camZ - 10 - Math.random() * 25;
-        pos[i * 3] = (Math.random() - 0.5) * WIDTH * 0.6;
-        pos[i * 3 + 1] = 0.3 + Math.random() * (HEIGHT - 0.6);
+    for (let i = 0; i < N; i++) {
+      pos[i * 3] += Math.sin(t * speeds[i] + i * 2.7) * 0.0008;
+      pos[i * 3 + 1] += Math.cos(t * speeds[i] * 0.6 + i) * 0.0005;
+      if (pos[i * 3 + 2] > camZ + 5) {
+        pos[i * 3 + 2] = camZ - 8 - Math.random() * 20;
+        pos[i * 3] = (Math.random() - 0.5) * WIDTH * 0.5;
+        pos[i * 3 + 1] = 0.4 + Math.random() * (HEIGHT - 0.8);
       }
     }
     ref.current.geometry.attributes.position.needsUpdate = true;
@@ -236,28 +304,23 @@ function Dust({ progress }: { progress: React.MutableRefObject<number> }) {
   return (
     <points ref={ref}>
       <bufferGeometry>
-        <bufferAttribute attach="attributes-position" array={positions} count={count} itemSize={3} />
+        <bufferAttribute attach="attributes-position" array={positions} count={N} itemSize={3} />
       </bufferGeometry>
-      <pointsMaterial color="#d4a843" transparent opacity={0.35} size={1.2} sizeAttenuation blending={THREE.AdditiveBlending} depthWrite={false} />
+      <pointsMaterial color="#e8c675" transparent opacity={0.25} size={1} sizeAttenuation blending={THREE.AdditiveBlending} depthWrite={false} />
     </points>
   );
 }
 
 /* ── End Glow ── */
 function EndGlow() {
-  const ref = useRef<THREE.Mesh>(null);
+  const ref = useRef<THREE.PointLight>(null);
   useFrame((s) => {
-    if (!ref.current) return;
-    const t = s.clock.elapsedTime;
-    (ref.current.material as THREE.MeshBasicMaterial).opacity = 0.06 + Math.sin(t * 0.5) * 0.02;
+    if (ref.current) ref.current.intensity = 1 + Math.sin(s.clock.elapsedTime * 0.4) * 0.3;
   });
   return (
-    <group position={[0, HEIGHT / 2, -LENGTH + 0.2]}>
-      <mesh ref={ref}>
-        <planeGeometry args={[WIDTH * 0.8, HEIGHT * 0.8]} />
-        <meshBasicMaterial color="#d4a843" transparent opacity={0.06} blending={THREE.AdditiveBlending} depthWrite={false} side={THREE.DoubleSide} />
-      </mesh>
-      <pointLight color="#d4a843" intensity={1.2} distance={40} decay={2} />
+    <group position={[0, HEIGHT / 2, -LENGTH + 1]}>
+      <pointLight ref={ref} color="#d4a843" intensity={1} distance={45} decay={2} />
+      <pointLight color="#fff5e0" intensity={0.4} distance={20} decay={2} position={[0, 0, 2]} />
     </group>
   );
 }
@@ -269,28 +332,27 @@ function Scene({ progress }: { progress: React.MutableRefObject<number> }) {
 
   useFrame(() => {
     const p = progress.current;
-    const targetZ = 1 - p * LENGTH * 0.88;
-    camera.position.z = THREE.MathUtils.lerp(camera.position.z, targetZ, 0.07);
+    const targetZ = 0.5 - p * LENGTH * 0.88;
+    camera.position.z = THREE.MathUtils.lerp(camera.position.z, targetZ, 0.06);
     camera.position.y = EYE_H;
-    camera.position.x = Math.sin(p * Math.PI * 2) * 0.08;
-    camera.rotation.z = Math.sin(p * Math.PI * 3) * 0.005;
+    camera.position.x = Math.sin(p * Math.PI * 1.5) * 0.06;
 
     if (followLight.current) {
-      followLight.current.position.set(0, EYE_H + 0.5, camera.position.z + 0.5);
+      followLight.current.position.set(0, EYE_H + 0.8, camera.position.z + 0.3);
     }
   });
 
   return (
     <>
-      <fog attach="fog" args={["#050505", 2, 30]} />
-      <ambientLight intensity={0.02} color="#d4a843" />
-      <pointLight ref={followLight} color="#d4a843" intensity={0.25} distance={15} decay={2} />
+      <fog attach="fog" args={["#040404", 1.5, 28]} />
+      <ambientLight intensity={0.015} color="#e8c675" />
+      <pointLight ref={followLight} color="#e8c675" intensity={0.2} distance={12} decay={2} />
 
       <Floor />
-      <Ceiling />
-      <Walls />
+      <CeilingComp />
+      <WallsComp />
       <GoldAccents />
-      <RoomLights />
+      <Lights />
       <EndGlow />
       <Dust progress={progress} />
     </>
@@ -323,9 +385,9 @@ const TunnelBackground = () => {
   return (
     <div className="fixed inset-0 z-0">
       <Canvas
-        camera={{ fov: 65, near: 0.1, far: 120, position: [0, EYE_H, 1] }}
-        style={{ background: "#050505" }}
-        gl={{ antialias: true, alpha: false, powerPreference: "high-performance" }}
+        camera={{ fov: 60, near: 0.1, far: 120, position: [0, EYE_H, 0.5] }}
+        style={{ background: "#040404" }}
+        gl={{ antialias: true, alpha: false, powerPreference: "high-performance", toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 0.9 }}
         dpr={[1, 1.5]}
       >
         <Scene progress={progressRef} />
