@@ -95,7 +95,7 @@ const PortfolioSection = () => {
                 </button>
               </div>
               <div className="p-8">
-                <p className="font-display font-semibold text-lg mb-2" style={{ color: ARANCIONE }}>{projects[selected].result}</p>
+                <p className="font-display font-semibold text-lg mb-2" style={{ color: ACCENT }}>{projects[selected].result}</p>
                 <h3 className="font-display font-bold text-2xl md:text-3xl mb-4">{projects[selected].name}</h3>
                 <p className="text-muted-foreground font-body">{projects[selected].desc}</p>
               </div>
