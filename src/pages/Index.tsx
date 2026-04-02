@@ -6,7 +6,7 @@ import ServicesSection from "@/components/ServicesSection";
 import ResultsSection from "@/components/ResultsSection";
 import PortfolioSection from "@/components/PortfolioSection";
 import CTASection from "@/components/CTASection";
-import TunnelBackground from "@/components/TunnelBackground";
+import RoomBackground from "@/components/RoomBackground";
 import SplashScreen from "@/components/SplashScreen";
 
 const Index = () => {
@@ -25,21 +25,20 @@ const Index = () => {
         animate={{ opacity: splashDone ? 1 : 0 }}
         transition={{ duration: 0.6 }}
       >
-        {/* Fixed 3D tunnel background */}
-        <TunnelBackground />
+        {/* Fixed 3D showroom background */}
+        <RoomBackground />
 
-        {/* All content floats above the tunnel */}
+        {/* All content floats above the room */}
         <main className="relative z-10 min-h-screen overflow-x-hidden">
           <Navbar />
           <HeroSection />
-          {/* Spacers to give scroll distance for the 3D corridor */}
-          <div className="h-[50vh]" />
+          <div className="h-[40vh]" />
           <div id="servizi"><ServicesSection /></div>
-          <div className="h-[30vh]" />
+          <div className="h-[25vh]" />
           <ResultsSection />
-          <div className="h-[30vh]" />
+          <div className="h-[25vh]" />
           <div id="portfolio"><PortfolioSection /></div>
-          <div className="h-[30vh]" />
+          <div className="h-[25vh]" />
           <div id="contatti"><CTASection /></div>
           <footer className="py-10 px-6 border-t border-border/30">
             <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
