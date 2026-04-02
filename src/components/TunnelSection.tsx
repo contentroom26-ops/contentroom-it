@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionTemplate } from "framer-motion";
 import { useRef } from "react";
 import tunnelBg from "@/assets/tunnel-bg.jpg";
 
