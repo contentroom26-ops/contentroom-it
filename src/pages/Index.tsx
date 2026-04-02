@@ -32,11 +32,16 @@ const Index = () => {
         <main className="relative z-10 min-h-screen overflow-x-hidden">
           <Navbar />
           <HeroSection />
+          {/* Spacers to give scroll distance for the 3D corridor */}
+          <div className="h-[50vh]" />
           <div id="servizi"><ServicesSection /></div>
+          <div className="h-[30vh]" />
           <ResultsSection />
+          <div className="h-[30vh]" />
           <div id="portfolio"><PortfolioSection /></div>
+          <div className="h-[30vh]" />
           <div id="contatti"><CTASection /></div>
-          <footer className="py-10 px-6 border-t border-border bg-background/80 backdrop-blur-sm">
+          <footer className="py-10 px-6 border-t border-border/30">
             <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
               <span className="font-display font-bold text-foreground tracking-tight">Content Room</span>
               <p className="text-muted-foreground font-body text-sm">© 2026 — Tutti i diritti riservati</p>
