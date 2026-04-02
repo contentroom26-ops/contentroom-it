@@ -1,9 +1,8 @@
-import { useRef, useEffect, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useState } from "react";
 
 /**
  * Immersive CSS 3D room that responds to global scroll.
- * Uses CSS perspective + transform-style: preserve-3d for a real 3D corridor.
+ * Anthracite grey walls, cyan/celeste accents matching the logo.
  */
 export default function ImmersiveRoom() {
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -23,14 +22,24 @@ export default function ImmersiveRoom() {
     };
   }, []);
 
-  // How far we've "walked" into the room (in CSS px)
   const walkZ = scrollProgress * 3000;
-  // Subtle camera sway
   const swayX = Math.sin(scrollProgress * 4) * 2;
+
+  /* ── Color palette ── */
+  const anthracite = "#2a2a2e";
+  const anthraciteDark = "#1e1e22";
+  const anthraciteLight = "#353539";
+  const floorDark = "#222226";
+  const ceilingDark = "#1a1a1e";
+  const cyan = "hsl(200 80% 74%)";     // matches logo
+  const cyanDim = "hsl(200 70% 55%)";
+  const cyanGlow = "hsl(200 80% 74% / 0.15)";
+  const cyanFrame = "hsl(200 70% 60% / 0.5)";
+  const cyanFrameGlow = "hsl(200 70% 60% / 0.1)";
+  const cyanBaseboard = "hsl(200 80% 74% / 0.25)";
 
   return (
     <div className="fixed inset-0 overflow-hidden" style={{ zIndex: 0 }}>
-      {/* Perspective container */}
       <div
         style={{
           perspective: "800px",
@@ -39,7 +48,6 @@ export default function ImmersiveRoom() {
           height: "100%",
         }}
       >
-        {/* 3D scene wrapper — moves toward us on scroll */}
         <div
           style={{
             transformStyle: "preserve-3d",
@@ -56,7 +64,7 @@ export default function ImmersiveRoom() {
               position: "absolute",
               width: "100vw",
               height: "4000px",
-              background: "linear-gradient(180deg, #0e0e0e 0%, #080808 100%)",
+              background: `linear-gradient(180deg, ${floorDark} 0%, ${anthraciteDark} 100%)`,
               transform: "rotateX(90deg) translateZ(-50vh)",
               transformOrigin: "center top",
               top: "50%",
@@ -70,7 +78,7 @@ export default function ImmersiveRoom() {
               position: "absolute",
               width: "2px",
               height: "4000px",
-              background: "linear-gradient(180deg, transparent, hsl(38 90% 55% / 0.15), transparent)",
+              background: `linear-gradient(180deg, transparent, ${cyanBaseboard}, transparent)`,
               transform: "rotateX(90deg) translateZ(-50vh)",
               transformOrigin: "center top",
               top: "50%",
@@ -85,7 +93,7 @@ export default function ImmersiveRoom() {
               position: "absolute",
               width: "100vw",
               height: "4000px",
-              background: "linear-gradient(180deg, #060606 0%, #0a0a0a 100%)",
+              background: `linear-gradient(180deg, ${ceilingDark} 0%, ${anthraciteDark} 100%)`,
               transform: "rotateX(-90deg) translateZ(-50vh)",
               transformOrigin: "center bottom",
               bottom: "50%",
@@ -99,13 +107,13 @@ export default function ImmersiveRoom() {
               position: "absolute",
               width: "3px",
               height: "4000px",
-              background: "linear-gradient(180deg, hsl(200 80% 74% / 0.6), hsl(200 80% 74% / 0.2), hsl(200 80% 74% / 0.6))",
+              background: `linear-gradient(180deg, hsl(200 80% 74% / 0.6), hsl(200 80% 74% / 0.2), hsl(200 80% 74% / 0.6))`,
               transform: "rotateX(-90deg) translateZ(-50vh)",
               transformOrigin: "center bottom",
               bottom: "50%",
               left: "50%",
               marginLeft: "-1.5px",
-              boxShadow: "0 0 20px 8px hsl(200 80% 74% / 0.15)",
+              boxShadow: `0 0 20px 8px ${cyanGlow}`,
             }}
           />
 
@@ -115,14 +123,14 @@ export default function ImmersiveRoom() {
               position: "absolute",
               width: "4000px",
               height: "100vh",
-              background: "linear-gradient(90deg, #0a0a0a 0%, #131313 50%, #0a0a0a 100%)",
+              background: `linear-gradient(90deg, ${anthraciteDark} 0%, ${anthracite} 50%, ${anthraciteDark} 100%)`,
               transform: "rotateY(90deg) translateZ(-50vw)",
               transformOrigin: "left center",
               top: "0",
               left: "0",
             }}
           >
-            {/* Wall panels with gold frames */}
+            {/* Wall panels with cyan frames */}
             {Array.from({ length: 12 }).map((_, i) => (
               <div
                 key={`l-${i}`}
@@ -132,14 +140,14 @@ export default function ImmersiveRoom() {
                   top: "20%",
                   width: "200px",
                   height: "55%",
-                  background: "#0c0c0c",
-                  border: "2px solid hsl(38 70% 48% / 0.5)",
-                  boxShadow: "inset 0 0 30px rgba(0,0,0,0.8), 0 0 15px hsl(38 70% 48% / 0.08)",
+                  background: anthraciteDark,
+                  border: `2px solid ${cyanFrame}`,
+                  boxShadow: `inset 0 0 30px rgba(0,0,0,0.5), 0 0 15px ${cyanFrameGlow}`,
                 }}
               />
             ))}
 
-            {/* Gold baseboard */}
+            {/* Cyan baseboard */}
             <div
               style={{
                 position: "absolute",
@@ -147,7 +155,7 @@ export default function ImmersiveRoom() {
                 left: "0",
                 width: "100%",
                 height: "3px",
-                background: "linear-gradient(90deg, transparent, hsl(38 90% 55% / 0.3), transparent)",
+                background: `linear-gradient(90deg, transparent, ${cyanBaseboard}, transparent)`,
               }}
             />
           </div>
@@ -158,14 +166,14 @@ export default function ImmersiveRoom() {
               position: "absolute",
               width: "4000px",
               height: "100vh",
-              background: "linear-gradient(90deg, #0a0a0a 0%, #131313 50%, #0a0a0a 100%)",
+              background: `linear-gradient(90deg, ${anthraciteDark} 0%, ${anthracite} 50%, ${anthraciteDark} 100%)`,
               transform: "rotateY(-90deg) translateZ(-50vw)",
               transformOrigin: "right center",
               top: "0",
               right: "0",
             }}
           >
-            {/* Wall panels with gold frames */}
+            {/* Wall panels with cyan frames */}
             {Array.from({ length: 12 }).map((_, i) => (
               <div
                 key={`r-${i}`}
@@ -175,14 +183,14 @@ export default function ImmersiveRoom() {
                   top: "20%",
                   width: "200px",
                   height: "55%",
-                  background: "#0c0c0c",
-                  border: "2px solid hsl(38 70% 48% / 0.5)",
-                  boxShadow: "inset 0 0 30px rgba(0,0,0,0.8), 0 0 15px hsl(38 70% 48% / 0.08)",
+                  background: anthraciteDark,
+                  border: `2px solid ${cyanFrame}`,
+                  boxShadow: `inset 0 0 30px rgba(0,0,0,0.5), 0 0 15px ${cyanFrameGlow}`,
                 }}
               />
             ))}
 
-            {/* Gold baseboard */}
+            {/* Cyan baseboard */}
             <div
               style={{
                 position: "absolute",
@@ -190,7 +198,7 @@ export default function ImmersiveRoom() {
                 right: "0",
                 width: "100%",
                 height: "3px",
-                background: "linear-gradient(90deg, transparent, hsl(38 90% 55% / 0.3), transparent)",
+                background: `linear-gradient(90deg, transparent, ${cyanBaseboard}, transparent)`,
               }}
             />
           </div>
@@ -201,13 +209,12 @@ export default function ImmersiveRoom() {
               position: "absolute",
               width: "100vw",
               height: "100vh",
-              background: "radial-gradient(ellipse at center, #111 0%, #080808 70%)",
+              background: `radial-gradient(ellipse at center, ${anthraciteLight} 0%, ${anthraciteDark} 70%)`,
               transform: "translateZ(-3800px)",
               top: "0",
               left: "0",
             }}
           >
-            {/* End wall glow */}
             <div
               style={{
                 position: "absolute",
@@ -223,7 +230,7 @@ export default function ImmersiveRoom() {
             />
           </div>
 
-          {/* ── Corridor cross-beams (depth markers) ── */}
+          {/* ── Corridor cross-beams ── */}
           {Array.from({ length: 15 }).map((_, i) => (
             <div
               key={`beam-${i}`}
@@ -245,8 +252,8 @@ export default function ImmersiveRoom() {
                   left: "0",
                   width: "100%",
                   height: "4px",
-                  background: "hsl(0 0% 15%)",
-                  boxShadow: "0 2px 10px rgba(0,0,0,0.5)",
+                  background: anthraciteLight,
+                  boxShadow: "0 2px 10px rgba(0,0,0,0.4)",
                 }}
               />
               {/* Bottom beam */}
@@ -257,7 +264,7 @@ export default function ImmersiveRoom() {
                   left: "0",
                   width: "100%",
                   height: "3px",
-                  background: "hsl(0 0% 12%)",
+                  background: anthracite,
                 }}
               />
               {/* Left pillar */}
@@ -268,7 +275,7 @@ export default function ImmersiveRoom() {
                   left: "0",
                   width: "6px",
                   height: "100%",
-                  background: "linear-gradient(180deg, #1a1a1a, #111, #1a1a1a)",
+                  background: `linear-gradient(180deg, ${anthraciteLight}, ${anthracite}, ${anthraciteLight})`,
                 }}
               />
               {/* Right pillar */}
@@ -279,10 +286,10 @@ export default function ImmersiveRoom() {
                   right: "0",
                   width: "6px",
                   height: "100%",
-                  background: "linear-gradient(180deg, #1a1a1a, #111, #1a1a1a)",
+                  background: `linear-gradient(180deg, ${anthraciteLight}, ${anthracite}, ${anthraciteLight})`,
                 }}
               />
-              {/* Ceiling light dot */}
+              {/* Ceiling light dot — cyan */}
               <div
                 style={{
                   position: "absolute",
@@ -301,11 +308,11 @@ export default function ImmersiveRoom() {
         </div>
       </div>
 
-      {/* Vignette overlay */}
+      {/* Vignette */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: "radial-gradient(ellipse at center, transparent 40%, hsl(0 0% 3% / 0.6) 100%)",
+          background: `radial-gradient(ellipse at center, transparent 40%, ${anthraciteDark} / 0.5 100%)`,
         }}
       />
     </div>
