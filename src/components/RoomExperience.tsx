@@ -213,6 +213,7 @@ function Wall({ transform, active, children }: { transform: string; active: bool
           backgroundImage: `url(${textureWall})`,
           backgroundSize: "512px 512px",
           backgroundRepeat: "repeat",
+          zIndex: 0,
         }}
       />
       {/* Edge shadows */}
