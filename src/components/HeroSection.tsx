@@ -1,7 +1,6 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
-import heroBg from "@/assets/hero-bg.jpg";
 import contentRoomLogo from "@/assets/contentroom-logo.png";
 
 const HeroSection = () => {
@@ -10,22 +9,17 @@ const HeroSection = () => {
     target: ref,
     offset: ["start start", "end start"],
   });
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
   const textY = useTransform(scrollYProgress, [0, 1], ["0%", "60%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
-  const blur = useTransform(scrollYProgress, [0, 0.8], [0, 10]);
 
   return (
     <section ref={ref} className="relative h-screen overflow-hidden flex items-center justify-center">
-      {/* Gradient edges only — no overlay so 3D corridor shows through */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background/30 to-transparent pointer-events-none" />
-
-      {/* No floating particles — let 3D corridor show */}
+      {/* Subtle bottom gradient only */}
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background/20 to-transparent pointer-events-none" />
 
       {/* Content */}
       <motion.div
-        style={{ y: textY, opacity, filter: blur.get() > 0 ? `blur(${blur.get()}px)` : undefined }}
+        style={{ y: textY, opacity }}
         className="relative z-10 text-center px-6 max-w-5xl"
       >
         <motion.img
@@ -34,10 +28,9 @@ const HeroSection = () => {
           initial={{ opacity: 0, scale: 0.85, filter: "blur(12px)" }}
           animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
           transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="h-64 md:h-80 w-auto mx-auto mb-6"
+          className="h-48 md:h-64 w-auto mx-auto mb-6"
         />
 
-        {/* Tagline below logo */}
         <motion.div
           initial={{ opacity: 0, width: 0 }}
           animate={{ opacity: 1, width: "auto" }}
@@ -62,7 +55,6 @@ const HeroSection = () => {
             />
           </div>
         </motion.div>
-
 
         <motion.div
           initial={{ opacity: 0, y: 30, scale: 0.9 }}
