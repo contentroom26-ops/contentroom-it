@@ -10,9 +10,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           {/* Brand */}
           <div className="md:col-span-1">
-            <span className="font-display text-xl font-bold tracking-tight text-foreground">
-              Content Room
-            </span>
+            <img src={contentRoomLogo} alt="Content Room" className="h-16 w-auto" />
             <p className="font-body text-sm text-muted-foreground mt-3 leading-relaxed">
               Agenzia creativa specializzata in content strategy, produzione video e social media management.
             </p>
