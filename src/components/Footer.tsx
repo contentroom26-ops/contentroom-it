@@ -1,3 +1,5 @@
+import contentRoomLogo from "@/assets/contentroom-logo.png";
+
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
