@@ -8,6 +8,7 @@ import PortfolioSection from "@/components/PortfolioSection";
 import CTASection from "@/components/CTASection";
 import ImmersiveRoom from "@/components/ImmersiveRoom";
 import SplashScreen from "@/components/SplashScreen";
+import Footer from "@/components/Footer";
 
 const Index = () => {
   const [splashDone, setSplashDone] = useState(false);
