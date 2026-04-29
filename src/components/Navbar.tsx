@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import contentRoomIcon from "@/assets/contentroom-icon.png";
 import contentRoomLogo from "@/assets/contentroom-logo.png";
 
@@ -55,51 +56,53 @@ const Navbar = () => {
       />
 
       <div className="max-w-6xl mx-auto flex items-center justify-between relative">
-        <motion.div
-          className="flex items-center gap-2"
-          style={{ scale: iconScale }}
-        >
-          <motion.img
-            src={contentRoomIcon}
-            alt="Content Room"
-            className="h-16 w-auto"
-            animate={{
-              rotate: [0, 8, -8, 5, -5, 0],
-              scale: [1, 1.05, 1, 1.03, 1],
-            }}
-            transition={{
-              duration: 6,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
-          <img src={contentRoomLogo} alt="Content Room" className="h-24 w-auto" />
-        </motion.div>
+        <Link to="/" className="flex items-center gap-2">
+          <motion.div
+            className="flex items-center gap-2"
+            style={{ scale: iconScale }}
+          >
+            <motion.img
+              src={contentRoomIcon}
+              alt="Content Room"
+              className="h-16 w-auto"
+              animate={{
+                rotate: [0, 8, -8, 5, -5, 0],
+                scale: [1, 1.05, 1, 1.03, 1],
+              }}
+              transition={{
+                duration: 6,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+            <img src={contentRoomLogo} alt="Content Room" className="h-24 w-auto" />
+          </motion.div>
+        </Link>
 
         <div className="hidden md:flex items-center gap-2">
           {[
-            { label: "Servizi", href: "#servizi" },
-            { label: "Portfolio", href: "#portfolio" },
-            { label: "Contatti", href: "#contatti" },
+            { label: "Servizi", to: "/servizi" },
+            { label: "Portfolio", to: "/portfolio" },
+            { label: "Contatti", to: "/#contatti" },
           ].map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
+            <Link
+              key={item.to}
+              to={item.to}
               className="relative px-5 py-2 text-sm font-body text-muted-foreground hover:text-foreground transition-colors duration-300 group"
             >
               <span className="relative z-10 font-bold text-sm">{item.label}</span>
               <span className="absolute inset-0 rounded-full bg-muted/0 group-hover:bg-muted/50 transition-all duration-300 scale-90 group-hover:scale-100" />
               <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 group-hover:w-6 h-px bg-primary transition-all duration-300" />
-            </a>
+            </Link>
           ))}
 
           {/* Primary CTA */}
-          <a
-            href="#contatti"
+          <Link
+            to="/#contatti"
             className="ml-3 inline-flex items-center justify-center px-5 py-2.5 rounded-full font-body text-sm font-medium tracking-wide transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 shadow-[0_4px_20px_hsl(0_0%_0%_/_0.4)] hover:shadow-[0_10px_30px_hsl(0_0%_0%_/_0.5)] text-primary-foreground bg-primary border-2 border-transparent hover:border-black hover:text-black"
           >
             Prenota una call
-          </a>
+          </Link>
         </div>
       </div>
     </motion.nav>
