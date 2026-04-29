@@ -36,30 +36,30 @@ const HeroSection = () => {
           initial={{ opacity: 0, scale: 0.85, filter: "blur(12px)" }}
           animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
           transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="h-112 w-auto mx-auto mb-2"
+          className="h-56 sm:h-72 md:h-96 lg:h-112 w-auto mx-auto mb-2"
         />
 
         <motion.div
           initial={{ opacity: 0, width: 0 }}
           animate={{ opacity: 1, width: "auto" }}
           transition={{ duration: 1, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="overflow-hidden mb-4 -mt-48"
+          className="overflow-hidden mb-6 -mt-20 sm:-mt-28 md:-mt-40 lg:-mt-48"
         >
-          <div className="flex items-center justify-center gap-4">
+          <div className="flex items-center justify-center gap-2 sm:gap-4">
             <motion.span
               initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
               transition={{ duration: 0.8, delay: 1.2 }}
-              className="w-10 h-px bg-gradient-to-r from-transparent to-primary/40 origin-right"
+              className="hidden sm:block w-6 sm:w-10 h-px bg-gradient-to-r from-transparent to-primary/40 origin-right"
             />
-            <p className="text-foreground font-body text-[10px] md:text-[11px] tracking-[0.5em] uppercase whitespace-nowrap">
+            <p className="text-foreground font-body text-[9px] sm:text-[10px] md:text-[11px] tracking-[0.35em] sm:tracking-[0.5em] uppercase whitespace-nowrap">
               Content Creation · Social Media
             </p>
             <motion.span
               initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
               transition={{ duration: 0.8, delay: 1.2 }}
-              className="w-10 h-px bg-gradient-to-l from-transparent to-primary/40 origin-left"
+              className="hidden sm:block w-6 sm:w-10 h-px bg-gradient-to-l from-transparent to-primary/40 origin-left"
             />
           </div>
         </motion.div>
@@ -69,7 +69,7 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.8, delay: 1.2, ease: [0.22, 1, 0.36, 1] }}
         >
-          <Button variant="hero" size="lg" className="h-14 px-10 text-base rounded-full group relative overflow-hidden border-2 border-transparent hover:border-black hover:text-black hover:-translate-y-1 hover:shadow-[0_10px_30px_hsl(0_0%_0%_/_0.5)] transition-all duration-300">
+          <Button variant="hero" size="lg" className="h-12 sm:h-14 px-8 sm:px-10 text-sm sm:text-base rounded-full group relative overflow-hidden border-2 border-transparent hover:border-black hover:text-black hover:-translate-y-1 hover:shadow-[0_10px_30px_hsl(0_0%_0%_/_0.5)] transition-all duration-300">
             <span className="relative z-10">Prenota una call</span>
             <motion.div
               className="absolute inset-0 bg-primary/20 rounded-full"
