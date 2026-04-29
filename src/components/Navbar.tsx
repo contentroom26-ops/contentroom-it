@@ -83,7 +83,7 @@ const Navbar = () => {
           {[
             { label: "Servizi", to: "/servizi" },
             { label: "Portfolio", to: "/portfolio" },
-            { label: "Contatti", to: "/#contatti" },
+            { label: "Contatti", to: "/contatti" },
           ].map((item) => (
             <Link
               key={item.to}
@@ -98,7 +98,7 @@ const Navbar = () => {
 
           {/* Primary CTA */}
           <Link
-            to="/#contatti"
+            to="/contatti"
             className="ml-3 inline-flex items-center justify-center px-5 py-2.5 rounded-full font-body text-sm font-medium tracking-wide transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 shadow-[0_4px_20px_hsl(0_0%_0%_/_0.4)] hover:shadow-[0_10px_30px_hsl(0_0%_0%_/_0.5)] text-primary-foreground bg-primary border-2 border-transparent hover:border-black hover:text-black"
           >
             Prenota una call
