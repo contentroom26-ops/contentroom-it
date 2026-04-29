@@ -87,7 +87,7 @@ const Navbar = () => {
               href={item.href}
               className="relative px-5 py-2 text-sm font-body text-muted-foreground hover:text-foreground transition-colors duration-300 group"
             >
-              <span className="relative z-10">{item.label}</span>
+              <span className="relative z-10 font-bold text-sm">{item.label}</span>
               <span className="absolute inset-0 rounded-full bg-muted/0 group-hover:bg-muted/50 transition-all duration-300 scale-90 group-hover:scale-100" />
               <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 group-hover:w-6 h-px bg-primary transition-all duration-300" />
             </a>
