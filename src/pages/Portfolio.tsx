@@ -112,11 +112,10 @@ const Portfolio = () => {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.9 }}
                     transition={{ duration: 0.5, delay: i * 0.05, ease: [0.22, 1, 0.36, 1] }}
-                    className={i % 5 === 0 ? "lg:row-span-2" : ""}
                   >
                     <Link
                       to={`/portfolio/${c.slug}`}
-                      className="group relative block rounded-[12px] overflow-hidden cursor-pointer aspect-[4/3] lg:aspect-auto lg:h-full"
+                      className="group relative block rounded-[12px] overflow-hidden cursor-pointer aspect-[4/3]"
                     >
                       <img
                         src={c.img}
