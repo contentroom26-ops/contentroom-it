@@ -76,7 +76,7 @@ const Navbar = () => {
           <img src={contentRoomLogo} alt="Content Room" className="h-24 w-auto" />
         </motion.div>
 
-        <div className="hidden md:flex items-center gap-1">
+        <div className="hidden md:flex items-center gap-2">
           {[
             { label: "Servizi", href: "#servizi" },
             { label: "Portfolio", href: "#portfolio" },
@@ -92,6 +92,14 @@ const Navbar = () => {
               <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 group-hover:w-6 h-px bg-primary transition-all duration-300" />
             </a>
           ))}
+
+          {/* Primary CTA */}
+          <a
+            href="#contatti"
+            className="ml-3 inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-foreground text-background font-body text-sm font-medium tracking-wide hover:bg-foreground/90 transition-all duration-300 hover:scale-[1.03] shadow-[0_4px_20px_hsl(0_0%_0%_/_0.4)]"
+          >
+            Prenota una call
+          </a>
         </div>
       </div>
     </motion.nav>

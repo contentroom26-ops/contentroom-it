@@ -10,10 +10,10 @@ const CELESTE = "hsl(192 49% 76%)";
 const ACCENT = CELESTE;
 
 const projects = [
-  { img: portfolio1, name: "Luxe Fashion", result: "+200k views", desc: "Strategia social completa per brand di moda con contenuti editoriali e campagne ads." },
-  { img: portfolio2, name: "Gusto Ristorante", result: "+150% engagement", desc: "Food content creation e gestione profili social con risultati record." },
-  { img: portfolio3, name: "FitPro Academy", result: "+80k followers", desc: "Crescita organica e campagne di lead generation per centro fitness." },
-  { img: portfolio4, name: "Glow Skincare", result: "+300% vendite", desc: "E-commerce strategy e contenuti prodotto per brand skincare." },
+  { img: portfolio1, name: "Luxe Fashion", result: "+200k views", tag: "Strategy & Production", desc: "Strategia social completa per brand di moda con contenuti editoriali e campagne ads." },
+  { img: portfolio2, name: "Gusto Ristorante", result: "+150% engagement", tag: "Content & Social", desc: "Food content creation e gestione profili social con risultati record." },
+  { img: portfolio3, name: "FitPro Academy", result: "+80k followers", tag: "Growth & Ads", desc: "Crescita organica e campagne di lead generation per centro fitness." },
+  { img: portfolio4, name: "Glow Skincare", result: "+300% vendite", tag: "E-commerce Strategy", desc: "E-commerce strategy e contenuti prodotto per brand skincare." },
 ];
 
 const PortfolioSection = () => {
@@ -55,11 +55,27 @@ const PortfolioSection = () => {
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.5 }}
                 onClick={() => setSelected(i)}
-                className="relative rounded-2xl overflow-hidden cursor-pointer group aspect-[4/3]"
+                className="relative rounded-[12px] overflow-hidden cursor-pointer group aspect-[4/3]"
               >
                 <img src={p.img} alt={p.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
-                <div className="absolute bottom-0 left-0 p-6 md:p-8">
+
+                {/* Hover overlay with tag */}
+                <div className="absolute inset-0 bg-background/70 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+                  <div className="text-center px-6">
+                    <p
+                      className="font-body text-[10px] tracking-[0.4em] uppercase mb-3"
+                      style={{ color: ACCENT }}
+                    >
+                      {p.tag}
+                    </p>
+                    <p className="font-display font-medium text-base text-foreground/90 max-w-xs">
+                      {p.desc}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="absolute bottom-0 left-0 p-6 md:p-8 group-hover:opacity-0 transition-opacity duration-300">
                   <p className="font-display font-semibold text-sm mb-1" style={{ color: ACCENT }}>{p.result}</p>
                   <h3 className="font-display font-bold text-xl md:text-2xl text-foreground">{p.name}</h3>
                 </div>
