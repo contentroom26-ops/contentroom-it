@@ -36,14 +36,14 @@ const HeroSection = () => {
           initial={{ opacity: 0, scale: 0.85, filter: "blur(12px)" }}
           animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
           transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="h-112 w-auto mx-auto mb-2"
+          className="h-64 sm:h-80 md:h-96 lg:h-[28rem] xl:h-112 w-auto mx-auto mb-2"
         />
 
         <motion.div
           initial={{ opacity: 0, width: 0 }}
           animate={{ opacity: 1, width: "auto" }}
           transition={{ duration: 1, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="overflow-hidden mb-4 -mt-40"
+          className="overflow-hidden mb-4 -mt-8 sm:-mt-16 md:-mt-24 lg:-mt-32 xl:-mt-40"
         >
           <div className="flex items-center justify-center gap-4">
             <motion.span
