@@ -9,6 +9,7 @@ import CTASection from "@/components/CTASection";
 import ImmersiveRoom from "@/components/ImmersiveRoom";
 import SplashScreen from "@/components/SplashScreen";
 import Footer from "@/components/Footer";
+import FAQSection from "@/components/FAQSection";
 
 const Index = () => {
   const [splashDone, setSplashDone] = useState(false);
@@ -40,6 +41,7 @@ const Index = () => {
           <div className="h-[20vh]" />
           <ResultsSection />
           <div id="contatti"><CTASection /></div>
+          <FAQSection />
           <Footer />
         </main>
       </motion.div>

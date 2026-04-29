@@ -62,7 +62,10 @@ const Footer = () => {
                   +39 000 000 0000
                 </a>
               </li>
-              <li>Italia</li>
+              <li className="text-muted-foreground/80">
+                Via [Indirizzo], [CAP]<br />
+                [Città], Italia
+              </li>
             </ul>
           </div>
 
@@ -73,9 +76,9 @@ const Footer = () => {
             </h4>
             <ul className="space-y-3 font-body text-sm text-muted-foreground">
               {[
-                { label: "Instagram", href: "https://instagram.com/contentroom" },
-                { label: "LinkedIn", href: "https://linkedin.com/company/contentroom" },
-                { label: "TikTok", href: "https://tiktok.com/@contentroom" },
+                { label: "Instagram", href: "https://instagram.com/[handle]" },
+                { label: "LinkedIn", href: "https://linkedin.com/company/[handle]" },
+                { label: "TikTok", href: "https://tiktok.com/@[handle]" },
               ].map((social) => (
                 <li key={social.label}>
                   <a
@@ -97,25 +100,22 @@ const Footer = () => {
           <p className="font-body text-xs text-muted-foreground">
             © {currentYear} Content Room — Tutti i diritti riservati
           </p>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
             <a
-              href="#"
+              href="/privacy-policy"
               className="font-body text-xs text-muted-foreground hover:text-primary transition-colors"
             >
               Privacy Policy
             </a>
             <a
-              href="#"
+              href="/cookie-policy"
               className="font-body text-xs text-muted-foreground hover:text-primary transition-colors"
             >
               Cookie Policy
             </a>
-            <a
-              href="#"
-              className="font-body text-xs text-muted-foreground hover:text-primary transition-colors"
-            >
-              P.IVA 00000000000
-            </a>
+            <span className="font-body text-xs text-muted-foreground">
+              P.IVA [00000000000]
+            </span>
           </div>
         </div>
       </div>
