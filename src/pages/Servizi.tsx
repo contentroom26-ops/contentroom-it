@@ -19,9 +19,22 @@ type Service = {
   includes: string[];
 };
 
-function ServiceCard({ service, index }: { service: Service; index: number }) {
+function ServiceCard({
+  service,
+  index,
+  isHovered,
+  isAnyHovered,
+  onHoverStart,
+  onHoverEnd,
+}: {
+  service: Service;
+  index: number;
+  isHovered: boolean;
+  isAnyHovered: boolean;
+  onHoverStart: () => void;
+  onHoverEnd: () => void;
+}) {
   const ref = useRef<HTMLDivElement>(null);
-  const [hovered, setHovered] = useState(false);
   const [pos, setPos] = useState({ x: 50, y: 50 });
 
   const handleMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
@@ -34,8 +47,10 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
   }, []);
 
   const Icon = service.icon;
-  const tiltX = (pos.y - 50) * -0.04;
-  const tiltY = (pos.x - 50) * 0.04;
+  const hovered = isHovered;
+  const dimmed = isAnyHovered && !isHovered;
+  const tiltX = (pos.y - 50) * -0.05;
+  const tiltY = (pos.x - 50) * 0.05;
 
   return (
     <motion.div
@@ -43,20 +58,26 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: false, margin: "-80px" }}
       transition={{ duration: 0.8, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}
-      style={{ perspective: "1600px" }}
+      animate={{
+        scale: hovered ? 1.08 : dimmed ? 0.94 : 1,
+        opacity: dimmed ? 0.35 : 1,
+        filter: dimmed ? "blur(2px)" : "blur(0px)",
+        zIndex: hovered ? 50 : 1,
+      }}
+      style={{ perspective: "1600px", position: "relative" }}
     >
       <motion.div
         ref={ref}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
+        onMouseEnter={onHoverStart}
+        onMouseLeave={onHoverEnd}
         onMouseMove={handleMove}
         animate={{
           rotateX: hovered ? tiltX : 0,
           rotateY: hovered ? tiltY : 0,
-          y: hovered ? -6 : 0,
+          y: hovered ? -10 : 0,
         }}
         transition={{ type: "spring", stiffness: 180, damping: 22 }}
-        className="relative grid md:grid-cols-12 gap-8 md:gap-12 items-start rounded-3xl p-8 md:p-10 border overflow-hidden cursor-default"
+        className="relative flex flex-col rounded-3xl p-7 md:p-9 border overflow-hidden cursor-default h-full"
         style={{
           background: "linear-gradient(160deg, hsl(0 0% 5% / 0.78), hsl(0 0% 3% / 0.88))",
           borderColor: hovered ? "hsl(192 49% 76% / 0.35)" : "hsl(0 0% 100% / 0.08)",
