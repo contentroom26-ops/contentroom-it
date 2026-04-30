@@ -12,9 +12,9 @@ const Navbar = () => {
     setScrolled(latest > 50);
   });
 
-  const bgOpacity = useTransform(scrollY, [0, 100], [0, 0.85]);
-  const borderOpacity = useTransform(scrollY, [0, 100], [0, 0.4]);
-  const blur = useTransform(scrollY, [0, 100], [0, 20]);
+  const bgOpacity = useTransform(scrollY, [0, 100], [0, 0.35]);
+  const borderOpacity = useTransform(scrollY, [0, 100], [0, 0.2]);
+  const blur = useTransform(scrollY, [0, 100], [0, 12]);
   const navPadding = useTransform(scrollY, [0, 100], [20, 10]);
   const iconScale = useTransform(scrollY, [0, 100], [1, 0.85]);
 
@@ -38,9 +38,9 @@ const Navbar = () => {
           backdropFilter: `blur(${blur.get()}px)`,
         }}
         animate={{
-          backgroundColor: scrolled ? "hsl(var(--background) / 0.85)" : "hsl(var(--background) / 0)",
-          borderColor: scrolled ? "hsl(var(--border) / 0.4)" : "hsl(var(--border) / 0)",
-          backdropFilter: scrolled ? "blur(20px)" : "blur(0px)",
+          backgroundColor: scrolled ? "hsl(var(--background) / 0.35)" : "hsl(var(--background) / 0)",
+          borderColor: scrolled ? "hsl(var(--border) / 0.2)" : "hsl(var(--border) / 0)",
+          backdropFilter: scrolled ? "blur(12px)" : "blur(0px)",
         }}
         transition={{ duration: 0.4 }}
       />
