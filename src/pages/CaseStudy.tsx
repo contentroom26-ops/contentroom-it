@@ -100,7 +100,13 @@ const CaseStudy = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-12"
+              className="mt-12 rounded-3xl p-8 md:p-10 border"
+              style={{
+                background: "linear-gradient(160deg, hsl(0 0% 5% / 0.78), hsl(0 0% 3% / 0.88))",
+                borderColor: "hsl(0 0% 100% / 0.08)",
+                backdropFilter: "blur(18px)",
+                boxShadow: "0 20px 60px hsl(0 0% 0% / 0.5)",
+              }}
             >
               <p
                 className="font-body text-[10px] tracking-[0.4em] uppercase mb-4"
@@ -109,8 +115,11 @@ const CaseStudy = () => {
                 {caseItem.service} · {caseItem.category}
               </p>
               <h1
-                className="font-display font-bold tracking-tight leading-[1.05]"
-                style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}
+                className="font-display font-bold tracking-tight leading-[1.05] text-foreground"
+                style={{
+                  fontSize: "clamp(2.5rem, 6vw, 5rem)",
+                  textShadow: "0 2px 8px hsl(0 0% 0% / 0.85), 0 0 28px hsl(0 0% 0% / 0.6)",
+                }}
               >
                 {caseItem.client}
               </h1>
