@@ -21,10 +21,7 @@ const HeroSection = () => {
       <div className="absolute inset-0 bg-black/40 pointer-events-none" />
 
       {/* Content */}
-      <motion.div
-        style={{ y: textY, opacity }}
-        className="relative z-10 text-center px-6 max-w-5xl"
-      >
+      <motion.div className="relative z-10 text-center px-6 max-w-5xl">
         <motion.img
           src={contentRoomLogo}
           alt="Content Room"
