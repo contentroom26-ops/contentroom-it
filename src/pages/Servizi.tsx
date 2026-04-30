@@ -11,6 +11,238 @@ const HERO_TEXT_SHADOW =
 
 const CELESTE = "hsl(192 49% 76%)";
 
+type Service = {
+  icon: typeof Aperture;
+  num: string;
+  title: string;
+  desc: string;
+  includes: string[];
+};
+
+function ServiceCard({ service, index }: { service: Service; index: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [hovered, setHovered] = useState(false);
+  const [pos, setPos] = useState({ x: 50, y: 50 });
+
+  const handleMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = ref.current?.getBoundingClientRect();
+    if (!rect) return;
+    setPos({
+      x: ((e.clientX - rect.left) / rect.width) * 100,
+      y: ((e.clientY - rect.top) / rect.height) * 100,
+    });
+  }, []);
+
+  const Icon = service.icon;
+  const tiltX = (pos.y - 50) * -0.04;
+  const tiltY = (pos.x - 50) * 0.04;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 60 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: false, margin: "-80px" }}
+      transition={{ duration: 0.8, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}
+      style={{ perspective: "1600px" }}
+    >
+      <motion.div
+        ref={ref}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        onMouseMove={handleMove}
+        animate={{
+          rotateX: hovered ? tiltX : 0,
+          rotateY: hovered ? tiltY : 0,
+          y: hovered ? -6 : 0,
+        }}
+        transition={{ type: "spring", stiffness: 180, damping: 22 }}
+        className="relative grid md:grid-cols-12 gap-8 md:gap-12 items-start rounded-3xl p-8 md:p-10 border overflow-hidden cursor-default"
+        style={{
+          background: "linear-gradient(160deg, hsl(0 0% 5% / 0.78), hsl(0 0% 3% / 0.88))",
+          borderColor: hovered ? "hsl(192 49% 76% / 0.35)" : "hsl(0 0% 100% / 0.08)",
+          backdropFilter: "blur(18px)",
+          boxShadow: hovered
+            ? "0 30px 80px hsl(0 0% 0% / 0.6), 0 0 60px hsl(192 49% 76% / 0.18)"
+            : "0 20px 60px hsl(0 0% 0% / 0.5)",
+          transformStyle: "preserve-3d",
+          transition: "border-color 0.5s ease, box-shadow 0.5s ease",
+        }}
+      >
+        {/* Cursor spotlight */}
+        <div
+          className="absolute inset-0 pointer-events-none transition-opacity duration-500"
+          style={{
+            background: `radial-gradient(600px circle at ${pos.x}% ${pos.y}%, hsl(192 49% 76% / 0.1), transparent 50%)`,
+            opacity: hovered ? 1 : 0,
+          }}
+        />
+
+        {/* Animated accent line */}
+        <motion.div
+          className="absolute top-0 left-0 h-[2px]"
+          style={{ background: `linear-gradient(90deg, ${CELESTE}, transparent)` }}
+          animate={{ width: hovered ? "100%" : "0%" }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        />
+
+        {/* Left: number + icon */}
+        <div className="md:col-span-4 relative z-10" style={{ transform: "translateZ(40px)" }}>
+          <div className="sticky top-32">
+            <motion.div
+              animate={{
+                scale: hovered ? 1.1 : 1,
+                rotate: hovered ? -8 : 0,
+              }}
+              transition={{ type: "spring", stiffness: 200, damping: 18 }}
+              className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6"
+              style={{
+                background: hovered
+                  ? "linear-gradient(135deg, hsl(192 49% 76% / 0.35), hsl(192 49% 76% / 0.1))"
+                  : "linear-gradient(135deg, hsl(192 49% 76% / 0.22), hsl(192 49% 76% / 0.06))",
+                border: `1px solid ${hovered ? "hsl(192 49% 76% / 0.7)" : "hsl(192 49% 76% / 0.4)"}`,
+                boxShadow: hovered
+                  ? "0 0 40px hsl(192 49% 76% / 0.5)"
+                  : "0 0 24px hsl(192 49% 76% / 0.25)",
+                transition: "all 0.5s ease",
+              }}
+            >
+              <Icon className="w-7 h-7" style={{ color: CELESTE }} strokeWidth={1.5} />
+            </motion.div>
+            <motion.span
+              className="font-display font-light block"
+              animate={{
+                scale: hovered ? 1.08 : 1,
+                x: hovered ? 6 : 0,
+              }}
+              transition={{ type: "spring", stiffness: 180, damping: 20 }}
+              style={{
+                fontSize: "clamp(4rem, 9vw, 7rem)",
+                lineHeight: 0.85,
+                WebkitTextStroke: `1.5px ${CELESTE}`,
+                color: "transparent",
+                textShadow: hovered
+                  ? "0 0 50px hsl(192 49% 76% / 0.7)"
+                  : "0 0 30px hsl(192 49% 76% / 0.4)",
+                transformOrigin: "left center",
+              }}
+            >
+              {service.num}
+            </motion.span>
+          </div>
+        </div>
+
+        {/* Right: content */}
+        <div className="md:col-span-8 relative z-10" style={{ transform: "translateZ(30px)" }}>
+          <motion.h2
+            animate={{ x: hovered ? 4 : 0 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="font-display font-bold tracking-tight mb-5 leading-[1.05] text-foreground flex items-center gap-3 flex-wrap"
+            style={{ fontSize: "clamp(1.8rem, 3.6vw, 2.8rem)", textShadow: HERO_TEXT_SHADOW }}
+          >
+            {service.title}
+            <motion.span
+              animate={{
+                opacity: hovered ? 1 : 0,
+                x: hovered ? 0 : -10,
+                rotate: hovered ? 0 : -45,
+              }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              className="inline-flex"
+            >
+              <ArrowUpRight className="w-7 h-7" style={{ color: CELESTE }} strokeWidth={1.8} />
+            </motion.span>
+          </motion.h2>
+          <p
+            className="font-body text-base md:text-lg leading-relaxed mb-6"
+            style={{ color: "hsl(0 0% 92%)", textShadow: "0 1px 6px hsl(0 0% 0% / 0.7)" }}
+          >
+            {service.desc}
+          </p>
+
+          {/* Hint */}
+          <motion.p
+            animate={{ opacity: hovered ? 0 : 0.7, y: hovered ? -4 : 0 }}
+            transition={{ duration: 0.3 }}
+            className="font-body text-[10px] tracking-[0.4em] uppercase mb-3"
+            style={{ color: CELESTE }}
+          >
+            Hover per scoprire di più →
+          </motion.p>
+
+          {/* Expandable "Cosa include" panel */}
+          <motion.div
+            initial={false}
+            animate={{
+              height: hovered ? "auto" : 0,
+              opacity: hovered ? 1 : 0,
+            }}
+            transition={{
+              height: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+              opacity: { duration: 0.4, delay: hovered ? 0.1 : 0 },
+            }}
+            className="overflow-hidden"
+          >
+            <div
+              className="rounded-2xl p-6 md:p-8 border mt-2"
+              style={{
+                background: "hsl(0 0% 7% / 0.7)",
+                borderColor: "hsl(192 49% 76% / 0.2)",
+                backdropFilter: "blur(20px)",
+                boxShadow: "inset 0 1px 0 hsl(0 0% 100% / 0.05)",
+              }}
+            >
+              <p
+                className="font-body text-[10px] tracking-[0.4em] uppercase mb-5"
+                style={{ color: CELESTE }}
+              >
+                Cosa include
+              </p>
+              <ul className="space-y-3">
+                <AnimatePresence>
+                  {hovered &&
+                    service.includes.map((item, idx) => (
+                      <motion.li
+                        key={item}
+                        initial={{ opacity: 0, x: -16 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -8 }}
+                        transition={{
+                          duration: 0.4,
+                          delay: 0.15 + idx * 0.06,
+                          ease: [0.22, 1, 0.36, 1],
+                        }}
+                        className="flex items-start gap-3"
+                      >
+                        <Check
+                          className="w-4 h-4 mt-1 shrink-0"
+                          style={{ color: CELESTE }}
+                          strokeWidth={2}
+                        />
+                        <span className="font-body text-sm md:text-base text-foreground/90">
+                          {item}
+                        </span>
+                      </motion.li>
+                    ))}
+                </AnimatePresence>
+              </ul>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Corner glow */}
+        <motion.div
+          className="absolute -bottom-24 -right-24 w-64 h-64 rounded-full pointer-events-none"
+          style={{
+            background: `radial-gradient(circle, hsl(192 49% 76% / 0.15), transparent 70%)`,
+          }}
+          animate={{ opacity: hovered ? 1 : 0, scale: hovered ? 1.4 : 0.8 }}
+          transition={{ duration: 0.8 }}
+        />
+      </motion.div>
+    </motion.div>
+  );
+}
+
 const services = [
   {
     icon: Aperture,
