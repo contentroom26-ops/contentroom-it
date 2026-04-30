@@ -85,7 +85,7 @@ const Contatti = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="lg:col-span-2 space-y-6"
+              className="lg:col-span-2 lg:col-start-1 lg:row-start-1 order-2 lg:order-none"
             >
               <div
                 className="rounded-3xl p-7"
