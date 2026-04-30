@@ -89,8 +89,9 @@ const PortfolioSection = () => {
         </div>
 
         <InlineCTA
-          caption="Vuoi essere il prossimo case study? Raccontaci la tua visione."
-          label="Inizia il tuo progetto"
+          caption="Esplora tutti i nostri progetti e lasciati ispirare."
+          label="Vedi il portfolio"
+          to="/portfolio"
         />
       </div>
 

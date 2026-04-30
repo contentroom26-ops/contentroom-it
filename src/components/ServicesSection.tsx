@@ -222,8 +222,9 @@ const ServicesSection = () => {
         </div>
 
         <InlineCTA
-          caption="Hai un progetto in mente? Costruiamo insieme la strategia giusta per il tuo brand."
-          label="Parliamone"
+          caption="Scopri tutti i nostri servizi e trova quello giusto per il tuo brand."
+          label="Esplora i servizi"
+          to="/servizi"
         />
       </div>
     </section>

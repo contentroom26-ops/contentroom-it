@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-
+import InlineCTA from "./InlineCTA";
 
 const CELESTE = "hsl(192 49% 76%)";
 
@@ -81,6 +81,12 @@ const ResultsSection = () => (
           </motion.div>
         ))}
       </div>
+
+      <InlineCTA
+        caption="Pronti a far parlare anche i vostri numeri? Raccontaci il tuo progetto."
+        label="Prenota una call"
+        to="/contatti"
+      />
     </div>
   </section>
 );
