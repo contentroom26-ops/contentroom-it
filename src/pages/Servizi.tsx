@@ -370,13 +370,7 @@ const Servizi = () => {
         </section>
 
         {/* Services */}
-        <section className="py-20 px-6">
-          <div className="max-w-6xl mx-auto space-y-24 md:space-y-32">
-            {services.map((s, i) => (
-              <ServiceCard key={s.num} service={s} index={i} />
-            ))}
-          </div>
-        </section>
+        <ServicesGrid />
 
         {/* Metodo */}
         <section className="py-32 px-6">
