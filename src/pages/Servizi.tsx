@@ -1,5 +1,6 @@
-import { motion } from "framer-motion";
-import { Aperture, Share2, Rocket, Code2, Check } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useCallback, useRef, useState } from "react";
+import { Aperture, Share2, Rocket, Code2, Check, ArrowUpRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import GlobalVideoBackground from "@/components/GlobalVideoBackground";
