@@ -588,37 +588,7 @@ const Servizi = () => {
               </h2>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-              {method.map((m, i) => (
-                <motion.div
-                  key={m.step}
-                  initial={{ opacity: 0, y: 60 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: false, margin: "-60px" }}
-                  transition={{ duration: 0.6, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                  className="relative p-7 rounded-2xl border"
-                  style={{
-                    background: "linear-gradient(160deg, hsl(0 0% 7% / 0.85), hsl(0 0% 4% / 0.95))",
-                    borderColor: "hsl(0 0% 100% / 0.08)",
-                    backdropFilter: "blur(18px)",
-                  }}
-                >
-                  <span
-                    className="font-display font-light block mb-6"
-                    style={{
-                      fontSize: "2.8rem",
-                      lineHeight: 1,
-                      WebkitTextStroke: `1px ${CELESTE}`,
-                      color: "transparent",
-                    }}
-                  >
-                    {m.step}
-                  </span>
-                  <h3 className="font-display font-semibold text-xl mb-2">{m.name}</h3>
-                  <p className="font-body text-sm text-muted-foreground leading-relaxed">{m.desc}</p>
-                </motion.div>
-              ))}
-            </div>
+            <MethodPath />
           </div>
         </section>
 
