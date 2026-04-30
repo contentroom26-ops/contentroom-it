@@ -86,6 +86,13 @@ const Servizi = () => {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              className="rounded-3xl p-8 md:p-12 border"
+              style={{
+                background: "linear-gradient(160deg, hsl(0 0% 5% / 0.78), hsl(0 0% 3% / 0.88))",
+                borderColor: "hsl(0 0% 100% / 0.08)",
+                backdropFilter: "blur(18px)",
+                boxShadow: "0 20px 60px hsl(0 0% 0% / 0.5)",
+              }}
             >
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-12 h-px" style={{ background: CELESTE }} />
@@ -94,13 +101,16 @@ const Servizi = () => {
                 </p>
               </div>
               <h1
-                className="font-display font-bold tracking-tight leading-[1.05] mb-6"
-                style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}
+                className="font-display font-bold tracking-tight leading-[1.05] mb-6 text-foreground"
+                style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)", textShadow: HERO_TEXT_SHADOW }}
               >
                 Quattro pilastri.<br />
-                <span className="text-muted-foreground">Un unico obiettivo.</span>
+                <span style={{ color: "hsl(0 0% 75%)" }}>Un unico obiettivo.</span>
               </h1>
-              <p className="font-body text-base md:text-lg text-muted-foreground max-w-2xl">
+              <p
+                className="font-body text-base md:text-lg max-w-2xl"
+                style={{ color: "hsl(0 0% 92%)", textShadow: "0 1px 6px hsl(0 0% 0% / 0.7)" }}
+              >
                 Dalla strategia alla produzione, dalla crescita alla digitalizzazione. Tutto sotto lo stesso tetto, con un metodo chiaro e risultati misurabili.
               </p>
             </motion.div>
