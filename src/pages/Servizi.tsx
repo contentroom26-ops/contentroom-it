@@ -19,9 +19,22 @@ type Service = {
   includes: string[];
 };
 
-function ServiceCard({ service, index }: { service: Service; index: number }) {
+function ServiceCard({
+  service,
+  index,
+  isHovered,
+  isAnyHovered,
+  onHoverStart,
+  onHoverEnd,
+}: {
+  service: Service;
+  index: number;
+  isHovered: boolean;
+  isAnyHovered: boolean;
+  onHoverStart: () => void;
+  onHoverEnd: () => void;
+}) {
   const ref = useRef<HTMLDivElement>(null);
-  const [hovered, setHovered] = useState(false);
   const [pos, setPos] = useState({ x: 50, y: 50 });
 
   const handleMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
@@ -34,8 +47,10 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
   }, []);
 
   const Icon = service.icon;
-  const tiltX = (pos.y - 50) * -0.04;
-  const tiltY = (pos.x - 50) * 0.04;
+  const hovered = isHovered;
+  const dimmed = isAnyHovered && !isHovered;
+  const tiltX = (pos.y - 50) * -0.05;
+  const tiltY = (pos.x - 50) * 0.05;
 
   return (
     <motion.div
@@ -43,20 +58,26 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: false, margin: "-80px" }}
       transition={{ duration: 0.8, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}
-      style={{ perspective: "1600px" }}
+      animate={{
+        scale: hovered ? 1.08 : dimmed ? 0.94 : 1,
+        opacity: dimmed ? 0.35 : 1,
+        filter: dimmed ? "blur(2px)" : "blur(0px)",
+        zIndex: hovered ? 50 : 1,
+      }}
+      style={{ perspective: "1600px", position: "relative" }}
     >
       <motion.div
         ref={ref}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
+        onMouseEnter={onHoverStart}
+        onMouseLeave={onHoverEnd}
         onMouseMove={handleMove}
         animate={{
           rotateX: hovered ? tiltX : 0,
           rotateY: hovered ? tiltY : 0,
-          y: hovered ? -6 : 0,
+          y: hovered ? -10 : 0,
         }}
         transition={{ type: "spring", stiffness: 180, damping: 22 }}
-        className="relative grid md:grid-cols-12 gap-8 md:gap-12 items-start rounded-3xl p-8 md:p-10 border overflow-hidden cursor-default"
+        className="relative flex flex-col rounded-3xl p-7 md:p-9 border overflow-hidden cursor-default h-full"
         style={{
           background: "linear-gradient(160deg, hsl(0 0% 5% / 0.78), hsl(0 0% 3% / 0.88))",
           borderColor: hovered ? "hsl(192 49% 76% / 0.35)" : "hsl(0 0% 100% / 0.08)",
@@ -85,59 +106,57 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         />
 
-        {/* Left: number + icon */}
-        <div className="md:col-span-4 relative z-10" style={{ transform: "translateZ(40px)" }}>
-          <div className="sticky top-32">
-            <motion.div
-              animate={{
-                scale: hovered ? 1.1 : 1,
-                rotate: hovered ? -8 : 0,
-              }}
-              transition={{ type: "spring", stiffness: 200, damping: 18 }}
-              className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6"
-              style={{
-                background: hovered
-                  ? "linear-gradient(135deg, hsl(192 49% 76% / 0.35), hsl(192 49% 76% / 0.1))"
-                  : "linear-gradient(135deg, hsl(192 49% 76% / 0.22), hsl(192 49% 76% / 0.06))",
-                border: `1px solid ${hovered ? "hsl(192 49% 76% / 0.7)" : "hsl(192 49% 76% / 0.4)"}`,
-                boxShadow: hovered
-                  ? "0 0 40px hsl(192 49% 76% / 0.5)"
-                  : "0 0 24px hsl(192 49% 76% / 0.25)",
-                transition: "all 0.5s ease",
-              }}
-            >
-              <Icon className="w-7 h-7" style={{ color: CELESTE }} strokeWidth={1.5} />
-            </motion.div>
-            <motion.span
-              className="font-display font-light block"
-              animate={{
-                scale: hovered ? 1.08 : 1,
-                x: hovered ? 6 : 0,
-              }}
-              transition={{ type: "spring", stiffness: 180, damping: 20 }}
-              style={{
-                fontSize: "clamp(4rem, 9vw, 7rem)",
-                lineHeight: 0.85,
-                WebkitTextStroke: `1.5px ${CELESTE}`,
-                color: "transparent",
-                textShadow: hovered
-                  ? "0 0 50px hsl(192 49% 76% / 0.7)"
-                  : "0 0 30px hsl(192 49% 76% / 0.4)",
-                transformOrigin: "left center",
-              }}
-            >
-              {service.num}
-            </motion.span>
-          </div>
+        {/* Top row: icon + number */}
+        <div
+          className="relative z-10 flex items-start justify-between mb-6"
+          style={{ transform: "translateZ(40px)" }}
+        >
+          <motion.div
+            animate={{
+              scale: hovered ? 1.1 : 1,
+              rotate: hovered ? -8 : 0,
+            }}
+            transition={{ type: "spring", stiffness: 200, damping: 18 }}
+            className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0"
+            style={{
+              background: hovered
+                ? "linear-gradient(135deg, hsl(192 49% 76% / 0.35), hsl(192 49% 76% / 0.1))"
+                : "linear-gradient(135deg, hsl(192 49% 76% / 0.22), hsl(192 49% 76% / 0.06))",
+              border: `1px solid ${hovered ? "hsl(192 49% 76% / 0.7)" : "hsl(192 49% 76% / 0.4)"}`,
+              boxShadow: hovered
+                ? "0 0 40px hsl(192 49% 76% / 0.5)"
+                : "0 0 24px hsl(192 49% 76% / 0.25)",
+              transition: "all 0.5s ease",
+            }}
+          >
+            <Icon className="w-6 h-6" style={{ color: CELESTE }} strokeWidth={1.5} />
+          </motion.div>
+          <motion.span
+            className="font-display font-light block leading-none"
+            animate={{
+              scale: hovered ? 1.08 : 1,
+            }}
+            transition={{ type: "spring", stiffness: 180, damping: 20 }}
+            style={{
+              fontSize: "clamp(3rem, 5vw, 4.5rem)",
+              WebkitTextStroke: `1.5px ${CELESTE}`,
+              color: "transparent",
+              textShadow: hovered
+                ? "0 0 50px hsl(192 49% 76% / 0.7)"
+                : "0 0 30px hsl(192 49% 76% / 0.4)",
+            }}
+          >
+            {service.num}
+          </motion.span>
         </div>
 
-        {/* Right: content */}
-        <div className="md:col-span-8 relative z-10" style={{ transform: "translateZ(30px)" }}>
+        {/* Content */}
+        <div className="relative z-10 flex-1 flex flex-col" style={{ transform: "translateZ(30px)" }}>
           <motion.h2
             animate={{ x: hovered ? 4 : 0 }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="font-display font-bold tracking-tight mb-5 leading-[1.05] text-foreground flex items-center gap-3 flex-wrap"
-            style={{ fontSize: "clamp(1.8rem, 3.6vw, 2.8rem)", textShadow: HERO_TEXT_SHADOW }}
+            className="font-display font-bold tracking-tight mb-4 leading-[1.05] text-foreground flex items-center gap-2 flex-wrap"
+            style={{ fontSize: "clamp(1.5rem, 2.4vw, 2.1rem)", textShadow: HERO_TEXT_SHADOW }}
           >
             {service.title}
             <motion.span
@@ -305,6 +324,30 @@ const method = [
   { step: "04", name: "Analisi", desc: "Misuriamo, ottimizziamo e iteriamo per massimizzare i risultati." },
 ];
 
+function ServicesGrid() {
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  return (
+    <section className="py-20 px-6">
+      <div
+        className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8"
+        style={{ perspective: "1800px" }}
+      >
+        {services.map((s, i) => (
+          <ServiceCard
+            key={s.num}
+            service={s}
+            index={i}
+            isHovered={hoveredIdx === i}
+            isAnyHovered={hoveredIdx !== null}
+            onHoverStart={() => setHoveredIdx(i)}
+            onHoverEnd={() => setHoveredIdx((cur) => (cur === i ? null : cur))}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
+
 const Servizi = () => {
   return (
     <>
@@ -351,13 +394,7 @@ const Servizi = () => {
         </section>
 
         {/* Services */}
-        <section className="py-20 px-6">
-          <div className="max-w-6xl mx-auto space-y-24 md:space-y-32">
-            {services.map((s, i) => (
-              <ServiceCard key={s.num} service={s} index={i} />
-            ))}
-          </div>
-        </section>
+        <ServicesGrid />
 
         {/* Metodo */}
         <section className="py-32 px-6">
