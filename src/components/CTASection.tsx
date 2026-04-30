@@ -38,20 +38,16 @@ const CTASection = () => {
             transition={{ duration: 0.7, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
             className="text-center mb-5"
           >
-            <div
-              className="mx-auto mb-3 h-0.5 w-12"
-              style={{
-                background: `linear-gradient(90deg, transparent, ${CELESTE}, transparent)`,
-                boxShadow: `0 0 18px hsl(192 49% 76% / 0.26)`,
-              }}
-            />
-
-            <p
-              className="font-body text-[11px] font-bold uppercase tracking-[0.35em]"
-              style={{ color: "hsl(0 0% 76%)" }}
-            >
-              Contattaci
-            </p>
+            <div className="flex items-center justify-center gap-4 mb-3">
+              <div className="w-12 h-0.5" style={{ background: CELESTE }} />
+              <p
+                className="font-body text-xs font-bold uppercase tracking-[0.4em]"
+                style={{ color: CELESTE }}
+              >
+                Contattaci
+              </p>
+              <div className="w-12 h-0.5" style={{ background: CELESTE }} />
+            </div>
 
             <h2
               className="font-display font-bold tracking-tight leading-[1.02] mt-2"
