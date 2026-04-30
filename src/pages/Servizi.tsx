@@ -152,13 +152,11 @@ function ServiceCard({
 
         {/* Content */}
         <div className="relative z-10 flex-1 flex flex-col" style={{ transform: "translateZ(30px)" }}>
-        {/* Right: content */}
-        <div className="md:col-span-8 relative z-10" style={{ transform: "translateZ(30px)" }}>
           <motion.h2
             animate={{ x: hovered ? 4 : 0 }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="font-display font-bold tracking-tight mb-5 leading-[1.05] text-foreground flex items-center gap-3 flex-wrap"
-            style={{ fontSize: "clamp(1.8rem, 3.6vw, 2.8rem)", textShadow: HERO_TEXT_SHADOW }}
+            className="font-display font-bold tracking-tight mb-4 leading-[1.05] text-foreground flex items-center gap-2 flex-wrap"
+            style={{ fontSize: "clamp(1.5rem, 2.4vw, 2.1rem)", textShadow: HERO_TEXT_SHADOW }}
           >
             {service.title}
             <motion.span
