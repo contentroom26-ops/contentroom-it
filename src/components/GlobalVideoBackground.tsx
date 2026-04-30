@@ -27,7 +27,7 @@ const GlobalVideoBackground = () => {
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: "hsl(0 0% 0% / 0.55)",
+          background: "hsl(0 0% 0% / 0.3)",
         }}
       />
       {/* Vignette for extra depth */}
@@ -35,7 +35,7 @@ const GlobalVideoBackground = () => {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse at center, transparent 30%, hsl(0 0% 0% / 0.7) 100%)",
+            "radial-gradient(ellipse at center, transparent 40%, hsl(0 0% 0% / 0.45) 100%)",
         }}
       />
     </div>
