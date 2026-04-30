@@ -100,7 +100,13 @@ const CaseStudy = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-12"
+              className="mt-12 rounded-3xl p-8 md:p-10 border"
+              style={{
+                background: "linear-gradient(160deg, hsl(0 0% 5% / 0.78), hsl(0 0% 3% / 0.88))",
+                borderColor: "hsl(0 0% 100% / 0.08)",
+                backdropFilter: "blur(18px)",
+                boxShadow: "0 20px 60px hsl(0 0% 0% / 0.5)",
+              }}
             >
               <p
                 className="font-body text-[10px] tracking-[0.4em] uppercase mb-4"
@@ -109,8 +115,11 @@ const CaseStudy = () => {
                 {caseItem.service} · {caseItem.category}
               </p>
               <h1
-                className="font-display font-bold tracking-tight leading-[1.05]"
-                style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}
+                className="font-display font-bold tracking-tight leading-[1.05] text-foreground"
+                style={{
+                  fontSize: "clamp(2.5rem, 6vw, 5rem)",
+                  textShadow: "0 2px 8px hsl(0 0% 0% / 0.85), 0 0 28px hsl(0 0% 0% / 0.6)",
+                }}
               >
                 {caseItem.client}
               </h1>
@@ -120,34 +129,39 @@ const CaseStudy = () => {
 
         {/* Obiettivo & Soluzione */}
         <section className="py-24 px-6">
-          <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 md:gap-16">
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, margin: "-60px" }}
-              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <p className="font-body text-[10px] tracking-[0.4em] uppercase mb-4" style={{ color: CELESTE }}>
-                Obiettivo
-              </p>
-              <p className="font-display text-xl md:text-2xl leading-[1.4] text-foreground/90">
-                {detail.goal}
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, margin: "-60px" }}
-              transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <p className="font-body text-[10px] tracking-[0.4em] uppercase mb-4" style={{ color: CELESTE }}>
-                Soluzione
-              </p>
-              <p className="font-display text-xl md:text-2xl leading-[1.4] text-foreground/90">
-                {detail.solution}
-              </p>
-            </motion.div>
+          <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-6 md:gap-8">
+            {[
+              { label: "Obiettivo", text: detail.goal, delay: 0 },
+              { label: "Soluzione", text: detail.solution, delay: 0.15 },
+            ].map((block) => (
+              <motion.div
+                key={block.label}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: false, margin: "-60px" }}
+                transition={{ duration: 0.7, delay: block.delay, ease: [0.22, 1, 0.36, 1] }}
+                className="rounded-3xl p-8 md:p-10 border h-full"
+                style={{
+                  background: "linear-gradient(160deg, hsl(0 0% 5% / 0.78), hsl(0 0% 3% / 0.88))",
+                  borderColor: "hsl(0 0% 100% / 0.08)",
+                  backdropFilter: "blur(18px)",
+                  boxShadow: "0 20px 60px hsl(0 0% 0% / 0.5)",
+                }}
+              >
+                <div className="flex items-center gap-4 mb-5">
+                  <div className="w-10 h-px" style={{ background: CELESTE }} />
+                  <p className="font-body text-[10px] tracking-[0.4em] uppercase" style={{ color: CELESTE }}>
+                    {block.label}
+                  </p>
+                </div>
+                <p
+                  className="font-display text-xl md:text-2xl leading-[1.45] text-foreground"
+                  style={{ textShadow: "0 1px 6px hsl(0 0% 0% / 0.7)" }}
+                >
+                  {block.text}
+                </p>
+              </motion.div>
+            ))}
           </div>
         </section>
 
@@ -159,46 +173,62 @@ const CaseStudy = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: false, margin: "-60px" }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="mb-16"
+              className="rounded-3xl p-8 md:p-12 border"
+              style={{
+                background: "linear-gradient(160deg, hsl(0 0% 5% / 0.78), hsl(0 0% 3% / 0.88))",
+                borderColor: "hsl(0 0% 100% / 0.08)",
+                backdropFilter: "blur(18px)",
+                boxShadow: "0 20px 60px hsl(0 0% 0% / 0.5)",
+              }}
             >
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-px" style={{ background: CELESTE }} />
-                <p className="font-body text-xs tracking-[0.4em] uppercase" style={{ color: CELESTE }}>
-                  Risultati
-                </p>
-              </div>
-              <h2
-                className="font-display font-bold tracking-tight leading-[1.05]"
-                style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
-              >
-                Numeri che parlano.
-              </h2>
-            </motion.div>
-
-            <div className="grid md:grid-cols-3 gap-8 md:gap-6">
-              {detail.metrics.map((m, i) => (
-                <motion.div
-                  key={m.label}
-                  initial={{ opacity: 0, y: 60, scale: 0.9 }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                  viewport={{ once: false, margin: "-60px" }}
-                  transition={{ duration: 0.7, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-                  className="text-center md:text-left"
+              <div className="mb-12">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-12 h-px" style={{ background: CELESTE }} />
+                  <p className="font-body text-xs tracking-[0.4em] uppercase" style={{ color: CELESTE }}>
+                    Risultati
+                  </p>
+                </div>
+                <h2
+                  className="font-display font-bold tracking-tight leading-[1.05] text-foreground"
+                  style={{
+                    fontSize: "clamp(2rem, 5vw, 3.5rem)",
+                    textShadow: "0 2px 8px hsl(0 0% 0% / 0.85)",
+                  }}
                 >
-                  <span
-                    className="font-display font-bold block leading-none mb-4"
-                    style={{
-                      fontSize: "clamp(3.5rem, 8vw, 6rem)",
-                      color: CELESTE,
-                      textShadow: "0 0 30px hsl(192 49% 76% / 0.3)",
-                    }}
+                  Numeri che parlano.
+                </h2>
+              </div>
+
+              <div className="grid md:grid-cols-3 gap-8 md:gap-6">
+                {detail.metrics.map((m, i) => (
+                  <motion.div
+                    key={m.label}
+                    initial={{ opacity: 0, y: 60, scale: 0.9 }}
+                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                    viewport={{ once: false, margin: "-60px" }}
+                    transition={{ duration: 0.7, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
+                    className="text-center md:text-left"
                   >
-                    {m.value}
-                  </span>
-                  <p className="font-body text-sm md:text-base text-muted-foreground">{m.label}</p>
-                </motion.div>
-              ))}
-            </div>
+                    <span
+                      className="font-display font-bold block leading-none mb-4"
+                      style={{
+                        fontSize: "clamp(3.5rem, 8vw, 6rem)",
+                        color: CELESTE,
+                        textShadow: "0 0 30px hsl(192 49% 76% / 0.4), 0 2px 10px hsl(0 0% 0% / 0.7)",
+                      }}
+                    >
+                      {m.value}
+                    </span>
+                    <p
+                      className="font-body text-sm md:text-base"
+                      style={{ color: "hsl(0 0% 88%)", textShadow: "0 1px 4px hsl(0 0% 0% / 0.7)" }}
+                    >
+                      {m.label}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
           </div>
         </section>
 
@@ -219,18 +249,32 @@ const CaseStudy = () => {
               </div>
             </Link>
 
-            <div className="flex flex-col items-start justify-center p-6 md:p-10">
+            <div
+              className="flex flex-col items-start justify-center p-8 md:p-10 rounded-2xl border"
+              style={{
+                background: "linear-gradient(160deg, hsl(0 0% 5% / 0.78), hsl(0 0% 3% / 0.88))",
+                borderColor: "hsl(0 0% 100% / 0.08)",
+                backdropFilter: "blur(18px)",
+                boxShadow: "0 20px 60px hsl(0 0% 0% / 0.5)",
+              }}
+            >
               <h3
-                className="font-display font-bold tracking-tight leading-[1.05] mb-6"
-                style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)" }}
+                className="font-display font-bold tracking-tight leading-[1.05] mb-6 text-foreground"
+                style={{
+                  fontSize: "clamp(1.8rem, 4vw, 2.8rem)",
+                  textShadow: "0 2px 8px hsl(0 0% 0% / 0.85)",
+                }}
               >
                 Vuoi risultati simili?
               </h3>
-              <p className="font-body text-base text-muted-foreground mb-8">
+              <p
+                className="font-body text-base mb-8"
+                style={{ color: "hsl(0 0% 88%)", textShadow: "0 1px 4px hsl(0 0% 0% / 0.7)" }}
+              >
                 Raccontaci il tuo progetto. Ti ricontattiamo entro 24h.
               </p>
               <Link
-                to="/#contatti"
+                to="/contatti"
                 className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-body text-sm font-medium tracking-wide transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 shadow-[0_4px_20px_hsl(0_0%_0%_/_0.4)] hover:shadow-[0_10px_30px_hsl(0_0%_0%_/_0.5)] text-primary-foreground bg-primary border-2 border-transparent hover:border-black hover:text-black"
               >
                 Prenota una call
