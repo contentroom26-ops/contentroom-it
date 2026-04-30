@@ -129,34 +129,39 @@ const CaseStudy = () => {
 
         {/* Obiettivo & Soluzione */}
         <section className="py-24 px-6">
-          <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 md:gap-16">
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, margin: "-60px" }}
-              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <p className="font-body text-[10px] tracking-[0.4em] uppercase mb-4" style={{ color: CELESTE }}>
-                Obiettivo
-              </p>
-              <p className="font-display text-xl md:text-2xl leading-[1.4] text-foreground/90">
-                {detail.goal}
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, margin: "-60px" }}
-              transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <p className="font-body text-[10px] tracking-[0.4em] uppercase mb-4" style={{ color: CELESTE }}>
-                Soluzione
-              </p>
-              <p className="font-display text-xl md:text-2xl leading-[1.4] text-foreground/90">
-                {detail.solution}
-              </p>
-            </motion.div>
+          <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-6 md:gap-8">
+            {[
+              { label: "Obiettivo", text: detail.goal, delay: 0 },
+              { label: "Soluzione", text: detail.solution, delay: 0.15 },
+            ].map((block) => (
+              <motion.div
+                key={block.label}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: false, margin: "-60px" }}
+                transition={{ duration: 0.7, delay: block.delay, ease: [0.22, 1, 0.36, 1] }}
+                className="rounded-3xl p-8 md:p-10 border h-full"
+                style={{
+                  background: "linear-gradient(160deg, hsl(0 0% 5% / 0.78), hsl(0 0% 3% / 0.88))",
+                  borderColor: "hsl(0 0% 100% / 0.08)",
+                  backdropFilter: "blur(18px)",
+                  boxShadow: "0 20px 60px hsl(0 0% 0% / 0.5)",
+                }}
+              >
+                <div className="flex items-center gap-4 mb-5">
+                  <div className="w-10 h-px" style={{ background: CELESTE }} />
+                  <p className="font-body text-[10px] tracking-[0.4em] uppercase" style={{ color: CELESTE }}>
+                    {block.label}
+                  </p>
+                </div>
+                <p
+                  className="font-display text-xl md:text-2xl leading-[1.45] text-foreground"
+                  style={{ textShadow: "0 1px 6px hsl(0 0% 0% / 0.7)" }}
+                >
+                  {block.text}
+                </p>
+              </motion.div>
+            ))}
           </div>
         </section>
 
