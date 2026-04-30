@@ -173,46 +173,62 @@ const CaseStudy = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: false, margin: "-60px" }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="mb-16"
+              className="rounded-3xl p-8 md:p-12 border"
+              style={{
+                background: "linear-gradient(160deg, hsl(0 0% 5% / 0.78), hsl(0 0% 3% / 0.88))",
+                borderColor: "hsl(0 0% 100% / 0.08)",
+                backdropFilter: "blur(18px)",
+                boxShadow: "0 20px 60px hsl(0 0% 0% / 0.5)",
+              }}
             >
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-px" style={{ background: CELESTE }} />
-                <p className="font-body text-xs tracking-[0.4em] uppercase" style={{ color: CELESTE }}>
-                  Risultati
-                </p>
-              </div>
-              <h2
-                className="font-display font-bold tracking-tight leading-[1.05]"
-                style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
-              >
-                Numeri che parlano.
-              </h2>
-            </motion.div>
-
-            <div className="grid md:grid-cols-3 gap-8 md:gap-6">
-              {detail.metrics.map((m, i) => (
-                <motion.div
-                  key={m.label}
-                  initial={{ opacity: 0, y: 60, scale: 0.9 }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                  viewport={{ once: false, margin: "-60px" }}
-                  transition={{ duration: 0.7, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-                  className="text-center md:text-left"
+              <div className="mb-12">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-12 h-px" style={{ background: CELESTE }} />
+                  <p className="font-body text-xs tracking-[0.4em] uppercase" style={{ color: CELESTE }}>
+                    Risultati
+                  </p>
+                </div>
+                <h2
+                  className="font-display font-bold tracking-tight leading-[1.05] text-foreground"
+                  style={{
+                    fontSize: "clamp(2rem, 5vw, 3.5rem)",
+                    textShadow: "0 2px 8px hsl(0 0% 0% / 0.85)",
+                  }}
                 >
-                  <span
-                    className="font-display font-bold block leading-none mb-4"
-                    style={{
-                      fontSize: "clamp(3.5rem, 8vw, 6rem)",
-                      color: CELESTE,
-                      textShadow: "0 0 30px hsl(192 49% 76% / 0.3)",
-                    }}
+                  Numeri che parlano.
+                </h2>
+              </div>
+
+              <div className="grid md:grid-cols-3 gap-8 md:gap-6">
+                {detail.metrics.map((m, i) => (
+                  <motion.div
+                    key={m.label}
+                    initial={{ opacity: 0, y: 60, scale: 0.9 }}
+                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                    viewport={{ once: false, margin: "-60px" }}
+                    transition={{ duration: 0.7, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
+                    className="text-center md:text-left"
                   >
-                    {m.value}
-                  </span>
-                  <p className="font-body text-sm md:text-base text-muted-foreground">{m.label}</p>
-                </motion.div>
-              ))}
-            </div>
+                    <span
+                      className="font-display font-bold block leading-none mb-4"
+                      style={{
+                        fontSize: "clamp(3.5rem, 8vw, 6rem)",
+                        color: CELESTE,
+                        textShadow: "0 0 30px hsl(192 49% 76% / 0.4), 0 2px 10px hsl(0 0% 0% / 0.7)",
+                      }}
+                    >
+                      {m.value}
+                    </span>
+                    <p
+                      className="font-body text-sm md:text-base"
+                      style={{ color: "hsl(0 0% 88%)", textShadow: "0 1px 4px hsl(0 0% 0% / 0.7)" }}
+                    >
+                      {m.label}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
           </div>
         </section>
 
