@@ -29,8 +29,8 @@ const PortfolioSection = () => {
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
           <div className="flex items-center gap-4 mb-6">
-            <div className="w-12 h-px" style={{ background: CELESTE }} />
-            <p className="font-body text-xs tracking-[0.4em] uppercase" style={{ color: CELESTE }}>Portfolio</p>
+            <div className="w-12 h-px font-bold" style={{ background: CELESTE }} />
+            <p className="font-body text-xs tracking-[0.4em] uppercase font-bold" style={{ color: CELESTE }}>Portfolio</p>
           </div>
           <h2
             className="font-display font-bold text-4xl md:text-5xl tracking-tight mb-20 text-white"
