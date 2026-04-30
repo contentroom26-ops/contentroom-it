@@ -81,6 +81,12 @@ const ResultsSection = () => (
           </motion.div>
         ))}
       </div>
+
+      <InlineCTA
+        caption="Pronti a far parlare anche i vostri numeri? Raccontaci il tuo progetto."
+        label="Prenota una call"
+        to="/contatti"
+      />
     </div>
   </section>
 );
