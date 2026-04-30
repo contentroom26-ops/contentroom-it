@@ -34,7 +34,7 @@ const Navbar = () => {
         className="absolute inset-0"
         style={{
           backgroundImage:
-            "linear-gradient(to bottom, hsl(var(--background) / 0.35) 0%, hsl(var(--background) / 0.25) 60%, hsl(var(--background) / 0) 100%)",
+            "linear-gradient(to bottom, hsl(var(--background) / 0.45) 0%, hsl(var(--background) / 0.32) 60%, hsl(var(--background) / 0) 100%)",
           backdropFilter: `blur(${blur.get()}px)`,
           WebkitMaskImage:
             "linear-gradient(to bottom, hsl(0 0% 0%) 0%, hsl(0 0% 0%) 55%, hsl(0 0% 0% / 0) 100%)",
