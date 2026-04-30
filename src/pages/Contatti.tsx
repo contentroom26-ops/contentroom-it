@@ -185,7 +185,7 @@ const Contatti = () => {
             >
               <form
                 onSubmit={handleSubmit}
-                className="rounded-3xl p-7 md:p-9 space-y-4"
+                className="rounded-3xl p-5 md:p-7 space-y-3"
                 style={{
                   background: "hsl(0 0% 8% / 0.92)",
                   backdropFilter: "blur(20px)",
@@ -193,10 +193,10 @@ const Contatti = () => {
                   boxShadow: "inset 0 1px 0 hsl(0 0% 100% / 0.08), 0 8px 40px hsl(0 0% 0% / 0.5)",
                 }}
               >
-                <h2 className="font-display text-xl font-semibold mb-2" style={{ color: CELESTE }}>
+                <h2 className="font-display text-lg font-semibold mb-1" style={{ color: CELESTE }}>
                   Scrivici
                 </h2>
-                <p className="font-body text-sm text-muted-foreground mb-6">
+                <p className="font-body text-sm text-muted-foreground mb-4">
                   Compila il form e ti ricontattiamo con il prossimo passo.
                 </p>
 
@@ -206,7 +206,7 @@ const Contatti = () => {
                     maxLength={100}
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    className="h-11 rounded-2xl border-border/60 bg-white/5 px-4 text-white placeholder:text-white/50 focus-visible:ring-1 focus-visible:ring-offset-0"
+                    className="h-10 rounded-2xl border-border/60 bg-white/5 px-4 text-white placeholder:text-white/50 focus-visible:ring-1 focus-visible:ring-offset-0"
                     style={{ boxShadow: recessedFieldShadow }}
                   />
                   <Input
@@ -215,7 +215,7 @@ const Contatti = () => {
                     maxLength={255}
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    className="h-11 rounded-2xl border-border/60 bg-white/5 px-4 text-white placeholder:text-white/50 focus-visible:ring-1 focus-visible:ring-offset-0"
+                    className="h-10 rounded-2xl border-border/60 bg-white/5 px-4 text-white placeholder:text-white/50 focus-visible:ring-1 focus-visible:ring-offset-0"
                     style={{ boxShadow: recessedFieldShadow }}
                   />
                 </div>
@@ -225,7 +225,7 @@ const Contatti = () => {
                   maxLength={150}
                   value={form.subject}
                   onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                  className="h-11 rounded-2xl border-border/60 bg-white/5 px-4 text-white placeholder:text-white/50 focus-visible:ring-1 focus-visible:ring-offset-0"
+                  className="h-10 rounded-2xl border-border/60 bg-white/5 px-4 text-white placeholder:text-white/50 focus-visible:ring-1 focus-visible:ring-offset-0"
                   style={{ boxShadow: recessedFieldShadow }}
                 />
 
@@ -234,7 +234,7 @@ const Contatti = () => {
                   maxLength={1000}
                   value={form.message}
                   onChange={(e) => setForm({ ...form, message: e.target.value })}
-                  className="min-h-[160px] rounded-[1.5rem] border-border/60 bg-white/5 px-4 py-3 text-white placeholder:text-white/50 focus-visible:ring-1 focus-visible:ring-offset-0 resize-none"
+                  className="min-h-[100px] rounded-[1.5rem] border-border/60 bg-white/5 px-4 py-3 text-white placeholder:text-white/50 focus-visible:ring-1 focus-visible:ring-offset-0 resize-none"
                   style={{ boxShadow: recessedFieldShadow }}
                 />
 
@@ -242,7 +242,7 @@ const Contatti = () => {
                   type="submit"
                   disabled={submitting}
                   size="lg"
-                  className="w-full h-12 rounded-full font-display text-xs uppercase tracking-[0.26em]"
+                  className="w-full h-11 rounded-full font-display text-xs uppercase tracking-[0.26em]"
                   style={{
                     background: `linear-gradient(135deg, hsl(192 49% 76% / 0.2), hsl(192 49% 76% / 0.1))`,
                     color: CELESTE,
