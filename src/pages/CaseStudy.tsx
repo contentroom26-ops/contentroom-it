@@ -249,18 +249,32 @@ const CaseStudy = () => {
               </div>
             </Link>
 
-            <div className="flex flex-col items-start justify-center p-6 md:p-10">
+            <div
+              className="flex flex-col items-start justify-center p-8 md:p-10 rounded-2xl border"
+              style={{
+                background: "linear-gradient(160deg, hsl(0 0% 5% / 0.78), hsl(0 0% 3% / 0.88))",
+                borderColor: "hsl(0 0% 100% / 0.08)",
+                backdropFilter: "blur(18px)",
+                boxShadow: "0 20px 60px hsl(0 0% 0% / 0.5)",
+              }}
+            >
               <h3
-                className="font-display font-bold tracking-tight leading-[1.05] mb-6"
-                style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)" }}
+                className="font-display font-bold tracking-tight leading-[1.05] mb-6 text-foreground"
+                style={{
+                  fontSize: "clamp(1.8rem, 4vw, 2.8rem)",
+                  textShadow: "0 2px 8px hsl(0 0% 0% / 0.85)",
+                }}
               >
                 Vuoi risultati simili?
               </h3>
-              <p className="font-body text-base text-muted-foreground mb-8">
+              <p
+                className="font-body text-base mb-8"
+                style={{ color: "hsl(0 0% 88%)", textShadow: "0 1px 4px hsl(0 0% 0% / 0.7)" }}
+              >
                 Raccontaci il tuo progetto. Ti ricontattiamo entro 24h.
               </p>
               <Link
-                to="/#contatti"
+                to="/contatti"
                 className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-body text-sm font-medium tracking-wide transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 shadow-[0_4px_20px_hsl(0_0%_0%_/_0.4)] hover:shadow-[0_10px_30px_hsl(0_0%_0%_/_0.5)] text-primary-foreground bg-primary border-2 border-transparent hover:border-black hover:text-black"
               >
                 Prenota una call
