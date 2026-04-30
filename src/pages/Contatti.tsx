@@ -170,7 +170,7 @@ const Contatti = () => {
                 }}
               >
                 <p className="font-body text-xs uppercase tracking-widest text-muted-foreground mb-2">Orari</p>
-                <p className="font-body text-sm text-foreground">Lun – Ven · 9:30 – 18:30</p>
+                <p className="font-body text-sm text-foreground">Lun – Sab · 8:00 – 21:00</p>
                 <p className="font-body text-xs text-muted-foreground mt-1">Risposta entro 24 ore lavorative</p>
               </div>
             </motion.aside>
