@@ -72,7 +72,7 @@ const method = [
 const Servizi = () => {
   return (
     <>
-      <GlobalVideoBackground />
+      <GlobalVideoBackground dim />
       <main className="relative z-10 min-h-screen overflow-x-hidden">
         <Navbar />
 

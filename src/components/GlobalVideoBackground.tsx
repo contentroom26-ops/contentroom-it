@@ -1,4 +1,14 @@
-const GlobalVideoBackground = () => {
+interface Props {
+  /** Stronger overlay for content-heavy interior pages (servizi, portfolio, contatti). */
+  dim?: boolean;
+}
+
+const GlobalVideoBackground = ({ dim = false }: Props) => {
+  const baseOverlay = dim ? "hsl(0 0% 0% / 0.72)" : "hsl(0 0% 0% / 0.2)";
+  const vignette = dim
+    ? "radial-gradient(ellipse at center, hsl(0 0% 0% / 0.55) 0%, hsl(0 0% 0% / 0.85) 100%)"
+    : "radial-gradient(ellipse at center, transparent 40%, hsl(0 0% 0% / 0.45) 100%)";
+
   return (
     <div
       style={{
@@ -23,20 +33,15 @@ const GlobalVideoBackground = () => {
         }}
         src="/global-bg.mp4"
       />
-      {/* Dark overlay for readability across all sections */}
+      {/* Dark overlay for readability */}
       <div
         className="absolute inset-0 pointer-events-none"
-        style={{
-          background: "hsl(0 0% 0% / 0.2)",
-        }}
+        style={{ background: baseOverlay }}
       />
       {/* Vignette for extra depth */}
       <div
         className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse at center, transparent 40%, hsl(0 0% 0% / 0.45) 100%)",
-        }}
+        style={{ background: vignette }}
       />
     </div>
   );
