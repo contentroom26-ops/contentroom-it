@@ -32,7 +32,10 @@ const PortfolioSection = () => {
             <div className="w-12 h-px" style={{ background: CELESTE }} />
             <p className="font-body text-xs tracking-[0.4em] uppercase" style={{ color: CELESTE }}>Portfolio</p>
           </div>
-          <h2 className="font-display font-bold text-4xl md:text-5xl tracking-tight mb-20">
+          <h2
+            className="font-display font-bold text-4xl md:text-5xl tracking-tight mb-20 text-white"
+            style={{ textShadow: "0 2px 20px hsl(0 0% 0% / 0.8), 0 0 40px hsl(0 0% 0% / 0.6)" }}
+          >
             Progetti selezionati.
           </h2>
         </motion.div>

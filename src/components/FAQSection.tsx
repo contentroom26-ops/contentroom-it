@@ -51,7 +51,10 @@ const FAQSection = () => {
               FAQ
             </p>
           </div>
-          <h2 className="font-display font-bold text-4xl md:text-5xl tracking-tight mb-16">
+          <h2
+            className="font-display font-bold text-4xl md:text-5xl tracking-tight mb-16 text-white"
+            style={{ textShadow: "0 2px 20px hsl(0 0% 0% / 0.8), 0 0 40px hsl(0 0% 0% / 0.6)" }}
+          >
             Domande frequenti.
           </h2>
         </motion.div>

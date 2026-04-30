@@ -29,7 +29,11 @@ const AnimatedCounter = ({ value, suffix, prefix }: { value: number; suffix: str
   }, [inView, value]);
 
   return (
-    <span ref={ref} className="font-display font-bold text-6xl md:text-7xl lg:text-8xl text-foreground">
+    <span
+      ref={ref}
+      className="font-display font-bold text-6xl md:text-7xl lg:text-8xl text-white"
+      style={{ textShadow: "0 2px 24px hsl(0 0% 0% / 0.85), 0 0 48px hsl(0 0% 0% / 0.6)" }}
+    >
       {prefix}{count}{suffix}
     </span>
   );
@@ -48,7 +52,10 @@ const ResultsSection = () => (
           <div className="w-12 h-px" style={{ background: CELESTE }} />
           <p className="font-body text-xs tracking-[0.4em] uppercase" style={{ color: CELESTE }}>Risultati</p>
         </div>
-        <h2 className="font-display font-bold text-4xl md:text-5xl tracking-tight mb-20">
+        <h2
+          className="font-display font-bold text-4xl md:text-5xl tracking-tight mb-20 text-white"
+          style={{ textShadow: "0 2px 20px hsl(0 0% 0% / 0.8), 0 0 40px hsl(0 0% 0% / 0.6)" }}
+        >
           I numeri parlano.
         </h2>
       </motion.div>
@@ -69,7 +76,7 @@ const ResultsSection = () => (
             className="text-center md:text-left"
           >
             <AnimatedCounter value={stat.value} suffix={stat.suffix} prefix={stat.prefix} />
-            <p className="text-muted-foreground font-body text-base mt-3">{stat.label}</p>
+            <p className="font-body text-base mt-3" style={{ color: "hsl(0 0% 88%)", textShadow: "0 1px 6px hsl(0 0% 0% / 0.7)" }}>{stat.label}</p>
           </motion.div>
         ))}
       </div>
