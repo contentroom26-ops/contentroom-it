@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -6,12 +6,6 @@ import contentRoomLogo from "@/assets/contentroom-logo.png";
 
 const HeroSection = () => {
   const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
-  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "60%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
   return (
     <section ref={ref} className="relative h-screen overflow-hidden flex items-center justify-center">
@@ -27,10 +21,7 @@ const HeroSection = () => {
       <div className="absolute inset-0 bg-black/40 pointer-events-none" />
 
       {/* Content */}
-      <motion.div
-        style={{ y: textY, opacity }}
-        className="relative z-10 text-center px-6 max-w-5xl"
-      >
+      <motion.div className="relative z-10 text-center px-6 max-w-5xl">
         <motion.img
           src={contentRoomLogo}
           alt="Content Room"
