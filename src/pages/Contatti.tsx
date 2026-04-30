@@ -53,21 +53,15 @@ const Contatti = () => {
       <ImmersiveRoom />
       <Navbar />
 
-      <main className="relative z-10 pt-32 pb-20 px-6">
+      <main className="relative z-10 pt-24 pb-20 px-6">
         <div className="max-w-6xl mx-auto">
           {/* Hero */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="text-center mb-16"
+            className="text-center mb-12"
           >
-            <p
-              className="font-body text-[11px] font-medium uppercase tracking-[0.35em] mb-3"
-              style={{ color: "hsl(0 0% 76%)" }}
-            >
-              Contatti
-            </p>
             <h1
               className="font-display font-bold tracking-tight leading-[1.02]"
               style={{
