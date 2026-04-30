@@ -1,9 +1,12 @@
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import { Aperture, Share2, Rocket, Code2, Check, ArrowRight } from "lucide-react";
+import { Aperture, Share2, Rocket, Code2, Check } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import GlobalVideoBackground from "@/components/GlobalVideoBackground";
+import InlineCTA from "@/components/InlineCTA";
+
+const HERO_TEXT_SHADOW =
+  "0 2px 8px hsl(0 0% 0% / 0.85), 0 0 28px hsl(0 0% 0% / 0.6)";
 
 const CELESTE = "hsl(192 49% 76%)";
 
