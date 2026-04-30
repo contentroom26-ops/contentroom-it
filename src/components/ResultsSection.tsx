@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import InlineCTA from "./InlineCTA";
+
 
 const CELESTE = "hsl(192 49% 76%)";
 
