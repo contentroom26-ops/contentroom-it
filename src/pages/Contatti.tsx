@@ -50,7 +50,7 @@ const Contatti = () => {
 
   return (
     <div className="relative min-h-screen bg-background text-foreground overflow-hidden">
-      <GlobalVideoBackground dim />
+      <GlobalVideoBackground />
       <Navbar />
 
       <main className="relative z-10 pt-32 pb-20 px-6">

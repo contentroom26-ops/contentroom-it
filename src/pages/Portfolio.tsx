@@ -42,7 +42,7 @@ const Portfolio = () => {
 
   return (
     <>
-      <GlobalVideoBackground dim />
+      <GlobalVideoBackground />
       <main className="relative z-10 min-h-screen overflow-x-hidden">
         <Navbar />
 
