@@ -324,6 +324,30 @@ const method = [
   { step: "04", name: "Analisi", desc: "Misuriamo, ottimizziamo e iteriamo per massimizzare i risultati." },
 ];
 
+function ServicesGrid() {
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  return (
+    <section className="py-20 px-6">
+      <div
+        className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8"
+        style={{ perspective: "1800px" }}
+      >
+        {services.map((s, i) => (
+          <ServiceCard
+            key={s.num}
+            service={s}
+            index={i}
+            isHovered={hoveredIdx === i}
+            isAnyHovered={hoveredIdx !== null}
+            onHoverStart={() => setHoveredIdx(i)}
+            onHoverEnd={() => setHoveredIdx((cur) => (cur === i ? null : cur))}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
+
 const Servizi = () => {
   return (
     <>
