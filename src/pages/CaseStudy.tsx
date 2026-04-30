@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import ImmersiveRoom from "@/components/ImmersiveRoom";
+import GlobalVideoBackground from "@/components/GlobalVideoBackground";
 import { cases } from "./Portfolio";
 
 const CELESTE = "hsl(192 49% 76%)";
