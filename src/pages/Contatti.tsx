@@ -80,7 +80,7 @@ const Contatti = () => {
               Parliamo del tuo progetto
             </h1>
             <p className="font-body text-base md:text-lg text-muted-foreground max-w-2xl mx-auto mt-4">
-              Scrivici, chiamaci o compila il form: ti rispondiamo entro 24 ore con il prossimo step giusto per te.
+              Scrivici, chiama o compila il form: ti rispondiamo in 24 ore con soluzioni per te.
             </p>
           </motion.div>
 
