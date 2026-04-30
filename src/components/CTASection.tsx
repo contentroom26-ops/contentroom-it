@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -102,7 +103,7 @@ const CTASection = () => {
             />
 
             <Button
-              type="submit"
+              asChild
               size="lg"
               className="w-full h-12 rounded-full font-display text-xs uppercase tracking-[0.26em]"
               style={{
@@ -113,7 +114,7 @@ const CTASection = () => {
                   "inset 0 1px 0 hsl(0 0% 100% / 0.06), 0 0 24px hsl(192 49% 76% / 0.2)",
               }}
             >
-              Prenota una call
+              <Link to="/contatti">Prenota una call</Link>
             </Button>
           </motion.form>
         </div>

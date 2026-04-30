@@ -1,6 +1,7 @@
 import { useRef, useState, useCallback } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Aperture, Share2, Rocket, Code2 } from "lucide-react";
+import InlineCTA from "./InlineCTA";
 
 const CELESTE = "hsl(192 49% 76%)";
 
@@ -219,6 +220,11 @@ const ServicesSection = () => {
             <ServiceCard key={s.num} service={s} index={i} />
           ))}
         </div>
+
+        <InlineCTA
+          caption="Hai un progetto in mente? Costruiamo insieme la strategia giusta per il tuo brand."
+          label="Parliamone"
+        />
       </div>
     </section>
   );

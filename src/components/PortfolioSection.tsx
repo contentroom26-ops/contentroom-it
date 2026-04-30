@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
+import InlineCTA from "./InlineCTA";
 import portfolio1 from "@/assets/portfolio-1.jpg";
 import portfolio2 from "@/assets/portfolio-2.jpg";
 import portfolio3 from "@/assets/portfolio-3.jpg";
@@ -86,6 +87,11 @@ const PortfolioSection = () => {
             </motion.div>
           ))}
         </div>
+
+        <InlineCTA
+          caption="Vuoi essere il prossimo case study? Raccontaci la tua visione."
+          label="Inizia il tuo progetto"
+        />
       </div>
 
       {/* Detail modal */}
