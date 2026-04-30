@@ -85,7 +85,7 @@ const Contatti = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="lg:col-span-2 space-y-6"
+              className="lg:col-span-2 lg:col-start-1 lg:row-start-1 order-2 lg:order-none"
             >
               <div
                 className="rounded-3xl p-7"
@@ -161,6 +161,16 @@ const Contatti = () => {
                 </div>
               </div>
 
+            </motion.aside>
+
+            {/* Orari */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+              className="lg:col-span-2 lg:col-start-1 lg:row-start-2 order-3 lg:order-none"
+            >
               <div
                 className="rounded-3xl p-6"
                 style={{
@@ -173,7 +183,7 @@ const Contatti = () => {
                 <p className="font-body text-sm text-foreground">Lun – Sab · 8:00 – 21:00</p>
                 <p className="font-body text-xs text-muted-foreground mt-1">Risposta entro 24 ore lavorative</p>
               </div>
-            </motion.aside>
+            </motion.div>
 
             {/* Form */}
             <motion.div
@@ -181,7 +191,7 @@ const Contatti = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="lg:col-span-3"
+              className="lg:col-span-3 lg:col-start-3 lg:row-start-1 lg:row-span-2 order-1 lg:order-none"
             >
               <form
                 onSubmit={handleSubmit}
