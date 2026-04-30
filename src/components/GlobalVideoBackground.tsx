@@ -27,7 +27,7 @@ const GlobalVideoBackground = () => {
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: "hsl(0 0% 0% / 0.3)",
+          background: "hsl(0 0% 0% / 0.2)",
         }}
       />
       {/* Vignette for extra depth */}
