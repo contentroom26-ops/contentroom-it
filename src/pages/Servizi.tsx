@@ -127,7 +127,13 @@ const Servizi = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: false, margin: "-80px" }}
                 transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                className="grid md:grid-cols-12 gap-8 md:gap-12 items-start"
+                className="grid md:grid-cols-12 gap-8 md:gap-12 items-start rounded-3xl p-8 md:p-10 border"
+                style={{
+                  background: "linear-gradient(160deg, hsl(0 0% 5% / 0.78), hsl(0 0% 3% / 0.88))",
+                  borderColor: "hsl(0 0% 100% / 0.08)",
+                  backdropFilter: "blur(18px)",
+                  boxShadow: "0 20px 60px hsl(0 0% 0% / 0.5)",
+                }}
               >
                 {/* Left: number + icon */}
                 <div className="md:col-span-4">
@@ -135,19 +141,21 @@ const Servizi = () => {
                     <div
                       className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6"
                       style={{
-                        background: "linear-gradient(135deg, hsl(192 49% 76% / 0.15), hsl(192 49% 76% / 0.03))",
-                        border: "1px solid hsl(192 49% 76% / 0.25)",
+                        background: "linear-gradient(135deg, hsl(192 49% 76% / 0.22), hsl(192 49% 76% / 0.06))",
+                        border: "1px solid hsl(192 49% 76% / 0.4)",
+                        boxShadow: "0 0 24px hsl(192 49% 76% / 0.25)",
                       }}
                     >
-                      <s.icon className="w-7 h-7" style={{ color: CELESTE }} strokeWidth={1.3} />
+                      <s.icon className="w-7 h-7" style={{ color: CELESTE }} strokeWidth={1.5} />
                     </div>
                     <span
                       className="font-display font-light"
                       style={{
                         fontSize: "clamp(4rem, 9vw, 7rem)",
                         lineHeight: 0.85,
-                        WebkitTextStroke: `1px ${CELESTE}`,
+                        WebkitTextStroke: `1.5px ${CELESTE}`,
                         color: "transparent",
+                        textShadow: "0 0 30px hsl(192 49% 76% / 0.4)",
                       }}
                     >
                       {s.num}
@@ -158,12 +166,15 @@ const Servizi = () => {
                 {/* Right: content */}
                 <div className="md:col-span-8">
                   <h2
-                    className="font-display font-bold tracking-tight mb-5 leading-[1.05]"
-                    style={{ fontSize: "clamp(1.8rem, 3.6vw, 2.8rem)" }}
+                    className="font-display font-bold tracking-tight mb-5 leading-[1.05] text-foreground"
+                    style={{ fontSize: "clamp(1.8rem, 3.6vw, 2.8rem)", textShadow: HERO_TEXT_SHADOW }}
                   >
                     {s.title}
                   </h2>
-                  <p className="font-body text-base md:text-lg text-muted-foreground leading-relaxed mb-8">
+                  <p
+                    className="font-body text-base md:text-lg leading-relaxed mb-8"
+                    style={{ color: "hsl(0 0% 92%)", textShadow: "0 1px 6px hsl(0 0% 0% / 0.7)" }}
+                  >
                     {s.desc}
                   </p>
 
