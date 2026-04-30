@@ -70,13 +70,15 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.8, delay: 1.2, ease: [0.22, 1, 0.36, 1] }}
         >
-          <Button variant="hero" size="lg" className="h-14 px-10 text-base rounded-full group relative overflow-hidden border-2 border-transparent hover:border-black hover:text-black hover:-translate-y-1 hover:shadow-[0_10px_30px_hsl(0_0%_0%_/_0.5)] transition-all duration-300">
-            <span className="relative z-10">Prenota una call</span>
-            <motion.div
-              className="absolute inset-0 bg-primary/20 rounded-full"
-              animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-            />
+          <Button asChild variant="hero" size="lg" className="h-14 px-10 text-base rounded-full group relative overflow-hidden border-2 border-transparent hover:border-black hover:text-black hover:-translate-y-1 hover:shadow-[0_10px_30px_hsl(0_0%_0%_/_0.5)] transition-all duration-300">
+            <Link to="/contatti">
+              <span className="relative z-10">Prenota una call</span>
+              <motion.div
+                className="absolute inset-0 bg-primary/20 rounded-full"
+                animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              />
+            </Link>
           </Button>
         </motion.div>
       </motion.div>
