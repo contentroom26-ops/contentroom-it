@@ -6,7 +6,7 @@ import ServicesSection from "@/components/ServicesSection";
 import ResultsSection from "@/components/ResultsSection";
 import PortfolioSection from "@/components/PortfolioSection";
 import CTASection from "@/components/CTASection";
-import ImmersiveRoom from "@/components/ImmersiveRoom";
+import GlobalVideoBackground from "@/components/GlobalVideoBackground";
 import SplashScreen from "@/components/SplashScreen";
 import Footer from "@/components/Footer";
 import FAQSection from "@/components/FAQSection";
@@ -27,8 +27,8 @@ const Index = () => {
         animate={{ opacity: splashDone ? 1 : 0 }}
         transition={{ duration: 0.6 }}
       >
-        {/* Fixed CSS 3D immersive room */}
-        <ImmersiveRoom />
+        {/* Global fixed video background */}
+        <GlobalVideoBackground />
 
         {/* All content floats above the room */}
         <main className="relative z-10 min-h-screen overflow-x-hidden pb-24">
