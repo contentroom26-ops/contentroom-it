@@ -47,12 +47,19 @@ const Portfolio = () => {
         <Navbar />
 
         {/* Hero */}
-        <section className="pt-40 pb-16 px-6">
+        <section className="pt-40 pb-10 px-6">
           <div className="max-w-6xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              className="rounded-3xl p-8 md:p-12 border"
+              style={{
+                background: "linear-gradient(160deg, hsl(0 0% 5% / 0.78), hsl(0 0% 3% / 0.88))",
+                borderColor: "hsl(0 0% 100% / 0.08)",
+                backdropFilter: "blur(18px)",
+                boxShadow: "0 20px 60px hsl(0 0% 0% / 0.5)",
+              }}
             >
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-12 h-px" style={{ background: CELESTE }} />
@@ -61,13 +68,19 @@ const Portfolio = () => {
                 </p>
               </div>
               <h1
-                className="font-display font-bold tracking-tight leading-[1.05] mb-6"
-                style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}
+                className="font-display font-bold tracking-tight leading-[1.05] mb-6 text-foreground"
+                style={{
+                  fontSize: "clamp(2.5rem, 6vw, 5rem)",
+                  textShadow: "0 2px 8px hsl(0 0% 0% / 0.85), 0 0 28px hsl(0 0% 0% / 0.6)",
+                }}
               >
                 Lavori,<br />
-                <span className="text-muted-foreground">non promesse.</span>
+                <span style={{ color: "hsl(0 0% 75%)" }}>non promesse.</span>
               </h1>
-              <p className="font-body text-base md:text-lg text-muted-foreground max-w-2xl">
+              <p
+                className="font-body text-base md:text-lg max-w-2xl"
+                style={{ color: "hsl(0 0% 92%)", textShadow: "0 1px 6px hsl(0 0% 0% / 0.7)" }}
+              >
                 Una selezione di progetti che raccontano il nostro approccio: strategia, creatività ed esecuzione impeccabile.
               </p>
             </motion.div>
@@ -75,9 +88,16 @@ const Portfolio = () => {
         </section>
 
         {/* Filtri */}
-        <section className="px-6">
+        <section className="px-6 pt-8">
           <div className="max-w-6xl mx-auto">
-            <div className="flex flex-wrap items-center gap-2 md:gap-3 mb-12">
+            <div
+              className="flex flex-wrap items-center gap-2 md:gap-3 mb-12 p-3 rounded-full border w-fit"
+              style={{
+                background: "hsl(0 0% 5% / 0.7)",
+                borderColor: "hsl(0 0% 100% / 0.08)",
+                backdropFilter: "blur(18px)",
+              }}
+            >
               {filters.map((f) => {
                 const isActive = active === f;
                 return (
@@ -86,9 +106,9 @@ const Portfolio = () => {
                     onClick={() => setActive(f)}
                     className="px-5 py-2 rounded-full font-body text-xs md:text-sm tracking-wide transition-all duration-300 border"
                     style={{
-                      background: isActive ? CELESTE : "hsl(0 0% 100% / 0.03)",
-                      color: isActive ? "hsl(0 0% 5%)" : "hsl(0 0% 80%)",
-                      borderColor: isActive ? CELESTE : "hsl(0 0% 100% / 0.1)",
+                      background: isActive ? CELESTE : "hsl(0 0% 100% / 0.05)",
+                      color: isActive ? "hsl(0 0% 5%)" : "hsl(0 0% 95%)",
+                      borderColor: isActive ? CELESTE : "hsl(0 0% 100% / 0.12)",
                     }}
                   >
                     {f}
