@@ -60,7 +60,13 @@ const Contatti = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="text-center mb-12"
+            className="text-center mb-12 mx-auto max-w-4xl rounded-3xl p-8 md:p-10 border"
+            style={{
+              background: "linear-gradient(160deg, hsl(0 0% 5% / 0.78), hsl(0 0% 3% / 0.88))",
+              borderColor: "hsl(0 0% 100% / 0.08)",
+              backdropFilter: "blur(18px)",
+              boxShadow: "0 20px 60px hsl(0 0% 0% / 0.5)",
+            }}
           >
             <h1
               className="font-display font-bold tracking-tight leading-[1.02]"
@@ -73,7 +79,10 @@ const Contatti = () => {
             >
               Parliamo del tuo progetto
             </h1>
-            <p className="font-body text-base md:text-lg text-muted-foreground max-w-2xl mx-auto mt-4">
+            <p
+              className="font-body text-base md:text-lg max-w-2xl mx-auto mt-4"
+              style={{ color: "hsl(0 0% 92%)", textShadow: "0 1px 6px hsl(0 0% 0% / 0.7)" }}
+            >
               Scrivici, chiama o compila il form: ti rispondiamo in 24 ore con soluzioni per te.
             </p>
           </motion.div>
