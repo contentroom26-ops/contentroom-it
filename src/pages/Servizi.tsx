@@ -204,6 +204,13 @@ const Servizi = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: false, margin: "-60px" }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              className="rounded-3xl p-8 md:p-10 mb-10 border inline-block"
+              style={{
+                background: "linear-gradient(160deg, hsl(0 0% 5% / 0.78), hsl(0 0% 3% / 0.88))",
+                borderColor: "hsl(0 0% 100% / 0.08)",
+                backdropFilter: "blur(18px)",
+                boxShadow: "0 20px 60px hsl(0 0% 0% / 0.5)",
+              }}
             >
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-12 h-px" style={{ background: CELESTE }} />
@@ -212,11 +219,11 @@ const Servizi = () => {
                 </p>
               </div>
               <h2
-                className="font-display font-bold tracking-tight mb-16 leading-[1.05]"
-                style={{ fontSize: "clamp(2rem, 5vw, 4rem)" }}
+                className="font-display font-bold tracking-tight leading-[1.05] text-foreground"
+                style={{ fontSize: "clamp(2rem, 5vw, 4rem)", textShadow: HERO_TEXT_SHADOW }}
               >
                 Come<br />
-                <span className="text-muted-foreground">lavoriamo.</span>
+                <span style={{ color: "hsl(0 0% 75%)" }}>lavoriamo.</span>
               </h2>
             </motion.div>
 
@@ -232,6 +239,7 @@ const Servizi = () => {
                   style={{
                     background: "linear-gradient(160deg, hsl(0 0% 7% / 0.85), hsl(0 0% 4% / 0.95))",
                     borderColor: "hsl(0 0% 100% / 0.08)",
+                    backdropFilter: "blur(18px)",
                   }}
                 >
                   <span
@@ -260,24 +268,27 @@ const Servizi = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false, margin: "-60px" }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="max-w-3xl mx-auto text-center"
+            className="max-w-3xl mx-auto text-center rounded-3xl p-10 md:p-14 border"
+            style={{
+              background: "linear-gradient(160deg, hsl(0 0% 5% / 0.82), hsl(0 0% 3% / 0.92))",
+              borderColor: "hsl(0 0% 100% / 0.08)",
+              backdropFilter: "blur(18px)",
+              boxShadow: "0 20px 60px hsl(0 0% 0% / 0.5)",
+            }}
           >
             <h2
-              className="font-display font-bold tracking-tight leading-[1.05] mb-6"
-              style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
+              className="font-display font-bold tracking-tight leading-[1.05] mb-6 text-foreground"
+              style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", textShadow: HERO_TEXT_SHADOW }}
             >
               Pronto a iniziare?
             </h2>
-            <p className="font-body text-base md:text-lg text-muted-foreground mb-10 max-w-xl mx-auto">
+            <p
+              className="font-body text-base md:text-lg mb-4 max-w-xl mx-auto"
+              style={{ color: "hsl(0 0% 90%)", textShadow: "0 1px 6px hsl(0 0% 0% / 0.7)" }}
+            >
               Raccontaci il tuo progetto. Ti ricontattiamo entro 24h con il prossimo step giusto per te.
             </p>
-            <Link
-              to="/#contatti"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-body text-sm font-medium tracking-wide transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 shadow-[0_4px_20px_hsl(0_0%_0%_/_0.4)] hover:shadow-[0_10px_30px_hsl(0_0%_0%_/_0.5)] text-primary-foreground bg-primary border-2 border-transparent hover:border-black hover:text-black"
-            >
-              Prenota una call
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+            <InlineCTA label="Prenota una call" to="/contatti" />
           </motion.div>
         </section>
 
