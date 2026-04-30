@@ -29,29 +29,22 @@ const Navbar = () => {
         paddingBottom: navPadding,
       }}
     >
-      {/* Animated background */}
+      {/* Animated background with soft gradient fade */}
       <motion.div
-        className="absolute inset-0 border-b"
+        className="absolute inset-0"
         style={{
-          backgroundColor: `hsl(var(--background) / ${bgOpacity.get()})`,
-          borderColor: `hsl(var(--border) / ${borderOpacity.get()})`,
+          backgroundImage:
+            "linear-gradient(to bottom, hsl(var(--background) / 0.35) 0%, hsl(var(--background) / 0.25) 60%, hsl(var(--background) / 0) 100%)",
           backdropFilter: `blur(${blur.get()}px)`,
+          WebkitMaskImage:
+            "linear-gradient(to bottom, hsl(0 0% 0%) 0%, hsl(0 0% 0%) 55%, hsl(0 0% 0% / 0) 100%)",
+          maskImage:
+            "linear-gradient(to bottom, hsl(0 0% 0%) 0%, hsl(0 0% 0%) 55%, hsl(0 0% 0% / 0) 100%)",
         }}
         animate={{
-          backgroundColor: scrolled ? "hsl(var(--background) / 0.35)" : "hsl(var(--background) / 0)",
-          borderColor: scrolled ? "hsl(var(--border) / 0.2)" : "hsl(var(--border) / 0)",
+          opacity: scrolled ? 1 : 0,
           backdropFilter: scrolled ? "blur(12px)" : "blur(0px)",
         }}
-        transition={{ duration: 0.4 }}
-      />
-
-      {/* Glow line on scroll */}
-      <motion.div
-        className="absolute bottom-0 left-0 right-0 h-px"
-        style={{
-          background: "linear-gradient(90deg, transparent, hsl(var(--primary) / 0.3), transparent)",
-        }}
-        animate={{ opacity: scrolled ? 1 : 0 }}
         transition={{ duration: 0.4 }}
       />
 
