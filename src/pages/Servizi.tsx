@@ -106,52 +106,52 @@ function ServiceCard({
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         />
 
-        {/* Left: number + icon */}
-        <div className="md:col-span-4 relative z-10" style={{ transform: "translateZ(40px)" }}>
-          <div className="sticky top-32">
-            <motion.div
-              animate={{
-                scale: hovered ? 1.1 : 1,
-                rotate: hovered ? -8 : 0,
-              }}
-              transition={{ type: "spring", stiffness: 200, damping: 18 }}
-              className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6"
-              style={{
-                background: hovered
-                  ? "linear-gradient(135deg, hsl(192 49% 76% / 0.35), hsl(192 49% 76% / 0.1))"
-                  : "linear-gradient(135deg, hsl(192 49% 76% / 0.22), hsl(192 49% 76% / 0.06))",
-                border: `1px solid ${hovered ? "hsl(192 49% 76% / 0.7)" : "hsl(192 49% 76% / 0.4)"}`,
-                boxShadow: hovered
-                  ? "0 0 40px hsl(192 49% 76% / 0.5)"
-                  : "0 0 24px hsl(192 49% 76% / 0.25)",
-                transition: "all 0.5s ease",
-              }}
-            >
-              <Icon className="w-7 h-7" style={{ color: CELESTE }} strokeWidth={1.5} />
-            </motion.div>
-            <motion.span
-              className="font-display font-light block"
-              animate={{
-                scale: hovered ? 1.08 : 1,
-                x: hovered ? 6 : 0,
-              }}
-              transition={{ type: "spring", stiffness: 180, damping: 20 }}
-              style={{
-                fontSize: "clamp(4rem, 9vw, 7rem)",
-                lineHeight: 0.85,
-                WebkitTextStroke: `1.5px ${CELESTE}`,
-                color: "transparent",
-                textShadow: hovered
-                  ? "0 0 50px hsl(192 49% 76% / 0.7)"
-                  : "0 0 30px hsl(192 49% 76% / 0.4)",
-                transformOrigin: "left center",
-              }}
-            >
-              {service.num}
-            </motion.span>
-          </div>
+        {/* Top row: icon + number */}
+        <div
+          className="relative z-10 flex items-start justify-between mb-6"
+          style={{ transform: "translateZ(40px)" }}
+        >
+          <motion.div
+            animate={{
+              scale: hovered ? 1.1 : 1,
+              rotate: hovered ? -8 : 0,
+            }}
+            transition={{ type: "spring", stiffness: 200, damping: 18 }}
+            className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0"
+            style={{
+              background: hovered
+                ? "linear-gradient(135deg, hsl(192 49% 76% / 0.35), hsl(192 49% 76% / 0.1))"
+                : "linear-gradient(135deg, hsl(192 49% 76% / 0.22), hsl(192 49% 76% / 0.06))",
+              border: `1px solid ${hovered ? "hsl(192 49% 76% / 0.7)" : "hsl(192 49% 76% / 0.4)"}`,
+              boxShadow: hovered
+                ? "0 0 40px hsl(192 49% 76% / 0.5)"
+                : "0 0 24px hsl(192 49% 76% / 0.25)",
+              transition: "all 0.5s ease",
+            }}
+          >
+            <Icon className="w-6 h-6" style={{ color: CELESTE }} strokeWidth={1.5} />
+          </motion.div>
+          <motion.span
+            className="font-display font-light block leading-none"
+            animate={{
+              scale: hovered ? 1.08 : 1,
+            }}
+            transition={{ type: "spring", stiffness: 180, damping: 20 }}
+            style={{
+              fontSize: "clamp(3rem, 5vw, 4.5rem)",
+              WebkitTextStroke: `1.5px ${CELESTE}`,
+              color: "transparent",
+              textShadow: hovered
+                ? "0 0 50px hsl(192 49% 76% / 0.7)"
+                : "0 0 30px hsl(192 49% 76% / 0.4)",
+            }}
+          >
+            {service.num}
+          </motion.span>
         </div>
 
+        {/* Content */}
+        <div className="relative z-10 flex-1 flex flex-col" style={{ transform: "translateZ(30px)" }}>
         {/* Right: content */}
         <div className="md:col-span-8 relative z-10" style={{ transform: "translateZ(30px)" }}>
           <motion.h2
