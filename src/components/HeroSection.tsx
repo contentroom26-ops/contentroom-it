@@ -21,7 +21,7 @@ const HeroSection = () => {
         loop
         playsInline
         className="absolute inset-0 w-full h-full object-cover"
-        src="/hero-video.mov"
+        src="/hero-video.mp4"
       />
       <div className="absolute inset-0 bg-black/40 pointer-events-none" />
 
