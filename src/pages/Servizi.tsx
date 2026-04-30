@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Aperture, Share2, Rocket, Code2, Check, ArrowRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import ImmersiveRoom from "@/components/ImmersiveRoom";
+import GlobalVideoBackground from "@/components/GlobalVideoBackground";
 
 const CELESTE = "hsl(192 49% 76%)";
 
@@ -72,7 +72,7 @@ const method = [
 const Servizi = () => {
   return (
     <>
-      <ImmersiveRoom />
+      <GlobalVideoBackground />
       <main className="relative z-10 min-h-screen overflow-x-hidden">
         <Navbar />
 

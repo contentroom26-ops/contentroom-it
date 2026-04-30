@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import ImmersiveRoom from "@/components/ImmersiveRoom";
+import GlobalVideoBackground from "@/components/GlobalVideoBackground";
 import portfolio1 from "@/assets/portfolio-1.jpg";
 import portfolio2 from "@/assets/portfolio-2.jpg";
 import portfolio3 from "@/assets/portfolio-3.jpg";
@@ -42,7 +42,7 @@ const Portfolio = () => {
 
   return (
     <>
-      <ImmersiveRoom />
+      <GlobalVideoBackground />
       <main className="relative z-10 min-h-screen overflow-x-hidden">
         <Navbar />
 

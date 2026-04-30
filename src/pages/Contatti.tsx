@@ -4,7 +4,7 @@ import { z } from "zod";
 import { Mail, Phone, MapPin, Instagram, Linkedin } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import ImmersiveRoom from "@/components/ImmersiveRoom";
+import GlobalVideoBackground from "@/components/GlobalVideoBackground";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -50,7 +50,7 @@ const Contatti = () => {
 
   return (
     <div className="relative min-h-screen bg-background text-foreground overflow-hidden">
-      <ImmersiveRoom />
+      <GlobalVideoBackground />
       <Navbar />
 
       <main className="relative z-10 pt-32 pb-20 px-6">
