@@ -51,7 +51,10 @@ const FAQSection = () => {
               FAQ
             </p>
           </div>
-          <h2 className="font-display font-bold text-4xl md:text-5xl tracking-tight mb-16">
+          <h2
+            className="font-display font-bold text-4xl md:text-5xl tracking-tight mb-16 text-white"
+            style={{ textShadow: "0 2px 20px hsl(0 0% 0% / 0.8), 0 0 40px hsl(0 0% 0% / 0.6)" }}
+          >
             Domande frequenti.
           </h2>
         </motion.div>
@@ -62,7 +65,7 @@ const FAQSection = () => {
           viewport={{ once: false, margin: "-60px" }}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
         >
-          <Accordion type="single" collapsible className="w-full">
+          <Accordion type="single" collapsible className="w-full rounded-2xl px-6 md:px-8" style={{ background: "hsl(0 0% 6% / 0.7)", backdropFilter: "blur(16px)", border: "1px solid hsl(0 0% 100% / 0.08)" }}>
             {faqs.map((faq, i) => (
               <AccordionItem
                 key={i}

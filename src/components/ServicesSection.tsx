@@ -202,11 +202,14 @@ const ServicesSection = () => {
             </p>
           </div>
           <h2
-            className="font-display font-bold tracking-tight mb-20 leading-[1.05]"
-            style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}
+            className="font-display font-bold tracking-tight mb-20 leading-[1.05] text-white"
+            style={{
+              fontSize: "clamp(2.5rem, 6vw, 5rem)",
+              textShadow: "0 2px 20px hsl(0 0% 0% / 0.8), 0 0 40px hsl(0 0% 0% / 0.6)",
+            }}
           >
             I nostri<br />
-            <span className="text-muted-foreground">servizi.</span>
+            <span style={{ color: "hsl(0 0% 80%)" }}>servizi.</span>
           </h2>
         </motion.div>
 
