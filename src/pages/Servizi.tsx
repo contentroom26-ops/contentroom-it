@@ -1,6 +1,6 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { useCallback, useRef, useState } from "react";
-import { Aperture, Share2, Rocket, Code2, Check, ArrowUpRight } from "lucide-react";
+import { Aperture, Share2, Rocket, Code2, Check, ArrowUpRight, Search, Compass, Hammer, LineChart } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import GlobalVideoBackground from "@/components/GlobalVideoBackground";
@@ -318,11 +318,172 @@ const services = [
 ];
 
 const method = [
-  { step: "01", name: "Discovery", desc: "Analizziamo brand, mercato e obiettivi per costruire fondamenta solide." },
-  { step: "02", name: "Strategia", desc: "Definiamo positioning, tone of voice e roadmap operativa." },
-  { step: "03", name: "Produzione", desc: "Creiamo contenuti e attiviamo i canali con esecuzione impeccabile." },
-  { step: "04", name: "Analisi", desc: "Misuriamo, ottimizziamo e iteriamo per massimizzare i risultati." },
+  { step: "01", name: "Discovery", desc: "Analizziamo brand, mercato e obiettivi per costruire fondamenta solide.", icon: Search },
+  { step: "02", name: "Strategia", desc: "Definiamo positioning, tone of voice e roadmap operativa.", icon: Compass },
+  { step: "03", name: "Produzione", desc: "Creiamo contenuti e attiviamo i canali con esecuzione impeccabile.", icon: Hammer },
+  { step: "04", name: "Analisi", desc: "Misuriamo, ottimizziamo e iteriamo per massimizzare i risultati.", icon: LineChart },
 ];
+
+function MethodPath() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [activeIdx, setActiveIdx] = useState<number | null>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start 80%", "end 30%"],
+  });
+  const lineProgress = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
+  return (
+    <div ref={containerRef} className="relative">
+      {/* Desktop horizontal connecting line */}
+      <div className="hidden lg:block absolute top-[88px] left-[8%] right-[8%] h-[2px] pointer-events-none">
+        <div className="absolute inset-0 rounded-full" style={{ background: "hsl(0 0% 100% / 0.08)" }} />
+        <motion.div
+          className="absolute inset-y-0 left-0 rounded-full"
+          style={{
+            width: lineProgress,
+            background: `linear-gradient(90deg, ${CELESTE}, hsl(192 49% 86%))`,
+            boxShadow: `0 0 20px ${CELESTE}, 0 0 40px hsl(192 49% 76% / 0.5)`,
+          }}
+        />
+      </div>
+
+      {/* Mobile vertical connecting line */}
+      <div className="lg:hidden absolute top-12 bottom-12 left-[34px] w-[2px] pointer-events-none">
+        <div className="absolute inset-0 rounded-full" style={{ background: "hsl(0 0% 100% / 0.08)" }} />
+        <motion.div
+          className="absolute inset-x-0 top-0 rounded-full"
+          style={{
+            height: lineProgress,
+            background: `linear-gradient(180deg, ${CELESTE}, hsl(192 49% 86%))`,
+            boxShadow: `0 0 20px ${CELESTE}`,
+          }}
+        />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-5 relative">
+        {method.map((m, i) => {
+          const Icon = m.icon;
+          const active = activeIdx === i;
+          return (
+            <motion.div
+              key={m.step}
+              initial={{ opacity: 0, y: 60 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false, margin: "-60px" }}
+              transition={{ duration: 0.7, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] }}
+              onMouseEnter={() => setActiveIdx(i)}
+              onMouseLeave={() => setActiveIdx(null)}
+              className="relative pl-20 lg:pl-0"
+            >
+              {/* Node dot on the path */}
+              <motion.div
+                className="absolute lg:top-[72px] lg:left-1/2 lg:-translate-x-1/2 top-6 left-[22px] z-10 w-8 h-8"
+                animate={{ scale: active ? 1.4 : 1 }}
+                transition={{ type: "spring", stiffness: 300, damping: 18 }}
+              >
+                <motion.div
+                  className="w-8 h-8 rounded-full flex items-center justify-center"
+                  style={{
+                    background: `radial-gradient(circle, ${CELESTE}, hsl(192 49% 56%))`,
+                    boxShadow: active
+                      ? `0 0 30px ${CELESTE}, 0 0 60px hsl(192 49% 76% / 0.6)`
+                      : `0 0 15px hsl(192 49% 76% / 0.5)`,
+                  }}
+                  animate={{ rotate: active ? 360 : 0 }}
+                  transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <div className="w-3 h-3 rounded-full" style={{ background: "hsl(0 0% 5%)" }} />
+                </motion.div>
+                <motion.div
+                  className="absolute inset-0 rounded-full pointer-events-none"
+                  style={{ border: `2px solid ${CELESTE}` }}
+                  animate={{
+                    scale: active ? [1, 2.2, 2.2] : 1,
+                    opacity: active ? [0.8, 0, 0] : 0,
+                  }}
+                  transition={{
+                    duration: 1.6,
+                    repeat: active ? Infinity : 0,
+                    ease: "easeOut",
+                  }}
+                />
+              </motion.div>
+
+              {/* Card */}
+              <motion.div
+                animate={{ y: active ? -8 : 0 }}
+                transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                className="relative rounded-2xl p-6 border lg:mt-32 overflow-hidden"
+                style={{
+                  background: active
+                    ? "linear-gradient(160deg, hsl(0 0% 8% / 0.92), hsl(0 0% 4% / 0.98))"
+                    : "linear-gradient(160deg, hsl(0 0% 7% / 0.85), hsl(0 0% 4% / 0.95))",
+                  borderColor: active ? "hsl(192 49% 76% / 0.4)" : "hsl(0 0% 100% / 0.08)",
+                  backdropFilter: "blur(18px)",
+                  boxShadow: active
+                    ? "0 30px 70px hsl(0 0% 0% / 0.6), 0 0 50px hsl(192 49% 76% / 0.2)"
+                    : "0 15px 40px hsl(0 0% 0% / 0.4)",
+                  transition: "background 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease",
+                }}
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <motion.div
+                    animate={{ rotate: active ? -10 : 0, scale: active ? 1.1 : 1 }}
+                    transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                    className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+                    style={{
+                      background: active
+                        ? "linear-gradient(135deg, hsl(192 49% 76% / 0.4), hsl(192 49% 76% / 0.1))"
+                        : "linear-gradient(135deg, hsl(192 49% 76% / 0.2), hsl(192 49% 76% / 0.05))",
+                      border: `1px solid hsl(192 49% 76% / ${active ? 0.6 : 0.3})`,
+                      transition: "all 0.4s ease",
+                    }}
+                  >
+                    <Icon className="w-5 h-5" style={{ color: CELESTE }} strokeWidth={1.6} />
+                  </motion.div>
+                  <motion.span
+                    className="font-display font-light leading-none"
+                    animate={{ scale: active ? 1.08 : 1 }}
+                    transition={{ type: "spring", stiffness: 200, damping: 18 }}
+                    style={{
+                      fontSize: "2.4rem",
+                      WebkitTextStroke: `1px ${CELESTE}`,
+                      color: "transparent",
+                      textShadow: active ? "0 0 30px hsl(192 49% 76% / 0.6)" : "none",
+                    }}
+                  >
+                    {m.step}
+                  </motion.span>
+                </div>
+                <motion.h3
+                  animate={{ x: active ? 4 : 0 }}
+                  transition={{ duration: 0.4 }}
+                  className="font-display font-semibold text-xl mb-2 text-foreground"
+                  style={{ textShadow: HERO_TEXT_SHADOW }}
+                >
+                  {m.name}
+                </motion.h3>
+                <p
+                  className="font-body text-sm leading-relaxed"
+                  style={{ color: "hsl(0 0% 88%)", textShadow: "0 1px 4px hsl(0 0% 0% / 0.6)" }}
+                >
+                  {m.desc}
+                </p>
+                <motion.div
+                  className="absolute bottom-0 left-0 h-[2px] rounded-full"
+                  style={{ background: `linear-gradient(90deg, ${CELESTE}, transparent)` }}
+                  animate={{ width: active ? "100%" : "0%" }}
+                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                />
+              </motion.div>
+            </motion.div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 function ServicesGrid() {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
@@ -427,37 +588,7 @@ const Servizi = () => {
               </h2>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-              {method.map((m, i) => (
-                <motion.div
-                  key={m.step}
-                  initial={{ opacity: 0, y: 60 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: false, margin: "-60px" }}
-                  transition={{ duration: 0.6, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                  className="relative p-7 rounded-2xl border"
-                  style={{
-                    background: "linear-gradient(160deg, hsl(0 0% 7% / 0.85), hsl(0 0% 4% / 0.95))",
-                    borderColor: "hsl(0 0% 100% / 0.08)",
-                    backdropFilter: "blur(18px)",
-                  }}
-                >
-                  <span
-                    className="font-display font-light block mb-6"
-                    style={{
-                      fontSize: "2.8rem",
-                      lineHeight: 1,
-                      WebkitTextStroke: `1px ${CELESTE}`,
-                      color: "transparent",
-                    }}
-                  >
-                    {m.step}
-                  </span>
-                  <h3 className="font-display font-semibold text-xl mb-2">{m.name}</h3>
-                  <p className="font-body text-sm text-muted-foreground leading-relaxed">{m.desc}</p>
-                </motion.div>
-              ))}
-            </div>
+            <MethodPath />
           </div>
         </section>
 
