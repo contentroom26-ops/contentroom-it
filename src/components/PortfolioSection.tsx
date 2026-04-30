@@ -87,6 +87,11 @@ const PortfolioSection = () => {
             </motion.div>
           ))}
         </div>
+
+        <InlineCTA
+          caption="Vuoi essere il prossimo case study? Raccontaci la tua visione."
+          label="Inizia il tuo progetto"
+        />
       </div>
 
       {/* Detail modal */}
