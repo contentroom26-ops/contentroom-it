@@ -39,7 +39,7 @@ const CTASection = () => {
             className="text-center mb-5"
           >
             <div
-              className="mx-auto mb-3 h-px w-12"
+              className="mx-auto mb-3 h-0.5 w-12"
               style={{
                 background: `linear-gradient(90deg, transparent, ${CELESTE}, transparent)`,
                 boxShadow: `0 0 18px hsl(192 49% 76% / 0.26)`,
@@ -47,7 +47,7 @@ const CTASection = () => {
             />
 
             <p
-              className="font-body text-[11px] font-medium uppercase tracking-[0.35em]"
+              className="font-body text-[11px] font-bold uppercase tracking-[0.35em]"
               style={{ color: "hsl(0 0% 76%)" }}
             >
               Contattaci

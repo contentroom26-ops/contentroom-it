@@ -196,8 +196,8 @@ const ServicesSection = () => {
         {/* Header */}
         <motion.div style={{ y: headerY, opacity: headerOpacity }}>
           <div className="flex items-center gap-4 mb-6">
-            <div className="w-12 h-px" style={{ background: CELESTE }} />
-            <p className="font-body text-xs tracking-[0.4em] uppercase" style={{ color: CELESTE }}>
+            <div className="w-12 h-0.5" style={{ background: CELESTE }} />
+            <p className="font-body font-bold text-xs tracking-[0.4em] uppercase" style={{ color: CELESTE }}>
               Servizi
             </p>
           </div>
