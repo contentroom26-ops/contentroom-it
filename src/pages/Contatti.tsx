@@ -53,7 +53,7 @@ const Contatti = () => {
       <ImmersiveRoom />
       <Navbar />
 
-      <main className="relative z-10 pt-24 pb-20 px-6">
+      <main className="relative z-10 pt-32 pb-20 px-6">
         <div className="max-w-6xl mx-auto">
           {/* Hero */}
           <motion.div
