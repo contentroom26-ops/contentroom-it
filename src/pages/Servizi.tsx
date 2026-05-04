@@ -361,7 +361,7 @@ function MethodPath() {
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-5 relative">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-5 relative items-stretch">
         {method.map((m, i) => {
           const Icon = m.icon;
           const active = activeIdx === i;
@@ -374,7 +374,7 @@ function MethodPath() {
               transition={{ duration: 0.7, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] }}
               onMouseEnter={() => setActiveIdx(i)}
               onMouseLeave={() => setActiveIdx(null)}
-              className="relative pl-20 lg:pl-0"
+              className="relative pl-20 lg:pl-0 h-full flex"
             >
               {/* Node dot on the path */}
               <motion.div
@@ -414,7 +414,7 @@ function MethodPath() {
               <motion.div
                 animate={{ y: active ? -8 : 0 }}
                 transition={{ type: "spring", stiffness: 200, damping: 20 }}
-                className="relative rounded-2xl p-6 border lg:mt-32 overflow-hidden"
+                className="relative rounded-2xl p-6 border lg:mt-32 overflow-hidden w-full flex flex-col"
                 style={{
                   background: active
                     ? "linear-gradient(160deg, hsl(0 0% 8% / 0.92), hsl(0 0% 4% / 0.98))"
