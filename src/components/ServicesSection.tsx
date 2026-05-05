@@ -65,12 +65,6 @@ function ServiceCard({
       className="relative cursor-pointer group"
       style={{ perspective: "1400px" }}
     >
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      onMouseMove={handleMove}
-      className="relative cursor-pointer group"
-      style={{ perspective: "1400px" }}
-    >
       <motion.div
         animate={{
           rotateX: hovered ? (mousePos.y - 50) * -0.06 : 0,
