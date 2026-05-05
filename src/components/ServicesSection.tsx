@@ -210,11 +210,20 @@ const ServicesSection = () => {
         </motion.div>
 
         {/* 2x2 Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+        <motion.div
+          variants={{
+            hidden: {},
+            visible: { transition: { staggerChildren: 0.15, delayChildren: 0.1 } },
+          }}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, margin: "-60px" }}
+          className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5"
+        >
           {services.map((s, i) => (
             <ServiceCard key={s.num} service={s} index={i} />
           ))}
-        </div>
+        </motion.div>
 
         <InlineCTA
           caption="Scopri tutti i nostri servizi e trova quello giusto per il tuo brand."
