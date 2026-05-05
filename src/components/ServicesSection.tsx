@@ -212,10 +212,11 @@ const ServicesSection = () => {
         </motion.div>
 
         {/* 2x2 Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 md:items-start">
           {services.map((s, i) => (
             <ServiceCard key={s.num} service={s} index={i} />
           ))}
+        </div>
         </div>
 
         <InlineCTA
