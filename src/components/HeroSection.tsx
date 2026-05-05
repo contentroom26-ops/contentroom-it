@@ -17,13 +17,14 @@ const HeroSection = () => {
 
   return (
     <section ref={ref} className="relative h-screen overflow-hidden flex items-center justify-center">
-      {/* Video background */}
-      <video
+      {/* Video background with parallax */}
+      <motion.video
         autoPlay
         muted
         loop
         playsInline
-        className="absolute inset-0 w-full h-full object-cover"
+        style={{ y: heroY, scale: heroScale, opacity: heroOpacity }}
+        className="absolute inset-0 w-full h-full object-cover will-change-transform"
         src="/hero-video.mov"
       />
       <div className="absolute inset-0 bg-black/40 pointer-events-none" />
