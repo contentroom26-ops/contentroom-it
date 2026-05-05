@@ -8,6 +8,7 @@ import PortfolioSection from "@/components/PortfolioSection";
 import CTASection from "@/components/CTASection";
 import GlobalVideoBackground from "@/components/GlobalVideoBackground";
 import SplashScreen from "@/components/SplashScreen";
+import Footer from "@/components/Footer";
 import FAQSection from "@/components/FAQSection";
 import PageTransition from "@/components/PageTransition";
 
