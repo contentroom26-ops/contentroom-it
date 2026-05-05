@@ -15,8 +15,8 @@ const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        hero: "bg-primary text-primary-foreground font-display font-semibold tracking-wide hover:bg-primary/90 shadow-[0_0_30px_hsl(var(--primary)/0.3)] hover:shadow-[0_0_50px_hsl(var(--primary)/0.5)] transition-all duration-500",
-        cta: "bg-primary text-primary-foreground font-display font-bold text-lg tracking-wide hover:bg-primary/90 shadow-[0_0_40px_hsl(var(--primary)/0.4)] hover:shadow-[0_0_60px_hsl(var(--primary)/0.6)] transition-all duration-500 hover:scale-105",
+        hero: "bg-primary text-primary-foreground font-display font-semibold tracking-wide hover:bg-primary/90 shadow-[0_0_30px_hsl(var(--primary)/0.3)] hover:shadow-[0_0_24px_hsl(var(--primary)/0.55),0_0_60px_hsl(var(--primary)/0.35)] transition-all duration-500",
+        cta: "bg-primary text-primary-foreground font-display font-bold text-lg tracking-wide hover:bg-primary/90 shadow-[0_0_40px_hsl(var(--primary)/0.4)] hover:shadow-[0_0_30px_hsl(var(--primary)/0.6),0_0_70px_hsl(var(--primary)/0.4)] transition-all duration-500 hover:scale-105",
       },
       size: {
         default: "h-10 px-4 py-2",
