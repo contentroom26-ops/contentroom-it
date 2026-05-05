@@ -40,7 +40,6 @@ const Index = () => {
             <div id="servizi"><ServicesSection /></div>
             <div className="h-[20vh]" />
             <div id="portfolio"><PortfolioSection /></div>
-            <div className="h-[20vh]" />
             <ResultsSection />
             <div id="contatti"><CTASection /></div>
             <FAQSection />
