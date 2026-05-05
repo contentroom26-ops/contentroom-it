@@ -10,6 +10,7 @@ import GlobalVideoBackground from "@/components/GlobalVideoBackground";
 import SplashScreen from "@/components/SplashScreen";
 import Footer from "@/components/Footer";
 import FAQSection from "@/components/FAQSection";
+import PageTransition from "@/components/PageTransition";
 
 const Index = () => {
   const [splashDone, setSplashDone] = useState(false);
@@ -33,16 +34,18 @@ const Index = () => {
         {/* All content floats above the room */}
         <main className="relative z-10 min-h-screen overflow-x-hidden pb-24">
           <Navbar />
-          <HeroSection />
-          <div className="h-[30vh]" />
-          <div id="servizi"><ServicesSection /></div>
-          <div className="h-[20vh]" />
-          <div id="portfolio"><PortfolioSection /></div>
-          <div className="h-[20vh]" />
-          <ResultsSection />
-          <div id="contatti"><CTASection /></div>
-          <FAQSection />
-          <Footer />
+          <PageTransition>
+            <HeroSection />
+            <div className="h-[30vh]" />
+            <div id="servizi"><ServicesSection /></div>
+            <div className="h-[20vh]" />
+            <div id="portfolio"><PortfolioSection /></div>
+            <div className="h-[20vh]" />
+            <ResultsSection />
+            <div id="contatti"><CTASection /></div>
+            <FAQSection />
+            <Footer />
+          </PageTransition>
         </main>
       </motion.div>
     </>
