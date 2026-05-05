@@ -55,14 +55,9 @@ function ServiceCard({
   return (
     <motion.div
       ref={cardRef}
-      initial={{ opacity: 0, y: 100, rotateX: 12 }}
-      whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-      exit={{ opacity: 0, y: -60 }}
-      viewport={{ once: false, margin: "-60px" }}
-      transition={{
-        duration: 1,
-        delay: index * 0.15,
-        ease: [0.16, 1, 0.3, 1],
+      variants={{
+        hidden: { opacity: 0, y: 60, rotateX: 12 },
+        visible: { opacity: 1, y: 0, rotateX: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } },
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -215,11 +210,20 @@ const ServicesSection = () => {
         </motion.div>
 
         {/* 2x2 Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+        <motion.div
+          variants={{
+            hidden: {},
+            visible: { transition: { staggerChildren: 0.15, delayChildren: 0.1 } },
+          }}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, margin: "-60px" }}
+          className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5"
+        >
           {services.map((s, i) => (
             <ServiceCard key={s.num} service={s} index={i} />
           ))}
-        </div>
+        </motion.div>
 
         <InlineCTA
           caption="Scopri tutti i nostri servizi e trova quello giusto per il tuo brand."

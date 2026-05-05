@@ -1,21 +1,30 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import MagneticButton from "@/components/MagneticButton";
 import contentRoomLogo from "@/assets/contentroom-logo.png";
 
 const HeroSection = () => {
   const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, 180]);
+  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   return (
     <section ref={ref} className="relative h-screen overflow-hidden flex items-center justify-center">
-      {/* Video background */}
-      <video
+      {/* Video background with parallax */}
+      <motion.video
         autoPlay
         muted
         loop
         playsInline
-        className="absolute inset-0 w-full h-full object-cover"
+        style={{ y: heroY, scale: heroScale, opacity: heroOpacity }}
+        className="absolute inset-0 w-full h-full object-cover will-change-transform"
         src="/hero-video.mov"
       />
       <div className="absolute inset-0 bg-black/40 pointer-events-none" />
@@ -63,16 +72,18 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.8, delay: 1.2, ease: [0.22, 1, 0.36, 1] }}
         >
-          <Button asChild variant="hero" size="lg" className="btn-glow h-14 px-10 text-base rounded-full group relative overflow-hidden border-2 border-transparent hover:border-black hover:text-black hover:-translate-y-1 transition-all duration-300">
-            <Link to="/contatti">
-              <span className="relative z-10">Prenota una call</span>
-              <motion.div
-                className="absolute inset-0 bg-primary/20 rounded-full"
-                animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-              />
-            </Link>
-          </Button>
+          <MagneticButton strength={0.4}>
+            <Button asChild variant="hero" size="lg" className="btn-glow h-14 px-10 text-base rounded-full group relative overflow-hidden border-2 border-transparent hover:border-black hover:text-black transition-all duration-500 ease-in-out">
+              <Link to="/contatti">
+                <span className="relative z-10">Prenota una call</span>
+                <motion.div
+                  className="absolute inset-0 bg-primary/20 rounded-full"
+                  animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                />
+              </Link>
+            </Button>
+          </MagneticButton>
         </motion.div>
       </motion.div>
 
