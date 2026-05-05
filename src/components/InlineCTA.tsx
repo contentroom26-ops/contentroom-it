@@ -36,17 +36,19 @@ const InlineCTA = ({
           {caption}
         </p>
       )}
-      <Link
-        to={to}
-        className="btn-glow group relative inline-flex items-center justify-center h-14 px-10 text-base rounded-full overflow-hidden border-2 border-transparent bg-primary text-primary-foreground font-display font-semibold tracking-wide shadow-[0_0_30px_hsl(var(--primary)/0.3)] hover:border-black hover:text-black hover:-translate-y-1 transition-all duration-300"
-      >
-        <span className="relative z-10">{label}</span>
-        <motion.div
-          className="absolute inset-0 bg-primary/20 rounded-full"
-          animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
-          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-        />
-      </Link>
+      <MagneticButton radius={60} strength={0.35} className="inline-block">
+        <Link
+          to={to}
+          className="btn-glow group relative inline-flex items-center justify-center h-14 px-10 text-base rounded-full overflow-hidden border-2 border-transparent bg-primary text-primary-foreground font-display font-semibold tracking-wide shadow-[0_0_30px_hsl(var(--primary)/0.3)] hover:border-black hover:text-black hover:-translate-y-1 transition-all duration-300"
+        >
+          <span className="relative z-10">{label}</span>
+          <motion.div
+            className="absolute inset-0 bg-primary/20 rounded-full"
+            animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </Link>
+      </MagneticButton>
     </motion.div>
   );
 };
