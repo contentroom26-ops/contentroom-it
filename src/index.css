@@ -74,7 +74,15 @@
   }
 
   .glass-card {
-    @apply bg-card/50 backdrop-blur-xl border border-border/50;
+    @apply bg-card/40 backdrop-blur-xl;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 500ms cubic-bezier(0.22, 1, 0.36, 1), border-color 500ms ease;
+  }
+
+  .glass-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(255, 255, 255, 0.18);
+    box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.6);
   }
 
   .hover-lift {
@@ -83,7 +91,27 @@
 
   .hover-lift:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 60px -15px hsl(var(--primary) / 0.15);
+    box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.6);
+  }
+
+  .hero-mesh-gradient {
+    background-image:
+      radial-gradient(at 18% 22%, hsl(var(--primary) / 0.22) 0px, transparent 55%),
+      radial-gradient(at 82% 18%, hsl(var(--accent) / 0.18) 0px, transparent 55%),
+      radial-gradient(at 70% 78%, hsl(192 70% 60% / 0.18) 0px, transparent 55%),
+      radial-gradient(at 25% 85%, hsl(220 60% 30% / 0.22) 0px, transparent 55%);
+  }
+
+  .btn-glow {
+    position: relative;
+    transition: box-shadow 400ms ease, transform 400ms ease, filter 400ms ease;
+  }
+  .btn-glow:hover {
+    box-shadow:
+      0 0 0 1px hsl(var(--primary) / 0.5),
+      0 0 24px hsl(var(--primary) / 0.55),
+      0 0 60px hsl(var(--primary) / 0.35);
+    filter: brightness(1.05);
   }
 }
 
