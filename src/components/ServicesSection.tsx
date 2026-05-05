@@ -1,6 +1,7 @@
 import { useRef, useState, useCallback } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Aperture, Share2, Rocket, Code2 } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 import InlineCTA from "./InlineCTA";
 
 const CELESTE = "hsl(192 49% 76%)";
@@ -40,6 +41,7 @@ function ServiceCard({
   index: number;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
   const [hovered, setHovered] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
 
@@ -52,19 +54,25 @@ function ServiceCard({
     });
   }, []);
 
+  const xOffset = isMobile ? 0 : index % 2 === 0 ? -150 : 150;
+  const delay = index * 0.2;
+
   return (
     <motion.div
       ref={cardRef}
       variants={{
-        hidden: { opacity: 0, x: index % 2 === 0 ? -150 : 150 },
+        hidden: { opacity: 0, x: xOffset, y: 50, scale: 0.9, filter: "blur(15px)" },
         visible: {
           opacity: 1,
           x: 0,
+          y: 0,
+          scale: 1,
+          filter: "blur(0px)",
           transition: {
             type: "spring",
             stiffness: 100,
             damping: 20,
-            delay: index >= 2 ? 0.2 : 0,
+            delay,
           },
         },
       }}
@@ -222,11 +230,11 @@ const ServicesSection = () => {
         <motion.div
           variants={{
             hidden: {},
-            visible: { transition: { staggerChildren: 0.15, delayChildren: 0.1 } },
+            visible: {},
           }}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, margin: "-60px" }}
+          viewport={{ once: true, margin: "-60px" }}
           className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 overflow-x-hidden"
         >
           {services.map((s, i) => (
