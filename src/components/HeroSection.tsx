@@ -19,6 +19,8 @@ const HeroSection = () => {
         src="/hero-video.mov"
       />
       <div className="absolute inset-0 bg-black/40 pointer-events-none" />
+      <div className="absolute inset-0 hero-mesh-gradient pointer-events-none mix-blend-screen opacity-80" />
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_center,transparent_30%,hsl(0_0%_0%/0.55)_100%)]" />
 
       {/* Content */}
       <motion.div className="relative z-10 text-center px-6 max-w-5xl">
