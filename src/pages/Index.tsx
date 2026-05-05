@@ -32,7 +32,7 @@ const Index = () => {
         <GlobalVideoBackground />
 
         {/* All content floats above the room */}
-        <main className="relative z-10 min-h-screen overflow-x-hidden pb-24">
+        <main className="relative z-10 min-h-screen overflow-x-hidden">
           <Navbar />
           <PageTransition>
             <HeroSection />
