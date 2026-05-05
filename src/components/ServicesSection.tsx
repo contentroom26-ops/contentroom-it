@@ -55,19 +55,16 @@ function ServiceCard({
   return (
     <motion.div
       ref={cardRef}
-      initial={{ opacity: 0, y: 100, rotateX: 12 }}
-      whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-      exit={{ opacity: 0, y: -60 }}
-      viewport={{ once: false, margin: "-60px" }}
-      transition={{
-        duration: 1,
-        delay: index * 0.15,
-        ease: [0.16, 1, 0.3, 1],
-      }}
+      initial={{ opacity: 0, x: index % 2 === 0 ? -120 : 120 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, margin: "-10%" }}
+      transition={{ type: "spring", stiffness: 50, damping: 18, delay: index * 0.1 }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onMouseMove={handleMove}
-      className="relative cursor-pointer group"
+      className={`relative cursor-pointer group ${
+        index % 2 === 0 ? "md:mt-0 md:-translate-y-4" : "md:mt-24 md:translate-y-4"
+      }`}
       style={{ perspective: "1400px" }}
     >
       <motion.div
@@ -215,7 +212,7 @@ const ServicesSection = () => {
         </motion.div>
 
         {/* 2x2 Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 md:items-start">
           {services.map((s, i) => (
             <ServiceCard key={s.num} service={s} index={i} />
           ))}
