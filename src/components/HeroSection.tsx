@@ -27,9 +27,8 @@ const HeroSection = () => {
 
   // Parallax: background slower than foreground
   const { scrollY } = useScroll();
-  const yBg = useTransform(scrollY, [0, 800], [0, 160]);   // background ~0.2 ratio
-  const yFg = useTransform(scrollY, [0, 800], [0, -40]);   // foreground subtle
-  const opacityFg = useTransform(scrollY, [0, 600], [1, 0.4]);
+  // Parallax only on background (foreground stays in place per user preference)
+  const yBg = useTransform(scrollY, [0, 800], [0, 160]);
 
   return (
     <section ref={ref} className="relative h-screen overflow-hidden flex items-center justify-center">
@@ -53,7 +52,6 @@ const HeroSection = () => {
         variants={container}
         initial="hidden"
         animate="visible"
-        style={{ y: yFg, opacity: opacityFg }}
         className="relative z-10 text-center px-6 max-w-5xl"
       >
         <motion.img
