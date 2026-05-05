@@ -230,11 +230,11 @@ const ServicesSection = () => {
         <motion.div
           variants={{
             hidden: {},
-            visible: { transition: { staggerChildren: 0.15, delayChildren: 0.1 } },
+            visible: {},
           }}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, margin: "-60px" }}
+          viewport={{ once: true, margin: "-60px" }}
           className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 overflow-x-hidden"
         >
           {services.map((s, i) => (
