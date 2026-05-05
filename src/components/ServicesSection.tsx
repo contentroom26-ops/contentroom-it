@@ -56,8 +56,17 @@ function ServiceCard({
     <motion.div
       ref={cardRef}
       variants={{
-        hidden: { opacity: 0, y: 60, rotateX: 12 },
-        visible: { opacity: 1, y: 0, rotateX: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } },
+        hidden: { opacity: 0, x: index % 2 === 0 ? -150 : 150 },
+        visible: {
+          opacity: 1,
+          x: 0,
+          transition: {
+            type: "spring",
+            stiffness: 100,
+            damping: 20,
+            delay: index >= 2 ? 0.2 : 0,
+          },
+        },
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
