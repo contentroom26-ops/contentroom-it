@@ -36,8 +36,8 @@
 
     --radius: 0.75rem;
 
-    --font-display: 'Space Grotesk', sans-serif;
-    --font-body: 'Inter', sans-serif;
+    --font-display: 'Geist', 'Inter', system-ui, -apple-system, sans-serif;
+    --font-body: 'Geist', 'Inter', system-ui, -apple-system, sans-serif;
 
     --sidebar-background: 0 0% 6%;
     --sidebar-foreground: 43 100% 98%;
