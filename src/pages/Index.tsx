@@ -38,7 +38,7 @@ const Index = () => {
             <HeroSection />
             <div className="h-[30vh]" />
             <div id="servizi"><ServicesSection /></div>
-            <div className="h-[20vh]" />
+            
             <div id="portfolio"><PortfolioSection /></div>
             <ResultsSection />
             <div id="contatti"><CTASection /></div>
