@@ -55,15 +55,16 @@ function ServiceCard({
   return (
     <motion.div
       ref={cardRef}
-      initial={{ opacity: 0, y: 100, rotateX: 12 }}
-      whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-      exit={{ opacity: 0, y: -60 }}
-      viewport={{ once: false, margin: "-60px" }}
-      transition={{
-        duration: 1,
-        delay: index * 0.15,
-        ease: [0.16, 1, 0.3, 1],
+      variants={{
+        hidden: { opacity: 0, y: 60, rotateX: 12 },
+        visible: { opacity: 1, y: 0, rotateX: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } },
       }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onMouseMove={handleMove}
+      className="relative cursor-pointer group"
+      style={{ perspective: "1400px" }}
+    >
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onMouseMove={handleMove}
