@@ -217,7 +217,6 @@ const ServicesSection = () => {
             <ServiceCard key={s.num} service={s} index={i} />
           ))}
         </div>
-        </div>
 
         <InlineCTA
           caption="Scopri tutti i nostri servizi e trova quello giusto per il tuo brand."
