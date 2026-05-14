@@ -8,6 +8,7 @@ import GlobalVideoBackground from "@/components/GlobalVideoBackground";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 
 const CELESTE = "hsl(192 49% 76%)";
@@ -26,7 +27,7 @@ const Contatti = () => {
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
   const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const result = contactSchema.safeParse(form);
     if (!result.success) {
@@ -38,14 +39,23 @@ const Contatti = () => {
       return;
     }
     setSubmitting(true);
-    setTimeout(() => {
-      setSubmitting(false);
-      setForm({ name: "", email: "", subject: "", message: "" });
+    const { error } = await supabase.functions.invoke("send-contact-email", {
+      body: { ...result.data, source: "contatti" },
+    });
+    setSubmitting(false);
+    if (error) {
       toast({
-        title: "Messaggio inviato",
-        description: "Ti ricontatteremo al più presto.",
+        title: "Invio non riuscito",
+        description: error.message,
+        variant: "destructive",
       });
-    }, 600);
+      return;
+    }
+    setForm({ name: "", email: "", subject: "", message: "" });
+    toast({
+      title: "Messaggio inviato",
+      description: "Ti ricontatteremo al più presto.",
+    });
   };
 
   return (
