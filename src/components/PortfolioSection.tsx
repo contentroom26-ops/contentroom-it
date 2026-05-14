@@ -21,7 +21,7 @@ const PortfolioSection = () => {
   const [selected, setSelected] = useState<number | null>(null);
 
   return (
-    <section className="py-32 px-6 relative">
+    <section className="relative px-6 py-[50px]">
       <div className="max-w-6xl mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 60 }}
