@@ -3,7 +3,7 @@ import { z } from 'npm:zod@3.23.8';
 
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY');
 const TO_EMAIL = 'info@contentroom.it';
-const FROM_EMAIL = 'Content Room <onboarding@resend.dev>';
+const FROM_EMAIL = 'Content Room <info@contentroom.it>';
 
 const ContactSchema = z.object({
   name: z.string().trim().min(1).max(100),
