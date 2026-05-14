@@ -49,7 +49,7 @@ const CTASection = () => {
   };
 
   return (
-    <section className="relative min-h-[calc(100vh-5rem)] px-4 pt-16 pb-6 md:pt-20 md:pb-8 flex items-center justify-center">
+    <section className="relative min-h-[calc(100vh-5rem)] px-4 pt-16 pb-6 md:pt-20 md:pb-8 flex items-center justify-center py-[50px]">
       <motion.div
         initial={{ opacity: 0, y: 40, scale: 0.985 }}
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
