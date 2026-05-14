@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
+import ChiSiamoSection from "@/components/ChiSiamoSection";
 import ServicesSection from "@/components/ServicesSection";
 import ResultsSection from "@/components/ResultsSection";
 import PortfolioSection from "@/components/PortfolioSection";
@@ -17,6 +19,27 @@ const Index = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Content Room — Agenzia di comunicazione e marketing a Firenze</title>
+        <meta
+          name="description"
+          content="Content Room è l'agenzia di comunicazione e marketing di Firenze: strategia, contenuti, social media, growth e digitalizzazione per brand che vogliono crescere."
+        />
+        <link rel="canonical" href="https://contentroom-it.lovable.app/" />
+        <meta property="og:title" content="Content Room — Agenzia di comunicazione e marketing a Firenze" />
+        <meta property="og:description" content="Strategia, contenuti, social media, growth e digitalizzazione. La stanza dove nascono le idee dei brand che crescono." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://contentroom-it.lovable.app/" />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "Content Room",
+          url: "https://contentroom-it.lovable.app",
+          email: "info@contentroom.it",
+          description: "Agenzia di comunicazione e marketing a Firenze.",
+          areaServed: "IT",
+        })}</script>
+      </Helmet>
       <AnimatePresence>
         {!splashDone && (
           <SplashScreen key="splash" onComplete={() => setSplashDone(true)} />
@@ -37,6 +60,7 @@ const Index = () => {
           <PageTransition>
             <HeroSection />
             <div className="h-[30vh]" />
+            <ChiSiamoSection />
             <div id="servizi"><ServicesSection /></div>
             
             <div id="portfolio"><PortfolioSection /></div>
