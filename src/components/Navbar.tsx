@@ -75,7 +75,7 @@ const Navbar = () => {
         <div className="hidden md:flex items-center gap-2">
           {[
             { label: "Servizi", to: "/servizi" },
-            { label: "Portfolio", to: "/portfolio" },
+            // { label: "Portfolio", to: "/portfolio" }, // Temporarily hidden — da reinserire in futuro
             { label: "Contatti", to: "/contatti" },
           ].map((item) => (
             <Link

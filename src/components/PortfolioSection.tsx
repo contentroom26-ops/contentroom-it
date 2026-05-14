@@ -88,11 +88,13 @@ const PortfolioSection = () => {
           ))}
         </div>
 
+        {/* Temporarily hidden — da reinserire in futuro
         <InlineCTA
           caption="Esplora tutti i nostri progetti e lasciati ispirare."
           label="Vedi il portfolio"
           to="/portfolio"
         />
+        */}
       </div>
 
       {/* Detail modal */}
