@@ -189,7 +189,7 @@ const ServicesSection = () => {
   const headerOpacity = useTransform(scrollYProgress, [0, 0.2], [0, 1]);
 
   return (
-    <section ref={sectionRef} className="py-32 px-6 relative">
+    <section ref={sectionRef} className="px-6 relative py-[50px]">
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Header */}
         <motion.div style={{ y: headerY, opacity: headerOpacity }}>
