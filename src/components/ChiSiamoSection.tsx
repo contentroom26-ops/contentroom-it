@@ -11,7 +11,7 @@ const ChiSiamoSection = () => {
     <section
       id="chi-siamo"
       aria-labelledby="chi-siamo-title"
-      className="py-32 px-6 relative"
+      className="px-6 relative py-[40px]"
     >
       <div className="max-w-5xl mx-auto">
         <motion.div
