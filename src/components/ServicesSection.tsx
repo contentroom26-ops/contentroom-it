@@ -195,9 +195,19 @@ const ServicesSection = () => {
         <motion.div style={{ y: headerY, opacity: headerOpacity }}>
           <div className="flex items-center gap-4 mb-6">
             <div className="w-12 h-0.5" style={{ background: CELESTE }} />
-            <p className="font-body font-bold text-xs tracking-[0.4em] uppercase" style={{ color: CELESTE }}>
+            <span
+              className="inline-flex items-center font-body font-bold text-xs tracking-[0.4em] uppercase px-3 py-1.5 rounded-full border"
+              style={{
+                color: CELESTE,
+                background: "hsl(0 0% 0% / 0.55)",
+                borderColor: "hsl(192 49% 76% / 0.45)",
+                backdropFilter: "blur(8px)",
+                boxShadow: "0 0 24px hsl(192 49% 76% / 0.18)",
+                textShadow: "0 1px 4px hsl(0 0% 0% / 0.8)",
+              }}
+            >
               Servizi
-            </p>
+            </span>
           </div>
           <h2
             className="font-display font-bold tracking-tight mb-20 leading-[1.05] text-white"
