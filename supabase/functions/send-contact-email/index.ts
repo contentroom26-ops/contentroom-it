@@ -3,7 +3,7 @@ import { z } from 'npm:zod@3.23.8';
 
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY');
 const TO_EMAIL = 'info@contentroom.it';
-const FROM_EMAIL = 'Content Room <onboarding@resend.dev>';
+const FROM_EMAIL = 'Content Room <info@contentroom.it>';
 
 const ContactSchema = z.object({
   name: z.string().trim().min(1).max(100),
@@ -41,13 +41,17 @@ Deno.serve(async (req) => {
         <h2 style="color:#a8d4e0;margin:0 0 16px;">Nuovo messaggio dal sito</h2>
         <p style="color:#888;font-size:12px;margin:0 0 24px;text-transform:uppercase;letter-spacing:2px;">Origine: ${escapeHtml(source)}</p>
         <table style="width:100%;border-collapse:collapse;">
-          <tr><td style="padding:8px 0;color:#888;width:120px;">Nome</td><td style="padding:8px 0;">${escapeHtml(name)}</td></tr>
-          <tr><td style="padding:8px 0;color:#888;">Email</td><td style="padding:8px 0;"><a href="mailto:${escapeHtml(email)}" style="color:#a8d4e0;">${escapeHtml(email)}</a></td></tr>
-          ${subject ? `<tr><td style="padding:8px 0;color:#888;">Oggetto</td><td style="padding:8px 0;">${escapeHtml(subject)}</td></tr>` : ''}
+          <tr><td style="padding:8px 0;color:#888;width:120px;"><strong>Nome cliente</strong></td><td style="padding:8px 0;">${escapeHtml(name)}</td></tr>
+          <tr><td style="padding:8px 0;color:#888;"><strong>Email cliente</strong></td><td style="padding:8px 0;"><a href="mailto:${escapeHtml(email)}" style="color:#a8d4e0;">${escapeHtml(email)}</a></td></tr>
+          ${subject ? `<tr><td style="padding:8px 0;color:#888;"><strong>Oggetto</strong></td><td style="padding:8px 0;">${escapeHtml(subject)}</td></tr>` : ''}
         </table>
-        <div style="margin-top:24px;padding:20px;background:#1a1a1a;border-radius:12px;border-left:3px solid #a8d4e0;">
-          <p style="margin:0;white-space:pre-wrap;line-height:1.6;">${escapeHtml(message)}</p>
+        <div style="margin-top:24px;">
+          <p style="color:#888;text-transform:uppercase;letter-spacing:2px;font-size:12px;margin:0 0 8px;">Messaggio</p>
+          <div style="padding:20px;background:#1a1a1a;border-radius:12px;border-left:3px solid #a8d4e0;">
+            <p style="margin:0;white-space:pre-wrap;line-height:1.6;">${escapeHtml(message)}</p>
+          </div>
         </div>
+        <p style="margin-top:24px;color:#666;font-size:12px;">Rispondi direttamente a questa email per contattare ${escapeHtml(name)} (${escapeHtml(email)}).</p>
       </div>
     `;
 
