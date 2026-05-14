@@ -1,10 +1,20 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
 
 const CELESTE = "hsl(192 49% 76%)";
+
+const homeContactSchema = z.object({
+  name: z.string().trim().min(1, "Inserisci il tuo nome").max(100),
+  email: z.string().trim().email("Email non valida").max(255),
+  message: z.string().trim().min(1, "Scrivi un messaggio").max(2000),
+});
 const ACCENT = CELESTE;
 
 const recessedFieldShadow =
