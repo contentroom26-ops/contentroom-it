@@ -112,9 +112,6 @@ const Footer = () => {
             >
               Cookie Policy
             </a>
-            <span className="font-body text-xs text-muted-foreground">
-              P.IVA [00000000000]
-            </span>
           </div>
         </div>
       </div>
