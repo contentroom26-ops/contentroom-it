@@ -1,5 +1,6 @@
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { useCallback, useRef, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { Aperture, Share2, Rocket, Code2, Check, ArrowUpRight, Compass, Hammer, LineChart } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -512,6 +513,32 @@ function ServicesGrid() {
 const Servizi = () => {
   return (
     <>
+      <Helmet>
+        <title>Servizi — Content Room | Comunicazione e marketing</title>
+        <meta name="description" content="Content creation, social media, growth e digitalizzazione: scopri i servizi di Content Room per far crescere il tuo brand online dalla strategia all'analisi." />
+        <link rel="canonical" href="https://contentroom-it.lovable.app/servizi" />
+        <meta property="og:title" content="Servizi — Content Room" />
+        <meta property="og:description" content="Content creation, social media, growth e digitalizzazione: un ecosistema completo di servizi per brand che vogliono crescere online." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://contentroom-it.lovable.app/servizi" />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Service",
+          serviceType: "Agenzia di comunicazione e marketing",
+          provider: { "@type": "Organization", name: "Content Room", url: "https://contentroom-it.lovable.app" },
+          areaServed: "IT",
+          hasOfferCatalog: {
+            "@type": "OfferCatalog",
+            name: "Servizi Content Room",
+            itemListElement: [
+              "Content Creation",
+              "Social Media",
+              "Growth & Advertising",
+              "Siti & Digitalizzazione",
+            ].map((name) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name } })),
+          },
+        })}</script>
+      </Helmet>
       <GlobalVideoBackground />
       <main className="relative z-10 min-h-screen overflow-x-hidden">
         <Navbar />

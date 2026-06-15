@@ -20,13 +20,13 @@ const Index = () => {
   return (
     <>
       <Helmet>
-        <title>Content Room — Agenzia di comunicazione e marketing a Firenze</title>
+        <title>Content Room — Agenzia di comunicazione a Firenze</title>
         <meta
           name="description"
           content="Content Room è l'agenzia di comunicazione e marketing di Firenze: strategia, contenuti, social media, growth e digitalizzazione per brand che vogliono crescere."
         />
         <link rel="canonical" href="https://contentroom-it.lovable.app/" />
-        <meta property="og:title" content="Content Room — Agenzia di comunicazione e marketing a Firenze" />
+        <meta property="og:title" content="Content Room — Agenzia di comunicazione a Firenze" />
         <meta property="og:description" content="Strategia, contenuti, social media, growth e digitalizzazione. La stanza dove nascono le idee dei brand che crescono." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://contentroom-it.lovable.app/" />
