@@ -1,6 +1,6 @@
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { useCallback, useRef, useState } from "react";
-import { Aperture, Share2, Rocket, Code2, Check, ArrowUpRight, Search, Compass, Hammer, LineChart } from "lucide-react";
+import { Aperture, Share2, Rocket, Code2, Check, ArrowUpRight, Compass, Hammer, LineChart } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import GlobalVideoBackground from "@/components/GlobalVideoBackground";
@@ -318,10 +318,10 @@ const services = [
 ];
 
 const method = [
-  { step: "01", name: "Discovery", desc: "Analizziamo brand, mercato e obiettivi per costruire fondamenta solide.", icon: Search },
-  { step: "02", name: "Strategia", desc: "Definiamo positioning, tone of voice e roadmap operativa.", icon: Compass },
-  { step: "03", name: "Produzione", desc: "Creiamo contenuti e attiviamo i canali con esecuzione impeccabile.", icon: Hammer },
-  { step: "04", name: "Analisi", desc: "Misuriamo, ottimizziamo e iteriamo per massimizzare i risultati.", icon: LineChart },
+  { step: "01", name: "Strategia", desc: "Definiamo obiettivi, KPI, tono di voce e piano editoriale su misura per il tuo brand e il tuo pubblico.", icon: Compass },
+  { step: "02", name: "Produzione", desc: "Creiamo i contenuti: video, foto, copy e grafiche. Ogni asset è revisionabile prima della pubblicazione.", icon: Hammer },
+  { step: "03", name: "Distribuzione", desc: "Pubblichiamo, gestiamo e monitoriamo i contenuti sui canali concordati, ottimizzando in base alle performance.", icon: Share2 },
+  { step: "04", name: "Analisi & Report", desc: "Ogni mese ricevi un report dettagliato con i risultati raggiunti, le insight principali e le azioni per il mese successivo.", icon: LineChart },
 ];
 
 function MethodPath() {
