@@ -11,27 +11,27 @@ const CELESTE = "hsl(192 49% 76%)";
 const faqs = [
   {
     q: "Come funziona il processo creativo?",
-    a: "Partiamo da un brief approfondito per comprendere il tuo brand, gli obiettivi e il pubblico. Sviluppiamo poi una strategia su misura, seguita da produzione, revisioni condivise e pubblicazione. Ogni fase è collaborativa e trasparente.",
+    a: "Iniziamo con una call conoscitiva gratuita per capire i tuoi obiettivi, il tuo brand e il tuo pubblico. Definiamo insieme la strategia, produciamo i contenuti e li pubblichiamo rispettando un piano editoriale condiviso. Hai sempre visibilità su ogni fase del lavoro.",
   },
   {
     q: "Quali sono i tempi di consegna?",
-    a: "Dipende dalla complessità del progetto: un singolo contenuto richiede generalmente 5-10 giorni lavorativi, mentre una campagna o una strategia social completa può richiedere 3-6 settimane. Concordiamo sempre tempistiche chiare in fase di kick-off.",
+    a: "Dipende dal progetto. Per i contenuti social il ciclo è settimanale. Per campagne più articulate o siti web i tempi variano dalle 2 alle 4 settimane. Ti forniamo sempre una roadmap dettagliata prima di iniziare.",
   },
   {
     q: "Lavorate con brand di qualsiasi settore?",
-    a: "Sì, collaboriamo con brand di vari settori: moda, food & beverage, wellness, beauty, lifestyle, hospitality. La nostra metodologia si adatta al tono e ai valori di ogni cliente.",
+    a: "Sì, abbiamo esperienza in diversi settori: moda, food & beverage, real estate, professioni e retail. Ogni progetto riceve un approccio personalizzato.",
   },
   {
     q: "Quanto costa un progetto con Content Room?",
-    a: "Ogni progetto è personalizzato. Dopo una prima call conoscitiva ti inviamo un preventivo dettagliato basato su obiettivi, deliverable e tempistiche. Non lavoriamo con pacchetti preconfezionati.",
+    a: "I nostri pacchetti partono da una tariffa personalizzata in base ai servizi inclusi e alla frequenza di pubblicazione. Richiedi una call gratuita per un preventivo su misura.",
   },
   {
     q: "Vi occupate anche della gestione dei profili social?",
-    a: "Sì. Offriamo social media management completo: piano editoriale, produzione contenuti, copywriting, pubblicazione, community management e reportistica mensile sui risultati.",
+    a: "Sì, offriamo la gestione completa dei profili: dalla creazione dei contenuti alla pubblicazione, dalla risposta ai commenti all'analisi mensile delle performance.",
   },
   {
     q: "Come iniziamo a lavorare insieme?",
-    a: "Contattaci dal form qui sopra o scrivici a info@contentroom.it. Fissiamo una call gratuita di 30 minuti per capire le tue esigenze e proporti il percorso più adatto.",
+    a: "Prenota una call gratuita di 30 minuti tramite il pulsante su questa pagina. In quella chiamata analizziamo insieme le tue esigenze e ti presentiamo la soluzione più adatta.",
   },
 ];
 
