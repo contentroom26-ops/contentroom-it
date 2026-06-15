@@ -53,7 +53,7 @@ const CTASection = () => {
       <motion.div
         initial={{ opacity: 0, y: 40, scale: 0.985 }}
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
-        viewport={{ once: false, margin: "-80px" }}
+        viewport={{ once: true, amount: 0.1 }}
         transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
         className="relative z-10 w-full max-w-[620px] mx-auto"
       >

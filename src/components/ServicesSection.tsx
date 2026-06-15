@@ -57,7 +57,7 @@ function ServiceCard({
       ref={cardRef}
       initial={{ opacity: 0, x: index % 2 === 0 ? -120 : 120 }}
       whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true, margin: "-10%" }}
+      viewport={{ once: true, amount: 0.1 }}
       transition={{ type: "spring", stiffness: 50, damping: 18, delay: index * 0.1 }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
