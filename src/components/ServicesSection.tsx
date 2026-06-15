@@ -192,7 +192,17 @@ const ServicesSection = () => {
     <section ref={sectionRef} className="px-6 relative py-[50px]">
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Header */}
-        <motion.div style={{ y: headerY, opacity: headerOpacity }}>
+        <motion.div
+          style={{
+            y: headerY,
+            opacity: headerOpacity,
+            background: "linear-gradient(160deg, hsl(0 0% 5% / 0.78), hsl(0 0% 3% / 0.88))",
+            border: "1px solid hsl(0 0% 100% / 0.08)",
+            backdropFilter: "blur(18px)",
+            borderRadius: "24px",
+          }}
+          className="inline-block mb-20 p-8 md:p-10"
+        >
           <div className="flex items-center gap-4 mb-6">
             <div className="w-12 h-0.5" style={{ background: CELESTE }} />
             <span
@@ -206,7 +216,7 @@ const ServicesSection = () => {
             </span>
           </div>
           <h2
-            className="font-display font-bold tracking-tight mb-20 leading-[1.05] text-white"
+            className="font-display font-bold tracking-tight leading-[1.05] text-white"
             style={{
               fontSize: "clamp(2.5rem, 6vw, 5rem)",
               textShadow: "0 2px 20px hsl(0 0% 0% / 0.8), 0 0 40px hsl(0 0% 0% / 0.6)",
