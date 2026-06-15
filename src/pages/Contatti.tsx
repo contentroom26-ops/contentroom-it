@@ -60,6 +60,15 @@ const Contatti = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Contatti — Content Room | Prenota una call gratuita</title>
+        <meta name="description" content="Contatta Content Room, agenzia di comunicazione a Firenze. Prenota una call gratuita di 30 minuti e scopri la strategia su misura per il tuo brand." />
+        <link rel="canonical" href="https://contentroom-it.lovable.app/contatti" />
+        <meta property="og:title" content="Contatti — Content Room" />
+        <meta property="og:description" content="Prenota una call gratuita con Content Room e parla con il nostro team della crescita del tuo brand." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://contentroom-it.lovable.app/contatti" />
+      </Helmet>
       <GlobalVideoBackground />
       <div className="relative min-h-screen text-foreground overflow-hidden">
         <Navbar />
