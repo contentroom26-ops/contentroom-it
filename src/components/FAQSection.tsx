@@ -56,6 +56,13 @@ const FAQSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="inline-block mb-16 p-8 md:p-10"
+          style={{
+            background: "linear-gradient(160deg, hsl(0 0% 5% / 0.78), hsl(0 0% 3% / 0.88))",
+            border: "1px solid hsl(0 0% 100% / 0.08)",
+            backdropFilter: "blur(18px)",
+            borderRadius: "24px",
+          }}
         >
           <div className="flex items-center gap-4 mb-6">
             <div className="w-12 h-0.5" style={{ background: CELESTE }} />
@@ -70,7 +77,7 @@ const FAQSection = () => {
             </span>
           </div>
           <h2
-            className="font-display font-bold text-4xl md:text-5xl tracking-tight mb-16 text-white"
+            className="font-display font-bold text-4xl md:text-5xl tracking-tight text-white"
             style={{ textShadow: "0 2px 20px hsl(0 0% 0% / 0.8), 0 0 40px hsl(0 0% 0% / 0.6)" }}
           >
             Domande frequenti.
