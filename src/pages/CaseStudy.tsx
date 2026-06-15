@@ -128,7 +128,7 @@ const CaseStudy = () => {
         </section>
 
         {/* Obiettivo & Soluzione */}
-        <section className="py-24 px-6">
+        <section className="py-[50px] px-6">
           <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-6 md:gap-8">
             {[
               { label: "Obiettivo", text: detail.goal, delay: 0 },
@@ -138,7 +138,7 @@ const CaseStudy = () => {
                 key={block.label}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, margin: "-60px" }}
+                viewport={{ once: true, amount: 0.1 }}
                 transition={{ duration: 0.7, delay: block.delay, ease: [0.22, 1, 0.36, 1] }}
                 className="rounded-3xl p-8 md:p-10 border h-full"
                 style={{
@@ -166,12 +166,12 @@ const CaseStudy = () => {
         </section>
 
         {/* Risultati */}
-        <section className="py-24 px-6">
+        <section className="py-[50px] px-6">
           <div className="max-w-6xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, margin: "-60px" }}
+              viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
               className="rounded-3xl p-8 md:p-12 border"
               style={{
@@ -205,7 +205,7 @@ const CaseStudy = () => {
                     key={m.label}
                     initial={{ opacity: 0, y: 60, scale: 0.9 }}
                     whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                    viewport={{ once: false, margin: "-60px" }}
+                    viewport={{ once: true, amount: 0.1 }}
                     transition={{ duration: 0.7, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
                     className="text-center md:text-left"
                   >
@@ -233,7 +233,7 @@ const CaseStudy = () => {
         </section>
 
         {/* Next case + CTA */}
-        <section className="py-32 px-6">
+        <section className="py-[50px] px-6">
           <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
             <Link
               to={`/portfolio/${next.slug}`}
