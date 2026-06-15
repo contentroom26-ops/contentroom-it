@@ -1,5 +1,6 @@
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { useCallback, useRef, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { Aperture, Share2, Rocket, Code2, Check, ArrowUpRight, Compass, Hammer, LineChart } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
