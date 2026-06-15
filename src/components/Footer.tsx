@@ -7,11 +7,11 @@ const Footer = () => {
     <footer className="relative z-20 border-t border-border/30 bg-background/80 backdrop-blur-md">
       <div className="max-w-6xl mx-auto px-6 py-16">
         {/* Top row: brand + columns */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
           {/* Brand */}
-          <div className="md:col-span-1">
+          <div>
             <img src={contentRoomLogo} alt="Content Room" className="h-16 w-auto" />
-            <p className="font-body text-sm text-muted-foreground mt-3 leading-relaxed">
+            <p className="font-body text-sm text-muted-foreground mt-3 leading-relaxed max-w-xs">
               Agenzia creativa specializzata in content strategy, produzione video e social media management.
             </p>
           </div>
@@ -65,31 +65,6 @@ const Footer = () => {
               <li className="text-muted-foreground/80">
                 Via Pietro Francavilla 11, Firenze (FI), Italia
               </li>
-            </ul>
-          </div>
-
-          {/* Social */}
-          <div>
-            <h4 className="font-display text-sm font-semibold text-foreground uppercase tracking-widest mb-4">
-              Social
-            </h4>
-            <ul className="space-y-3 font-body text-sm text-muted-foreground">
-              {[
-                { label: "Instagram", href: "https://instagram.com/[handle]" },
-                { label: "LinkedIn", href: "https://linkedin.com/company/[handle]" },
-                { label: "TikTok", href: "https://tiktok.com/@[handle]" },
-              ].map((social) => (
-                <li key={social.label}>
-                  <a
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-primary transition-colors"
-                  >
-                    {social.label}
-                  </a>
-                </li>
-              ))}
             </ul>
           </div>
         </div>
