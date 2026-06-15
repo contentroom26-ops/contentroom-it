@@ -517,8 +517,8 @@ const Servizi = () => {
         <Navbar />
 
         {/* Hero */}
-        <section className="pt-40 pb-20 px-6">
-          <div className="max-w-6xl mx-auto">
+        <section className="relative pt-40 pb-20 px-6 min-h-[90vh] flex flex-col">
+          <div className="max-w-6xl mx-auto w-full flex-1 flex flex-col justify-center">
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
@@ -541,17 +541,43 @@ const Servizi = () => {
                 className="font-display font-bold tracking-tight leading-[1.05] mb-6 text-foreground"
                 style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)", textShadow: HERO_TEXT_SHADOW }}
               >
-                Quattro pilastri.<br />
-                <span style={{ color: "hsl(0 0% 75%)" }}>Un unico obiettivo.</span>
+                Tutto quello che serve al tuo brand per crescere online.
               </h1>
               <p
                 className="font-body text-base md:text-lg max-w-2xl"
                 style={{ color: "hsl(0 0% 92%)", textShadow: "0 1px 6px hsl(0 0% 0% / 0.7)" }}
               >
-                Dalla strategia alla produzione, dalla crescita alla digitalizzazione. Tutto sotto lo stesso tetto, con un metodo chiaro e risultati misurabili.
+                Dalla strategia alla produzione, dalla distribuzione all'analisi. Un ecosistema completo di servizi per brand che non si accontentano.
               </p>
             </motion.div>
           </div>
+
+          {/* Scroll indicator */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.5 }}
+            className="flex flex-col items-center gap-3 mt-8 mb-4"
+          >
+            <motion.span
+              animate={{ opacity: [0.4, 0.8, 0.4] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="text-muted-foreground/50 text-xs tracking-[0.2em] uppercase font-body"
+            >
+              Scroll
+            </motion.span>
+            <motion.div
+              animate={{ y: [0, 12, 0] }}
+              transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+              className="w-5 h-8 rounded-full border-2 border-muted-foreground/30 flex justify-center pt-1.5"
+            >
+              <motion.div
+                animate={{ height: ["6px", "12px", "6px"], opacity: [0.5, 1, 0.5] }}
+                transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                className="w-1 rounded-full bg-primary"
+              />
+            </motion.div>
+          </motion.div>
         </section>
 
         {/* Services */}
