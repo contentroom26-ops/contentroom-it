@@ -126,7 +126,7 @@ const PortfolioSection = () => {
             >
               <div className="relative aspect-video">
                 <img src={projects[selected].img} alt={projects[selected].name} className="w-full h-full object-cover" />
-                <button onClick={() => setSelected(null)} className="absolute top-4 right-4 w-10 h-10 rounded-full bg-background/80 flex items-center justify-center text-foreground hover:bg-background transition-colors">
+                <button aria-label="Chiudi" onClick={() => setSelected(null)} className="absolute top-4 right-4 w-10 h-10 rounded-full bg-background/80 flex items-center justify-center text-foreground hover:bg-background transition-colors">
                   <X className="w-5 h-5" />
                 </button>
               </div>
