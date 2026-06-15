@@ -558,7 +558,7 @@ const Servizi = () => {
         <ServicesGrid />
 
         {/* Metodo */}
-        <section className="py-32 px-6">
+        <section className="py-[50px] px-6">
           <div className="max-w-6xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 40 }}
@@ -593,7 +593,7 @@ const Servizi = () => {
         </section>
 
         {/* CTA */}
-        <section className="py-32 px-6">
+        <section className="py-[50px] px-6">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}

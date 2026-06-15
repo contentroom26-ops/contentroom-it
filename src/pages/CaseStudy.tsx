@@ -128,7 +128,7 @@ const CaseStudy = () => {
         </section>
 
         {/* Obiettivo & Soluzione */}
-        <section className="py-24 px-6">
+        <section className="py-[50px] px-6">
           <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-6 md:gap-8">
             {[
               { label: "Obiettivo", text: detail.goal, delay: 0 },
@@ -166,7 +166,7 @@ const CaseStudy = () => {
         </section>
 
         {/* Risultati */}
-        <section className="py-24 px-6">
+        <section className="py-[50px] px-6">
           <div className="max-w-6xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 40 }}
@@ -233,7 +233,7 @@ const CaseStudy = () => {
         </section>
 
         {/* Next case + CTA */}
-        <section className="py-32 px-6">
+        <section className="py-[50px] px-6">
           <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
             <Link
               to={`/portfolio/${next.slug}`}
