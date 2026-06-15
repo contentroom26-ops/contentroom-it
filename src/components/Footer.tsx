@@ -12,7 +12,7 @@ const Footer = () => {
           <div>
             <img src={contentRoomLogo} alt="Content Room" className="h-16 w-auto" />
             <p className="font-body text-sm text-muted-foreground mt-3 leading-relaxed max-w-xs">
-              Agenzia creativa specializzata in content strategy, produzione video e social media management.
+              Agenzia specializzata in digitalizzazione delle aziende, content strategy e produzione video.
             </p>
           </div>
 
