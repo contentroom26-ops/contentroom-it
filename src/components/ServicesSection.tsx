@@ -10,25 +10,25 @@ const services = [
     icon: Aperture,
     num: "01",
     title: "Content Creation",
-    desc: "Produciamo video, foto e grafiche che catturano l'attenzione e raccontano il tuo brand.",
+    desc: "Produciamo video, foto e grafiche che catturano l'attenzione e raccontano il tuo brand. Dal concept alla pubblicazione, gestiamo ogni fase del processo creativo per garantire contenuti originali, coerenti e ottimizzati per ogni piattaforma.",
   },
   {
     icon: Share2,
     num: "02",
     title: "Social Media Management",
-    desc: "Gestione strategica dei tuoi canali social con un piano editoriale su misura.",
+    desc: "Gestiamo i tuoi canali social con un piano editoriale su misura, contenuti pianificati e analisi costante delle performance. Costruiamo community reali e trasformiamo i follower in clienti.",
   },
   {
     icon: Rocket,
     num: "03",
     title: "Growth & Marketing",
-    desc: "Strategie data-driven e campagne ads per scalare il tuo business online.",
+    desc: "Progettiamo strategie data-driven e campagne ads su Meta, Google e TikTok per scalare il tuo business online. Monitoriamo ogni KPI e ottimizziamo in tempo reale per massimizzare il ROI.",
   },
   {
     icon: Code2,
     num: "04",
     title: "Siti & Digitalizzazione",
-    desc: "Design e sviluppo di esperienze digitali che convertono e distinguono.",
+    desc: "Creiamo soluzioni digitali su misura per far crescere le aziende: siti web ad alte prestazioni, funnel di acquisizione e automazioni intelligenti, con e senza AI, per semplificare i processi e aumentare la produttività. Uniamo strategia, tecnologia e design per trasformare idee in risultati concreti.",
   },
 ];
 
