@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Helmet } from "react-helmet-async";
 import { useState } from "react";
 import { z } from "zod";
 import { Mail, Phone, MapPin, Instagram, Linkedin } from "lucide-react";
