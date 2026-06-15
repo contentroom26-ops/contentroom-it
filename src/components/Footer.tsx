@@ -56,15 +56,14 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="tel:+390000000000"
+                  href="tel:+393284163053"
                   className="hover:text-primary transition-colors"
                 >
-                  +39 000 000 0000
+                  +39 328 416 3053
                 </a>
               </li>
               <li className="text-muted-foreground/80">
-                Via [Indirizzo], [CAP]<br />
-                [Città], Italia
+                Via Pietro Francavilla 11, Firenze (FI), Italia
               </li>
             </ul>
           </div>
