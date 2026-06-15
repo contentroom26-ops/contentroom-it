@@ -122,7 +122,7 @@ const ChiSiamo = () => {
             <motion.article
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, margin: "-15%" }}
+              viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               className="rounded-3xl p-8 md:p-12 border"
               style={{
@@ -177,7 +177,7 @@ const ChiSiamo = () => {
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, margin: "-15%" }}
+              viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               className="mb-12"
             >
@@ -204,7 +204,7 @@ const ChiSiamo = () => {
                     key={v.title}
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: false, margin: "-10%" }}
+                    viewport={{ once: true, amount: 0.1 }}
                     transition={{ duration: 0.6, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
                     className="rounded-2xl p-6 md:p-8 border"
                     style={{
@@ -247,7 +247,7 @@ const ChiSiamo = () => {
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, margin: "-60px" }}
+            viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="max-w-3xl mx-auto text-center rounded-3xl p-10 md:p-14 border"
             style={{

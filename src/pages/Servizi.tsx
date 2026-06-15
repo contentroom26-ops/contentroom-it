@@ -56,7 +56,7 @@ function ServiceCard({
     <motion.div
       initial={{ opacity: 0, y: 60 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: false, margin: "-80px" }}
+      viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.8, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}
       animate={{
         scale: hovered ? 1.08 : dimmed ? 0.94 : 1,
@@ -370,7 +370,7 @@ function MethodPath() {
               key={m.step}
               initial={{ opacity: 0, y: 60 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, margin: "-60px" }}
+              viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.7, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] }}
               onMouseEnter={() => setActiveIdx(i)}
               onMouseLeave={() => setActiveIdx(null)}
@@ -563,7 +563,7 @@ const Servizi = () => {
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, margin: "-60px" }}
+              viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
               className="rounded-3xl p-8 md:p-10 mb-10 border inline-block"
               style={{
@@ -597,7 +597,7 @@ const Servizi = () => {
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, margin: "-60px" }}
+            viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="max-w-3xl mx-auto text-center rounded-3xl p-10 md:p-14 border"
             style={{
