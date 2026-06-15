@@ -1,0 +1,15 @@
+# Content Room
+
+> Agenzia di comunicazione e marketing a Firenze: strategia, contenuti, social media, growth e digitalizzazione per brand che vogliono crescere online.
+
+## Pages
+
+- [Home](/): Chi è Content Room e cosa facciamo per i brand.
+- [Servizi](/servizi): Content creation, social media, growth & advertising e siti & digitalizzazione.
+- [Chi siamo](/chisiamo): Il team, il metodo e i valori dell'agenzia.
+- [Contatti](/contatti): Prenota una call gratuita di 30 minuti.
+
+## Optional
+
+- [Privacy Policy](/privacy-policy): Informativa privacy.
+- [Cookie Policy](/cookie-policy): Informativa cookie.
