@@ -32,6 +32,7 @@ const HeroSection = () => {
 
   return (
     <section ref={ref} className="relative h-screen overflow-hidden flex items-center justify-center">
+      <h1 className="sr-only">Content Room — Agenzia di comunicazione e marketing a Firenze</h1>
       {/* Parallax video background */}
       <motion.div className="absolute inset-0" style={{ y: yBg }}>
         <video
