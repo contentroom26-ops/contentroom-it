@@ -42,7 +42,15 @@ const AnimatedCounter = ({ value, suffix, prefix }: { value: number; suffix: str
 
 const ResultsSection = () => (
   <section className="relative px-6 py-[50px] overflow-hidden">
-    <div className="max-w-6xl mx-auto relative z-10">
+    <div
+      className="max-w-6xl mx-auto relative z-10 p-8 md:p-14"
+      style={{
+        background: "linear-gradient(160deg, hsl(0 0% 5% / 0.78), hsl(0 0% 3% / 0.88))",
+        border: "1px solid hsl(0 0% 100% / 0.08)",
+        backdropFilter: "blur(18px)",
+        borderRadius: "24px",
+      }}
+    >
       <motion.div
         initial={{ opacity: 0, y: 60 }}
         whileInView={{ opacity: 1, y: 0 }}
