@@ -149,8 +149,8 @@ const Contatti = () => {
                     </div>
                     <div>
                       <p className="font-body text-xs uppercase tracking-widest text-muted-foreground mb-1">Telefono</p>
-                      <a href="tel:+390000000000" className="font-body text-sm text-foreground hover:text-primary transition-colors">
-                        +39 000 000 0000
+                      <a href="tel:+393284163053" className="font-body text-sm text-foreground hover:text-primary transition-colors">
+                        +39 328 416 3053
                       </a>
                     </div>
                   </li>
@@ -162,7 +162,7 @@ const Contatti = () => {
                     <div>
                       <p className="font-body text-xs uppercase tracking-widest text-muted-foreground mb-1">Sede</p>
                       <p className="font-body text-sm text-foreground">
-                        Via [Indirizzo], [CAP]<br />[Città], Italia
+                        Via Pietro Francavilla 11, 50142<br />Firenze, Italia
                       </p>
                     </div>
                   </li>
