@@ -49,11 +49,11 @@ const CTASection = () => {
   };
 
   return (
-    <section className="relative min-h-[calc(100vh-5rem)] px-4 pt-16 pb-6 md:pt-20 md:pb-8 flex items-center justify-center py-[50px]">
+    <section className="relative px-4 py-[80px] flex items-center justify-center">
       <motion.div
         initial={{ opacity: 0, y: 40, scale: 0.985 }}
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
-        viewport={{ once: false, margin: "-80px" }}
+        viewport={{ once: true, amount: 0.1 }}
         transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
         className="relative z-10 w-full max-w-[620px] mx-auto"
       >
@@ -72,7 +72,7 @@ const CTASection = () => {
           <motion.div
             initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false }}
+            viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.7, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
             className="text-center mb-5"
           >
@@ -114,7 +114,7 @@ const CTASection = () => {
             onSubmit={handleSubmit}
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false }}
+            viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.75, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
             className="space-y-3"
           >

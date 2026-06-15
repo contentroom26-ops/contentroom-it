@@ -59,7 +59,6 @@ const Index = () => {
           <Navbar />
           <PageTransition>
             <HeroSection />
-            <div className="h-[30vh]" />
             <ChiSiamoSection />
             <div id="servizi"><ServicesSection /></div>
             

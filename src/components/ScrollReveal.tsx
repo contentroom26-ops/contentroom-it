@@ -45,7 +45,7 @@ const ScrollReveal = ({
       <MotionTag
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-10%" }}
+        viewport={{ once: true, amount: 0.1 }}
         variants={containerVariants}
         custom={staggerChildren}
         className={className}
@@ -59,7 +59,7 @@ const ScrollReveal = ({
     <MotionTag
       initial={{ opacity: 0, y: 40, clipPath: "inset(100% 0 0 0)" }}
       whileInView={{ opacity: 1, y: 0, clipPath: "inset(0% 0 0 0)" }}
-      viewport={{ once: true, margin: "-10%" }}
+      viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.8, delay, ease: EASE }}
       className={className}
     >

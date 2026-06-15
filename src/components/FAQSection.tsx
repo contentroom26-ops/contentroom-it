@@ -37,12 +37,12 @@ const faqs = [
 
 const FAQSection = () => {
   return (
-    <section className="relative py-32 px-6">
+    <section className="relative py-[80px] px-6">
       <div className="max-w-3xl mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 60 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, margin: "-60px" }}
+          viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
           <div className="flex items-center gap-4 mb-6">
@@ -68,7 +68,7 @@ const FAQSection = () => {
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, margin: "-60px" }}
+          viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
         >
           <Accordion type="single" collapsible className="w-full rounded-2xl px-6 md:px-8" style={{ background: "hsl(0 0% 6% / 0.7)", backdropFilter: "blur(16px)", border: "1px solid hsl(0 0% 100% / 0.08)" }}>
