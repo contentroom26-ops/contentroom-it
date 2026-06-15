@@ -63,7 +63,7 @@ const Footer = () => {
                 </a>
               </li>
               <li className="text-muted-foreground/80">
-                Via Pietro Francavilla 11, Firenze (FI), Italia
+                Via Pietro Francavilla 11, 50142,<br />Firenze (FI), Italia
               </li>
             </ul>
           </div>
