@@ -10,6 +10,8 @@ import ChiSiamo from "./pages/ChiSiamo.tsx";
 import Portfolio from "./pages/Portfolio.tsx";
 import CaseStudy from "./pages/CaseStudy.tsx";
 import Contatti from "./pages/Contatti.tsx";
+import PrivacyPolicy from "./pages/PrivacyPolicy.tsx";
+import CookiePolicy from "./pages/CookiePolicy.tsx";
 import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
