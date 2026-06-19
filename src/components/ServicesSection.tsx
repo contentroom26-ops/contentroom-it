@@ -184,6 +184,16 @@ function ServiceCard({
       </motion.div>
     </motion.div>
   );
+
+  if (service.to) {
+    return (
+      <Link to={service.to} className="block">
+        {card}
+      </Link>
+    );
+  }
+
+  return card;
 }
 
 const ServicesSection = () => {
