@@ -60,7 +60,7 @@ function ServiceCard({
     });
   }, []);
 
-  return (
+  const card = (
     <motion.div
       ref={cardRef}
       initial={{ opacity: 0, x: index % 2 === 0 ? -120 : 120 }}
