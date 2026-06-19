@@ -1,6 +1,7 @@
 import { useRef, useState, useCallback } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Aperture, Share2, Rocket, Code2 } from "lucide-react";
+import { Aperture, Share2, Rocket, Code2, BrainCircuit } from "lucide-react";
+import { Link } from "react-router-dom";
 import InlineCTA from "./InlineCTA";
 
 const CELESTE = "hsl(192 49% 76%)";
@@ -30,13 +31,20 @@ const services = [
     title: "Siti & Digitalizzazione",
     desc: "Creiamo soluzioni digitali su misura per far crescere le aziende: siti web ad alte prestazioni, funnel di acquisizione e automazioni intelligenti, con e senza AI, per semplificare i processi e aumentare la produttività. Uniamo strategia, tecnologia e design per trasformare idee in risultati concreti.",
   },
+  {
+    icon: BrainCircuit,
+    num: "05",
+    title: "Automazione & AI",
+    desc: "Chatbot, assistenti virtuali e flussi automatici che lavorano per il tuo brand 24 ore su 24, mentre tu ti concentri sulla strategia.",
+    to: "/automazione-ai",
+  },
 ];
 
 function ServiceCard({
   service,
   index,
 }: {
-  service: (typeof services)[0];
+  service: { icon: typeof Aperture; num: string; title: string; desc: string; to?: string };
   index: number;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -52,7 +60,7 @@ function ServiceCard({
     });
   }, []);
 
-  return (
+  const card = (
     <motion.div
       ref={cardRef}
       initial={{ opacity: 0, x: index % 2 === 0 ? -120 : 120 }}
@@ -176,6 +184,16 @@ function ServiceCard({
       </motion.div>
     </motion.div>
   );
+
+  if (service.to) {
+    return (
+      <Link to={service.to} className="block">
+        {card}
+      </Link>
+    );
+  }
+
+  return card;
 }
 
 const ServicesSection = () => {

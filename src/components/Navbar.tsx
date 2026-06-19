@@ -76,6 +76,7 @@ const Navbar = () => {
           {[
             { label: "Chi siamo", to: "/chisiamo" },
             { label: "Servizi", to: "/servizi" },
+            { label: "Automazione AI", to: "/automazione-ai" },
             // { label: "Portfolio", to: "/portfolio" }, // Temporarily hidden — da reinserire in futuro
             { label: "Contatti", to: "/contatti" },
           ].map((item) => (
