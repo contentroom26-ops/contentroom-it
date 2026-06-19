@@ -44,7 +44,7 @@ function ServiceCard({
   service,
   index,
 }: {
-  service: (typeof services)[0];
+  service: { icon: typeof Aperture; num: string; title: string; desc: string; to?: string };
   index: number;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
