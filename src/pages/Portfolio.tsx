@@ -21,7 +21,9 @@ export interface CaseItem {
   category: CaseCategory;
   result: string;
 }
-
+/* ⚠️ PERSONALIZZA — questi sono dati placeholder. Sostituisci con i tuoi clienti reali
+   (nome, immagine, servizio, categoria, risultato). Lo slug deve restare coerente
+   con l'oggetto "details" in CaseStudy.tsx e con l'array "projects" in PortfolioSection.tsx. */
 export const cases: CaseItem[] = [
   { slug: "luxe-fashion", img: portfolio1, client: "Luxe Fashion", service: "Strategy & Production", category: "Social", result: "+200k views" },
   { slug: "gusto-ristorante", img: portfolio2, client: "Gusto Ristorante", service: "Content & Social", category: "Video", result: "+150% engagement" },
