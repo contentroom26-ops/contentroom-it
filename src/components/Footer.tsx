@@ -24,13 +24,12 @@ const Footer = () => {
             <ul className="space-y-3">
               {[
                 { label: "Home", href: "/" },
-                { label: "Servizi", href: "/servizi" },
-                { label: "Automazione AI", href: "/automazione-ai" },
+                { label: "Chi siamo", href: "/chisiamo" },
                 { label: "Portfolio", href: "/portfolio" },
                 { label: "Contatti", href: "/contatti" },
               ].map((link) => (
                 <li key={link.label}>
-                  <a
+                  
                     href={link.href}
                     className="font-body text-sm text-muted-foreground hover:text-primary transition-colors"
                   >
@@ -48,7 +47,7 @@ const Footer = () => {
             </h4>
             <ul className="space-y-3 font-body text-sm text-muted-foreground">
               <li>
-                <a
+                
                   href="mailto:info@contentroom.it"
                   className="hover:text-primary transition-colors"
                 >
@@ -56,7 +55,7 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a
+                
                   href="tel:+393284163053"
                   className="hover:text-primary transition-colors"
                 >
@@ -76,13 +75,13 @@ const Footer = () => {
             © {currentYear} Content Room — Tutti i diritti riservati
           </p>
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-            <a
+            
               href="/privacy-policy"
               className="font-body text-xs text-muted-foreground hover:text-primary transition-colors"
             >
               Privacy Policy
             </a>
-            <a
+            
               href="/cookie-policy"
               className="font-body text-xs text-muted-foreground hover:text-primary transition-colors"
             >
