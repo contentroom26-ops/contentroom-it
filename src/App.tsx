@@ -1,11 +1,10 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
 import NotFound from "./pages/NotFound.tsx";
-import Servizi from "./pages/Servizi.tsx";
 import AutomazioneAI from "./pages/AutomazioneAI.tsx";
 import ContentCreation from "./pages/ContentCreation.tsx";
 import SocialMediaManagement from "./pages/SocialMediaManagement.tsx";
@@ -30,7 +29,7 @@ const App = () => (
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/servizi" element={<Servizi />} />
+          <Route path="/servizi" element={<Navigate to="/" replace />} />
           <Route path="/automazione-ai" element={<AutomazioneAI />} />
           <Route path="/content-creation" element={<ContentCreation />} />
           <Route path="/social-media-management" element={<SocialMediaManagement />} />
