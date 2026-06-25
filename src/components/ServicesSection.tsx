@@ -1,6 +1,6 @@
-import { useRef, useState, useCallback } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { Aperture, Share2, Rocket, Code2, BrainCircuit } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Aperture, Share2, Rocket, Code2, BrainCircuit, ChevronDown, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import InlineCTA from "./InlineCTA";
 
@@ -11,29 +11,29 @@ const services = [
     icon: Aperture,
     num: "01",
     title: "Content Creation",
-    desc: "Produciamo video, foto e grafiche che catturano l'attenzione e raccontano il tuo brand. Dal concept alla pubblicazione, gestiamo ogni fase del processo creativo per garantire contenuti originali, coerenti e ottimizzati per ogni piattaforma.",
-    to: "/servizi",
+    desc: "Produciamo video, foto e grafiche che catturano l'attenzione e raccontano il tuo brand. Dal concept alla pubblicazione, contenuti originali e ottimizzati per ogni piattaforma.",
+    to: "/content-creation",
   },
   {
     icon: Share2,
     num: "02",
     title: "Social Media Management",
-    desc: "Gestiamo i tuoi canali social con un piano editoriale su misura, contenuti pianificati e analisi costante delle performance. Costruiamo community reali e trasformiamo i follower in clienti.",
-    to: "/servizi",
+    desc: "Gestiamo i tuoi canali social con un piano editoriale su misura, contenuti pianificati e analisi costante delle performance.",
+    to: "/social-media-management",
   },
   {
     icon: Rocket,
     num: "03",
     title: "Growth & Marketing",
-    desc: "Progettiamo strategie data-driven e campagne ads su Meta, Google e TikTok per scalare il tuo business online. Monitoriamo ogni KPI e ottimizziamo in tempo reale per massimizzare il ROI.",
-    to: "/servizi",
+    desc: "Strategie data-driven e campagne ads su Meta, Google e TikTok per scalare il tuo business online, con il ROI sempre sotto controllo.",
+    to: "/growth-marketing",
   },
   {
     icon: Code2,
     num: "04",
     title: "Siti & Digitalizzazione",
-    desc: "Creiamo soluzioni digitali su misura per far crescere le aziende: siti web ad alte prestazioni, funnel di acquisizione e automazioni intelligenti, con e senza AI, per semplificare i processi e aumentare la produttività. Uniamo strategia, tecnologia e design per trasformare idee in risultati concreti.",
-    to: "/servizi",
+    desc: "Siti web ad alte prestazioni, funnel di acquisizione e automazioni intelligenti, con e senza AI, per semplificare i processi e aumentare la produttività.",
+    to: "/siti-digitalizzazione",
   },
   {
     icon: BrainCircuit,
@@ -44,186 +44,134 @@ const services = [
   },
 ];
 
-function ServiceCard({
+function ServiceRow({
   service,
-  index,
+  isOpen,
+  onToggle,
 }: {
-  service: { icon: typeof Aperture; num: string; title: string; desc: string; to?: string };
-  index: number;
+  service: (typeof services)[number];
+  isOpen: boolean;
+  onToggle: () => void;
 }) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const [hovered, setHovered] = useState(false);
-  const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
+  const Icon = service.icon;
 
-  const handleMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = cardRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    setMousePos({
-      x: ((e.clientX - rect.left) / rect.width) * 100,
-      y: ((e.clientY - rect.top) / rect.height) * 100,
-    });
-  }, []);
-
-  const card = (
-    <motion.div
-      ref={cardRef}
-      initial={{ opacity: 0, x: index % 2 === 0 ? -120 : 120 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true, amount: 0.1 }}
-      transition={{ type: "spring", stiffness: 50, damping: 18, delay: index * 0.1 }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      onMouseMove={handleMove}
-      className={`relative cursor-pointer group ${
-        index % 2 === 0 ? "md:mt-0 md:-translate-y-4" : "md:mt-24 md:translate-y-4"
-      }`}
-      style={{ perspective: "1400px" }}
+  return (
+    <div
+      className="relative rounded-2xl border overflow-hidden"
+      style={{
+        background: isOpen
+          ? "linear-gradient(160deg, hsl(0 0% 8% / 0.92), hsl(0 0% 4% / 0.98))"
+          : "linear-gradient(160deg, hsl(0 0% 7% / 0.8), hsl(0 0% 4% / 0.92))",
+        borderColor: isOpen ? "hsl(192 49% 76% / 0.35)" : "hsl(0 0% 100% / 0.08)",
+        backdropFilter: "blur(20px)",
+        boxShadow: isOpen ? "0 20px 50px hsl(0 0% 0% / 0.5)" : "none",
+        transition: "background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease",
+      }}
     >
-      <motion.div
-        animate={{
-          rotateX: hovered ? (mousePos.y - 50) * -0.06 : 0,
-          rotateY: hovered ? (mousePos.x - 50) * 0.06 : 0,
-          scale: hovered ? 1.02 : 1,
-        }}
-        transition={{ type: "spring", stiffness: 180, damping: 25 }}
-        className="relative rounded-3xl overflow-hidden"
-        style={{ transformStyle: "preserve-3d" }}
+      {/* Trigger row */}
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-expanded={isOpen}
+        className="w-full flex items-center gap-5 md:gap-6 px-5 md:px-8 py-5 md:py-6 text-left"
       >
-        <div
-          className="relative p-8 md:p-10 rounded-3xl overflow-hidden border border-border/10"
+        <span
+          className="font-display font-light leading-none shrink-0 hidden sm:block"
           style={{
-            background: "linear-gradient(160deg, hsl(0 0% 7% / 0.85), hsl(0 0% 4% / 0.95))",
-            backdropFilter: "blur(30px)",
+            fontSize: "clamp(2rem, 4vw, 2.6rem)",
+            WebkitTextStroke: `1px ${isOpen ? CELESTE : "hsl(0 0% 30%)"}`,
+            color: "transparent",
+            transition: "all 0.4s ease",
           }}
         >
-          {/* Cursor spotlight */}
-          <div
-            className="absolute inset-0 pointer-events-none transition-opacity duration-700"
-            style={{
-              background: `radial-gradient(500px circle at ${mousePos.x}% ${mousePos.y}%, hsl(192 49% 76% / 0.07), transparent 50%)`,
-              opacity: hovered ? 1 : 0,
-            }}
-          />
+          {service.num}
+        </span>
 
-          {/* Top row: number + icon */}
-          <div className="flex items-start justify-between mb-12 relative z-10">
-            <motion.span
-              className="font-display font-light tracking-tight"
-              style={{
-                fontSize: "clamp(3.5rem, 8vw, 5.5rem)",
-                lineHeight: 0.85,
-                WebkitTextStroke: hovered ? `1px ${CELESTE}` : "1px hsl(0 0% 25%)",
-                color: "transparent",
-                transition: "all 0.6s cubic-bezier(0.22, 1, 0.36, 1)",
-              }}
-            >
-              {service.num}
-            </motion.span>
-
-            <motion.div
-              animate={{
-                scale: hovered ? 1.15 : 1,
-                rotate: hovered ? -10 : 0,
-              }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="w-14 h-14 rounded-2xl flex items-center justify-center"
-              style={{
-                background: hovered
-                  ? "linear-gradient(135deg, hsl(192 49% 76% / 0.2), hsl(192 49% 76% / 0.05))"
-                  : "hsl(0 0% 100% / 0.03)",
-                border: `1px solid ${hovered ? "hsl(192 49% 76% / 0.3)" : "hsl(0 0% 100% / 0.06)"}`,
-                transition: "all 0.5s ease",
-              }}
-            >
-              <service.icon
-                className="w-6 h-6 transition-colors duration-500"
-                style={{ color: hovered ? CELESTE : "hsl(0 0% 45%)" }}
-                strokeWidth={1.2}
-              />
-            </motion.div>
-          </div>
-
-          {/* Title */}
-          <motion.h3
-            className="font-display font-semibold tracking-tight leading-[1.1] mb-4 relative z-10"
-            style={{ fontSize: "clamp(1.4rem, 3vw, 2rem)" }}
-            animate={{
-              color: hovered ? CELESTE : "hsl(40 20% 92%)",
-              x: hovered ? 4 : 0,
-            }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          >
-            {service.title}
-          </motion.h3>
-
-          {/* Description */}
-          <motion.p
-            className="text-muted-foreground font-body text-sm leading-relaxed max-w-xs relative z-10"
-            animate={{ opacity: hovered ? 0.9 : 0.5, x: hovered ? 4 : 0 }}
-            transition={{ duration: 0.5, delay: 0.05 }}
-          >
-            {service.desc}
-          </motion.p>
-
-          {/* Bottom accent line */}
-          <motion.div
-            className="absolute bottom-0 left-0 h-[1px]"
-            style={{
-              background: `linear-gradient(90deg, ${CELESTE}, transparent)`,
-            }}
-            animate={{ width: hovered ? "100%" : "0%" }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          />
-
-          {/* Corner glow */}
-          <motion.div
-            className="absolute -bottom-20 -right-20 w-40 h-40 rounded-full pointer-events-none"
-            style={{
-              background: `radial-gradient(circle, hsl(192 49% 76% / 0.1), transparent 70%)`,
-            }}
-            animate={{ opacity: hovered ? 1 : 0, scale: hovered ? 1.5 : 0.8 }}
-            transition={{ duration: 0.8 }}
-          />
+        <div
+          className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
+          style={{
+            background: isOpen
+              ? "linear-gradient(135deg, hsl(192 49% 76% / 0.25), hsl(192 49% 76% / 0.08))"
+              : "hsl(0 0% 100% / 0.04)",
+            border: `1px solid ${isOpen ? "hsl(192 49% 76% / 0.4)" : "hsl(0 0% 100% / 0.08)"}`,
+            transition: "all 0.4s ease",
+          }}
+        >
+          <Icon className="w-5 h-5" style={{ color: isOpen ? CELESTE : "hsl(0 0% 60%)" }} strokeWidth={1.5} />
         </div>
-      </motion.div>
-    </motion.div>
+
+        <h3
+          className="font-display font-semibold flex-1 leading-tight"
+          style={{
+            fontSize: "clamp(1.1rem, 2.2vw, 1.5rem)",
+            color: isOpen ? CELESTE : "hsl(0 0% 92%)",
+            transition: "color 0.4s ease",
+          }}
+        >
+          {service.title}
+        </h3>
+
+        <ChevronDown
+          className="w-5 h-5 shrink-0 transition-transform duration-400"
+          style={{
+            color: isOpen ? CELESTE : "hsl(0 0% 60%)",
+            transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+          }}
+        />
+      </button>
+
+      {/* Expandable content */}
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            className="overflow-hidden"
+          >
+            <div className="px-5 md:px-8 pb-6 md:pb-8 pl-[4.5rem] sm:pl-[5.5rem] md:pl-[6.5rem] pr-5 md:pr-8">
+              <p
+                className="font-body text-sm md:text-base leading-relaxed mb-5"
+                style={{ color: "hsl(0 0% 85%)" }}
+              >
+                {service.desc}
+              </p>
+              <Link
+                to={service.to}
+                className="inline-flex items-center gap-2 font-body text-sm font-medium tracking-wide transition-colors duration-300 hover:gap-3"
+                style={{ color: CELESTE }}
+              >
+                Scopri di più
+                <ArrowRight className="w-4 h-4 transition-transform duration-300" />
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
-
-  if (service.to) {
-    return (
-      <Link to={service.to} className="block">
-        {card}
-      </Link>
-    );
-  }
-
-  return card;
 }
 
 const ServicesSection = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-
-  const headerY = useTransform(scrollYProgress, [0, 0.3], [100, 0]);
-  const headerOpacity = useTransform(scrollYProgress, [0, 0.2], [0, 1]);
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section ref={sectionRef} className="px-6 relative py-[50px]">
-      <div className="max-w-6xl mx-auto relative z-10">
+    <section className="px-6 relative py-[50px]">
+      <div className="max-w-4xl mx-auto relative z-10">
         {/* Header */}
         <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           style={{
-            y: headerY,
-            opacity: headerOpacity,
             background: "linear-gradient(160deg, hsl(0 0% 5% / 0.78), hsl(0 0% 3% / 0.88))",
             border: "1px solid hsl(0 0% 100% / 0.08)",
             backdropFilter: "blur(18px)",
             borderRadius: "24px",
           }}
-          className="inline-block mb-20 p-8 md:p-10"
+          className="inline-block mb-12 p-8 md:p-10"
         >
           <div className="flex items-center gap-4 mb-6">
             <div className="w-12 h-0.5" style={{ background: CELESTE }} />
@@ -251,17 +199,29 @@ const ServicesSection = () => {
           </h2>
         </motion.div>
 
-        {/* 2x2 Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 md:items-start">
+        {/* Accordion */}
+        <div className="flex flex-col gap-3 md:gap-4">
           {services.map((s, i) => (
-            <ServiceCard key={s.num} service={s} index={i} />
+            <motion.div
+              key={s.num}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.1 }}
+              transition={{ duration: 0.5, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <ServiceRow
+                service={s}
+                isOpen={openIndex === i}
+                onToggle={() => setOpenIndex((cur) => (cur === i ? null : i))}
+              />
+            </motion.div>
           ))}
         </div>
 
         <InlineCTA
-          caption="Scopri tutti i nostri servizi e trova quello giusto per il tuo brand."
-          label="Esplora i servizi"
-          to="/servizi"
+          caption="Non sai da dove iniziare? Parliamone insieme."
+          label="Prenota una call"
+          to="/contatti"
         />
       </div>
     </section>
