@@ -9,6 +9,8 @@ import Servizi from "./pages/Servizi.tsx";
 import AutomazioneAI from "./pages/AutomazioneAI.tsx";
 import ContentCreation from "./pages/ContentCreation.tsx";
 import SocialMediaManagement from "./pages/SocialMediaManagement.tsx";
+import GrowthMarketing from "./pages/GrowthMarketing.tsx";
+import SitiDigitalizzazione from "./pages/SitiDigitalizzazione.tsx";
 import ChiSiamo from "./pages/ChiSiamo.tsx";
 import Portfolio from "./pages/Portfolio.tsx";
 import CaseStudy from "./pages/CaseStudy.tsx";
@@ -32,6 +34,8 @@ const App = () => (
           <Route path="/automazione-ai" element={<AutomazioneAI />} />
           <Route path="/content-creation" element={<ContentCreation />} />
           <Route path="/social-media-management" element={<SocialMediaManagement />} />
+          <Route path="/growth-marketing" element={<GrowthMarketing />} />
+          <Route path="/siti-digitalizzazione" element={<SitiDigitalizzazione />} />
           <Route path="/chisiamo" element={<ChiSiamo />} />
           {/* Temporarily hidden — da reinserire in futuro
           <Route path="/portfolio" element={<Portfolio />} />
