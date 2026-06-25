@@ -36,10 +36,8 @@ const App = () => (
           <Route path="/growth-marketing" element={<GrowthMarketing />} />
           <Route path="/siti-digitalizzazione" element={<SitiDigitalizzazione />} />
           <Route path="/chisiamo" element={<ChiSiamo />} />
-          {/* Temporarily hidden — da reinserire in futuro
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/portfolio/:slug" element={<CaseStudy />} />
-          */}
           <Route path="/contatti" element={<Contatti />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/cookie-policy" element={<CookiePolicy />} />
