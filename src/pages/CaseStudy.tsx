@@ -13,7 +13,8 @@ interface CaseDetail {
   solution: string;
   metrics: { value: string; label: string }[];
 }
-
+/* ⚠️ PERSONALIZZA — obiettivo, soluzione e metriche placeholder.
+   Sostituisci con i dati reali di ogni cliente prima di rendere pubblico il portfolio. */
 const details: Record<string, CaseDetail> = {
   "luxe-fashion": {
     goal: "Aumentare la brand awareness e posizionare il marchio nel segmento luxury fashion italiano, intercettando un pubblico premium su Instagram e TikTok.",
