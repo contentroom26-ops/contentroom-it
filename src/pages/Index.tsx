@@ -9,7 +9,7 @@ import MethodSection from "@/components/MethodSection";
 import ResultsSection from "@/components/ResultsSection";
 import PortfolioSection from "@/components/PortfolioSection";
 import CTASection from "@/components/CTASection";
-import GlobalVideoBackground from "@/components/GlobalVideoBackground";
+// import GlobalVideoBackground from "@/components/GlobalVideoBackground";
 import SplashScreen from "@/components/SplashScreen";
 import Footer from "@/components/Footer";
 import FAQSection from "@/components/FAQSection";
@@ -53,7 +53,7 @@ const Index = () => {
         transition={{ duration: 0.6 }}
       >
         {/* Global fixed video background */}
-        <GlobalVideoBackground />
+        {/* <GlobalVideoBackground /> */}  
 
         {/* All content floats above the room */}
         <main className="relative z-10 min-h-screen overflow-x-hidden">
