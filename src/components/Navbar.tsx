@@ -12,9 +12,6 @@ const Navbar = () => {
     setScrolled(latest > 50);
   });
 
-  const bgOpacity = useTransform(scrollY, [0, 100], [0, 0.35]);
-  const borderOpacity = useTransform(scrollY, [0, 100], [0, 0.2]);
-  const blur = useTransform(scrollY, [0, 100], [0, 12]);
   const navPadding = useTransform(scrollY, [0, 100], [20, 10]);
   const iconScale = useTransform(scrollY, [0, 100], [1, 0.85]);
 
@@ -29,31 +26,24 @@ const Navbar = () => {
         paddingBottom: navPadding,
       }}
     >
-      {/* Animated background with soft gradient fade */}
+      {/* Solid background that fades in on scroll — fully opaque so it never overlaps content */}
       <motion.div
-        className="absolute inset-0"
+        className="absolute inset-0 border-b"
         style={{
-          backgroundImage:
-            "linear-gradient(to bottom, hsl(var(--background) / 0.45) 0%, hsl(var(--background) / 0.32) 60%, hsl(var(--background) / 0) 100%)",
-          backdropFilter: `blur(${blur.get()}px)`,
-          WebkitMaskImage:
-            "linear-gradient(to bottom, hsl(0 0% 0%) 0%, hsl(0 0% 0%) 55%, hsl(0 0% 0% / 0) 100%)",
-          maskImage:
-            "linear-gradient(to bottom, hsl(0 0% 0%) 0%, hsl(0 0% 0%) 55%, hsl(0 0% 0% / 0) 100%)",
+          backgroundColor: "hsl(var(--background))",
+          borderColor: "hsl(var(--border) / 0.6)",
+          backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
+          boxShadow: "0 8px 30px hsl(0 0% 0% / 0.35)",
         }}
-        animate={{
-          opacity: scrolled ? 1 : 0,
-          backdropFilter: scrolled ? "blur(12px)" : "blur(0px)",
-        }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: scrolled ? 1 : 0 }}
         transition={{ duration: 0.4 }}
       />
 
       <div className="max-w-6xl mx-auto flex items-center justify-between relative">
         <Link to="/" className="flex items-center gap-2">
-          <motion.div
-            className="flex items-center gap-2"
-            style={{ scale: iconScale }}
-          >
+          <motion.div className="flex items-center gap-2" style={{ scale: iconScale }}>
             <motion.img
               src={contentRoomIcon}
               alt="Content Room"
