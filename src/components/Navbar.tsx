@@ -15,7 +15,7 @@ const serviceItems = [
 
 const navItems = [
   { label: "Chi siamo", to: "/chisiamo" },
-  // { label: "Portfolio", to: "/portfolio" }, // Temporarily hidden — da reinserire in futuro
+  { label: "Portfolio", to: "/portfolio" },
   { label: "Contatti", to: "/contatti" },
 ];
 
