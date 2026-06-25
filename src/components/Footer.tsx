@@ -29,7 +29,7 @@ const Footer = () => {
                 { label: "Contatti", href: "/contatti" },
               ].map((link) => (
                 <li key={link.label}>
-                  
+                  <a
                     href={link.href}
                     className="font-body text-sm text-muted-foreground hover:text-primary transition-colors"
                   >
