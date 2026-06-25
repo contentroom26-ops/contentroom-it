@@ -12,24 +12,28 @@ const services = [
     num: "01",
     title: "Content Creation",
     desc: "Produciamo video, foto e grafiche che catturano l'attenzione e raccontano il tuo brand. Dal concept alla pubblicazione, gestiamo ogni fase del processo creativo per garantire contenuti originali, coerenti e ottimizzati per ogni piattaforma.",
+    to: "/servizi",
   },
   {
     icon: Share2,
     num: "02",
     title: "Social Media Management",
     desc: "Gestiamo i tuoi canali social con un piano editoriale su misura, contenuti pianificati e analisi costante delle performance. Costruiamo community reali e trasformiamo i follower in clienti.",
+    to: "/servizi",
   },
   {
     icon: Rocket,
     num: "03",
     title: "Growth & Marketing",
     desc: "Progettiamo strategie data-driven e campagne ads su Meta, Google e TikTok per scalare il tuo business online. Monitoriamo ogni KPI e ottimizziamo in tempo reale per massimizzare il ROI.",
+    to: "/servizi",
   },
   {
     icon: Code2,
     num: "04",
     title: "Siti & Digitalizzazione",
     desc: "Creiamo soluzioni digitali su misura per far crescere le aziende: siti web ad alte prestazioni, funnel di acquisizione e automazioni intelligenti, con e senza AI, per semplificare i processi e aumentare la produttività. Uniamo strategia, tecnologia e design per trasformare idee in risultati concreti.",
+    to: "/servizi",
   },
   {
     icon: BrainCircuit,
@@ -227,7 +231,8 @@ const ServicesSection = () => {
               className="font-body font-bold text-xs tracking-[0.4em] uppercase"
               style={{
                 color: CELESTE,
-                textShadow: "0 1px 3px hsl(0 0% 0% / 0.95), 0 2px 12px hsl(0 0% 0% / 0.85), 0 0 24px hsl(0 0% 0% / 0.7)",
+                textShadow:
+                  "0 1px 3px hsl(0 0% 0% / 0.95), 0 2px 12px hsl(0 0% 0% / 0.85), 0 0 24px hsl(0 0% 0% / 0.7)",
               }}
             >
               Servizi
@@ -240,7 +245,8 @@ const ServicesSection = () => {
               textShadow: "0 2px 20px hsl(0 0% 0% / 0.8), 0 0 40px hsl(0 0% 0% / 0.6)",
             }}
           >
-            I nostri<br />
+            I nostri
+            <br />
             <span style={{ color: "hsl(0 0% 80%)" }}>servizi.</span>
           </h2>
         </motion.div>
