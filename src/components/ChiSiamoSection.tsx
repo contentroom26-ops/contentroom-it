@@ -33,9 +33,10 @@ const ChiSiamoSection = () => {
           </h2>
 
           <p className="font-body text-base md:text-lg max-w-2xl mb-4 text-[hsl(0_0%_15%)]">
-            Content Room è un'agenzia di comunicazione e marketing con base a
-            Firenze. Uniamo strategia, contenuto e tecnologia per costruire
-            brand riconoscibili e far crescere il business che c'è dietro.
+            Content Room è l'agenzia specializzata in digitalizzazione delle
+            aziende, content strategy e produzione video, con base a Firenze.
+            Uniamo strategia, contenuto e tecnologia per costruire brand
+            riconoscibili e far crescere il business che c'è dietro.
           </p>
           <p className="font-body text-sm md:text-base max-w-2xl mb-8 text-[hsl(0_0%_30%)]">
             Crediamo in una creatività con metodo: ogni progetto parte da
