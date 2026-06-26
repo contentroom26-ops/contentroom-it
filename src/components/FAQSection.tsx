@@ -7,8 +7,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-const CELESTE = "hsl(192 49% 76%)";
-
 const faqs = [
   {
     q: "Come funziona il processo creativo?",
@@ -25,6 +23,9 @@ const faqs = [
   {
     q: "Quanto costa un progetto con Content Room?",
     a: "I nostri pacchetti partono da una tariffa personalizzata in base ai servizi inclusi e alla frequenza di pubblicazione. Richiedi una call gratuita per un preventivo su misura.",
+    /* ⚠️ PERSONALIZZA — risposta senza ancoraggio numerico, segnalato in audit CRO.
+       Serve una fascia di prezzo reale o un "a partire da" da Content Room prima
+       di poter rendere questa risposta più concreta. */
   },
   {
     q: "Vi occupate anche della gestione dei profili social?",
@@ -38,7 +39,7 @@ const faqs = [
 
 const FAQSection = () => {
   return (
-    <section className="relative py-[80px] px-6">
+    <section className="section-light relative py-20 md:py-28 px-6">
       <Helmet>
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
@@ -56,31 +57,16 @@ const FAQSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="inline-block mb-16 p-8 md:p-10"
-          style={{
-            background: "linear-gradient(160deg, hsl(0 0% 5% / 0.78), hsl(0 0% 3% / 0.88))",
-            border: "1px solid hsl(0 0% 100% / 0.08)",
-            backdropFilter: "blur(18px)",
-            borderRadius: "24px",
-          }}
+          className="mb-16"
         >
           <div className="flex items-center gap-4 mb-6">
-            <div className="w-12 h-0.5" style={{ background: CELESTE }} />
-            <span
-              className="font-body font-bold text-xs tracking-[0.4em] uppercase"
-              style={{
-                color: CELESTE,
-                textShadow: "0 1px 3px hsl(0 0% 0% / 0.95), 0 2px 12px hsl(0 0% 0% / 0.85), 0 0 24px hsl(0 0% 0% / 0.7)",
-              }}
-            >
+            <div className="w-12 h-0.5 bg-brand-orange" />
+            <span className="font-body font-bold text-xs tracking-[0.4em] uppercase text-brand-orange">
               FAQ
             </span>
           </div>
-          <h2
-            className="font-display font-bold text-4xl md:text-5xl tracking-tight text-white"
-            style={{ textShadow: "0 2px 20px hsl(0 0% 0% / 0.8), 0 0 40px hsl(0 0% 0% / 0.6)" }}
-          >
-            Domande frequenti.
+          <h2 className="font-display font-black text-4xl md:text-5xl tracking-tight">
+            Domande <span className="text-primary">frequenti.</span>
           </h2>
         </motion.div>
 
@@ -90,17 +76,22 @@ const FAQSection = () => {
           viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
         >
-          <Accordion type="single" collapsible defaultValue="item-0" className="w-full rounded-2xl px-6 md:px-8" style={{ background: "hsl(0 0% 6% / 0.7)", backdropFilter: "blur(16px)", border: "1px solid hsl(0 0% 100% / 0.08)" }}>
+          <Accordion
+            type="single"
+            collapsible
+            defaultValue="item-0"
+            className="w-full rounded-2xl px-6 md:px-8 bg-white border border-[hsl(0_0%_8%/0.1)]"
+          >
             {faqs.map((faq, i) => (
               <AccordionItem
                 key={i}
                 value={`item-${i}`}
-                className="border-b border-border/30"
+                className="border-b border-[hsl(0_0%_8%/0.1)] last:border-b-0"
               >
-                <AccordionTrigger className="font-display text-left text-base md:text-lg font-medium text-foreground hover:no-underline hover:text-primary transition-colors py-6">
+                <AccordionTrigger className="font-display text-left text-base md:text-lg font-bold hover:no-underline hover:text-primary transition-colors py-6">
                   {faq.q}
                 </AccordionTrigger>
-                <AccordionContent className="font-body text-sm md:text-base text-muted-foreground leading-relaxed pb-6 pr-8">
+                <AccordionContent className="font-body text-sm md:text-base text-[hsl(0_0%_35%)] leading-relaxed pb-6 pr-8">
                   {faq.a}
                 </AccordionContent>
               </AccordionItem>
