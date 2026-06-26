@@ -67,7 +67,7 @@ function ProjectCard({ p, index, trackX }: { p: any, index: number, trackX: any 
         transformStyle: "preserve-3d",
         backfaceVisibility: "hidden",
       }}
-      className="shrink-0"
+      className="project-card-3d shrink-0"
     >
       <Link
         to={`/portfolio/${p.slug}`}
@@ -126,9 +126,13 @@ const PortfolioSection = () => {
         </motion.div>
       </div>
 
-      <div
-        className="relative w-full h-[550px] overflow-visible select-none"
-        style={{ perspective: 1200, transformStyle: "preserve-3d" }}
+     <div
+  className="relative w-full h-[550px] overflow-visible select-none"
+  style={{ 
+    perspective: "1200px",          // Aggiungi le virgolette e la stringa "1200px"
+    transformStyle: "preserve-3d", // Mantieni
+    overflow: "visible"            // Forza l'overflow su visible
+  }}
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
         onPointerDown={(e) => { isDragging.current = true; setPaused(true); startDragX.current = e.clientX; startTrackX.current = trackX.get(); (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId); }}
