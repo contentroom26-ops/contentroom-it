@@ -14,6 +14,9 @@ const projects = [
   { slug: "gusto-ristorante", img: portfolio2, name: "Gusto Ristorante", result: "+150% engagement", tag: "Content & Social" },
   { slug: "fitpro-academy", img: portfolio3, name: "FitPro Academy", result: "+80k followers", tag: "Growth & Ads" },
   { slug: "glow-skincare", img: portfolio4, name: "Glow Skincare", result: "+300% vendite", tag: "E-commerce Strategy" },
+  { slug: "placeholder-5", img: portfolio1, name: "Progetto 5", result: "+XXk risultati", tag: "Da personalizzare" },
+  { slug: "placeholder-6", img: portfolio2, name: "Progetto 6", result: "+XXk risultati", tag: "Da personalizzare" },
+  { slug: "placeholder-7", img: portfolio3, name: "Progetto 7", result: "+XXk risultati", tag: "Da personalizzare" },
 ];
 
 // PARAMETRI DEL CILINDRO CONCAVO IMAX
