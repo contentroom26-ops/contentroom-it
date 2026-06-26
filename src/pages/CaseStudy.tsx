@@ -69,7 +69,7 @@ const CaseStudy = () => {
         <Navbar />
 
         {/* Hero image — nera */}
-        <section className="section-dark pt-32 pb-20 px-6">
+        <section className="section-dark pt-40 pb-20 px-6">
           <div className="max-w-6xl mx-auto">
             <motion.div
               initial={{ opacity: 0 }}
