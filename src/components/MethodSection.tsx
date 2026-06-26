@@ -3,8 +3,7 @@ import { useRef, useState } from "react";
 import { Compass, Hammer, Share2, LineChart } from "lucide-react";
 
 const CELESTE = "hsl(192 49% 76%)";
-const HERO_TEXT_SHADOW =
-  "0 2px 8px hsl(0 0% 0% / 0.85), 0 0 28px hsl(0 0% 0% / 0.6)";
+const CELESTE_TEXT = "hsl(192 35% 16%)";
 
 const method = [
   { step: "01", name: "Strategia", desc: "Definiamo obiettivi, KPI, tono di voce e piano editoriale su misura per il tuo brand e il tuo pubblico.", icon: Compass },
@@ -26,26 +25,24 @@ function MethodPath() {
     <div ref={containerRef} className="relative">
       {/* Desktop horizontal connecting line */}
       <div className="hidden lg:block absolute top-[88px] left-[8%] right-[8%] h-[2px] pointer-events-none">
-        <div className="absolute inset-0 rounded-full" style={{ background: "hsl(0 0% 100% / 0.08)" }} />
+        <div className="absolute inset-0 rounded-full" style={{ background: "hsl(0 0% 8% / 0.1)" }} />
         <motion.div
           className="absolute inset-y-0 left-0 rounded-full"
           style={{
             width: lineProgress,
-            background: `linear-gradient(90deg, ${CELESTE}, hsl(192 49% 86%))`,
-            boxShadow: `0 0 20px ${CELESTE}, 0 0 40px hsl(192 49% 76% / 0.5)`,
+            background: `linear-gradient(90deg, ${CELESTE}, hsl(192 49% 56%))`,
           }}
         />
       </div>
 
       {/* Mobile vertical connecting line */}
       <div className="lg:hidden absolute top-12 bottom-12 left-[34px] w-[2px] pointer-events-none">
-        <div className="absolute inset-0 rounded-full" style={{ background: "hsl(0 0% 100% / 0.08)" }} />
+        <div className="absolute inset-0 rounded-full" style={{ background: "hsl(0 0% 8% / 0.1)" }} />
         <motion.div
           className="absolute inset-x-0 top-0 rounded-full"
           style={{
             height: lineProgress,
-            background: `linear-gradient(180deg, ${CELESTE}, hsl(192 49% 86%))`,
-            boxShadow: `0 0 20px ${CELESTE}`,
+            background: `linear-gradient(180deg, ${CELESTE}, hsl(192 49% 56%))`,
           }}
         />
       </div>
@@ -76,13 +73,13 @@ function MethodPath() {
                   style={{
                     background: `radial-gradient(circle, ${CELESTE}, hsl(192 49% 56%))`,
                     boxShadow: active
-                      ? `0 0 30px ${CELESTE}, 0 0 60px hsl(192 49% 76% / 0.6)`
-                      : `0 0 15px hsl(192 49% 76% / 0.5)`,
+                      ? "0 4px 18px hsl(0 0% 8% / 0.35)"
+                      : "0 2px 8px hsl(0 0% 8% / 0.2)",
                   }}
                   animate={{ rotate: active ? 360 : 0 }}
                   transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  <div className="w-3 h-3 rounded-full" style={{ background: "hsl(0 0% 5%)" }} />
+                  <div className="w-3 h-3 rounded-full" style={{ background: CELESTE_TEXT }} />
                 </motion.div>
                 <motion.div
                   className="absolute inset-0 rounded-full pointer-events-none"
@@ -103,17 +100,14 @@ function MethodPath() {
               <motion.div
                 animate={{ y: active ? -8 : 0 }}
                 transition={{ type: "spring", stiffness: 200, damping: 20 }}
-                className="relative rounded-2xl p-6 border lg:mt-32 overflow-hidden w-full flex flex-col"
+                className="relative rounded-2xl p-6 border lg:mt-32 overflow-hidden w-full flex flex-col transition-colors duration-300"
                 style={{
-                  background: active
-                    ? "linear-gradient(160deg, hsl(0 0% 8% / 0.92), hsl(0 0% 4% / 0.98))"
-                    : "linear-gradient(160deg, hsl(0 0% 7% / 0.85), hsl(0 0% 4% / 0.95))",
-                  borderColor: active ? "hsl(192 49% 76% / 0.4)" : "hsl(0 0% 100% / 0.08)",
-                  backdropFilter: "blur(18px)",
+                  backgroundColor: active ? CELESTE : "hsl(0 0% 100%)",
+                  borderColor: active ? CELESTE : "hsl(0 0% 8% / 0.12)",
                   boxShadow: active
-                    ? "0 30px 70px hsl(0 0% 0% / 0.6), 0 0 50px hsl(192 49% 76% / 0.2)"
-                    : "0 15px 40px hsl(0 0% 0% / 0.4)",
-                  transition: "background 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease",
+                    ? "0 20px 45px hsl(0 0% 8% / 0.18)"
+                    : "0 4px 18px hsl(0 0% 8% / 0.06)",
+                  transition: "background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease",
                 }}
               >
                 <div className="flex items-center gap-3 mb-4">
@@ -122,14 +116,15 @@ function MethodPath() {
                     transition={{ type: "spring", stiffness: 200, damping: 15 }}
                     className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
                     style={{
-                      background: active
-                        ? "linear-gradient(135deg, hsl(192 49% 76% / 0.4), hsl(192 49% 76% / 0.1))"
-                        : "linear-gradient(135deg, hsl(192 49% 76% / 0.2), hsl(192 49% 76% / 0.05))",
-                      border: `1px solid hsl(192 49% 76% / ${active ? 0.6 : 0.3})`,
-                      transition: "all 0.4s ease",
+                      backgroundColor: active ? "hsl(192 35% 16% / 0.12)" : "hsl(192 49% 76% / 0.12)",
+                      transition: "background-color 0.4s ease",
                     }}
                   >
-                    <Icon className="w-5 h-5" style={{ color: CELESTE }} strokeWidth={1.6} />
+                    <Icon
+                      className="w-5 h-5"
+                      style={{ color: active ? CELESTE_TEXT : "hsl(192 40% 45%)" }}
+                      strokeWidth={1.6}
+                    />
                   </motion.div>
                   <motion.span
                     className="font-display font-light leading-none"
@@ -137,9 +132,8 @@ function MethodPath() {
                     transition={{ type: "spring", stiffness: 200, damping: 18 }}
                     style={{
                       fontSize: "2.4rem",
-                      WebkitTextStroke: `1px ${CELESTE}`,
+                      WebkitTextStroke: `1px ${active ? CELESTE_TEXT : "hsl(0 0% 75%)"}`,
                       color: "transparent",
-                      textShadow: active ? "0 0 30px hsl(192 49% 76% / 0.6)" : "none",
                     }}
                   >
                     {m.step}
@@ -148,20 +142,20 @@ function MethodPath() {
                 <motion.h3
                   animate={{ x: active ? 4 : 0 }}
                   transition={{ duration: 0.4 }}
-                  className="font-display font-semibold text-xl mb-2 text-foreground"
-                  style={{ textShadow: HERO_TEXT_SHADOW }}
+                  className="font-display font-bold text-xl mb-2"
+                  style={{ color: active ? CELESTE_TEXT : "hsl(0 0% 10%)" }}
                 >
                   {m.name}
                 </motion.h3>
                 <p
                   className="font-body text-sm leading-relaxed"
-                  style={{ color: "hsl(0 0% 88%)", textShadow: "0 1px 4px hsl(0 0% 0% / 0.6)" }}
+                  style={{ color: active ? "hsl(192 30% 22%)" : "hsl(0 0% 35%)" }}
                 >
                   {m.desc}
                 </p>
                 <motion.div
                   className="absolute bottom-0 left-0 h-[2px] rounded-full"
-                  style={{ background: `linear-gradient(90deg, ${CELESTE}, transparent)` }}
+                  style={{ background: active ? `linear-gradient(90deg, ${CELESTE_TEXT}, transparent)` : "transparent" }}
                   animate={{ width: active ? "100%" : "0%" }}
                   transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                 />
@@ -176,33 +170,27 @@ function MethodPath() {
 
 const MethodSection = () => {
   return (
-    <section className="py-[50px] px-6">
+    <section className="section-light py-20 md:py-28 px-6">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="rounded-3xl p-8 md:p-10 mb-10 border inline-block"
-          style={{
-            background: "linear-gradient(160deg, hsl(0 0% 5% / 0.78), hsl(0 0% 3% / 0.88))",
-            borderColor: "hsl(0 0% 100% / 0.08)",
-            backdropFilter: "blur(18px)",
-            boxShadow: "0 20px 60px hsl(0 0% 0% / 0.5)",
-          }}
+          className="mb-10"
         >
           <div className="flex items-center gap-4 mb-6">
-            <div className="w-12 h-px" style={{ background: CELESTE }} />
-            <p className="font-body text-xs tracking-[0.4em] uppercase" style={{ color: CELESTE }}>
+            <div className="w-12 h-0.5 bg-brand-orange" />
+            <p className="font-body font-bold text-xs tracking-[0.4em] uppercase text-brand-orange">
               Il nostro metodo
             </p>
           </div>
           <h2
-            className="font-display font-bold tracking-tight leading-[1.05] text-foreground"
-            style={{ fontSize: "clamp(2rem, 5vw, 4rem)", textShadow: HERO_TEXT_SHADOW }}
+            className="font-display font-black tracking-tight leading-[1.05]"
+            style={{ fontSize: "clamp(2rem, 5vw, 4rem)" }}
           >
             Come<br />
-            <span style={{ color: "hsl(0 0% 75%)" }}>lavoriamo.</span>
+            <span className="text-primary">lavoriamo.</span>
           </h2>
         </motion.div>
 
