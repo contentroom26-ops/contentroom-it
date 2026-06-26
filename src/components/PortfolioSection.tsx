@@ -16,9 +16,9 @@ const projects = [
   { slug: "glow-skincare", img: portfolio4, name: "Glow Skincare", result: "+300% vendite", tag: "E-commerce Strategy" },
 ];
 
-// PARAMETRI DEL CILINDRO ORBITALE
-const RADIUS_Z = 850;       // Distanza tra l'utente (centro) e la parete del cilindro.
-const ANGULAR_GAP = 26;     // Spaziatura in GRADI tra una card e l'altra lungo la circonferenza.
+// PARAMETRI DEL CILINDRO CONCAVO IMAX
+const RADIUS = 1200;        // Il raggio dell'arco. Più è alto, più la curva è dolce.
+const ANGULAR_GAP = 18;     // Gradi di distanza tra una card e l'altra (a raggio 1200, 18° = ~377px di spazio)
 const trackProjects = [...projects, ...projects, ...projects, ...projects, ...projects];
 const TOTAL_DEGREES = trackProjects.length * ANGULAR_GAP;
 
@@ -32,11 +32,11 @@ function ProjectCard({
   trackX: ReturnType<typeof useMotionValue<number>>;
 }) {
   
-  // 1. L'angolo di rotazione Y rimane lineare lungo l'orbita
-  const rotateY = useTransform(trackX, (latestX) => {
-    let angle = (index * ANGULAR_GAP + latestX * 0.05) % TOTAL_DEGREES;
-    if (angle < 0) angle += TOTAL_DEGREES;
-    let finalAngle = angle - (TOTAL_DEGREES / 2);
+  // 1. Calcoliamo in quale angolo si trova la card in questo momento
+  const angle = useTransform(trackX, (latestX) => {
+    let a = (index * ANGULAR_GAP + latestX * 0.05) % TOTAL_DEGREES;
+    if (a < 0) a += TOTAL_DEGREES;
+    let finalAngle = a - (TOTAL_DEGREES / 2);
     
     if (finalAngle > 180) finalAngle -= 360;
     if (finalAngle < -180) finalAngle += 360;
@@ -44,24 +44,31 @@ function ProjectCard({
     return finalAngle;
   });
 
-  // 2. IL CORRETTORE DI ASSE (TRANSLATE Z COMPENSATIVO):
-  // Spinge le card in avanti verso l'utente man mano che si allargano ai lati
-  const z = useTransform(rotateY, (a) => {
-    const angleRad = a * (Math.PI / 180);
-    return (1 - Math.cos(angleRad)) * (RADIUS_Z * 0.6);
-  });
+  // 2. POSIZIONAMENTO MATEMATICO (Seno e Coseno)
+  // Coordinata X: Il seno muove le card orizzontalmente in modo non lineare (rallentano ai lati)
+  const x = useTransform(angle, (a) => Math.sin(a * (Math.PI / 180)) * RADIUS);
+  
+  // Coordinata Z: Il miracolo concavo. 
+  // Math.cos(0) è 1. Ai lati il coseno diminuisce. 
+  // Usando (1 - cos), al centro Z = 0. Ai lati Z diventa POSITIVO.
+  // Nel CSS 3D, Z positivo significa che l'oggetto ESCE dallo schermo e viene verso di te.
+  const z = useTransform(angle, (a) => (1 - Math.cos(a * (Math.PI / 180))) * RADIUS);
+  
+  // 3. Rotazione: La card ruota per guardare sempre il centro del cerchio (l'utente)
+  const rotateY = angle;
 
-  // 3. OPACITÀ E SCALA STRUTTURATI SULLA PROFONDITÀ CONCAVA
-  const scale = useTransform(rotateY, [-45, 0, 45], [0.98, 1, 0.98]);
-  const opacity = useTransform(rotateY, [-65, -45, 0, 45, 65], [0, 0.9, 1, 0.9, 0]);
+  // 4. Estetica
+  const scale = useTransform(angle, [-45, 0, 45], [0.95, 1, 0.95]);
+  const opacity = useTransform(angle, [-60, -30, 0, 30, 60], [0, 0.8, 1, 0.8, 0]);
 
   return (
     <motion.div
       style={{
-        rotateY: rotateY,
-        z: z, // Iniettata la correzione Z
-        scale: scale,
-        opacity: opacity,
+        x,           // Posizione Orizzontale Matematica
+        z,           // Profondità Matematica (Avanza verso l'utente)
+        rotateY,     // Inclinazione verso il centro
+        scale,
+        opacity,
         position: 'absolute',
         left: '50%',
         top: '50%',
@@ -69,7 +76,7 @@ function ProjectCard({
         height: '453px', 
         marginLeft: '-170px', 
         marginTop: '-226px',
-        transformOrigin: `center center -${RADIUS_Z}px`,
+        transformOrigin: "center center", // RISOLTO: Niente più perni posteriori sfalsati
         transformStyle: "preserve-3d",
       }}
       className="shrink-0"
