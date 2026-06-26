@@ -17,7 +17,7 @@ const projects = [
 ];
 
 // PARAMETRI DEL CILINDRO ORBITALE
-const RADIUS_Z = 850;       // Distanza tra l'utente (centro) e la parete del cilindro. Più è alto, più la curva è ampia.
+const RADIUS_Z = 850;       // Distanza tra l'utente (centro) e la parete del cilindro.
 const ANGULAR_GAP = 26;     // Spaziatura in GRADI tra una card e l'altra lungo la circonferenza.
 const trackProjects = [...projects, ...projects, ...projects, ...projects, ...projects];
 const TOTAL_DEGREES = trackProjects.length * ANGULAR_GAP;
@@ -32,45 +32,43 @@ function ProjectCard({
   trackX: ReturnType<typeof useMotionValue<number>>;
 }) {
   
-  // Mappiamo lo scorrimento dei pixel (trackX) in gradi di rotazione sul cilindro
+  // 1. L'angolo di rotazione Y rimane lineare lungo l'orbita
   const rotateY = useTransform(trackX, (latestX) => {
-    // Calcoliamo l'angolo base di questa card sul nastro circolare
     let angle = (index * ANGULAR_GAP + latestX * 0.05) % TOTAL_DEGREES;
-    
     if (angle < 0) angle += TOTAL_DEGREES;
-    
-    // Centriamo l'angolo rispetto alla visuale frontale (spostiamo il loop in modo che orbiti davanti a noi)
     let finalAngle = angle - (TOTAL_DEGREES / 2);
     
-    // Ottimizzazione: se la card finisce completamente dietro le spalle (> 90° o < -90°), la riportiamo davanti per il loop continuo
     if (finalAngle > 180) finalAngle -= 360;
     if (finalAngle < -180) finalAngle += 360;
     
     return finalAngle;
   });
 
-  // Dissolvenza ai lati: se la card si allontana dall'angolo visivo frontale (0°), sfuma nell'oscurità
-  const opacity = useTransform(rotateY, [-70, -45, 0, 45, 70], [0, 0.8, 1, 0.8, 0]);
-  
-  // Un leggerissimo scale di compensazione visiva per le card periferiche
-  const scale = useTransform(rotateY, [-50, 0, 50], [0.92, 1, 0.92]);
+  // 2. IL CORRETTORE DI ASSE (TRANSLATE Z COMPENSATIVO):
+  // Spinge le card in avanti verso l'utente man mano che si allargano ai lati
+  const z = useTransform(rotateY, (a) => {
+    const angleRad = a * (Math.PI / 180);
+    return (1 - Math.cos(angleRad)) * (RADIUS_Z * 0.6);
+  });
+
+  // 3. OPACITÀ E SCALA STRUTTURATI SULLA PROFONDITÀ CONCAVA
+  const scale = useTransform(rotateY, [-45, 0, 45], [0.98, 1, 0.98]);
+  const opacity = useTransform(rotateY, [-65, -45, 0, 45, 65], [0, 0.9, 1, 0.9, 0]);
 
   return (
     <motion.div
       style={{
         rotateY: rotateY,
+        z: z, // Iniettata la correzione Z
         scale: scale,
         opacity: opacity,
         position: 'absolute',
         left: '50%',
         top: '50%',
-        width: '340px', // Larghezza fissa della card
-        height: '453px', // Altezza proporzionata (aspect 3/4)
-        marginLeft: '-170px', // Centratura esatta sull'asse di rotazione
+        width: '340px', 
+        height: '453px', 
+        marginLeft: '-170px', 
         marginTop: '-226px',
-        
-        // IL SEGRETO GEOMETRICO: Muove il perno di rotazione indietro di RADIUS_Z pixel.
-        // La card non ruota più su se stessa, ma orbita sulla superficie del cilindro attorno a te.
         transformOrigin: `center center -${RADIUS_Z}px`,
         transformStyle: "preserve-3d",
       }}
@@ -175,7 +173,7 @@ const PortfolioSection = () => {
       <div
         className="relative w-full h-[550px] overflow-visible select-none"
         style={{
-          perspective: 1100, // Regola la forza tridimensionale complessiva dello schermo curvo
+          perspective: 1000, // Forza tridimensionale bilanciata per sentirsi all'interno
           transformStyle: "preserve-3d"
         }}
         onMouseEnter={() => setPaused(true)}
@@ -184,7 +182,6 @@ const PortfolioSection = () => {
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
       >
-        {/* Sfumature per nascondere i lati che vanno verso lo sfondo */}
         <div className="pointer-events-none absolute inset-y-0 left-0 w-24 md:w-48 z-20 bg-gradient-to-r from-black to-transparent" />
         <div className="pointer-events-none absolute inset-y-0 right-0 w-24 md:w-48 z-20 bg-gradient-to-l from-black to-transparent" />
 
