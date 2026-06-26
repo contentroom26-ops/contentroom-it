@@ -2,8 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import InlineCTA from "./InlineCTA";
 
-const CELESTE = "hsl(192 49% 76%)";
-
 const stats = [
   { value: 500, suffix: "k", prefix: "+", label: "Visualizzazioni generate" },
   { value: 300, suffix: "%", prefix: "+", label: "Engagement medio" },
@@ -32,8 +30,7 @@ const AnimatedCounter = ({ value, suffix, prefix }: { value: number; suffix: str
   return (
     <span
       ref={ref}
-      className="font-display font-bold text-6xl md:text-7xl lg:text-8xl text-white"
-      style={{ textShadow: "0 2px 24px hsl(0 0% 0% / 0.85), 0 0 48px hsl(0 0% 0% / 0.6)" }}
+      className="font-display font-black text-6xl md:text-7xl lg:text-8xl"
     >
       {prefix}{count}{suffix}
     </span>
@@ -41,16 +38,8 @@ const AnimatedCounter = ({ value, suffix, prefix }: { value: number; suffix: str
 };
 
 const ResultsSection = () => (
-  <section className="relative px-6 py-[50px] overflow-hidden">
-    <div
-      className="max-w-6xl mx-auto relative z-10 p-8 md:p-14"
-      style={{
-        background: "linear-gradient(160deg, hsl(0 0% 5% / 0.78), hsl(0 0% 3% / 0.88))",
-        border: "1px solid hsl(0 0% 100% / 0.08)",
-        backdropFilter: "blur(18px)",
-        borderRadius: "24px",
-      }}
-    >
+  <section className="section-light relative px-6 py-20 md:py-28 overflow-hidden">
+    <div className="max-w-6xl mx-auto relative z-10">
       <motion.div
         initial={{ opacity: 0, y: 60 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -58,22 +47,13 @@ const ResultsSection = () => (
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
       >
         <div className="flex items-center gap-4 mb-6">
-          <div className="w-12 h-0.5" style={{ background: CELESTE }} />
-          <span
-            className="font-body font-bold text-xs tracking-[0.4em] uppercase"
-            style={{
-              color: CELESTE,
-              textShadow: "0 1px 3px hsl(0 0% 0% / 0.95), 0 2px 12px hsl(0 0% 0% / 0.85), 0 0 24px hsl(0 0% 0% / 0.7)",
-            }}
-          >
+          <div className="w-12 h-0.5 bg-brand-orange" />
+          <span className="font-body font-bold text-xs tracking-[0.4em] uppercase text-brand-orange">
             Risultati
           </span>
         </div>
-        <h2
-          className="font-display font-bold text-4xl md:text-5xl tracking-tight mb-20 text-white"
-          style={{ textShadow: "0 2px 20px hsl(0 0% 0% / 0.8), 0 0 40px hsl(0 0% 0% / 0.6)" }}
-        >
-          I numeri parlano.
+        <h2 className="font-display font-black text-4xl md:text-5xl tracking-tight mb-20">
+          I numeri <span className="text-primary">parlano.</span>
         </h2>
       </motion.div>
 
@@ -93,7 +73,7 @@ const ResultsSection = () => (
             className="text-center md:text-left"
           >
             <AnimatedCounter value={stat.value} suffix={stat.suffix} prefix={stat.prefix} />
-            <p className="font-body text-base mt-3" style={{ color: "hsl(0 0% 88%)", textShadow: "0 1px 6px hsl(0 0% 0% / 0.7)" }}>{stat.label}</p>
+            <p className="font-body text-base mt-3 text-[hsl(0_0%_30%)]">{stat.label}</p>
           </motion.div>
         ))}
       </div>
