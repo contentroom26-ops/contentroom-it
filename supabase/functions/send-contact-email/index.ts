@@ -79,7 +79,7 @@ Deno.serve(async (req) => {
     const data = await res.json();
     if (!res.ok) {
       console.error('Resend error', res.status, data);
-      return new Response(JSON.stringify({ error: data?.message ?? 'Resend send failed' }), {
+      return new Response(JSON.stringify({ error: 'Invio non riuscito. Riprova più tardi.' }), {
         status: 502,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
