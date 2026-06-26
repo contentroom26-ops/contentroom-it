@@ -17,12 +17,7 @@ import {
 } from "@/components/ui/accordion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import GlobalVideoBackground from "@/components/GlobalVideoBackground";
 import InlineCTA from "@/components/InlineCTA";
-
-const CELESTE = "hsl(192 49% 76%)";
-const HERO_TEXT_SHADOW =
-  "0 2px 8px hsl(0 0% 0% / 0.85), 0 0 28px hsl(0 0% 0% / 0.6)";
 
 const problems = [
   "Quante richieste sui social restano senza risposta dopo le 18:00?",
@@ -140,104 +135,60 @@ const AutomazioneAI = () => {
         })}</script>
       </Helmet>
 
-      <GlobalVideoBackground />
       <main className="relative z-10 min-h-screen overflow-x-hidden">
         <Navbar />
 
-        {/* 1. Hero */}
-        <section className="relative pt-40 pb-20 px-6 min-h-[90vh] flex flex-col">
-          <div className="max-w-6xl mx-auto w-full flex-1 flex flex-col justify-center">
+        {/* 1. Hero — nera */}
+        <section className="section-dark pt-40 pb-20 px-6">
+          <div className="max-w-5xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="rounded-3xl p-8 md:p-12 border"
-              style={{
-                background: "linear-gradient(160deg, rgba(10,10,10,0.7), hsl(0 0% 3% / 0.88))",
-                borderColor: "hsl(0 0% 100% / 0.08)",
-                backdropFilter: "blur(18px)",
-                boxShadow: "0 20px 60px hsl(0 0% 0% / 0.5)",
-              }}
             >
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-px" style={{ background: CELESTE }} />
-                <p className="font-body text-xs tracking-[0.4em] uppercase" style={{ color: CELESTE }}>
+                <div className="w-12 h-px bg-brand-orange" />
+                <p className="font-body text-xs font-bold tracking-[0.4em] uppercase text-brand-orange">
                   Automazione &amp; AI
                 </p>
               </div>
               <h1
-                className="font-display font-bold tracking-tight leading-[1.05] mb-6 text-foreground"
-                style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)", textShadow: HERO_TEXT_SHADOW }}
+                className="font-display font-black tracking-tight leading-[1.05] mb-6"
+                style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}
               >
-                Mentre il tuo team dorme, la tua azienda continua a lavorare.
+                Mentre il tuo team dorme, la tua{" "}
+                <span className="text-primary">azienda continua a lavorare.</span>
               </h1>
-              <p
-                className="font-body text-base md:text-lg max-w-2xl"
-                style={{ color: "hsl(0 0% 92%)", textShadow: "0 1px 6px hsl(0 0% 0% / 0.7)" }}
-              >
+              <p className="font-body text-base md:text-lg max-w-2xl text-white/75">
                 Chatbot, automazioni e strumenti di intelligenza artificiale che eliminano il
                 lavoro ripetitivo e non fanno perdere nessun cliente. Implementati su misura,
                 sugli strumenti che usi già.
               </p>
             </motion.div>
           </div>
-
-          {/* Scroll indicator */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.5 }}
-            className="flex flex-col items-center gap-3 mt-8 mb-4"
-          >
-            <motion.span
-              animate={{ opacity: [0.4, 0.8, 0.4] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="text-muted-foreground/50 text-xs tracking-[0.2em] uppercase font-body"
-            >
-              Scroll
-            </motion.span>
-            <motion.div
-              animate={{ y: [0, 12, 0] }}
-              transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-              className="w-5 h-8 rounded-full border-2 border-muted-foreground/30 flex justify-center pt-1.5"
-            >
-              <motion.div
-                animate={{ height: ["6px", "12px", "6px"], opacity: [0.5, 1, 0.5] }}
-                transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                className="w-1 rounded-full bg-primary"
-              />
-            </motion.div>
-          </motion.div>
         </section>
 
-        {/* 2. Problema */}
-        <section className="py-[50px] px-6">
+        {/* 2. Problema — beige */}
+        <section className="section-light py-20 md:py-28 px-6">
           <div className="max-w-5xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="rounded-3xl p-8 md:p-12 border"
-              style={{
-                background: "linear-gradient(160deg, rgba(10,10,10,0.7), hsl(0 0% 3% / 0.88))",
-                borderColor: "hsl(0 0% 100% / 0.08)",
-                backdropFilter: "blur(18px)",
-                boxShadow: "0 20px 60px hsl(0 0% 0% / 0.5)",
-              }}
             >
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-px" style={{ background: CELESTE }} />
-                <p className="font-body text-xs tracking-[0.4em] uppercase" style={{ color: CELESTE }}>
+                <div className="w-12 h-px bg-brand-orange" />
+                <p className="font-body text-xs font-bold tracking-[0.4em] uppercase text-brand-orange">
                   Il problema
                 </p>
               </div>
               <h2
-                className="font-display font-bold tracking-tight leading-[1.05] mb-10 text-foreground"
-                style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", textShadow: HERO_TEXT_SHADOW }}
+                className="font-display font-black tracking-tight leading-[1.05] mb-10"
+                style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
               >
                 Ogni giorno la tua azienda<br />
-                <span style={{ color: "hsl(0 0% 75%)" }}>lascia opportunità sul tavolo.</span>
+                <span className="text-primary">lascia opportunità sul tavolo.</span>
               </h2>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
@@ -248,37 +199,26 @@ const AutomazioneAI = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.1 }}
                     transition={{ duration: 0.6, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                    className="rounded-2xl p-6 md:p-7 border"
-                    style={{
-                      background: "linear-gradient(160deg, hsl(0 0% 7% / 0.85), hsl(0 0% 4% / 0.95))",
-                      borderColor: "hsl(0 0% 100% / 0.08)",
-                      backdropFilter: "blur(18px)",
-                    }}
+                    className="rounded-2xl p-6 md:p-7 bg-white border border-[hsl(0_0%_8%/0.1)]"
                   >
                     <span
                       className="font-display font-light block mb-4 leading-none"
                       style={{
                         fontSize: "2.4rem",
-                        WebkitTextStroke: `1px ${CELESTE}`,
+                        WebkitTextStroke: "1px hsl(0 0% 25%)",
                         color: "transparent",
                       }}
                     >
                       0{i + 1}
                     </span>
-                    <p
-                      className="font-body text-base md:text-lg leading-relaxed"
-                      style={{ color: "hsl(0 0% 90%)", textShadow: "0 1px 4px hsl(0 0% 0% / 0.6)" }}
-                    >
+                    <p className="font-body text-base md:text-lg leading-relaxed text-[hsl(0_0%_15%)]">
                       {p}
                     </p>
                   </motion.div>
                 ))}
               </div>
 
-              <p
-                className="font-body text-base md:text-lg leading-relaxed max-w-3xl"
-                style={{ color: "hsl(0 0% 92%)", textShadow: "0 1px 6px hsl(0 0% 0% / 0.7)" }}
-              >
+              <p className="font-body text-base md:text-lg leading-relaxed max-w-3xl text-[hsl(0_0%_25%)]">
                 Content Room implementa l'intelligenza artificiale per risolvere esattamente
                 questi problemi — senza che tu debba cambiare gli strumenti che usi oggi.
               </p>
@@ -286,8 +226,8 @@ const AutomazioneAI = () => {
           </div>
         </section>
 
-        {/* 3. Servizi prima / dopo */}
-        <section className="py-[50px] px-6">
+        {/* 3. Servizi prima / dopo — nera */}
+        <section className="section-dark py-20 md:py-28 px-6">
           <div className="max-w-6xl mx-auto space-y-8 md:space-y-12">
             {offerings.map((o, i) => {
               const Icon = o.icon;
@@ -299,13 +239,7 @@ const AutomazioneAI = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.1 }}
                   transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                  className="rounded-3xl p-8 md:p-12 border"
-                  style={{
-                    background: "linear-gradient(160deg, rgba(10,10,10,0.7), hsl(0 0% 3% / 0.88))",
-                    borderColor: "hsl(0 0% 100% / 0.08)",
-                    backdropFilter: "blur(18px)",
-                    boxShadow: "0 20px 60px hsl(0 0% 0% / 0.5)",
-                  }}
+                  className="rounded-2xl p-8 md:p-12 bg-[hsl(0_0%_10%)] border border-white/10"
                 >
                   <div
                     className={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center ${
@@ -315,22 +249,14 @@ const AutomazioneAI = () => {
                     {/* Heading side */}
                     <div>
                       <div className="flex items-center gap-4 mb-6">
-                        <div
-                          className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0"
-                          style={{
-                            background:
-                              "linear-gradient(135deg, hsl(192 49% 76% / 0.22), hsl(192 49% 76% / 0.06))",
-                            border: "1px solid hsl(192 49% 76% / 0.4)",
-                            boxShadow: "0 0 24px hsl(192 49% 76% / 0.25)",
-                          }}
-                        >
-                          <Icon className="w-6 h-6" style={{ color: CELESTE }} strokeWidth={1.5} />
+                        <div className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 bg-[hsl(192_49%_76%/0.12)]">
+                          <Icon className="w-6 h-6 text-primary" strokeWidth={1.5} />
                         </div>
                         <span
                           className="font-display font-light leading-none"
                           style={{
                             fontSize: "clamp(2.5rem, 4vw, 3.5rem)",
-                            WebkitTextStroke: `1.5px ${CELESTE}`,
+                            WebkitTextStroke: "1.5px hsl(192 49% 76%)",
                             color: "transparent",
                           }}
                         >
@@ -338,8 +264,8 @@ const AutomazioneAI = () => {
                         </span>
                       </div>
                       <h2
-                        className="font-display font-bold tracking-tight leading-[1.05] text-foreground"
-                        style={{ fontSize: "clamp(1.8rem, 3.2vw, 2.6rem)", textShadow: HERO_TEXT_SHADOW }}
+                        className="font-display font-bold tracking-tight leading-[1.05]"
+                        style={{ fontSize: "clamp(1.8rem, 3.2vw, 2.6rem)" }}
                       >
                         {o.title}
                       </h2>
@@ -347,55 +273,27 @@ const AutomazioneAI = () => {
 
                     {/* Before / After side */}
                     <div className="space-y-5">
-                      <div
-                        className="rounded-2xl p-6 border"
-                        style={{
-                          background: "hsl(0 0% 7% / 0.7)",
-                          borderColor: "hsl(0 0% 100% / 0.08)",
-                          backdropFilter: "blur(16px)",
-                        }}
-                      >
-                        <p
-                          className="font-body text-[10px] tracking-[0.4em] uppercase mb-3"
-                          style={{ color: "hsl(0 0% 55%)" }}
-                        >
+                      <div className="rounded-2xl p-6 bg-white/5 border border-white/10">
+                        <p className="font-body text-[10px] font-bold tracking-[0.4em] uppercase mb-3 text-white/40">
                           Prima
                         </p>
-                        <p
-                          className="font-body text-sm md:text-base leading-relaxed"
-                          style={{ color: "hsl(0 0% 80%)" }}
-                        >
+                        <p className="font-body text-sm md:text-base leading-relaxed text-white/65">
                           {o.before}
                         </p>
                       </div>
 
                       <div className="flex justify-center">
                         <ArrowRight
-                          className="w-6 h-6 rotate-90 lg:rotate-0"
-                          style={{ color: CELESTE }}
+                          className="w-6 h-6 rotate-90 lg:rotate-0 text-primary"
                           strokeWidth={1.8}
                         />
                       </div>
 
-                      <div
-                        className="rounded-2xl p-6 border"
-                        style={{
-                          background: "linear-gradient(160deg, hsl(192 49% 76% / 0.08), hsl(0 0% 4% / 0.9))",
-                          borderColor: "hsl(192 49% 76% / 0.2)",
-                          backdropFilter: "blur(16px)",
-                          boxShadow: "inset 0 1px 0 hsl(0 0% 100% / 0.05)",
-                        }}
-                      >
-                        <p
-                          className="font-body text-[10px] tracking-[0.4em] uppercase mb-3"
-                          style={{ color: CELESTE }}
-                        >
+                      <div className="rounded-2xl p-6 bg-[hsl(192_49%_76%/0.12)] border border-[hsl(192_49%_76%/0.3)]">
+                        <p className="font-body text-[10px] font-bold tracking-[0.4em] uppercase mb-3 text-primary">
                           Dopo
                         </p>
-                        <p
-                          className="font-body text-sm md:text-base leading-relaxed"
-                          style={{ color: "hsl(0 0% 92%)" }}
-                        >
+                        <p className="font-body text-sm md:text-base leading-relaxed text-white/90">
                           {o.after}
                         </p>
                       </div>
@@ -407,34 +305,28 @@ const AutomazioneAI = () => {
           </div>
         </section>
 
-        {/* 4. Come lavoriamo */}
-        <section className="py-[50px] px-6">
+        {/* 4. Come lavoriamo — beige */}
+        <section className="section-light py-20 md:py-28 px-6">
           <div className="max-w-6xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="rounded-3xl p-8 md:p-10 mb-10 border inline-block"
-              style={{
-                background: "linear-gradient(160deg, rgba(10,10,10,0.7), hsl(0 0% 3% / 0.88))",
-                borderColor: "hsl(0 0% 100% / 0.08)",
-                backdropFilter: "blur(18px)",
-                boxShadow: "0 20px 60px hsl(0 0% 0% / 0.5)",
-              }}
+              className="mb-10"
             >
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-px" style={{ background: CELESTE }} />
-                <p className="font-body text-xs tracking-[0.4em] uppercase" style={{ color: CELESTE }}>
+                <div className="w-12 h-px bg-brand-orange" />
+                <p className="font-body text-xs font-bold tracking-[0.4em] uppercase text-brand-orange">
                   Il nostro metodo
                 </p>
               </div>
               <h2
-                className="font-display font-bold tracking-tight leading-[1.05] text-foreground"
-                style={{ fontSize: "clamp(2rem, 5vw, 4rem)", textShadow: HERO_TEXT_SHADOW }}
+                className="font-display font-black tracking-tight leading-[1.05]"
+                style={{ fontSize: "clamp(2rem, 5vw, 4rem)" }}
               >
                 Come<br />
-                <span style={{ color: "hsl(0 0% 75%)" }}>lavoriamo.</span>
+                <span className="text-primary">lavoriamo.</span>
               </h2>
             </motion.div>
 
@@ -448,46 +340,27 @@ const AutomazioneAI = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.1 }}
                     transition={{ duration: 0.7, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-                    className="relative rounded-2xl p-7 md:p-8 border overflow-hidden h-full"
-                    style={{
-                      background: "linear-gradient(160deg, hsl(0 0% 7% / 0.85), hsl(0 0% 4% / 0.95))",
-                      borderColor: "hsl(0 0% 100% / 0.08)",
-                      backdropFilter: "blur(18px)",
-                      boxShadow: "0 15px 40px hsl(0 0% 0% / 0.4)",
-                    }}
+                    className="relative rounded-2xl p-7 md:p-8 h-full bg-white border border-[hsl(0_0%_8%/0.1)]"
                   >
                     <div className="flex items-center gap-4 mb-5">
-                      <div
-                        className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
-                        style={{
-                          background:
-                            "linear-gradient(135deg, hsl(192 49% 76% / 0.2), hsl(192 49% 76% / 0.05))",
-                          border: "1px solid hsl(192 49% 76% / 0.3)",
-                        }}
-                      >
-                        <Icon className="w-5 h-5" style={{ color: CELESTE }} strokeWidth={1.6} />
+                      <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-[hsl(192_49%_76%/0.12)]">
+                        <Icon className="w-5 h-5 text-primary" strokeWidth={1.6} />
                       </div>
                       <span
                         className="font-display font-light leading-none"
                         style={{
                           fontSize: "2.4rem",
-                          WebkitTextStroke: `1px ${CELESTE}`,
+                          WebkitTextStroke: "1px hsl(192 35% 30%)",
                           color: "transparent",
                         }}
                       >
                         {s.num}
                       </span>
                     </div>
-                    <h3
-                      className="font-display font-semibold text-xl mb-2 text-foreground"
-                      style={{ textShadow: HERO_TEXT_SHADOW }}
-                    >
+                    <h3 className="font-display font-bold text-xl mb-2">
                       {s.name}
                     </h3>
-                    <p
-                      className="font-body text-sm md:text-base leading-relaxed"
-                      style={{ color: "hsl(0 0% 88%)", textShadow: "0 1px 4px hsl(0 0% 0% / 0.6)" }}
-                    >
+                    <p className="font-body text-sm md:text-base leading-relaxed text-[hsl(0_0%_30%)]">
                       {s.desc}
                     </p>
                   </motion.div>
@@ -500,18 +373,9 @@ const AutomazioneAI = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-8 rounded-2xl p-6 md:p-8 border text-center"
-              style={{
-                background: "linear-gradient(160deg, hsl(192 49% 76% / 0.08), hsl(0 0% 4% / 0.92))",
-                borderColor: "hsl(192 49% 76% / 0.2)",
-                backdropFilter: "blur(18px)",
-                boxShadow: "0 20px 60px hsl(0 0% 0% / 0.5)",
-              }}
+              className="mt-8 rounded-2xl p-6 md:p-8 text-center bg-[hsl(192_49%_76%/0.15)] border border-[hsl(192_49%_76%/0.3)]"
             >
-              <p
-                className="font-body text-base md:text-lg font-medium max-w-2xl mx-auto"
-                style={{ color: "hsl(0 0% 95%)", textShadow: "0 1px 6px hsl(0 0% 0% / 0.7)" }}
-              >
+              <p className="font-body text-base md:text-lg font-medium max-w-2xl mx-auto text-[hsl(192_35%_16%)]">
                 Lavoriamo con gli strumenti che hai già in azienda. Non devi cambiare nulla,
                 solo lasciare che funzionino meglio.
               </p>
@@ -519,40 +383,24 @@ const AutomazioneAI = () => {
           </div>
         </section>
 
-        {/* 5. Micro-FAQ */}
-        <section className="py-[50px] px-6">
+        {/* 5. Micro-FAQ — nera */}
+        <section className="section-dark py-20 md:py-28 px-6">
           <div className="max-w-3xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 60 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="inline-block mb-16 p-8 md:p-10"
-              style={{
-                background: "linear-gradient(160deg, rgba(10,10,10,0.7), hsl(0 0% 3% / 0.88))",
-                border: "1px solid hsl(0 0% 100% / 0.08)",
-                backdropFilter: "blur(18px)",
-                borderRadius: "24px",
-              }}
+              className="mb-16"
             >
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-0.5" style={{ background: CELESTE }} />
-                <span
-                  className="font-body font-bold text-xs tracking-[0.4em] uppercase"
-                  style={{
-                    color: CELESTE,
-                    textShadow:
-                      "0 1px 3px hsl(0 0% 0% / 0.95), 0 2px 12px hsl(0 0% 0% / 0.85), 0 0 24px hsl(0 0% 0% / 0.7)",
-                  }}
-                >
+                <div className="w-12 h-0.5 bg-brand-orange" />
+                <span className="font-body font-bold text-xs tracking-[0.4em] uppercase text-brand-orange">
                   FAQ
                 </span>
               </div>
-              <h2
-                className="font-display font-bold text-4xl md:text-5xl tracking-tight text-white"
-                style={{ textShadow: "0 2px 20px hsl(0 0% 0% / 0.8), 0 0 40px hsl(0 0% 0% / 0.6)" }}
-              >
-                Domande frequenti.
+              <h2 className="font-display font-black text-4xl md:text-5xl tracking-tight">
+                Domande <span className="text-primary">frequenti.</span>
               </h2>
             </motion.div>
 
@@ -566,19 +414,14 @@ const AutomazioneAI = () => {
                 type="single"
                 collapsible
                 defaultValue="item-0"
-                className="w-full rounded-2xl px-6 md:px-8"
-                style={{
-                  background: "hsl(0 0% 6% / 0.7)",
-                  backdropFilter: "blur(16px)",
-                  border: "1px solid hsl(0 0% 100% / 0.08)",
-                }}
+                className="w-full rounded-2xl px-6 md:px-8 bg-[hsl(0_0%_10%)] border border-white/10"
               >
                 {faqs.map((faq, i) => (
-                  <AccordionItem key={i} value={`item-${i}`} className="border-b border-border/30">
-                    <AccordionTrigger className="font-display text-left text-base md:text-lg font-medium text-foreground hover:no-underline hover:text-primary transition-colors py-6">
+                  <AccordionItem key={i} value={`item-${i}`} className="border-b border-white/10 last:border-b-0">
+                    <AccordionTrigger className="font-display text-left text-base md:text-lg font-bold hover:no-underline hover:text-primary transition-colors py-6">
                       {faq.q}
                     </AccordionTrigger>
-                    <AccordionContent className="font-body text-sm md:text-base text-muted-foreground leading-relaxed pb-6 pr-8">
+                    <AccordionContent className="font-body text-sm md:text-base text-white/65 leading-relaxed pb-6 pr-8">
                       {faq.a}
                     </AccordionContent>
                   </AccordionItem>
@@ -588,31 +431,22 @@ const AutomazioneAI = () => {
           </div>
         </section>
 
-        {/* 6. CTA finale */}
-        <section className="py-[50px] px-6">
+        {/* 6. CTA finale — beige */}
+        <section className="section-light py-20 md:py-28 px-6">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="max-w-3xl mx-auto text-center rounded-3xl p-10 md:p-14 border"
-            style={{
-              background: "linear-gradient(160deg, hsl(0 0% 5% / 0.82), hsl(0 0% 3% / 0.92))",
-              borderColor: "hsl(0 0% 100% / 0.08)",
-              backdropFilter: "blur(18px)",
-              boxShadow: "0 20px 60px hsl(0 0% 0% / 0.5)",
-            }}
+            className="max-w-3xl mx-auto text-center"
           >
             <h2
-              className="font-display font-bold tracking-tight leading-[1.05] mb-6 text-foreground"
-              style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", textShadow: HERO_TEXT_SHADOW }}
+              className="font-display font-black tracking-tight leading-[1.05] mb-6"
+              style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
             >
               Scopri quali processi della tua azienda puoi automatizzare.
             </h2>
-            <p
-              className="font-body text-base md:text-lg mb-4 max-w-xl mx-auto"
-              style={{ color: "hsl(0 0% 90%)", textShadow: "0 1px 6px hsl(0 0% 0% / 0.7)" }}
-            >
+            <p className="font-body text-base md:text-lg mb-4 max-w-xl mx-auto text-[hsl(0_0%_30%)]">
               Una call gratuita di 30 minuti per analizzare la tua situazione e capire da dove
               iniziare. Nessun impegno.
             </p>
