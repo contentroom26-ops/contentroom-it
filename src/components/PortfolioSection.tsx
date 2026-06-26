@@ -45,8 +45,8 @@ function ProjectCard({
     const viewportCenter =
       typeof window !== "undefined" ? window.innerWidth / 2 : 700;
     const distance = cardCenter - viewportCenter + CARD_WIDTH / 2;
-    const clamped = Math.max(-1, Math.min(1, distance / 700));
-    return clamped * -28; // fino a 28° di inclinazione ai lati
+    const clamped = Math.max(-1, Math.min(1, distance / 380));
+    return clamped * -42; // fino a 42° di inclinazione ai lati
   });
 
   const scale = useTransform(trackX, (x) => {
@@ -54,8 +54,8 @@ function ProjectCard({
     const viewportCenter =
       typeof window !== "undefined" ? window.innerWidth / 2 : 700;
     const distance = Math.abs(cardCenter - viewportCenter + CARD_WIDTH / 2);
-    const clamped = Math.min(1, distance / 700);
-    return 1 - clamped * 0.12; // le card laterali si rimpiccioliscono leggermente
+    const clamped = Math.min(1, distance / 380);
+    return 1 - clamped * 0.22; // le card laterali si rimpiccioliscono di più, accentua la profondità
   });
 
   return (
