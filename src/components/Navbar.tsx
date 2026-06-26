@@ -3,7 +3,9 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import contentRoomIcon from "@/assets/contentroom-icon.png";
+import contentRoomIconDark from "@/assets/contentroom-icon-dark.png";
 import contentRoomLogo from "@/assets/contentroom-logo.png";
+import contentRoomLogoDark from "@/assets/contentroom-logo-dark.png";
 
 const serviceItems = [
   { label: "Content Creation", to: "/content-creation" },
@@ -84,13 +86,17 @@ const Navbar = () => {
     setMobileServicesOpen(false);
   };
 
-  // Token di colore derivati dalla sezione sottostante
-  const navBg = isLightSection ? "hsl(43 100% 98%)" : "hsl(0 0% 6%)";
-  const navBorder = isLightSection ? "hsl(0 0% 8% / 0.1)" : "hsl(0 0% 100% / 0.08)";
-  const navTextMuted = isLightSection ? "text-[hsl(0_0%_25%)]" : "text-white/70";
-  const navTextHover = isLightSection ? "hover:text-primary" : "hover:text-white";
-  const navHoverBg = isLightSection ? "hover:bg-[hsl(0_0%_8%/0.06)]" : "hover:bg-white/10";
-  const navIconColor = isLightSection ? "text-[hsl(0_0%_10%)]" : "text-white";
+  // Token di colore derivati dalla sezione sottostante.
+  // Logica: massimo contrasto, non "stesso tono della sezione sotto".
+  // Sezione SOTTO chiara (beige) -> navbar SCURA. Sezione sotto scura (nera) -> navbar CHIARA.
+  const navBg = isLightSection ? "hsl(0 0% 6%)" : "hsl(43 100% 98%)";
+  const navBorder = isLightSection ? "hsl(0 0% 100% / 0.08)" : "hsl(0 0% 8% / 0.1)";
+  const navTextMuted = isLightSection ? "text-white/70" : "text-[hsl(0_0%_25%)]";
+  const navTextHover = isLightSection ? "hover:text-white" : "hover:text-primary";
+  const navHoverBg = isLightSection ? "hover:bg-white/10" : "hover:bg-[hsl(0_0%_8%/0.06)]";
+  const navIconColor = isLightSection ? "text-white" : "text-[hsl(0_0%_10%)]";
+  const navLogo = isLightSection ? contentRoomLogo : contentRoomLogoDark;
+  const navIcon = isLightSection ? contentRoomIcon : contentRoomIconDark;
 
   return (
     <motion.nav
@@ -124,9 +130,9 @@ const Navbar = () => {
             style={{ scale: iconScale }}
           >
             <motion.img
-              src={contentRoomIcon}
+              src={navIcon}
               alt="Content Room"
-              className="h-16 w-auto"
+              className="h-16 w-auto transition-opacity duration-300"
               animate={{
                 rotate: [0, 8, -8, 5, -5, 0],
                 scale: [1, 1.05, 1, 1.03, 1],
@@ -137,7 +143,7 @@ const Navbar = () => {
                 ease: "easeInOut",
               }}
             />
-            <img src={contentRoomLogo} alt="Content Room" className="h-24 w-auto" />
+            <img src={navLogo} alt="Content Room" className="h-24 w-auto transition-opacity duration-300" />
           </motion.div>
         </Link>
 
