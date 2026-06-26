@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import GlobalVideoBackground from "@/components/GlobalVideoBackground";
 import portfolio1 from "@/assets/portfolio-1.jpg";
 import portfolio2 from "@/assets/portfolio-2.jpg";
 import portfolio3 from "@/assets/portfolio-3.jpg";
@@ -44,73 +43,52 @@ const Portfolio = () => {
 
   return (
     <>
-      <GlobalVideoBackground />
       <main className="relative z-10 min-h-screen overflow-x-hidden">
         <Navbar />
 
-        {/* Hero */}
-        <section className="pt-40 pb-10 px-6">
+        {/* Hero — nera */}
+        <section className="section-dark pt-40 pb-16 px-6">
           <div className="max-w-6xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="rounded-3xl p-8 md:p-12 border"
-              style={{
-                background: "linear-gradient(160deg, hsl(0 0% 5% / 0.78), hsl(0 0% 3% / 0.88))",
-                borderColor: "hsl(0 0% 100% / 0.08)",
-                backdropFilter: "blur(18px)",
-                boxShadow: "0 20px 60px hsl(0 0% 0% / 0.5)",
-              }}
             >
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-px" style={{ background: CELESTE }} />
-                <p className="font-body text-xs tracking-[0.4em] uppercase" style={{ color: CELESTE }}>
+                <div className="w-12 h-px bg-brand-orange" />
+                <p className="font-body text-xs font-bold tracking-[0.4em] uppercase text-brand-orange">
                   Portfolio
                 </p>
               </div>
               <h1
-                className="font-display font-bold tracking-tight leading-[1.05] mb-6 text-foreground"
-                style={{
-                  fontSize: "clamp(2.5rem, 6vw, 5rem)",
-                  textShadow: "0 2px 8px hsl(0 0% 0% / 0.85), 0 0 28px hsl(0 0% 0% / 0.6)",
-                }}
+                className="font-display font-black tracking-tight leading-[1.05] mb-6"
+                style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}
               >
                 Lavori,<br />
-                <span style={{ color: "hsl(0 0% 75%)" }}>non promesse.</span>
+                <span className="text-primary">non promesse.</span>
               </h1>
-              <p
-                className="font-body text-base md:text-lg max-w-2xl"
-                style={{ color: "hsl(0 0% 92%)", textShadow: "0 1px 6px hsl(0 0% 0% / 0.7)" }}
-              >
+              <p className="font-body text-base md:text-lg max-w-2xl text-white/75">
                 Una selezione di progetti che raccontano il nostro approccio: strategia, creatività ed esecuzione impeccabile.
               </p>
             </motion.div>
           </div>
         </section>
 
-        {/* Filtri */}
-        <section className="px-6 pt-8">
+        {/* Filtri + Grid — beige */}
+        <section className="section-light pt-12 pb-28 px-6">
           <div className="max-w-6xl mx-auto">
-            <div
-              className="flex flex-wrap items-center gap-2 md:gap-3 mb-12 p-3 rounded-full border w-fit"
-              style={{
-                background: "hsl(0 0% 5% / 0.7)",
-                borderColor: "hsl(0 0% 100% / 0.08)",
-                backdropFilter: "blur(18px)",
-              }}
-            >
+            <div className="flex flex-wrap items-center gap-2 md:gap-3 mb-12 p-3 rounded-full border w-fit bg-white border-[hsl(0_0%_8%/0.1)]">
               {filters.map((f) => {
                 const isActive = active === f;
                 return (
                   <button
                     key={f}
                     onClick={() => setActive(f)}
-                    className="px-5 py-2 rounded-full font-body text-xs md:text-sm tracking-wide transition-all duration-300 border"
+                    className="px-5 py-2 rounded-full font-body text-xs md:text-sm font-medium tracking-wide transition-all duration-300 border"
                     style={{
-                      background: isActive ? CELESTE : "hsl(0 0% 100% / 0.05)",
-                      color: isActive ? "hsl(0 0% 5%)" : "hsl(0 0% 95%)",
-                      borderColor: isActive ? CELESTE : "hsl(0 0% 100% / 0.12)",
+                      backgroundColor: isActive ? CELESTE : "transparent",
+                      color: isActive ? "hsl(192 35% 16%)" : "hsl(0 0% 25%)",
+                      borderColor: isActive ? CELESTE : "transparent",
                     }}
                   >
                     {f}
@@ -118,12 +96,7 @@ const Portfolio = () => {
                 );
               })}
             </div>
-          </div>
-        </section>
 
-        {/* Grid */}
-        <section className="pb-32 px-6">
-          <div className="max-w-6xl mx-auto">
             <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
               <AnimatePresence mode="popLayout">
                 {visible.map((c, i) => (
@@ -137,7 +110,7 @@ const Portfolio = () => {
                   >
                     <Link
                       to={`/portfolio/${c.slug}`}
-                      className="group relative block rounded-[12px] overflow-hidden cursor-pointer aspect-[4/3]"
+                      className="group relative block rounded-2xl overflow-hidden cursor-pointer aspect-[4/3]"
                     >
                       <img
                         src={c.img}
@@ -145,10 +118,10 @@ const Portfolio = () => {
                         loading="lazy"
                         className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/30 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent" />
 
                       {/* Hover overlay */}
-                      <div className="absolute inset-0 bg-background/75 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center p-6">
+                      <div className="absolute inset-0 bg-black/75 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center p-6">
                         <div className="text-center">
                           <p
                             className="font-body text-[10px] tracking-[0.4em] uppercase mb-3"
@@ -156,10 +129,10 @@ const Portfolio = () => {
                           >
                             {c.service}
                           </p>
-                          <h3 className="font-display font-bold text-2xl text-foreground mb-2">
+                          <h3 className="font-display font-bold text-2xl text-white mb-2">
                             {c.client}
                           </h3>
-                          <p className="font-body text-xs text-muted-foreground tracking-wider uppercase">
+                          <p className="font-body text-xs text-white/65 tracking-wider uppercase">
                             Scopri il case study →
                           </p>
                         </div>
@@ -168,12 +141,12 @@ const Portfolio = () => {
                       {/* Default label */}
                       <div className="absolute bottom-0 left-0 p-6 group-hover:opacity-0 transition-opacity duration-300">
                         <p
-                          className="font-display font-semibold text-sm mb-1"
+                          className="font-display font-bold text-sm mb-1"
                           style={{ color: CELESTE }}
                         >
                           {c.result}
                         </p>
-                        <h3 className="font-display font-bold text-xl text-foreground">{c.client}</h3>
+                        <h3 className="font-display font-bold text-xl text-white">{c.client}</h3>
                       </div>
                     </Link>
                   </motion.div>
