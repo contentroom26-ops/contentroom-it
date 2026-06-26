@@ -46,7 +46,7 @@ const OFFSET_BREAKPOINTS = [-3, -2, -1, 0, 1, 2, 3];
 const SCALE_VALUES = [1.27, 1.11, 0.93, 0.82, 0.93, 1.11, 1.27];
 const ROTATE_VALUES = [82, 56, 30, 0, -30, -56, -82];
 // distanze cumulative dal mockup (d1=160, d2=200, d3=240px → cumulate)
-const X_VALUES = [-600, -360, -160, 0, 160, 360, 600];
+const X_VALUES = [-780, -460, -200, 0, 200, 460, 780];
 
 // Oltre offset 3 la card sfuma a invisibile (cuscinetto ampio prima del
 // riciclo a metà nastro, quindi il "salto" del loop non si vede mai)
