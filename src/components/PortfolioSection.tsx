@@ -19,10 +19,11 @@ const projects = [
   { slug: "placeholder-7", img: portfolio3, name: "Progetto 7", result: "+XXk risultati", tag: "Da personalizzare" },
 ];
 
-// PARAMETRI DEL CILINDRO CONCAVO IMAX
-// PARAMETRI DEL CILINDRO CONCAVO (IMAX)
-const RADIUS = 1200; 
-const ANGULAR_GAP = 20; 
+// PARAMETRI GEOMETRICI (Configurati per effetto IMAX concavo)
+const RADIUS = 1400;        // Distanza focale dell'arco
+const ANGULAR_GAP = 30;     // Spaziatura tra le card
+const CARD_WIDTH = 260;     // Larghezza card ridotta
+const CARD_HEIGHT = 346;    // Altezza card proporzionata
 const trackProjects = [...projects, ...projects, ...projects, ...projects, ...projects];
 const TOTAL_DEGREES = trackProjects.length * ANGULAR_GAP;
 
@@ -36,13 +37,9 @@ function ProjectCard({ p, index, trackX }: { p: any, index: number, trackX: any 
     return finalAngle;
   });
 
-  // GEOMETRIA CONCAVA: 
-  // X sposta a destra/sinistra
-  // Z positivo porta le card verso l'utente (effetto avvolgente)
+  // GEOMETRIA IMAX: X = seno, Z = (1-coseno) per far avanzare le laterali verso l'utente
   const x = useTransform(angle, (a) => Math.sin(a * (Math.PI / 180)) * RADIUS);
   const z = useTransform(angle, (a) => (1 - Math.cos(a * (Math.PI / 180))) * RADIUS);
-  
-  // Rotazione Y per puntare sempre verso il centro
   const rotateY = useTransform(angle, (a) => -a);
 
   const scale = useTransform(angle, [-45, 0, 45], [0.95, 1, 0.95]);
@@ -59,12 +56,10 @@ function ProjectCard({ p, index, trackX }: { p: any, index: number, trackX: any 
         position: 'absolute',
         left: '50%',
         top: '50%',
-        width: '340px',
-        height: '453px',
-        marginLeft: '-170px',
-        marginTop: '-226px',
-        // Fondamentale per l'effetto IMAX: non usare transformOrigin fisso, 
-        // lasciamo che la matematica calcoli la posizione assoluta
+        width: `${CARD_WIDTH}px`,
+        height: `${CARD_HEIGHT}px`,
+        marginLeft: `-${CARD_WIDTH / 2}px`,
+        marginTop: `-${CARD_HEIGHT / 2}px`,
         transformStyle: "preserve-3d",
       }}
       className="shrink-0"
@@ -74,9 +69,6 @@ function ProjectCard({ p, index, trackX }: { p: any, index: number, trackX: any 
         draggable={false}
         className="relative w-full h-full rounded-2xl overflow-hidden cursor-pointer group block"
         style={{ transformStyle: "preserve-3d" }}
-        onClick={(e) => {
-          if (Math.abs(trackX.getVelocity()) > 50) e.preventDefault();
-        }}
       >
         <img
           src={p.img}
@@ -86,18 +78,12 @@ function ProjectCard({ p, index, trackX }: { p: any, index: number, trackX: any 
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent" />
-
         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
           <div className="text-center px-6">
-            <p className="font-body text-[10px] tracking-[0.4em] uppercase mb-3" style={{ color: ACCENT }}>
-              {p.tag}
-            </p>
-            <p className="font-body text-xs text-white/70 tracking-wider uppercase">
-              Scopri il case study →
-            </p>
+            <p className="font-body text-[10px] tracking-[0.4em] uppercase mb-3" style={{ color: ACCENT }}>{p.tag}</p>
+            <p className="font-body text-xs text-white/70 tracking-wider uppercase">Scopri il case study →</p>
           </div>
         </div>
-
         <div className="absolute bottom-0 left-0 p-6 group-hover:opacity-0 transition-opacity duration-300">
           <p className="font-display font-bold text-sm mb-1" style={{ color: ACCENT }}>{p.result}</p>
           <h3 className="font-display font-bold text-xl text-white">{p.name}</h3>
@@ -107,7 +93,7 @@ function ProjectCard({ p, index, trackX }: { p: any, index: number, trackX: any 
   );
 }
 
-const AUTOPLAY_SPEED = 30; 
+const AUTOPLAY_SPEED = 30;
 
 const PortfolioSection = () => {
   const trackX = useMotionValue(0);
@@ -118,45 +104,16 @@ const PortfolioSection = () => {
 
   useAnimationFrame((_, delta) => {
     if (paused || isDragging.current) return;
-    const next = trackX.get() - (AUTOPLAY_SPEED * delta) / 1000;
-    trackX.set(next);
+    trackX.set(trackX.get() - (AUTOPLAY_SPEED * delta) / 1000);
   });
-
-  const handlePointerDown = (e: React.PointerEvent) => {
-    isDragging.current = true;
-    setPaused(true);
-    startDragX.current = e.clientX;
-    startTrackX.current = trackX.get();
-    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
-  };
-
-  const handlePointerMove = (e: React.PointerEvent) => {
-    if (!isDragging.current) return;
-    const deltaX = e.clientX - startDragX.current;
-    trackX.set(startTrackX.current + deltaX * 1.5); 
-  };
-
-  const handlePointerUp = (e: React.PointerEvent) => {
-    isDragging.current = false;
-    setPaused(false);
-    (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
-  };
 
   return (
     <section className="section-dark relative px-6 py-20 md:py-28 overflow-hidden bg-black">
       <div className="max-w-6xl mx-auto relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 60 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.1 }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-12 px-0"
-        >
+        <motion.div initial={{ opacity: 0, y: 60 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12">
           <div className="flex items-center gap-4 mb-6">
             <div className="w-12 h-0.5 bg-brand-orange" />
-            <span className="font-body font-bold text-xs tracking-[0.4em] uppercase text-brand-orange">
-              Portfolio
-            </span>
+            <span className="font-body font-bold text-xs tracking-[0.4em] uppercase text-brand-orange">Portfolio</span>
           </div>
           <h2 className="font-display font-black text-4xl md:text-5xl tracking-tight text-white">
             Progetti <span className="text-primary">selezionati.</span>
@@ -164,38 +121,24 @@ const PortfolioSection = () => {
         </motion.div>
       </div>
 
-      {/* Contenitore Palcoscenico Cilindrico */}
       <div
         className="relative w-full h-[550px] overflow-visible select-none"
-        style={{
-          perspective: 1000, // Forza tridimensionale bilanciata per sentirsi all'interno
-          transformStyle: "preserve-3d"
-        }}
+        style={{ perspective: 1200, transformStyle: "preserve-3d" }}
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
+        onPointerDown={(e) => { isDragging.current = true; setPaused(true); startDragX.current = e.clientX; startTrackX.current = trackX.get(); (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId); }}
+        onPointerMove={(e) => { if (!isDragging.current) return; trackX.set(startTrackX.current + (e.clientX - startDragX.current) * 1.5); }}
+        onPointerUp={(e) => { isDragging.current = false; setPaused(false); (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId); }}
       >
         <div className="pointer-events-none absolute inset-y-0 left-0 w-24 md:w-48 z-20 bg-gradient-to-r from-black to-transparent" />
         <div className="pointer-events-none absolute inset-y-0 right-0 w-24 md:w-48 z-20 bg-gradient-to-l from-black to-transparent" />
-
-        <div
-          className="relative w-full h-full"
-          style={{ transformStyle: "preserve-3d" }}
-        >
-          {trackProjects.map((p, i) => (
-            <ProjectCard key={`${p.slug}-${i}`} p={p} index={i} trackX={trackX} />
-          ))}
+        <div className="relative w-full h-full" style={{ transformStyle: "preserve-3d" }}>
+          {trackProjects.map((p, i) => <ProjectCard key={`${p.slug}-${i}`} p={p} index={i} trackX={trackX} />)}
         </div>
       </div>
 
       <div className="max-w-6xl mx-auto relative z-10 mt-6">
-        <InlineCTA
-          caption="Esplora tutti i nostri progetti e lasciati ispirare."
-          label="Vedi il portfolio"
-          to="/portfolio"
-        />
+        <InlineCTA caption="Esplora tutti i nostri progetti e lasciati ispirare." label="Vedi il portfolio" to="/portfolio" />
       </div>
     </section>
   );
