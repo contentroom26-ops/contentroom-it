@@ -47,7 +47,7 @@ function ProjectCard({ p, index, trackX }: { p: any, index: number, trackX: any 
   const scale = useTransform(angle, [-60, 0, 60], [0.85, 1, 0.85]);
   const opacity = useTransform(angle, [-70, -35, 0, 35, 70], [0, 0.6, 1, 0.6, 0]);
 
-  return (
+ return (
     <motion.div
       style={{
         x,
@@ -60,9 +60,12 @@ function ProjectCard({ p, index, trackX }: { p: any, index: number, trackX: any 
         top: '50%',
         width: `${CARD_WIDTH}px`,
         height: `${CARD_HEIGHT}px`,
+        // Centratura precisa: il margine negativo deve essere esattamente metà di width/height
         marginLeft: `-${CARD_WIDTH / 2}px`,
         marginTop: `-${CARD_HEIGHT / 2}px`,
+        transformOrigin: "50% 50%", // Forza la rotazione sul centro della card
         transformStyle: "preserve-3d",
+        backfaceVisibility: "hidden",
       }}
       className="shrink-0"
     >
