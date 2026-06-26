@@ -20,7 +20,13 @@ Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders });
 
   try {
-    if (!RESEND_API_KEY) throw new Error('RESEND_API_KEY non configurata');
+    if (!RESEND_API_KEY) {
+      console.error('[send-contact-email] RESEND_API_KEY non configurata');
+      return new Response(JSON.stringify({ error: 'Invio non riuscito. Riprova più tardi.' }), {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
 
     const body = await req.json();
     const parsed = ContactSchema.safeParse(body);
@@ -73,7 +79,7 @@ Deno.serve(async (req) => {
     const data = await res.json();
     if (!res.ok) {
       console.error('Resend error', res.status, data);
-      return new Response(JSON.stringify({ error: data?.message ?? 'Resend send failed' }), {
+      return new Response(JSON.stringify({ error: 'Invio non riuscito. Riprova più tardi.' }), {
         status: 502,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
@@ -84,8 +90,8 @@ Deno.serve(async (req) => {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   } catch (e) {
-    console.error(e);
-    return new Response(JSON.stringify({ error: e instanceof Error ? e.message : 'Unknown error' }), {
+    console.error('[send-contact-email]', e);
+    return new Response(JSON.stringify({ error: 'Invio non riuscito. Riprova più tardi.' }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
