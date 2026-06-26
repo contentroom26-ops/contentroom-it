@@ -15,10 +15,8 @@ const homeContactSchema = z.object({
   email: z.string().trim().email("Email non valida").max(255),
   message: z.string().trim().min(1, "Scrivi un messaggio").max(2000),
 });
-const ACCENT = CELESTE;
 
-const recessedFieldShadow =
-  "inset 0 2px 10px hsl(0 0% 0% / 0.38), inset 0 1px 0 hsl(0 0% 100% / 0.04), 0 0 0 1px hsl(0 0% 100% / 0.03)";
+const recessedFieldShadow = "inset 0 2px 8px hsl(0 0% 0% / 0.3)";
 
 const CTASection = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
@@ -49,26 +47,16 @@ const CTASection = () => {
   };
 
   return (
-    <section className="relative px-4 py-[80px] flex items-center justify-center">
+    <section className="section-dark relative px-4 py-20 md:py-28 flex items-center justify-center">
       <motion.div
         initial={{ opacity: 0, y: 40, scale: 0.985 }}
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
         viewport={{ once: true, amount: 0.1 }}
         transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-        className="relative z-10 w-full max-w-[620px] mx-auto"
+        className="relative z-10 w-full max-w-[620px] mx-auto rounded-[1.75rem] overflow-hidden"
+        style={{ backgroundColor: "hsl(0 0% 10%)", border: "1px solid hsl(0 0% 100% / 0.1)" }}
       >
-        <div
-          className="absolute inset-0 rounded-[1.75rem] pointer-events-none"
-          style={{
-            background: "hsl(0 0% 8% / 0.92)",
-            backdropFilter: "blur(20px)",
-            boxShadow:
-              "inset 0 1px 0 hsl(0 0% 100% / 0.08), 0 8px 40px hsl(0 0% 0% / 0.5)",
-            border: "1px solid hsl(0 0% 100% / 0.1)",
-          }}
-        />
-
-        <div className="relative px-5 py-6 md:px-7 md:py-7">
+        <div className="relative px-5 py-7 md:px-8 md:py-9">
           <motion.div
             initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -77,35 +65,21 @@ const CTASection = () => {
             className="text-center mb-5"
           >
             <div className="flex items-center justify-center gap-4 mb-3">
-              <div className="w-12 h-0.5" style={{ background: CELESTE }} />
-              <p
-                className="font-body text-xs font-bold uppercase tracking-[0.4em]"
-                style={{ color: CELESTE }}
-              >
+              <div className="w-12 h-0.5 bg-brand-orange" />
+              <p className="font-body text-xs font-bold uppercase tracking-[0.4em] text-brand-orange">
                 Contattaci
               </p>
-              <div className="w-12 h-0.5" style={{ background: CELESTE }} />
+              <div className="w-12 h-0.5 bg-brand-orange" />
             </div>
 
             <h2
-              className="font-display font-bold tracking-tight leading-[1.02] mt-2"
-              style={{
-                fontSize: "clamp(1.6rem, 3.9vw, 2.8rem)",
-                color: ACCENT,
-                textShadow:
-                  "0 0 22px hsl(192 49% 76% / 0.32), 0 0 48px hsl(192 49% 76% / 0.2), 0 2px 4px hsl(0 0% 0% / 0.82)",
-              }}
+              className="font-display font-black tracking-tight leading-[1.02] mt-2"
+              style={{ fontSize: "clamp(1.6rem, 3.9vw, 2.8rem)", color: CELESTE }}
             >
               Raccontaci il tuo progetto
             </h2>
 
-            <p
-              className="font-body text-sm md:text-base font-normal max-w-md mx-auto mt-2"
-              style={{
-                color: "hsl(0 0% 76%)",
-                textShadow: "0 1px 2px hsl(0 0% 0% / 0.5)",
-              }}
-            >
+            <p className="font-body text-sm md:text-base font-normal max-w-md mx-auto mt-2 text-white/70">
               Obiettivi, visione e tempistiche: ti ricontattiamo con il prossimo step giusto.
             </p>
           </motion.div>
@@ -124,7 +98,7 @@ const CTASection = () => {
                 maxLength={100}
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
-                className="h-11 rounded-2xl border-border/60 bg-white/5 px-4 text-white placeholder:text-white/50 focus-visible:ring-1 focus-visible:ring-offset-0"
+                className="h-11 rounded-2xl border-white/10 bg-white/5 px-4 text-white placeholder:text-white/40 focus-visible:ring-1 focus-visible:ring-offset-0"
                 style={{ boxShadow: recessedFieldShadow }}
               />
 
@@ -134,7 +108,7 @@ const CTASection = () => {
                 maxLength={255}
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
-                className="h-11 rounded-2xl border-border/60 bg-white/5 px-4 text-white placeholder:text-white/50 focus-visible:ring-1 focus-visible:ring-offset-0"
+                className="h-11 rounded-2xl border-white/10 bg-white/5 px-4 text-white placeholder:text-white/40 focus-visible:ring-1 focus-visible:ring-offset-0"
                 style={{ boxShadow: recessedFieldShadow }}
               />
             </div>
@@ -144,7 +118,7 @@ const CTASection = () => {
               maxLength={2000}
               value={form.message}
               onChange={(e) => setForm({ ...form, message: e.target.value })}
-              className="min-h-[120px] rounded-[1.5rem] border-border/60 bg-white/5 px-4 py-3 text-white placeholder:text-white/50 focus-visible:ring-1 focus-visible:ring-offset-0 resize-none"
+              className="min-h-[120px] rounded-[1.5rem] border-white/10 bg-white/5 px-4 py-3 text-white placeholder:text-white/40 focus-visible:ring-1 focus-visible:ring-offset-0 resize-none"
               style={{ boxShadow: recessedFieldShadow }}
             />
 
@@ -152,17 +126,14 @@ const CTASection = () => {
               type="submit"
               disabled={submitting}
               size="lg"
-              className="w-full h-12 rounded-full font-display text-xs uppercase tracking-[0.26em]"
-              style={{
-                background: `linear-gradient(135deg, hsl(192 49% 76% / 0.2), hsl(192 49% 76% / 0.1))`,
-                color: ACCENT,
-                border: "1px solid hsl(192 49% 76% / 0.35)",
-                boxShadow:
-                  "inset 0 1px 0 hsl(0 0% 100% / 0.06), 0 0 24px hsl(192 49% 76% / 0.2)",
-              }}
+              className="w-full h-12 rounded-2xl font-display font-bold text-xs uppercase tracking-[0.26em] text-[hsl(192_35%_16%)] bg-primary hover:brightness-105 transition-all duration-300"
             >
               {submitting ? "Invio in corso…" : "Invia messaggio"}
             </Button>
+
+            <p className="text-center text-xs text-white/45 font-body pt-1">
+              Rispondiamo entro 24h. Nessun impegno.
+            </p>
           </motion.form>
         </div>
       </motion.div>
