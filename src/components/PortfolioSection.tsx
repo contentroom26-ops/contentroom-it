@@ -16,13 +16,10 @@ const projects = [
   { slug: "glow-skincare", img: portfolio4, name: "Glow Skincare", result: "+300% vendite", tag: "E-commerce Strategy" },
 ];
 
-const CARD_WIDTH = 380; // Spaziatura logica sul nastro virtuale
-const trackProjects = [...projects, ...projects, ...projects, ...projects];
-
-// PARAMETRI DEL CILINDRO CONCAVO (IMAX EFFECT)
-const RADIUS_Z = 900;       // Il raggio del cilindro. Più è alto, più la curva è ampia e pulita.
-const ARC_ANGLE = 75;       // Angolo totale visibile dell'arco di cerchio (in gradi)
-const VIEWPORT_WIDTH = 1200; // Larghezza virtuale entro cui calcoliamo la curva
+// PARAMETRI DI DISTRIBUZIONE E CURVA
+const CARD_WIDTH = 420; // Aumentato a 420px per dare ampio spazio (gap) tra una card e l'altra
+const trackProjects = [...projects, ...projects, ...projects, ...projects, ...projects]; // Più copie per coprire schermi larghi
+const TOTAL_TRACK_WIDTH = trackProjects.length * CARD_WIDTH;
 
 function ProjectCard({
   p,
@@ -34,39 +31,40 @@ function ProjectCard({
   trackX: ReturnType<typeof useMotionValue<number>>;
 }) {
   
-  // Calcoliamo la posizione normalizzata della card lungo lo schermo (da 0 a VIEWPORT_WIDTH)
-  const positionX = useTransform(trackX, (x) => {
-    const virtualTrackWidth = trackProjects.length * CARD_WIDTH;
-    const currentX = (index * CARD_WIDTH + x) % virtualTrackWidth;
-    // Gestione del modulo per i numeri negativi (fondamentale per il loop infinito)
-    const positiveX = currentX < 0 ? currentX + virtualTrackWidth : currentX;
+  // Calcoliamo il centro dello schermo dello user
+  const viewportCenter = typeof window !== "undefined" ? window.innerWidth / 2 : 700;
+
+  // Calcolo della posizione X reale e lineare di ogni card nello spazio (con supporto al loop infinito)
+  const x = useTransform(trackX, (latestX) => {
+    // Posizione base teorica della card sul nastro continuo
+    let currentX = (index * CARD_WIDTH + latestX) % TOTAL_TRACK_WIDTH;
     
-    // Mappiamo la posizione reale sulla larghezza dello schermo virtuale
-    return (positiveX / virtualTrackWidth) * VIEWPORT_WIDTH;
+    // Se il valore è negativo, lo riportiamo nel range positivo del loop
+    if (currentX < 0) currentX += TOTAL_TRACK_WIDTH;
+    
+    // Centriamo il sistema di coordinate rispetto allo schermo dello user
+    return currentX - (TOTAL_TRACK_WIDTH / 2) + viewportCenter;
   });
 
-  // 1. Angolo sul cilindro (da -37.5° a +37.5°)
-  const angle = useTransform(positionX, [0, VIEWPORT_WIDTH], [-ARC_ANGLE / 2, ARC_ANGLE / 2]);
-
-  // 2. Coordinata X sulla curva reale (Seno dell'angolo)
-  const x = useTransform(angle, (a) => Math.sin(a * (Math.PI / 180)) * RADIUS_Z);
-
-  // 3. Coordinata Z per Cilindro CONCAVO (Coseno dell'angolo)
-  // Al centro (angolo 0) la card è alla massima profondità (Z negativa).
-  // Ai lati (angolo max) il coseno diminuisce, portando la card in avanti (Z vicino a 0 o positiva).
-  const z = useTransform(angle, (a) => {
-    const cosValue = Math.cos(a * (Math.PI / 180));
-    return (cosValue - 1) * RADIUS_Z; 
+  // ROTAZIONE E PROFONDITÀ IN BASE ALLA DISTANZA DAL CENTRO DELLO SCHERMO
+  // Calcoliamo quanto la card dista dal centro esatto dello schermo dello user
+  const distanceFromCenter = useTransform(x, (currentX) => {
+    return currentX - viewportCenter;
   });
 
-  // 4. Rotazione Y speculare: le card a sinistra guardano a destra e viceversa
-  const rotateY = useTransform(angle, (a) => a);
+  // 1. ROTATE Y (Inversione Concava): 
+  // Al centro (0px di distanza) la rotazione è 0. Ai lati (oltre i 400px di distanza) ruota verso l'interno.
+  const rotateY = useTransform(distanceFromCenter, [-800, -400, 0, 400, 800], [-45, -30, 0, 30, 45]);
 
-  // 5. Scala minima per compensare la vicinanza prospettica ai lati (opzionale, mantiene l'ordine visivo)
-  const scale = useTransform(angle, (a) => {
-    const distance = Math.abs(a / (ARC_ANGLE / 2));
-    return 1 - distance * 0.05;
-  });
+  // 2. TRANSLATE Z (Cilindro IMAX):
+  // Al centro la card è a Z = 0 (vicina). Ai lati (distante) la spingiamo leggermente in avanti su Z 
+  // o indietro a seconda di quanta distorsione vogliamo. Per il cilindro concavo di CloudCube, 
+  // le card laterali avanzano verso l'utente (Z positivo) o restano stabili mentre il centro arretra.
+  // Qui teniamo il centro pulito a 0 e facciamo piegare i lati leggermente in avanti (+80) per l'effetto avvolgente.
+  const z = useTransform(distanceFromCenter, [-600, 0, 600], [80, 0, 80]);
+
+  // 3. SCALE (Mantiene le card laterali proporzionate senza ammassarle)
+  const scale = useTransform(distanceFromCenter, [-600, 0, 600], [0.9, 1, 0.9]);
 
   return (
     <motion.div
@@ -76,19 +74,19 @@ function ProjectCard({
         rotateY,
         scale,
         position: 'absolute',
-        left: '50%',
         top: '50%',
-        transformPerspective: 1200, // Prospettiva bilanciata per non distorcere le immagini piatte
+        left: 0, // Lasciamo che sia il transform X a gestire la posizione orizzontale
+        transformPerspective: 1200, 
+        transformStyle: "preserve-3d"
       }}
       className="shrink-0"
     >
       <Link
         to={`/portfolio/${p.slug}`}
         draggable={false}
-        className="relative rounded-2xl overflow-hidden cursor-pointer group block w-[280px] sm:w-[320px] md:w-[340px] aspect-[3/4]"
+        className="relative rounded-2xl overflow-hidden cursor-pointer group block w-[300px] md:w-[340px] aspect-[3/4]"
         style={{
-          marginLeft: '-170px', // Perfettamente centrata sull'asse X dell'ancora
-          marginTop: '-226px',  // Perfettamente centrata sull'asse Y (per aspect ratio 3/4)
+          marginTop: '-226px',  // Centratura verticale (metà altezza di un aspect 3/4)
         }}
         onClick={(e) => {
           if (Math.abs(trackX.getVelocity()) > 50) e.preventDefault();
@@ -124,7 +122,6 @@ function ProjectCard({
 }
 
 const AUTOPLAY_SPEED = 40; 
-const TRACK_WIDTH = CARD_WIDTH * trackProjects.length;
 
 const PortfolioSection = () => {
   const trackX = useMotionValue(0);
@@ -139,7 +136,6 @@ const PortfolioSection = () => {
     trackX.set(next);
   });
 
-  // Gestore drag manuale custom per ovviare ai limiti del drag nativo sul cerchio virtuale
   const handlePointerDown = (e: React.PointerEvent) => {
     isDragging.current = true;
     setPaused(true);
@@ -151,7 +147,7 @@ const PortfolioSection = () => {
   const handlePointerMove = (e: React.PointerEvent) => {
     if (!isDragging.current) return;
     const deltaX = e.clientX - startDragX.current;
-    trackX.set(startTrackX.current + deltaX * 1.5); // 1.5 aumenta la reattività del drag
+    trackX.set(startTrackX.current + deltaX * 1.2); 
   };
 
   const handlePointerUp = (e: React.PointerEvent) => {
@@ -182,11 +178,11 @@ const PortfolioSection = () => {
         </motion.div>
       </div>
 
-      {/* Spazio del teatro 3D */}
+      {/* Contenitore Scena 3D largo e spazioso */}
       <div
         className="relative w-full h-[550px] overflow-visible select-none"
         style={{
-          perspective: 1200,
+          perspective: 1000,
           transformStyle: "preserve-3d"
         }}
         onMouseEnter={() => setPaused(true)}
@@ -195,12 +191,12 @@ const PortfolioSection = () => {
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
       >
-        {/* Ombreggiature sfumate ai bordi dello schermo */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-20 md:w-40 z-20 bg-gradient-to-r from-black to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-20 md:w-40 z-20 bg-gradient-to-l from-black to-transparent" />
+        {/* Sfumature per nascondere le card solo sui bordi estremi dello schermo */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-16 md:w-32 z-20 bg-gradient-to-r from-black to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-16 md:w-32 z-20 bg-gradient-to-l from-black to-transparent" />
 
         <div
-          className="relative w-full h-full cursor-grab active:cursor-grabbing"
+          className="relative w-full h-full"
           style={{ transformStyle: "preserve-3d" }}
         >
           {trackProjects.map((p, i) => (
