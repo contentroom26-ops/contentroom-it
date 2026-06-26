@@ -27,7 +27,7 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
-  const [isLightSection, setIsLightSection] = useState(false);
+  const [isLightSection, setIsLightSection] = useState(true);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setScrolled(latest > 50);
@@ -217,7 +217,7 @@ const Navbar = () => {
           {/* Primary CTA — arancione, coerente con l'uso dell'arancio come accento su tutto il sito */}
           <Link
             to="/contatti"
-            className={`ml-3 inline-flex items-center justify-center px-5 py-2.5 rounded-2xl font-body text-sm font-bold tracking-wide transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 hover:brightness-105 ${isLightSection ? "text-white bg-brand-orange" : "text-[hsl(192_35%_16%)] bg-primary"}`}
+           className={`ml-3 inline-flex items-center justify-center px-5 py-2.5 rounded-2xl font-body text-sm font-bold tracking-wide transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 hover:brightness-105 ${isLightSection ? "text-[hsl(192_35%_16%)] bg-primary" : "text-white bg-brand-orange"}`}
           >
             Prenota una call
           </Link>
@@ -328,7 +328,7 @@ const Navbar = () => {
                 <Link
                   to="/contatti"
                   onClick={closeMobile}
-                  className={`flex items-center justify-center w-full px-6 py-4 rounded-2xl font-body text-base font-bold transition-all duration-300 active:scale-95 ${isLightSection ? "text-white bg-brand-orange" : "text-[hsl(192_35%_16%)] bg-primary"}`}
+                  className={`flex items-center justify-center w-full px-6 py-4 rounded-2xl font-body text-base font-bold transition-all duration-300 active:scale-95 ${isLightSection ? "text-[hsl(192_35%_16%)] bg-primary" : "text-white bg-brand-orange"}`}
                 >
                   Prenota una call
                 </Link>
