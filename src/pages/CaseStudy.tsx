@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import GlobalVideoBackground from "@/components/GlobalVideoBackground";
 import { cases } from "./Portfolio";
 
 const CELESTE = "hsl(192 49% 76%)";
@@ -66,12 +65,11 @@ const CaseStudy = () => {
 
   return (
     <>
-      <GlobalVideoBackground />
       <main className="relative z-10 min-h-screen overflow-x-hidden">
         <Navbar />
 
-        {/* Hero image */}
-        <section className="pt-32 px-6">
+        {/* Hero image — nera */}
+        <section className="section-dark pt-32 pb-20 px-6">
           <div className="max-w-6xl mx-auto">
             <motion.div
               initial={{ opacity: 0 }}
@@ -81,7 +79,7 @@ const CaseStudy = () => {
             >
               <Link
                 to="/portfolio"
-                className="inline-flex items-center gap-2 font-body text-xs tracking-[0.3em] uppercase text-muted-foreground hover:text-foreground transition-colors"
+                className="inline-flex items-center gap-2 font-body text-xs tracking-[0.3em] uppercase text-white/60 hover:text-white transition-colors"
               >
                 <ArrowLeft className="w-4 h-4" />
                 Tutti i progetti
@@ -101,26 +99,14 @@ const CaseStudy = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-12 rounded-3xl p-8 md:p-10 border"
-              style={{
-                background: "linear-gradient(160deg, hsl(0 0% 5% / 0.78), hsl(0 0% 3% / 0.88))",
-                borderColor: "hsl(0 0% 100% / 0.08)",
-                backdropFilter: "blur(18px)",
-                boxShadow: "0 20px 60px hsl(0 0% 0% / 0.5)",
-              }}
+              className="mt-12"
             >
-              <p
-                className="font-body text-[10px] tracking-[0.4em] uppercase mb-4"
-                style={{ color: CELESTE }}
-              >
+              <p className="font-body text-[10px] font-bold tracking-[0.4em] uppercase mb-4 text-brand-orange">
                 {caseItem.service} · {caseItem.category}
               </p>
               <h1
-                className="font-display font-bold tracking-tight leading-[1.05] text-foreground"
-                style={{
-                  fontSize: "clamp(2.5rem, 6vw, 5rem)",
-                  textShadow: "0 2px 8px hsl(0 0% 0% / 0.85), 0 0 28px hsl(0 0% 0% / 0.6)",
-                }}
+                className="font-display font-black tracking-tight leading-[1.05]"
+                style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}
               >
                 {caseItem.client}
               </h1>
@@ -128,8 +114,8 @@ const CaseStudy = () => {
           </div>
         </section>
 
-        {/* Obiettivo & Soluzione */}
-        <section className="py-[50px] px-6">
+        {/* Obiettivo & Soluzione — beige */}
+        <section className="section-light py-20 md:py-28 px-6">
           <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-6 md:gap-8">
             {[
               { label: "Obiettivo", text: detail.goal, delay: 0 },
@@ -141,24 +127,15 @@ const CaseStudy = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.1 }}
                 transition={{ duration: 0.7, delay: block.delay, ease: [0.22, 1, 0.36, 1] }}
-                className="rounded-3xl p-8 md:p-10 border h-full"
-                style={{
-                  background: "linear-gradient(160deg, hsl(0 0% 5% / 0.78), hsl(0 0% 3% / 0.88))",
-                  borderColor: "hsl(0 0% 100% / 0.08)",
-                  backdropFilter: "blur(18px)",
-                  boxShadow: "0 20px 60px hsl(0 0% 0% / 0.5)",
-                }}
+                className="rounded-2xl p-8 md:p-10 h-full bg-white border border-[hsl(0_0%_8%/0.1)]"
               >
                 <div className="flex items-center gap-4 mb-5">
-                  <div className="w-10 h-px" style={{ background: CELESTE }} />
-                  <p className="font-body text-[10px] tracking-[0.4em] uppercase" style={{ color: CELESTE }}>
+                  <div className="w-10 h-px bg-brand-orange" />
+                  <p className="font-body text-[10px] font-bold tracking-[0.4em] uppercase text-brand-orange">
                     {block.label}
                   </p>
                 </div>
-                <p
-                  className="font-display text-xl md:text-2xl leading-[1.45] text-foreground"
-                  style={{ textShadow: "0 1px 6px hsl(0 0% 0% / 0.7)" }}
-                >
+                <p className="font-display text-xl md:text-2xl leading-[1.45] text-[hsl(0_0%_10%)]">
                   {block.text}
                 </p>
               </motion.div>
@@ -166,37 +143,27 @@ const CaseStudy = () => {
           </div>
         </section>
 
-        {/* Risultati */}
-        <section className="py-[50px] px-6">
+        {/* Risultati — nera */}
+        <section className="section-dark py-20 md:py-28 px-6">
           <div className="max-w-6xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="rounded-3xl p-8 md:p-12 border"
-              style={{
-                background: "linear-gradient(160deg, hsl(0 0% 5% / 0.78), hsl(0 0% 3% / 0.88))",
-                borderColor: "hsl(0 0% 100% / 0.08)",
-                backdropFilter: "blur(18px)",
-                boxShadow: "0 20px 60px hsl(0 0% 0% / 0.5)",
-              }}
             >
               <div className="mb-12">
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="w-12 h-px" style={{ background: CELESTE }} />
-                  <p className="font-body text-xs tracking-[0.4em] uppercase" style={{ color: CELESTE }}>
+                  <div className="w-12 h-px bg-brand-orange" />
+                  <p className="font-body text-xs font-bold tracking-[0.4em] uppercase text-brand-orange">
                     Risultati
                   </p>
                 </div>
                 <h2
-                  className="font-display font-bold tracking-tight leading-[1.05] text-foreground"
-                  style={{
-                    fontSize: "clamp(2rem, 5vw, 3.5rem)",
-                    textShadow: "0 2px 8px hsl(0 0% 0% / 0.85)",
-                  }}
+                  className="font-display font-black tracking-tight leading-[1.05]"
+                  style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
                 >
-                  Numeri che parlano.
+                  Numeri <span className="text-primary">che parlano.</span>
                 </h2>
               </div>
 
@@ -211,19 +178,12 @@ const CaseStudy = () => {
                     className="text-center md:text-left"
                   >
                     <span
-                      className="font-display font-bold block leading-none mb-4"
-                      style={{
-                        fontSize: "clamp(3.5rem, 8vw, 6rem)",
-                        color: CELESTE,
-                        textShadow: "0 0 30px hsl(192 49% 76% / 0.4), 0 2px 10px hsl(0 0% 0% / 0.7)",
-                      }}
+                      className="font-display font-black block leading-none mb-4 text-primary"
+                      style={{ fontSize: "clamp(3.5rem, 8vw, 6rem)" }}
                     >
                       {m.value}
                     </span>
-                    <p
-                      className="font-body text-sm md:text-base"
-                      style={{ color: "hsl(0 0% 88%)", textShadow: "0 1px 4px hsl(0 0% 0% / 0.7)" }}
-                    >
+                    <p className="font-body text-sm md:text-base text-white/70">
                       {m.label}
                     </p>
                   </motion.div>
@@ -233,50 +193,36 @@ const CaseStudy = () => {
           </div>
         </section>
 
-        {/* Next case + CTA */}
-        <section className="py-[50px] px-6">
+        {/* Next case + CTA — beige */}
+        <section className="section-light py-20 md:py-28 px-6">
           <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
             <Link
               to={`/portfolio/${next.slug}`}
               className="group relative block rounded-2xl overflow-hidden aspect-[4/3]"
             >
               <img src={next.img} alt={next.client} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-              <div className="absolute inset-0 bg-background/60 group-hover:bg-background/40 transition-colors duration-500" />
+              <div className="absolute inset-0 bg-black/55 group-hover:bg-black/40 transition-colors duration-500" />
               <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
                 <p className="font-body text-[10px] tracking-[0.4em] uppercase mb-3" style={{ color: CELESTE }}>
                   Prossimo progetto
                 </p>
-                <h3 className="font-display font-bold text-2xl md:text-3xl text-foreground">{next.client}</h3>
+                <h3 className="font-display font-bold text-2xl md:text-3xl text-white">{next.client}</h3>
               </div>
             </Link>
 
-            <div
-              className="flex flex-col items-start justify-center p-8 md:p-10 rounded-2xl border"
-              style={{
-                background: "linear-gradient(160deg, hsl(0 0% 5% / 0.78), hsl(0 0% 3% / 0.88))",
-                borderColor: "hsl(0 0% 100% / 0.08)",
-                backdropFilter: "blur(18px)",
-                boxShadow: "0 20px 60px hsl(0 0% 0% / 0.5)",
-              }}
-            >
+            <div className="flex flex-col items-start justify-center p-8 md:p-10 rounded-2xl bg-white border border-[hsl(0_0%_8%/0.1)]">
               <h3
-                className="font-display font-bold tracking-tight leading-[1.05] mb-6 text-foreground"
-                style={{
-                  fontSize: "clamp(1.8rem, 4vw, 2.8rem)",
-                  textShadow: "0 2px 8px hsl(0 0% 0% / 0.85)",
-                }}
+                className="font-display font-black tracking-tight leading-[1.05] mb-6"
+                style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)" }}
               >
                 Vuoi risultati simili?
               </h3>
-              <p
-                className="font-body text-base mb-8"
-                style={{ color: "hsl(0 0% 88%)", textShadow: "0 1px 4px hsl(0 0% 0% / 0.7)" }}
-              >
+              <p className="font-body text-base mb-8 text-[hsl(0_0%_30%)]">
                 Raccontaci il tuo progetto. Ti ricontattiamo entro 24h.
               </p>
               <Link
                 to="/contatti"
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-body text-sm font-medium tracking-wide transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 shadow-[0_4px_20px_hsl(0_0%_0%_/_0.4)] hover:shadow-[0_10px_30px_hsl(0_0%_0%_/_0.5)] text-primary-foreground bg-primary border-2 border-transparent hover:border-black hover:text-black"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl font-body text-sm font-bold tracking-wide transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 text-[hsl(192_35%_16%)] bg-primary hover:brightness-105"
               >
                 Prenota una call
                 <ArrowRight className="w-4 h-4" />
