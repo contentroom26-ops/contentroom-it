@@ -19,56 +19,71 @@ const projects = [
   { slug: "placeholder-7", img: portfolio3, name: "Progetto 7", result: "+XXk risultati", tag: "Da personalizzare" },
 ];
 
-// PARAMETRI DEL CILINDRO CONCAVO
-const RADIUS = 1300;
 const CARD_WIDTH = 260;
 const CARD_HEIGHT = 346;
 
-// IMPORTANTE: niente duplicazione dell'array. Un cilindro 3D si "ripete" da solo
-// ruotando — duplicare i progetti qui causava collisioni tra copie diverse
-// (35 card a 38° l'una dall'altra = 1330°, cioè 3,69 giri: non un multiplo
-// esatto di 360°, quindi alcune coppie di card finivano quasi sullo stesso
-// punto sullo schermo). Con i progetti reali (non duplicati) il passo angolare
-// riempie SEMPRE esattamente 360° per costruzione → zero collisioni possibili.
-const ANGULAR_GAP = 360 / projects.length; // ~51.43°
-const TOTAL_DEGREES = 360;
+// ⚠️ PERSONALIZZA: quante volte ripetere i 7 progetti nel "nastro".
+// Serve solo a riciclare le card per il loop infinito — NON influenza
+// quante se ne vedono contemporaneamente (quello lo decide OPACITY_*
+// più sotto). Più alto = riciclo più "morbido", ma 3 è già ampiamente
+// sufficiente vista la zona invisibile di cuscinetto (vedi sotto).
+const DUPLICATE_COUNT = 3;
 
-function ProjectCard({ p, index, trackX }: { p: any, index: number, trackX: any }) {
-  const angle = useTransform(trackX, (latestX: number) => {
-    let a = (index * ANGULAR_GAP + latestX * 0.05) % TOTAL_DEGREES;
-    if (a < 0) a += TOTAL_DEGREES;
-    let finalAngle = a - (TOTAL_DEGREES / 2);
-    if (finalAngle > 180) finalAngle -= 360;
-    return finalAngle;
+const trackItems = Array.from({ length: projects.length * DUPLICATE_COUNT }, (_, i) => ({
+  ...projects[i % projects.length],
+  slotIndex: i,
+}));
+const TOTAL_SLOTS = trackItems.length; // 21
+const HALF_SLOTS = TOTAL_SLOTS / 2;
+
+// ⚠️ PERSONALIZZA: quanti px di trackX (drag o autoplay) servono per
+// spostarsi di UNO slot. Più basso = scorrimento più rapido a parità di drag/autoplay.
+const SLOT_PX = 200;
+
+// Curve calibrate sul mockup HTML validato a occhio sulla reference
+// (Versione E3 — vedi conversazione precedente). offset 0 = card centrale.
+const OFFSET_BREAKPOINTS = [-3, -2, -1, 0, 1, 2, 3];
+const SCALE_VALUES = [1.27, 1.11, 0.93, 0.82, 0.93, 1.11, 1.27];
+const ROTATE_VALUES = [82, 56, 30, 0, -30, -56, -82];
+// distanze cumulative dal mockup (d1=160, d2=200, d3=240px → cumulate)
+const X_VALUES = [-600, -360, -160, 0, 160, 360, 600];
+
+// Oltre offset 3 la card sfuma a invisibile (cuscinetto ampio prima del
+// riciclo a metà nastro, quindi il "salto" del loop non si vede mai)
+const OPACITY_BREAKPOINTS = [-4, -3, 3, 4];
+const OPACITY_VALUES = [0, 1, 1, 0];
+
+function ProjectCard({ p, slotIndex, trackX }: { p: any, slotIndex: number, trackX: any }) {
+  const offset = useTransform(trackX, (latestX: number) => {
+    let raw = slotIndex - latestX / SLOT_PX;
+    // wrap centrato su [-HALF_SLOTS, HALF_SLOTS) per riciclare all'infinito
+    // senza che il salto sia mai visibile (cade ben oltre la zona opaca)
+    raw = (((raw + HALF_SLOTS) % TOTAL_SLOTS) + TOTAL_SLOTS) % TOTAL_SLOTS - HALF_SLOTS;
+    return raw;
   });
 
-  const x = useTransform(angle, (a) => Math.sin(a * (Math.PI / 180)) * RADIUS);
-  const z = useTransform(angle, (a) => (1 - Math.cos(a * (Math.PI / 180))) * RADIUS);
+  const x = useTransform(offset, OFFSET_BREAKPOINTS, X_VALUES);
+  const scale = useTransform(offset, OFFSET_BREAKPOINTS, SCALE_VALUES);
+  const rotateY = useTransform(offset, OFFSET_BREAKPOINTS, ROTATE_VALUES);
+  const opacity = useTransform(offset, OPACITY_BREAKPOINTS, OPACITY_VALUES);
+  const zIndex = useTransform(offset, (o) => Math.round(100 - Math.abs(o) * 10));
 
-  // Aumentando il moltiplicatore (es. 1.2 invece di 1),
-  // le card si inclineranno più bruscamente man mano che si allontanano dal centro
-  const rotateY = useTransform(angle, (a) => -a * 1.2);
-
-  const scale = useTransform(angle, [-60, 0, 60], [0.85, 1, 0.85]);
-  const opacity = useTransform(angle, [-70, -35, 0, 35, 70], [0, 0.6, 1, 0.6, 0]);
-
- return (
+  return (
     <motion.div
       style={{
         x,
-        z,
-        rotateY,
         scale,
+        rotateY,
         opacity,
+        zIndex,
         position: 'absolute',
         left: '50%',
         top: '50%',
         width: `${CARD_WIDTH}px`,
         height: `${CARD_HEIGHT}px`,
-        // Centratura precisa: il margine negativo deve essere esattamente metà di width/height
         marginLeft: `-${CARD_WIDTH / 2}px`,
         marginTop: `-${CARD_HEIGHT / 2}px`,
-        transformOrigin: "50% 50%", // Forza la rotazione sul centro della card
+        transformOrigin: "50% 50%",
         transformStyle: "preserve-3d",
         backfaceVisibility: "hidden",
       }}
@@ -131,13 +146,13 @@ const PortfolioSection = () => {
         </motion.div>
       </div>
 
-     <div
-  className="relative w-full h-[550px] overflow-visible select-none"
-  style={{
-    perspective: "1200px",
-    transformStyle: "preserve-3d",
-    overflow: "visible"
-  }}
+      <div
+        className="relative w-full h-[550px] overflow-visible select-none"
+        style={{
+          perspective: "1600px",
+          transformStyle: "preserve-3d",
+          overflow: "visible"
+        }}
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
         onPointerDown={(e) => { isDragging.current = true; setPaused(true); startDragX.current = e.clientX; startTrackX.current = trackX.get(); (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId); }}
@@ -147,7 +162,7 @@ const PortfolioSection = () => {
         <div className="pointer-events-none absolute inset-y-0 left-0 w-24 md:w-48 z-20 bg-gradient-to-r from-black to-transparent" />
         <div className="pointer-events-none absolute inset-y-0 right-0 w-24 md:w-48 z-20 bg-gradient-to-l from-black to-transparent" />
         <div className="relative w-full h-full" style={{ transformStyle: "preserve-3d" }}>
-          {projects.map((p, i) => <ProjectCard key={p.slug} p={p} index={i} trackX={trackX} />)}
+          {trackItems.map((p) => <ProjectCard key={p.slotIndex} p={p} slotIndex={p.slotIndex} trackX={trackX} />)}
         </div>
       </div>
 
