@@ -3,12 +3,7 @@ import { Helmet } from "react-helmet-async";
 import { Compass, Heart, Sparkles, Target } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import GlobalVideoBackground from "@/components/GlobalVideoBackground";
 import InlineCTA from "@/components/InlineCTA";
-
-const CELESTE = "hsl(192 49% 76%)";
-const HERO_TEXT_SHADOW =
-  "0 2px 8px hsl(0 0% 0% / 0.85), 0 0 28px hsl(0 0% 0% / 0.6)";
 
 const values = [
   {
@@ -39,16 +34,16 @@ const ChiSiamo = () => {
   return (
     <>
       <Helmet>
-        <title>Chi siamo — Content Room | Agenzia di comunicazione a Firenze</title>
+        <title>Chi siamo — Content Room | Digitalizzazione e content a Firenze</title>
         <meta
           name="description"
-          content="Scopri come nasce Content Room: la storia, la vision e il metodo dell'agenzia di comunicazione e marketing di Firenze che unisce creatività e dati."
+          content="Scopri come nasce Content Room: la storia, la vision e il metodo dell'agenzia specializzata in digitalizzazione delle aziende, content strategy e produzione video a Firenze."
         />
         <link rel="canonical" href={canonical} />
         <meta property="og:title" content="Chi siamo — Content Room" />
         <meta
           property="og:description"
-          content="La storia e la vision di Content Room, agenzia di comunicazione e marketing a Firenze."
+          content="La storia e la vision di Content Room, agenzia specializzata in digitalizzazione delle aziende, content strategy e produzione video a Firenze."
         />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={canonical} />
@@ -63,51 +58,37 @@ const ChiSiamo = () => {
             url: "https://contentroom-it.lovable.app",
             email: "info@contentroom.it",
             description:
-              "Agenzia di comunicazione e marketing a Firenze. Strategia, contenuti, social, growth e digitalizzazione.",
+              "Agenzia specializzata in digitalizzazione delle aziende, content strategy e produzione video, con base a Firenze.",
             areaServed: "IT",
           },
         })}</script>
       </Helmet>
 
-      <GlobalVideoBackground />
       <main className="relative z-10 min-h-screen overflow-x-hidden">
         <Navbar />
 
-        {/* Hero */}
-        <section className="pt-40 pb-20 px-6">
+        {/* Hero — nera */}
+        <section className="section-dark pt-40 pb-20 px-6">
           <div className="max-w-5xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="rounded-3xl p-8 md:p-12 border"
-              style={{
-                background: "linear-gradient(160deg, hsl(0 0% 5% / 0.78), hsl(0 0% 3% / 0.88))",
-                borderColor: "hsl(0 0% 100% / 0.08)",
-                backdropFilter: "blur(18px)",
-                boxShadow: "0 20px 60px hsl(0 0% 0% / 0.5)",
-              }}
             >
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-px" style={{ background: CELESTE }} />
-                <p
-                  className="font-body text-xs tracking-[0.4em] uppercase"
-                  style={{ color: CELESTE }}
-                >
+                <div className="w-12 h-px bg-brand-orange" />
+                <p className="font-body text-xs font-bold tracking-[0.4em] uppercase text-brand-orange">
                   Chi siamo
                 </p>
               </div>
               <h1
-                className="font-display font-bold tracking-tight leading-[1.05] mb-6 text-foreground"
-                style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)", textShadow: HERO_TEXT_SHADOW }}
+                className="font-display font-black tracking-tight leading-[1.05] mb-6"
+                style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}
               >
                 La stanza dove<br />
-                <span style={{ color: "hsl(0 0% 75%)" }}>prende forma il contenuto.</span>
+                <span className="text-primary">prende forma il contenuto.</span>
               </h1>
-              <p
-                className="font-body text-base md:text-lg max-w-2xl"
-                style={{ color: "hsl(0 0% 92%)", textShadow: "0 1px 6px hsl(0 0% 0% / 0.7)" }}
-              >
+              <p className="font-body text-base md:text-lg max-w-2xl text-white/75">
                 Content Room nasce a Firenze dall'incontro tra strateghi, creativi e
                 producer con un'unica ossessione: trasformare la comunicazione in
                 risultati concreti per i brand che accompagniamo.
@@ -116,38 +97,28 @@ const ChiSiamo = () => {
           </div>
         </section>
 
-        {/* Storia */}
-        <section className="py-20 px-6">
+        {/* Storia — beige */}
+        <section className="section-light py-20 md:py-28 px-6">
           <div className="max-w-4xl mx-auto">
             <motion.article
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="rounded-3xl p-8 md:p-12 border"
-              style={{
-                background: "linear-gradient(160deg, hsl(0 0% 5% / 0.78), hsl(0 0% 3% / 0.88))",
-                borderColor: "hsl(0 0% 100% / 0.08)",
-                backdropFilter: "blur(18px)",
-                boxShadow: "0 20px 60px hsl(0 0% 0% / 0.5)",
-              }}
             >
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-px" style={{ background: CELESTE }} />
-                <p className="font-body text-xs tracking-[0.4em] uppercase" style={{ color: CELESTE }}>
+                <div className="w-12 h-px bg-brand-orange" />
+                <p className="font-body text-xs font-bold tracking-[0.4em] uppercase text-brand-orange">
                   La nostra storia
                 </p>
               </div>
               <h2
-                className="font-display font-bold tracking-tight leading-[1.05] mb-8 text-foreground"
-                style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)", textShadow: HERO_TEXT_SHADOW }}
+                className="font-display font-black tracking-tight leading-[1.05] mb-8"
+                style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)" }}
               >
-                Da una stanza, a un metodo.
+                Da una stanza, <span className="text-primary">a un metodo.</span>
               </h2>
-              <div
-                className="space-y-5 font-body text-base md:text-lg leading-relaxed"
-                style={{ color: "hsl(0 0% 90%)", textShadow: "0 1px 6px hsl(0 0% 0% / 0.6)" }}
-              >
+              <div className="space-y-5 font-body text-base md:text-lg leading-relaxed text-[hsl(0_0%_20%)]">
                 <p>
                   Tutto comincia in una stanza. Una di quelle in cui si respira ancora
                   l'odore della carta dei moodboard e si discute fino a tardi sull'ultimo
@@ -171,8 +142,8 @@ const ChiSiamo = () => {
           </div>
         </section>
 
-        {/* Vision */}
-        <section className="py-20 px-6">
+        {/* Vision — nera */}
+        <section className="section-dark py-20 md:py-28 px-6">
           <div className="max-w-5xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 40 }}
@@ -182,17 +153,17 @@ const ChiSiamo = () => {
               className="mb-12"
             >
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-px" style={{ background: CELESTE }} />
-                <p className="font-body text-xs tracking-[0.4em] uppercase" style={{ color: CELESTE }}>
+                <div className="w-12 h-px bg-brand-orange" />
+                <p className="font-body text-xs font-bold tracking-[0.4em] uppercase text-brand-orange">
                   La nostra vision
                 </p>
               </div>
               <h2
-                className="font-display font-bold tracking-tight leading-[1.05] text-foreground"
-                style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", textShadow: HERO_TEXT_SHADOW }}
+                className="font-display font-black tracking-tight leading-[1.05]"
+                style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
               >
                 Creatività con metodo.<br />
-                <span style={{ color: "hsl(0 0% 75%)" }}>Risultati con anima.</span>
+                <span className="text-primary">Risultati con anima.</span>
               </h2>
             </motion.div>
 
@@ -208,31 +179,17 @@ const ChiSiamo = () => {
                     transition={{ duration: 0.6, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
                     className="rounded-2xl p-6 md:p-8 border"
                     style={{
-                      background: "linear-gradient(160deg, hsl(0 0% 7% / 0.85), hsl(0 0% 4% / 0.95))",
-                      borderColor: "hsl(0 0% 100% / 0.08)",
-                      backdropFilter: "blur(18px)",
+                      backgroundColor: "hsl(0 0% 12%)",
+                      borderColor: "hsl(0 0% 100% / 0.1)",
                     }}
                   >
-                    <div
-                      className="w-12 h-12 rounded-xl flex items-center justify-center mb-5"
-                      style={{
-                        background:
-                          "linear-gradient(135deg, hsl(192 49% 76% / 0.2), hsl(192 49% 76% / 0.05))",
-                        border: "1px solid hsl(192 49% 76% / 0.3)",
-                      }}
-                    >
-                      <Icon className="w-5 h-5" style={{ color: CELESTE }} strokeWidth={1.5} />
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 bg-[hsl(192_49%_76%/0.12)]">
+                      <Icon className="w-5 h-5 text-primary" strokeWidth={1.5} />
                     </div>
-                    <h3
-                      className="font-display font-semibold text-xl mb-2 text-foreground"
-                      style={{ textShadow: HERO_TEXT_SHADOW }}
-                    >
+                    <h3 className="font-display font-bold text-xl mb-2 text-white">
                       {v.title}
                     </h3>
-                    <p
-                      className="font-body text-sm md:text-base leading-relaxed"
-                      style={{ color: "hsl(0 0% 85%)" }}
-                    >
+                    <p className="font-body text-sm md:text-base leading-relaxed text-white/65">
                       {v.desc}
                     </p>
                   </motion.div>
@@ -242,31 +199,22 @@ const ChiSiamo = () => {
           </div>
         </section>
 
-        {/* CTA */}
-        <section className="py-[50px] px-6">
+        {/* CTA — beige */}
+        <section className="section-light py-20 md:py-28 px-6">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="max-w-3xl mx-auto text-center rounded-3xl p-10 md:p-14 border"
-            style={{
-              background: "linear-gradient(160deg, hsl(0 0% 5% / 0.82), hsl(0 0% 3% / 0.92))",
-              borderColor: "hsl(0 0% 100% / 0.08)",
-              backdropFilter: "blur(18px)",
-              boxShadow: "0 20px 60px hsl(0 0% 0% / 0.5)",
-            }}
+            className="max-w-3xl mx-auto text-center"
           >
             <h2
-              className="font-display font-bold tracking-tight leading-[1.05] mb-6 text-foreground"
-              style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", textShadow: HERO_TEXT_SHADOW }}
+              className="font-display font-black tracking-tight leading-[1.05] mb-6"
+              style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
             >
               Lavoriamo insieme?
             </h2>
-            <p
-              className="font-body text-base md:text-lg mb-4 max-w-xl mx-auto"
-              style={{ color: "hsl(0 0% 90%)", textShadow: "0 1px 6px hsl(0 0% 0% / 0.7)" }}
-            >
+            <p className="font-body text-base md:text-lg mb-4 max-w-xl mx-auto text-[hsl(0_0%_30%)]">
               Raccontaci il tuo progetto: ti rispondiamo entro 24h con un primo punto di vista.
             </p>
             <InlineCTA label="Prenota una call" to="/contatti" />
