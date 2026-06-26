@@ -57,8 +57,8 @@ function ServiceRow({
     <div
       className="relative rounded-2xl border overflow-hidden transition-colors duration-300"
       style={{
-        backgroundColor: isOpen ? "hsl(192 49% 76%)" : "hsl(0 0% 100%)",
-        borderColor: isOpen ? "hsl(192 49% 76%)" : "hsl(0 0% 8% / 0.12)",
+        backgroundColor: isOpen ? "hsl(192 49% 76%)" : "hsl(0 0% 12%)",
+        borderColor: isOpen ? "hsl(192 49% 76%)" : "hsl(0 0% 100% / 0.1)",
       }}
     >
       {/* Trigger row */}
@@ -72,7 +72,7 @@ function ServiceRow({
           className="font-display font-light leading-none shrink-0 hidden sm:block"
           style={{
             fontSize: "clamp(2rem, 4vw, 2.6rem)",
-            WebkitTextStroke: `1px ${isOpen ? "hsl(192 35% 16%)" : "hsl(0 0% 75%)"}`,
+            WebkitTextStroke: `1px ${isOpen ? "hsl(192 35% 16%)" : "hsl(0 0% 45%)"}`,
             color: "transparent",
             transition: "all 0.3s ease",
           }}
@@ -83,12 +83,12 @@ function ServiceRow({
         <div
           className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition-colors duration-300"
           style={{
-            backgroundColor: isOpen ? "hsl(192 35% 16% / 0.12)" : "hsl(0 0% 8% / 0.05)",
+            backgroundColor: isOpen ? "hsl(192 35% 16% / 0.12)" : "hsl(0 0% 100% / 0.06)",
           }}
         >
           <Icon
             className="w-5 h-5"
-            style={{ color: isOpen ? "hsl(192 35% 16%)" : "hsl(0 0% 40%)" }}
+            style={{ color: isOpen ? "hsl(192 35% 16%)" : "hsl(0 0% 70%)" }}
             strokeWidth={1.5}
           />
         </div>
@@ -97,7 +97,7 @@ function ServiceRow({
           className="font-display font-bold flex-1 leading-tight transition-colors duration-300"
           style={{
             fontSize: "clamp(1.1rem, 2.2vw, 1.5rem)",
-            color: isOpen ? "hsl(192 35% 16%)" : "hsl(0 0% 10%)",
+            color: isOpen ? "hsl(192 35% 16%)" : "hsl(0 0% 95%)",
           }}
         >
           {service.title}
@@ -106,7 +106,7 @@ function ServiceRow({
         <ChevronDown
           className="w-5 h-5 shrink-0 transition-transform duration-300"
           style={{
-            color: isOpen ? "hsl(192 35% 16%)" : "hsl(0 0% 40%)",
+            color: isOpen ? "hsl(192 35% 16%)" : "hsl(0 0% 70%)",
             transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
           }}
         />
@@ -145,7 +145,7 @@ const ServicesSection = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="section-light px-6 relative py-20 md:py-28">
+    <section className="section-dark px-6 relative py-20 md:py-28">
       <div className="max-w-4xl mx-auto relative z-10">
         {/* Header */}
         <motion.div
