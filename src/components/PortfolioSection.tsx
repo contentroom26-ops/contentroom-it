@@ -16,10 +16,11 @@ const projects = [
   { slug: "glow-skincare", img: portfolio4, name: "Glow Skincare", result: "+300% vendite", tag: "E-commerce Strategy" },
 ];
 
-// PARAMETRI DI DISTRIBUZIONE E CURVA
-const CARD_WIDTH = 420; // Aumentato a 420px per dare ampio spazio (gap) tra una card e l'altra
-const trackProjects = [...projects, ...projects, ...projects, ...projects, ...projects]; // Più copie per coprire schermi larghi
-const TOTAL_TRACK_WIDTH = trackProjects.length * CARD_WIDTH;
+// PARAMETRI DEL CILINDRO ORBITALE
+const RADIUS_Z = 850;       // Distanza tra l'utente (centro) e la parete del cilindro. Più è alto, più la curva è ampia.
+const ANGULAR_GAP = 26;     // Spaziatura in GRADI tra una card e l'altra lungo la circonferenza.
+const trackProjects = [...projects, ...projects, ...projects, ...projects, ...projects];
+const TOTAL_DEGREES = trackProjects.length * ANGULAR_GAP;
 
 function ProjectCard({
   p,
@@ -31,63 +32,55 @@ function ProjectCard({
   trackX: ReturnType<typeof useMotionValue<number>>;
 }) {
   
-  // Calcoliamo il centro dello schermo dello user
-  const viewportCenter = typeof window !== "undefined" ? window.innerWidth / 2 : 700;
-
-  // Calcolo della posizione X reale e lineare di ogni card nello spazio (con supporto al loop infinito)
-  const x = useTransform(trackX, (latestX) => {
-    // Posizione base teorica della card sul nastro continuo
-    let currentX = (index * CARD_WIDTH + latestX) % TOTAL_TRACK_WIDTH;
+  // Mappiamo lo scorrimento dei pixel (trackX) in gradi di rotazione sul cilindro
+  const rotateY = useTransform(trackX, (latestX) => {
+    // Calcoliamo l'angolo base di questa card sul nastro circolare
+    let angle = (index * ANGULAR_GAP + latestX * 0.05) % TOTAL_DEGREES;
     
-    // Se il valore è negativo, lo riportiamo nel range positivo del loop
-    if (currentX < 0) currentX += TOTAL_TRACK_WIDTH;
+    if (angle < 0) angle += TOTAL_DEGREES;
     
-    // Centriamo il sistema di coordinate rispetto allo schermo dello user
-    return currentX - (TOTAL_TRACK_WIDTH / 2) + viewportCenter;
+    // Centriamo l'angolo rispetto alla visuale frontale (spostiamo il loop in modo che orbiti davanti a noi)
+    let finalAngle = angle - (TOTAL_DEGREES / 2);
+    
+    // Ottimizzazione: se la card finisce completamente dietro le spalle (> 90° o < -90°), la riportiamo davanti per il loop continuo
+    if (finalAngle > 180) finalAngle -= 360;
+    if (finalAngle < -180) finalAngle += 360;
+    
+    return finalAngle;
   });
 
-  // ROTAZIONE E PROFONDITÀ IN BASE ALLA DISTANZA DAL CENTRO DELLO SCHERMO
-  // Calcoliamo quanto la card dista dal centro esatto dello schermo dello user
-  const distanceFromCenter = useTransform(x, (currentX) => {
-    return currentX - viewportCenter;
-  });
-
-  // 1. ROTATE Y (Inversione Concava): 
-  // Al centro (0px di distanza) la rotazione è 0. Ai lati (oltre i 400px di distanza) ruota verso l'interno.
-  const rotateY = useTransform(distanceFromCenter, [-800, -400, 0, 400, 800], [-45, -30, 0, 30, 45]);
-
-  // 2. TRANSLATE Z (Cilindro IMAX):
-  // Al centro la card è a Z = 0 (vicina). Ai lati (distante) la spingiamo leggermente in avanti su Z 
-  // o indietro a seconda di quanta distorsione vogliamo. Per il cilindro concavo di CloudCube, 
-  // le card laterali avanzano verso l'utente (Z positivo) o restano stabili mentre il centro arretra.
-  // Qui teniamo il centro pulito a 0 e facciamo piegare i lati leggermente in avanti (+80) per l'effetto avvolgente.
-  const z = useTransform(distanceFromCenter, [-600, 0, 600], [80, 0, 80]);
-
-  // 3. SCALE (Mantiene le card laterali proporzionate senza ammassarle)
-  const scale = useTransform(distanceFromCenter, [-600, 0, 600], [0.9, 1, 0.9]);
+  // Dissolvenza ai lati: se la card si allontana dall'angolo visivo frontale (0°), sfuma nell'oscurità
+  const opacity = useTransform(rotateY, [-70, -45, 0, 45, 70], [0, 0.8, 1, 0.8, 0]);
+  
+  // Un leggerissimo scale di compensazione visiva per le card periferiche
+  const scale = useTransform(rotateY, [-50, 0, 50], [0.92, 1, 0.92]);
 
   return (
     <motion.div
       style={{
-        x,
-        z,
-        rotateY,
-        scale,
+        rotateY: rotateY,
+        scale: scale,
+        opacity: opacity,
         position: 'absolute',
+        left: '50%',
         top: '50%',
-        left: 0, // Lasciamo che sia il transform X a gestire la posizione orizzontale
-        transformPerspective: 1200, 
-        transformStyle: "preserve-3d"
+        width: '340px', // Larghezza fissa della card
+        height: '453px', // Altezza proporzionata (aspect 3/4)
+        marginLeft: '-170px', // Centratura esatta sull'asse di rotazione
+        marginTop: '-226px',
+        
+        // IL SEGRETO GEOMETRICO: Muove il perno di rotazione indietro di RADIUS_Z pixel.
+        // La card non ruota più su se stessa, ma orbita sulla superficie del cilindro attorno a te.
+        transformOrigin: `center center -${RADIUS_Z}px`,
+        transformStyle: "preserve-3d",
       }}
       className="shrink-0"
     >
       <Link
         to={`/portfolio/${p.slug}`}
         draggable={false}
-        className="relative rounded-2xl overflow-hidden cursor-pointer group block w-[300px] md:w-[340px] aspect-[3/4]"
-        style={{
-          marginTop: '-226px',  // Centratura verticale (metà altezza di un aspect 3/4)
-        }}
+        className="relative w-full h-full rounded-2xl overflow-hidden cursor-pointer group block"
+        style={{ transformStyle: "preserve-3d" }}
         onClick={(e) => {
           if (Math.abs(trackX.getVelocity()) > 50) e.preventDefault();
         }}
@@ -121,7 +114,7 @@ function ProjectCard({
   );
 }
 
-const AUTOPLAY_SPEED = 40; 
+const AUTOPLAY_SPEED = 30; 
 
 const PortfolioSection = () => {
   const trackX = useMotionValue(0);
@@ -147,7 +140,7 @@ const PortfolioSection = () => {
   const handlePointerMove = (e: React.PointerEvent) => {
     if (!isDragging.current) return;
     const deltaX = e.clientX - startDragX.current;
-    trackX.set(startTrackX.current + deltaX * 1.2); 
+    trackX.set(startTrackX.current + deltaX * 1.5); 
   };
 
   const handlePointerUp = (e: React.PointerEvent) => {
@@ -178,11 +171,11 @@ const PortfolioSection = () => {
         </motion.div>
       </div>
 
-      {/* Contenitore Scena 3D largo e spazioso */}
+      {/* Contenitore Palcoscenico Cilindrico */}
       <div
         className="relative w-full h-[550px] overflow-visible select-none"
         style={{
-          perspective: 1000,
+          perspective: 1100, // Regola la forza tridimensionale complessiva dello schermo curvo
           transformStyle: "preserve-3d"
         }}
         onMouseEnter={() => setPaused(true)}
@@ -191,9 +184,9 @@ const PortfolioSection = () => {
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
       >
-        {/* Sfumature per nascondere le card solo sui bordi estremi dello schermo */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-16 md:w-32 z-20 bg-gradient-to-r from-black to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-16 md:w-32 z-20 bg-gradient-to-l from-black to-transparent" />
+        {/* Sfumature per nascondere i lati che vanno verso lo sfondo */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-24 md:w-48 z-20 bg-gradient-to-r from-black to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-24 md:w-48 z-20 bg-gradient-to-l from-black to-transparent" />
 
         <div
           className="relative w-full h-full"
