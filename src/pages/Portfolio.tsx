@@ -10,6 +10,34 @@ import portfolio4 from "@/assets/portfolio-4.jpg";
 
 const CELESTE = "hsl(192 49% 76%)";
 
+/*
+  PROVA: stesso video/overlay di GlobalVideoBackground, ma contenuto solo
+  in questa sezione (position: absolute dentro un genitore relative),
+  non più fixed su tutta la viewport. Se la prova non convince, basta
+  rimuovere questo componente e il suo utilizzo qui sotto — non tocca
+  nessun altro file, l'effetto è isolato a questa sola sezione.
+*/
+const PortfolioSectionVideoBackground = () => (
+  <div className="absolute inset-0 overflow-hidden pointer-events-none">
+    <video
+      autoPlay
+      loop
+      muted
+      playsInline
+      className="absolute inset-0 w-full h-full object-cover"
+      src="/global-bg.mp4"
+    />
+    <div className="absolute inset-0" style={{ background: "hsl(43 100% 98% / 0.55)" }} />
+    <div
+      className="absolute inset-0"
+      style={{
+        background:
+          "radial-gradient(ellipse at center, transparent 30%, hsl(43 100% 98% / 0.7) 100%)",
+      }}
+    />
+  </div>
+);
+
 export type CaseCategory = "Video" | "Social" | "Web";
 
 export interface CaseItem {
@@ -74,9 +102,10 @@ const Portfolio = () => {
           </div>
         </section>
 
-        {/* Filtri + Grid — beige */}
-        <section className="section-light pt-12 pb-28 px-6">
-          <div className="max-w-6xl mx-auto">
+        {/* Filtri + Grid — beige, con prova video di sfondo marmorizzato */}
+        <section className="section-light relative pt-12 pb-28 px-6 overflow-hidden">
+          <PortfolioSectionVideoBackground />
+          <div className="max-w-6xl mx-auto relative z-10">
             <div className="flex flex-wrap items-center gap-2 md:gap-3 mb-12 p-3 rounded-full border w-fit bg-white border-[hsl(0_0%_8%/0.1)]">
               {filters.map((f) => {
                 const isActive = active === f;
