@@ -27,7 +27,7 @@ const trackProjects = [...projects, ...projects, ...projects, ...projects, ...pr
 const TOTAL_DEGREES = trackProjects.length * ANGULAR_GAP;
 
 function ProjectCard({ p, index, trackX }: { p: any, index: number, trackX: any }) {
-  const angle = useTransform(trackX, (latestX) => {
+  const angle = useTransform(trackX, (latestX: number) => {
     let a = (index * ANGULAR_GAP + latestX * 0.05) % TOTAL_DEGREES;
     if (a < 0) a += TOTAL_DEGREES;
     let finalAngle = a - (TOTAL_DEGREES / 2);
