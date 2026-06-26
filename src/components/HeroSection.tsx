@@ -57,7 +57,7 @@ const HeroSection = () => {
           variants={item}
           className="text-brand-orange font-body text-xs md:text-sm font-bold tracking-[0.1em] uppercase mb-5"
         >
-          Agenzia di comunicazione — Firenze
+          Digital Agency — Firenze
         </motion.p>
 
         <motion.h1
