@@ -31,9 +31,9 @@ function ProjectCard({ p, index, trackX }: { p: any, index: number, trackX: any 
   const angle = useTransform(trackX, (latestX: number) => {
     let a = (index * ANGULAR_GAP + latestX * 0.05) % TOTAL_DEGREES;
     if (a < 0) a += TOTAL_DEGREES;
-    let finalAngle = a - (TOTAL_DEGREES / 2);
+   let finalAngle = a - (TOTAL_DEGREES / 2);
+    finalAngle = ((finalAngle % 360) + 360) % 360;
     if (finalAngle > 180) finalAngle -= 360;
-    if (finalAngle < -180) finalAngle += 360;
     return finalAngle;
   });
 
