@@ -1,24 +1,24 @@
+import { Link } from "react-router-dom";
 import contentRoomLogo from "@/assets/contentroom-logo.png";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-
   return (
-    <footer className="relative z-20 border-t border-border/30 bg-background/80 backdrop-blur-md">
+    <footer className="section-light-shade relative z-20 border-t border-[hsl(0_0%_8%/0.08)]">
       <div className="max-w-6xl mx-auto px-6 py-16">
         {/* Top row: brand + columns */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
           {/* Brand */}
           <div>
             <img src={contentRoomLogo} alt="Content Room" className="h-16 w-auto" />
-            <p className="font-body text-sm text-muted-foreground mt-3 leading-relaxed max-w-xs">
+            <p className="font-body text-sm text-[hsl(0_0%_35%)] mt-3 leading-relaxed max-w-xs">
               Agenzia specializzata in digitalizzazione delle aziende, content strategy e produzione video.
             </p>
           </div>
 
           {/* Navigation */}
           <div>
-            <h4 className="font-display text-sm font-semibold text-foreground uppercase tracking-widest mb-4">
+            <h4 className="font-display text-sm font-bold uppercase tracking-widest mb-4 text-brand-orange">
               Navigazione
             </h4>
             <ul className="space-y-3">
@@ -29,12 +29,12 @@ const Footer = () => {
                 { label: "Contatti", href: "/contatti" },
               ].map((link) => (
                 <li key={link.label}>
-                  <a
-                    href={link.href}
-                    className="font-body text-sm text-muted-foreground hover:text-primary transition-colors"
+                  <Link
+                    to={link.href}
+                    className="font-body text-sm text-[hsl(0_0%_35%)] hover:text-primary transition-colors"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -42,10 +42,10 @@ const Footer = () => {
 
           {/* Contatti */}
           <div>
-            <h4 className="font-display text-sm font-semibold text-foreground uppercase tracking-widest mb-4">
+            <h4 className="font-display text-sm font-bold uppercase tracking-widest mb-4 text-brand-orange">
               Contatti
             </h4>
-            <ul className="space-y-3 font-body text-sm text-muted-foreground">
+            <ul className="space-y-3 font-body text-sm text-[hsl(0_0%_35%)]">
               <li>
                 <a
                   href="mailto:info@contentroom.it"
@@ -62,7 +62,7 @@ const Footer = () => {
                   +39 328 416 3053
                 </a>
               </li>
-              <li className="text-muted-foreground/80">
+              <li className="text-[hsl(0_0%_45%)]">
                 Via Pietro Francavilla 11, 50142,<br />Firenze (FI), Italia
               </li>
             </ul>
@@ -70,23 +70,23 @@ const Footer = () => {
         </div>
 
         {/* Divider */}
-        <div className="border-t border-border/20 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="font-body text-xs text-muted-foreground">
+        <div className="border-t border-[hsl(0_0%_8%/0.1)] pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="font-body text-xs text-[hsl(0_0%_45%)]">
             © {currentYear} Content Room — Tutti i diritti riservati
           </p>
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-            <a
-              href="/privacy-policy"
-              className="font-body text-xs text-muted-foreground hover:text-primary transition-colors"
+            <Link
+              to="/privacy-policy"
+              className="font-body text-xs text-[hsl(0_0%_45%)] hover:text-primary transition-colors"
             >
               Privacy Policy
-            </a>
-            <a
-              href="/cookie-policy"
-              className="font-body text-xs text-muted-foreground hover:text-primary transition-colors"
+            </Link>
+            <Link
+              to="/cookie-policy"
+              className="font-body text-xs text-[hsl(0_0%_45%)] hover:text-primary transition-colors"
             >
               Cookie Policy
-            </a>
+            </Link>
           </div>
         </div>
       </div>
