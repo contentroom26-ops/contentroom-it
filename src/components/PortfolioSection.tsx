@@ -20,8 +20,8 @@ const projects = [
 ];
 
 // PARAMETRI DEL CILINDRO CONCAVO (IMAX) - AGGIORNATI
-const RADIUS = 1100;        // Ridotto da 1400 per una curvatura più avvolgente
-const ANGULAR_GAP = 22;     // RIDOTTO da 30: questo avvicinerà visivamente le card
+const RADIUS = 1300;        // Aumentato per "aprire" la curva e dare respiro
+const ANGULAR_GAP = 38;     // Aumentato: crea la separazione che cercavi
 const CARD_WIDTH = 260;     
 const CARD_HEIGHT = 346;
 const trackProjects = [...projects, ...projects, ...projects, ...projects, ...projects];
@@ -37,13 +37,15 @@ function ProjectCard({ p, index, trackX }: { p: any, index: number, trackX: any 
     return finalAngle;
   });
 
-  // GEOMETRIA IMAX: X = seno, Z = (1-coseno) per far avanzare le laterali verso l'utente
   const x = useTransform(angle, (a) => Math.sin(a * (Math.PI / 180)) * RADIUS);
   const z = useTransform(angle, (a) => (1 - Math.cos(a * (Math.PI / 180))) * RADIUS);
-  const rotateY = useTransform(angle, (a) => -a);
+  
+  // Aumentando il moltiplicatore (es. 1.2 invece di 1), 
+  // le card si inclineranno più bruscamente man mano che si allontanano dal centro
+  const rotateY = useTransform(angle, (a) => -a * 1.2); 
 
-  const scale = useTransform(angle, [-45, 0, 45], [0.95, 1, 0.95]);
-  const opacity = useTransform(angle, [-60, -30, 0, 30, 60], [0, 0.8, 1, 0.8, 0]);
+  const scale = useTransform(angle, [-60, 0, 60], [0.85, 1, 0.85]);
+  const opacity = useTransform(angle, [-70, -35, 0, 35, 70], [0, 0.6, 1, 0.6, 0]);
 
   return (
     <motion.div
