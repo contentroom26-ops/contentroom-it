@@ -4,8 +4,6 @@ import { Aperture, Share2, Rocket, Code2, BrainCircuit, ChevronDown, ArrowRight 
 import { Link } from "react-router-dom";
 import InlineCTA from "./InlineCTA";
 
-const CELESTE = "hsl(192 49% 76%)";
-
 const services = [
   {
     icon: Aperture,
@@ -57,15 +55,10 @@ function ServiceRow({
 
   return (
     <div
-      className="relative rounded-2xl border overflow-hidden"
+      className="relative rounded-2xl border overflow-hidden transition-colors duration-300"
       style={{
-        background: isOpen
-          ? "linear-gradient(160deg, hsl(0 0% 8% / 0.92), hsl(0 0% 4% / 0.98))"
-          : "linear-gradient(160deg, hsl(0 0% 7% / 0.8), hsl(0 0% 4% / 0.92))",
-        borderColor: isOpen ? "hsl(192 49% 76% / 0.35)" : "hsl(0 0% 100% / 0.08)",
-        backdropFilter: "blur(20px)",
-        boxShadow: isOpen ? "0 20px 50px hsl(0 0% 0% / 0.5)" : "none",
-        transition: "background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease",
+        backgroundColor: isOpen ? "hsl(192 49% 76%)" : "hsl(0 0% 100%)",
+        borderColor: isOpen ? "hsl(192 49% 76%)" : "hsl(0 0% 8% / 0.12)",
       }}
     >
       {/* Trigger row */}
@@ -79,42 +72,41 @@ function ServiceRow({
           className="font-display font-light leading-none shrink-0 hidden sm:block"
           style={{
             fontSize: "clamp(2rem, 4vw, 2.6rem)",
-            WebkitTextStroke: `1px ${isOpen ? CELESTE : "hsl(0 0% 30%)"}`,
+            WebkitTextStroke: `1px ${isOpen ? "hsl(192 35% 16%)" : "hsl(0 0% 75%)"}`,
             color: "transparent",
-            transition: "all 0.4s ease",
+            transition: "all 0.3s ease",
           }}
         >
           {service.num}
         </span>
 
         <div
-          className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
+          className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition-colors duration-300"
           style={{
-            background: isOpen
-              ? "linear-gradient(135deg, hsl(192 49% 76% / 0.25), hsl(192 49% 76% / 0.08))"
-              : "hsl(0 0% 100% / 0.04)",
-            border: `1px solid ${isOpen ? "hsl(192 49% 76% / 0.4)" : "hsl(0 0% 100% / 0.08)"}`,
-            transition: "all 0.4s ease",
+            backgroundColor: isOpen ? "hsl(192 35% 16% / 0.12)" : "hsl(0 0% 8% / 0.05)",
           }}
         >
-          <Icon className="w-5 h-5" style={{ color: isOpen ? CELESTE : "hsl(0 0% 60%)" }} strokeWidth={1.5} />
+          <Icon
+            className="w-5 h-5"
+            style={{ color: isOpen ? "hsl(192 35% 16%)" : "hsl(0 0% 40%)" }}
+            strokeWidth={1.5}
+          />
         </div>
 
         <h3
-          className="font-display font-semibold flex-1 leading-tight"
+          className="font-display font-bold flex-1 leading-tight transition-colors duration-300"
           style={{
             fontSize: "clamp(1.1rem, 2.2vw, 1.5rem)",
-            color: isOpen ? CELESTE : "hsl(0 0% 92%)",
-            transition: "color 0.4s ease",
+            color: isOpen ? "hsl(192 35% 16%)" : "hsl(0 0% 10%)",
           }}
         >
           {service.title}
         </h3>
 
         <ChevronDown
-          className="w-5 h-5 shrink-0 transition-transform duration-400"
+          className="w-5 h-5 shrink-0 transition-transform duration-300"
           style={{
-            color: isOpen ? CELESTE : "hsl(0 0% 60%)",
+            color: isOpen ? "hsl(192 35% 16%)" : "hsl(0 0% 40%)",
             transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
           }}
         />
@@ -131,16 +123,12 @@ function ServiceRow({
             className="overflow-hidden"
           >
             <div className="px-5 md:px-8 pb-6 md:pb-8 pl-[4.5rem] sm:pl-[5.5rem] md:pl-[6.5rem] pr-5 md:pr-8">
-              <p
-                className="font-body text-sm md:text-base leading-relaxed mb-5"
-                style={{ color: "hsl(0 0% 85%)" }}
-              >
+              <p className="font-body text-sm md:text-base leading-relaxed mb-5 text-[hsl(192_35%_16%)]">
                 {service.desc}
               </p>
               <Link
                 to={service.to}
-                className="inline-flex items-center gap-2 font-body text-sm font-medium tracking-wide transition-colors duration-300 hover:gap-3"
-                style={{ color: CELESTE }}
+                className="inline-flex items-center gap-2 font-body text-sm font-bold tracking-wide transition-all duration-300 hover:gap-3 text-[hsl(192_35%_16%)]"
               >
                 Scopri di più
                 <ArrowRight className="w-4 h-4 transition-transform duration-300" />
@@ -157,7 +145,7 @@ const ServicesSection = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="px-6 relative py-[50px]">
+    <section className="section-light px-6 relative py-20 md:py-28">
       <div className="max-w-4xl mx-auto relative z-10">
         {/* Header */}
         <motion.div
@@ -165,37 +153,21 @@ const ServicesSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          style={{
-            background: "linear-gradient(160deg, hsl(0 0% 5% / 0.78), hsl(0 0% 3% / 0.88))",
-            border: "1px solid hsl(0 0% 100% / 0.08)",
-            backdropFilter: "blur(18px)",
-            borderRadius: "24px",
-          }}
-          className="inline-block mb-12 p-8 md:p-10"
+          className="mb-12"
         >
           <div className="flex items-center gap-4 mb-6">
-            <div className="w-12 h-0.5" style={{ background: CELESTE }} />
-            <span
-              className="font-body font-bold text-xs tracking-[0.4em] uppercase"
-              style={{
-                color: CELESTE,
-                textShadow:
-                  "0 1px 3px hsl(0 0% 0% / 0.95), 0 2px 12px hsl(0 0% 0% / 0.85), 0 0 24px hsl(0 0% 0% / 0.7)",
-              }}
-            >
+            <div className="w-12 h-0.5 bg-brand-orange" />
+            <span className="font-body font-bold text-xs tracking-[0.4em] uppercase text-brand-orange">
               Servizi
             </span>
           </div>
           <h2
-            className="font-display font-bold tracking-tight leading-[1.05] text-white"
-            style={{
-              fontSize: "clamp(2.5rem, 6vw, 5rem)",
-              textShadow: "0 2px 20px hsl(0 0% 0% / 0.8), 0 0 40px hsl(0 0% 0% / 0.6)",
-            }}
+            className="font-display font-black tracking-tight leading-[1.05]"
+            style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}
           >
             I nostri
             <br />
-            <span style={{ color: "hsl(0 0% 80%)" }}>servizi.</span>
+            <span className="text-primary">servizi.</span>
           </h2>
         </motion.div>
 
