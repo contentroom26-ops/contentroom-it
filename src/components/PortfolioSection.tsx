@@ -19,30 +19,35 @@ const projects = [
   { slug: "placeholder-7", img: portfolio3, name: "Progetto 7", result: "+XXk risultati", tag: "Da personalizzare" },
 ];
 
-// PARAMETRI DEL CILINDRO CONCAVO (IMAX) - AGGIORNATI
-const RADIUS = 1300;        // Aumentato per "aprire" la curva e dare respiro
-const ANGULAR_GAP = 38;     // Aumentato: crea la separazione che cercavi
-const CARD_WIDTH = 260;     
+// PARAMETRI DEL CILINDRO CONCAVO
+const RADIUS = 1300;
+const CARD_WIDTH = 260;
 const CARD_HEIGHT = 346;
-const trackProjects = [...projects, ...projects, ...projects, ...projects, ...projects];
-const TOTAL_DEGREES = trackProjects.length * ANGULAR_GAP;
+
+// IMPORTANTE: niente duplicazione dell'array. Un cilindro 3D si "ripete" da solo
+// ruotando — duplicare i progetti qui causava collisioni tra copie diverse
+// (35 card a 38° l'una dall'altra = 1330°, cioè 3,69 giri: non un multiplo
+// esatto di 360°, quindi alcune coppie di card finivano quasi sullo stesso
+// punto sullo schermo). Con i progetti reali (non duplicati) il passo angolare
+// riempie SEMPRE esattamente 360° per costruzione → zero collisioni possibili.
+const ANGULAR_GAP = 360 / projects.length; // ~51.43°
+const TOTAL_DEGREES = 360;
 
 function ProjectCard({ p, index, trackX }: { p: any, index: number, trackX: any }) {
   const angle = useTransform(trackX, (latestX: number) => {
     let a = (index * ANGULAR_GAP + latestX * 0.05) % TOTAL_DEGREES;
     if (a < 0) a += TOTAL_DEGREES;
-   let finalAngle = a - (TOTAL_DEGREES / 2);
-    finalAngle = ((finalAngle % 360) + 360) % 360;
+    let finalAngle = a - (TOTAL_DEGREES / 2);
     if (finalAngle > 180) finalAngle -= 360;
     return finalAngle;
   });
 
   const x = useTransform(angle, (a) => Math.sin(a * (Math.PI / 180)) * RADIUS);
   const z = useTransform(angle, (a) => (1 - Math.cos(a * (Math.PI / 180))) * RADIUS);
-  
-  // Aumentando il moltiplicatore (es. 1.2 invece di 1), 
+
+  // Aumentando il moltiplicatore (es. 1.2 invece di 1),
   // le card si inclineranno più bruscamente man mano che si allontanano dal centro
-  const rotateY = useTransform(angle, (a) => -a * 1.2); 
+  const rotateY = useTransform(angle, (a) => -a * 1.2);
 
   const scale = useTransform(angle, [-60, 0, 60], [0.85, 1, 0.85]);
   const opacity = useTransform(angle, [-70, -35, 0, 35, 70], [0, 0.6, 1, 0.6, 0]);
@@ -128,10 +133,10 @@ const PortfolioSection = () => {
 
      <div
   className="relative w-full h-[550px] overflow-visible select-none"
-  style={{ 
-    perspective: "1200px",          // Aggiungi le virgolette e la stringa "1200px"
-    transformStyle: "preserve-3d", // Mantieni
-    overflow: "visible"            // Forza l'overflow su visible
+  style={{
+    perspective: "1200px",
+    transformStyle: "preserve-3d",
+    overflow: "visible"
   }}
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
@@ -142,7 +147,7 @@ const PortfolioSection = () => {
         <div className="pointer-events-none absolute inset-y-0 left-0 w-24 md:w-48 z-20 bg-gradient-to-r from-black to-transparent" />
         <div className="pointer-events-none absolute inset-y-0 right-0 w-24 md:w-48 z-20 bg-gradient-to-l from-black to-transparent" />
         <div className="relative w-full h-full" style={{ transformStyle: "preserve-3d" }}>
-          {trackProjects.map((p, i) => <ProjectCard key={`${p.slug}-${i}`} p={p} index={i} trackX={trackX} />)}
+          {projects.map((p, i) => <ProjectCard key={p.slug} p={p} index={i} trackX={trackX} />)}
         </div>
       </div>
 
