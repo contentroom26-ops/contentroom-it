@@ -68,7 +68,7 @@ const CaseStudy = () => {
       <main className="relative z-10 min-h-screen overflow-x-hidden">
         <Navbar />
 
-        {/* Hero image — nera */}
+        {/* Panoramica progetto — nera, immagine + testo affiancati */}
         <section className="section-dark pt-40 pb-20 px-6">
           <div className="max-w-6xl mx-auto">
             <motion.div
@@ -86,65 +86,68 @@ const CaseStudy = () => {
               </Link>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-              className="rounded-2xl overflow-hidden aspect-[16/9]"
-            >
-              <img src={caseItem.img} alt={caseItem.client} className="w-full h-full object-cover" />
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-12"
-            >
-              <p className="font-body text-[10px] font-bold tracking-[0.4em] uppercase mb-4 text-brand-orange">
-                {caseItem.service} · {caseItem.category}
-              </p>
-              <h1
-                className="font-display font-black tracking-tight leading-[1.05]"
-                style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}
-              >
-                {caseItem.client}
-              </h1>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Obiettivo & Soluzione — beige */}
-        <section className="section-light py-20 md:py-28 px-6">
-          <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-6 md:gap-8">
-            {[
-              { label: "Obiettivo", text: detail.goal, delay: 0 },
-              { label: "Soluzione", text: detail.solution, delay: 0.15 },
-            ].map((block) => (
+            <div className="grid md:grid-cols-2 gap-6 md:gap-8 items-stretch">
+              {/* Immagine con nome cliente sovrapposto */}
               <motion.div
-                key={block.label}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.1 }}
-                transition={{ duration: 0.7, delay: block.delay, ease: [0.22, 1, 0.36, 1] }}
-                className="rounded-2xl p-8 md:p-10 h-full bg-white border border-[hsl(0_0%_8%/0.1)]"
+                initial={{ opacity: 0, scale: 0.97 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                className="relative rounded-2xl overflow-hidden aspect-[4/3] md:aspect-auto"
               >
-                <div className="flex items-center gap-4 mb-5">
-                  <div className="w-10 h-px bg-brand-orange" />
-                  <p className="font-body text-[10px] font-bold tracking-[0.4em] uppercase text-brand-orange">
-                    {block.label}
+                <img src={caseItem.img} alt={caseItem.client} className="absolute inset-0 w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
+                <div className="absolute bottom-0 left-0 p-6 md:p-8">
+                  <p className="font-body text-[10px] font-bold tracking-[0.4em] uppercase mb-3 text-brand-orange">
+                    {caseItem.service} · {caseItem.category}
+                  </p>
+                  <h1
+                    className="font-display font-black tracking-tight leading-[1.05] text-white"
+                    style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)" }}
+                  >
+                    {caseItem.client}
+                  </h1>
+                </div>
+              </motion.div>
+
+              {/* Obiettivo + Soluzione, impilati */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+                className="rounded-2xl p-7 md:p-9 bg-[hsl(0_0%_12%)] border border-white/10 flex flex-col justify-center gap-7"
+              >
+                <div>
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-8 h-px bg-brand-orange" />
+                    <p className="font-body text-[10px] font-bold tracking-[0.4em] uppercase text-brand-orange">
+                      Obiettivo
+                    </p>
+                  </div>
+                  <p className="font-display text-lg md:text-xl leading-[1.45] text-white">
+                    {detail.goal}
                   </p>
                 </div>
-                <p className="font-display text-xl md:text-2xl leading-[1.45] text-[hsl(0_0%_10%)]">
-                  {block.text}
-                </p>
+
+                <div className="h-px bg-white/10" />
+
+                <div>
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-8 h-px bg-brand-orange" />
+                    <p className="font-body text-[10px] font-bold tracking-[0.4em] uppercase text-brand-orange">
+                      Soluzione
+                    </p>
+                  </div>
+                  <p className="font-display text-lg md:text-xl leading-[1.45] text-white">
+                    {detail.solution}
+                  </p>
+                </div>
               </motion.div>
-            ))}
+            </div>
           </div>
         </section>
 
-        {/* Risultati — nera */}
-        <section className="section-dark py-20 md:py-28 px-6">
+        {/* Risultati — beige (corretto per alternanza: la sezione precedente è ora nera) */}
+        <section className="section-light py-20 md:py-28 px-6">
           <div className="max-w-6xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 40 }}
@@ -183,7 +186,7 @@ const CaseStudy = () => {
                     >
                       {m.value}
                     </span>
-                    <p className="font-body text-sm md:text-base text-white/70">
+                    <p className="font-body text-sm md:text-base text-[hsl(0_0%_30%)]">
                       {m.label}
                     </p>
                   </motion.div>
@@ -193,8 +196,8 @@ const CaseStudy = () => {
           </div>
         </section>
 
-        {/* Next case + CTA — beige */}
-        <section className="section-light py-20 md:py-28 px-6">
+        {/* Next case + CTA — nera (corretto per alternanza) */}
+        <section className="section-dark py-20 md:py-28 px-6">
           <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
             <Link
               to={`/portfolio/${next.slug}`}
@@ -210,14 +213,14 @@ const CaseStudy = () => {
               </div>
             </Link>
 
-            <div className="flex flex-col items-start justify-center p-8 md:p-10 rounded-2xl bg-white border border-[hsl(0_0%_8%/0.1)]">
+            <div className="flex flex-col items-start justify-center p-8 md:p-10 rounded-2xl bg-[hsl(0_0%_12%)] border border-white/10">
               <h3
-                className="font-display font-black tracking-tight leading-[1.05] mb-6"
+                className="font-display font-black tracking-tight leading-[1.05] mb-6 text-white"
                 style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)" }}
               >
                 Vuoi risultati simili?
               </h3>
-              <p className="font-body text-base mb-8 text-[hsl(0_0%_30%)]">
+              <p className="font-body text-base mb-8 text-white/65">
                 Raccontaci il tuo progetto. Ti ricontattiamo entro 24h.
               </p>
               <Link
