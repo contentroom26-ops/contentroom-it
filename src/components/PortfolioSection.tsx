@@ -9,9 +9,6 @@ import portfolio4 from "@/assets/portfolio-4.jpg";
 
 const ACCENT = "hsl(192 49% 76%)";
 
-/* ⚠️ PERSONALIZZA — sostituisci con i tuoi clienti reali.
-   Lo slug deve corrispondere a una voce in src/pages/Portfolio.tsx (array "cases")
-   e ai relativi dettagli in src/pages/CaseStudy.tsx (oggetto "details"). */
 const projects = [
   { slug: "luxe-fashion", img: portfolio1, name: "Luxe Fashion", result: "+200k views", tag: "Strategy & Production" },
   { slug: "gusto-ristorante", img: portfolio2, name: "Gusto Ristorante", result: "+150% engagement", tag: "Content & Social" },
@@ -19,11 +16,7 @@ const projects = [
   { slug: "glow-skincare", img: portfolio4, name: "Glow Skincare", result: "+300% vendite", tag: "E-commerce Strategy" },
 ];
 
-// Duplichiamo la lista per ottenere un nastro visivamente continuo. Con poche
-// card placeholder (4) ne servono più copie per riempire schermi larghi anche
-// durante il drag manuale; quando i progetti reali saranno di più, si può
-// scendere a 2-3 copie.
-const CARD_WIDTH = 360; // larghezza card + gap, usata per i calcoli di rotazione
+const CARD_WIDTH = 360; 
 const trackProjects = [...projects, ...projects, ...projects, ...projects];
 
 function ProjectCard({
@@ -35,32 +28,61 @@ function ProjectCard({
   index: number;
   trackX: ReturnType<typeof useMotionValue<number>>;
 }) {
-  // Rotazione 3D in base alla distanza della card dal centro della viewport:
-  // più la card è lontana dal centro, più si inclina (effetto coverflow).
-  // La posizione della card nel mondo è index * CARD_WIDTH; sommando trackX
-  // (che è negativo quando il nastro scorre a sinistra) otteniamo la sua
-  // posizione attuale sullo schermo rispetto al centro.
+  
+  // 1. ROTATION Y (Cilindrica): 
+  // Calcoliamo la rotazione in base alla distanza dal centro della viewport.
+  // Più è lontana, più l'angolo si accentua (fino a ~45°).
   const rotateY = useTransform(trackX, (x) => {
     const cardCenter = index * CARD_WIDTH + x;
-    const viewportCenter =
-      typeof window !== "undefined" ? window.innerWidth / 2 : 700;
+    const viewportCenter = typeof window !== "undefined" ? window.innerWidth / 2 : 700;
     const distance = cardCenter - viewportCenter + CARD_WIDTH / 2;
-    const clamped = Math.max(-1, Math.min(1, distance / 380));
-    return clamped * -42; // fino a 42° di inclinazione ai lati
+    
+    // Mappiamo una distanza di 450px a un'inclinazione massima di -45° o 45°
+    const clamped = Math.max(-1, Math.min(1, distance / 450));
+    return clamped * -45; 
   });
 
+  // 2. TRANSLATE Z (Profondità del cilindro):
+  // Questa è la chiave per l'effetto cilindrico. Al centro z = 0 (o leggermente positivo).
+  // Man mano che la card si allontana, assume un valore Z fortemente negativo, curvando dietro lo schermo.
+  const z = useTransform(trackX, (x) => {
+    const cardCenter = index * CARD_WIDTH + x;
+    const viewportCenter = typeof window !== "undefined" ? window.innerWidth / 2 : 700;
+    const distance = Math.abs(cardCenter - viewportCenter + CARD_WIDTH / 2);
+    
+    const clamped = Math.min(1, distance / 500);
+    // Usiamo una curva quadratica (clamped^2) per rendere l'affondamento più morbido al centro e drastico ai lati
+    return Math.pow(clamped, 2) * -280; 
+  });
+
+  // 3. SCALE & OPACITY:
+  // Poiché l'asse Z rimpicciolisce già naturalmente la card, riduciamo lo scale artificiale 
+  // e abbassiamo leggermente l'opacità ai lati per simulare la penombra del cilindro.
   const scale = useTransform(trackX, (x) => {
     const cardCenter = index * CARD_WIDTH + x;
-    const viewportCenter =
-      typeof window !== "undefined" ? window.innerWidth / 2 : 700;
+    const viewportCenter = typeof window !== "undefined" ? window.innerWidth / 2 : 700;
     const distance = Math.abs(cardCenter - viewportCenter + CARD_WIDTH / 2);
-    const clamped = Math.min(1, distance / 380);
-    return 1 - clamped * 0.22; // le card laterali si rimpiccioliscono di più, accentua la profondità
+    const clamped = Math.min(1, distance / 450);
+    return 1 - clamped * 0.08; 
+  });
+
+  const opacity = useTransform(trackX, (x) => {
+    const cardCenter = index * CARD_WIDTH + x;
+    const viewportCenter = typeof window !== "undefined" ? window.innerWidth / 2 : 700;
+    const distance = Math.abs(cardCenter - viewportCenter + CARD_WIDTH / 2);
+    const clamped = Math.min(1, distance / 500);
+    return 1 - clamped * 0.35; // Le card esterne sfumano al 65% di opacità
   });
 
   return (
     <motion.div
-      style={{ rotateY, scale, transformPerspective: 1200 }}
+      style={{ 
+        rotateY, 
+        scale, 
+        z, 
+        opacity,
+        transformPerspective: 1000 // Ridotto da 1200 a 1000 per rendere l'effetto 3D più immersivo
+      }}
       className="shrink-0"
     >
       <Link
@@ -68,7 +90,6 @@ function ProjectCard({
         draggable={false}
         className="relative rounded-2xl overflow-hidden cursor-pointer group aspect-[4/3] block w-[320px] md:w-[340px]"
         onClick={(e) => {
-          // Evita che un drag accidentale venga interpretato come click sul link
           if (Math.abs(trackX.getVelocity()) > 50) e.preventDefault();
         }}
       >
@@ -101,29 +122,23 @@ function ProjectCard({
   );
 }
 
-const AUTOPLAY_SPEED = 32; // px al secondo, scorrimento verso sinistra
+const AUTOPLAY_SPEED = 32; 
 const TRACK_WIDTH = CARD_WIDTH * trackProjects.length;
-const LOOP_WIDTH = CARD_WIDTH * projects.length; // larghezza di una singola copia, per il wrap del loop
+const LOOP_WIDTH = CARD_WIDTH * projects.length; 
 
 const PortfolioSection = () => {
   const trackX = useMotionValue(0);
   const [paused, setPaused] = useState(false);
   const isDragging = useRef(false);
 
-  // Autoplay continuo via requestAnimationFrame, così convive bene col drag
-  // manuale: si ferma quando paused=true (hover, touch, o durante il drag) e
-  // riprende da dove era rimasto quando paused torna false.
   useAnimationFrame((_, delta) => {
     if (paused || isDragging.current) return;
     const next = trackX.get() - (AUTOPLAY_SPEED * delta) / 1000;
-    // Wrap del loop: quando abbiamo scorso una copia intera verso sinistra,
-    // saltiamo avanti di una copia così il nastro appare infinito senza che
-    // l'utente se ne accorga (le copie sono identiche).
     trackX.set(next <= -LOOP_WIDTH ? next + LOOP_WIDTH : next);
   });
 
   return (
-    <section className="section-dark relative px-6 py-20 md:py-28 overflow-hidden">
+    <section className="section-dark relative px-6 py-20 md:py-28 overflow-hidden bg-[hsl(0_0%_6%)]">
       <div className="max-w-6xl mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 60 }}
@@ -144,23 +159,29 @@ const PortfolioSection = () => {
         </motion.div>
       </div>
 
-      {/* Carosello — esce dal contenitore max-w per occupare tutta la larghezza disponibile.
-          Autoplay continuo (requestAnimationFrame) + drag manuale (Framer Motion drag)
-          + rotazione 3D per ogni card in base alla distanza dal centro viewport. */}
+      {/* Contenitore Carosello */}
       <div
-        className="relative w-full"
-        style={{ perspective: 1200 }}
+        className="relative w-full overflow-visible py-12"
+        style={{ 
+          perspective: 1000,          // Mantiene la prospettiva globale coerente
+          transformStyle: "preserve-3d" // Dice al browser di renderizzare i figli nello spazio 3D vero
+        }}
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
         onTouchStart={() => setPaused(true)}
         onTouchEnd={() => setPaused(false)}
       >
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-16 md:w-32 z-10 bg-gradient-to-r from-[hsl(0_0%_6%)] to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-16 md:w-32 z-10 bg-gradient-to-l from-[hsl(0_0%_6%)] to-transparent" />
+        {/* Sfumature laterali cinematografiche */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-24 md:w-48 z-20 bg-gradient-to-r from-[hsl(0_0%_6%)] to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-24 md:w-48 z-20 bg-gradient-to-l from-[hsl(0_0%_6%)] to-transparent" />
 
         <motion.div
           className="flex gap-0 cursor-grab active:cursor-grabbing"
-          style={{ x: trackX, width: TRACK_WIDTH }}
+          style={{ 
+            x: trackX, 
+            width: TRACK_WIDTH,
+            transformStyle: "preserve-3d" // Cruciale sul track per trasmettere il 3D alle card
+          }}
           drag="x"
           dragConstraints={{ left: -TRACK_WIDTH + CARD_WIDTH, right: CARD_WIDTH }}
           dragElastic={0.08}
@@ -175,14 +196,21 @@ const PortfolioSection = () => {
           }}
         >
           {trackProjects.map((p, i) => (
-            <div key={`${p.slug}-${i}`} style={{ width: CARD_WIDTH }} className="flex items-center justify-center px-3">
+            <div 
+              key={`${p.slug}-${i}`} 
+              style={{ 
+                width: CARD_WIDTH,
+                transformStyle: "preserve-3d" 
+              }} 
+              className="flex items-center justify-center px-3"
+            >
               <ProjectCard p={p} index={i} trackX={trackX} />
             </div>
           ))}
         </motion.div>
       </div>
 
-      <div className="max-w-6xl mx-auto relative z-10">
+      <div className="max-w-6xl mx-auto relative z-10 mt-12">
         <InlineCTA
           caption="Esplora tutti i nostri progetti e lasciati ispirare."
           label="Vedi il portfolio"
