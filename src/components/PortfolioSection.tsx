@@ -19,11 +19,11 @@ const projects = [
   { slug: "placeholder-7", img: portfolio3, name: "Progetto 7", result: "+XXk risultati", tag: "Da personalizzare" },
 ];
 
-// PARAMETRI GEOMETRICI (Configurati per effetto IMAX concavo)
-const RADIUS = 1400;        // Distanza focale dell'arco
-const ANGULAR_GAP = 30;     // Spaziatura tra le card
-const CARD_WIDTH = 260;     // Larghezza card ridotta
-const CARD_HEIGHT = 346;    // Altezza card proporzionata
+// PARAMETRI DEL CILINDRO CONCAVO (IMAX) - AGGIORNATI
+const RADIUS = 1100;        // Ridotto da 1400 per una curvatura più avvolgente
+const ANGULAR_GAP = 22;     // RIDOTTO da 30: questo avvicinerà visivamente le card
+const CARD_WIDTH = 260;     
+const CARD_HEIGHT = 346;
 const trackProjects = [...projects, ...projects, ...projects, ...projects, ...projects];
 const TOTAL_DEGREES = trackProjects.length * ANGULAR_GAP;
 
