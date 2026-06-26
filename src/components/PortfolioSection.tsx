@@ -17,66 +17,51 @@ const projects = [
 ];
 
 // PARAMETRI DEL CILINDRO CONCAVO IMAX
-const RADIUS = 1200;        // Il raggio dell'arco. Più è alto, più la curva è dolce.
-const ANGULAR_GAP = 18;     // Gradi di distanza tra una card e l'altra (a raggio 1200, 18° = ~377px di spazio)
+// PARAMETRI DEL CILINDRO CONCAVO (IMAX)
+const RADIUS = 1200; 
+const ANGULAR_GAP = 20; 
 const trackProjects = [...projects, ...projects, ...projects, ...projects, ...projects];
 const TOTAL_DEGREES = trackProjects.length * ANGULAR_GAP;
 
-function ProjectCard({
-  p,
-  index,
-  trackX,
-}: {
-  p: (typeof projects)[number];
-  index: number;
-  trackX: ReturnType<typeof useMotionValue<number>>;
-}) {
-  
-  // 1. Calcoliamo in quale angolo si trova la card in questo momento
+function ProjectCard({ p, index, trackX }: { p: any, index: number, trackX: any }) {
   const angle = useTransform(trackX, (latestX) => {
     let a = (index * ANGULAR_GAP + latestX * 0.05) % TOTAL_DEGREES;
     if (a < 0) a += TOTAL_DEGREES;
     let finalAngle = a - (TOTAL_DEGREES / 2);
-    
     if (finalAngle > 180) finalAngle -= 360;
     if (finalAngle < -180) finalAngle += 360;
-    
     return finalAngle;
   });
 
-  // 2. POSIZIONAMENTO MATEMATICO (Seno e Coseno)
-  // Coordinata X: Il seno muove le card orizzontalmente in modo non lineare (rallentano ai lati)
+  // GEOMETRIA CONCAVA: 
+  // X sposta a destra/sinistra
+  // Z positivo porta le card verso l'utente (effetto avvolgente)
   const x = useTransform(angle, (a) => Math.sin(a * (Math.PI / 180)) * RADIUS);
-  
-  // Coordinata Z: Il miracolo concavo. 
-  // Math.cos(0) è 1. Ai lati il coseno diminuisce. 
-  // Usando (1 - cos), al centro Z = 0. Ai lati Z diventa POSITIVO.
-  // Nel CSS 3D, Z positivo significa che l'oggetto ESCE dallo schermo e viene verso di te.
   const z = useTransform(angle, (a) => (1 - Math.cos(a * (Math.PI / 180))) * RADIUS);
   
-  // 3. Rotazione: La card ruota per guardare sempre il centro del cerchio (l'utente)
-  const rotateY = angle;
+  // Rotazione Y per puntare sempre verso il centro
+  const rotateY = useTransform(angle, (a) => -a);
 
-  // 4. Estetica
   const scale = useTransform(angle, [-45, 0, 45], [0.95, 1, 0.95]);
   const opacity = useTransform(angle, [-60, -30, 0, 30, 60], [0, 0.8, 1, 0.8, 0]);
 
   return (
     <motion.div
       style={{
-        x,           // Posizione Orizzontale Matematica
-        z,           // Profondità Matematica (Avanza verso l'utente)
-        rotateY,     // Inclinazione verso il centro
+        x,
+        z,
+        rotateY,
         scale,
         opacity,
         position: 'absolute',
         left: '50%',
         top: '50%',
-        width: '340px', 
-        height: '453px', 
-        marginLeft: '-170px', 
+        width: '340px',
+        height: '453px',
+        marginLeft: '-170px',
         marginTop: '-226px',
-        transformOrigin: "center center", // RISOLTO: Niente più perni posteriori sfalsati
+        // Fondamentale per l'effetto IMAX: non usare transformOrigin fisso, 
+        // lasciamo che la matematica calcoli la posizione assoluta
         transformStyle: "preserve-3d",
       }}
       className="shrink-0"
