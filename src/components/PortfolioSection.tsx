@@ -159,8 +159,8 @@ const PortfolioSection = () => {
         onPointerMove={(e) => { if (!isDragging.current) return; trackX.set(startTrackX.current + (e.clientX - startDragX.current) * 1.5); }}
         onPointerUp={(e) => { isDragging.current = false; setPaused(false); (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId); }}
       >
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-24 md:w-48 z-20 bg-gradient-to-r from-black to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-24 md:w-48 z-20 bg-gradient-to-l from-black to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-32 md:w-80 z-20 bg-gradient-to-r from-black via-black/80 to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-32 md:w-80 z-20 bg-gradient-to-l from-black via-black/80 to-transparent" />
         <div className="relative w-full h-full" style={{ transformStyle: "preserve-3d" }}>
           {trackItems.map((p) => <ProjectCard key={p.slotIndex} p={p} slotIndex={p.slotIndex} trackX={trackX} />)}
         </div>
