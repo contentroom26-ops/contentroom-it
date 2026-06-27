@@ -156,13 +156,15 @@ const PortfolioSection = () => {
           style={{
             perspective: "1600px",
             transformStyle: "preserve-3d",
-            overflow: "visible"
+            overflow: "visible",
+            touchAction: "pan-y"
           }}
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
           onPointerDown={(e) => { isDragging.current = true; setPaused(true); startDragX.current = e.clientX; startTrackX.current = trackX.get(); (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId); }}
           onPointerMove={(e) => { if (!isDragging.current) return; trackX.set(startTrackX.current + (e.clientX - startDragX.current) * 1.5); }}
           onPointerUp={(e) => { isDragging.current = false; setPaused(false); (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId); }}
+          onPointerCancel={(e) => { isDragging.current = false; setPaused(false); try { (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId); } catch {} }}
         >
           <div className="relative w-full h-full" style={{ transformStyle: "preserve-3d" }}>
             {trackItems.map((p) => <ProjectCard key={p.slotIndex} p={p} slotIndex={p.slotIndex} trackX={trackX} />)}
