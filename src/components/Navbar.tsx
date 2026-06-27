@@ -59,13 +59,20 @@ const Navbar = () => {
           .filter((e) => e.isIntersecting)
           .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
 
-        if (visible.length > 0) {
-          const top = visible[0].target;
+      if (visible.length > 0) {
+        const top = visible[0].target;
+        // Eccezione: mentre la PRIMISSIMA sezione della pagina è sotto la navbar,
+        // forza sempre lo stile "brand primario" (nera + celeste), qualunque sia
+        // la sua classe — il contrasto entra in gioco solo dalla seconda in poi.
+        if (top === sections[0]) {
+          setIsLightSection(true);
+        } else {
           setIsLightSection(
             top.classList.contains("section-light") ||
-              top.classList.contains("section-light-shade")
+            top.classList.contains("section-light-shade")
           );
         }
+    }
       },
       {
         // Fascia sottile subito sotto il top viewport, dove vive la navbar
