@@ -170,8 +170,3 @@ html {
   background: hsl(var(--primary) / 0.3);
   color: hsl(var(--foreground));
 }
-.project-card-3d {
-  padding: 0 !important; 
-  margin: 0 !important;
-  box-sizing: border-box;
-}
