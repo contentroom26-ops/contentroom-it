@@ -169,7 +169,7 @@ const PortfolioSection = () => {
           </div>
         </div>
 
-        <div className="max-w-6xl mx-auto relative z-10 w-full">
+        <div className="max-w-6xl mx-auto relative z-10 w-full -mt-8 md:-mt-10">
           <InlineCTA caption="Esplora tutti i nostri progetti e lasciati ispirare." label="Vedi il portfolio" to="/portfolio" />
         </div>
 
