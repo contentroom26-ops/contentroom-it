@@ -159,8 +159,6 @@ const PortfolioSection = () => {
             overflow: "visible",
             touchAction: "pan-y"
           }}
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
           onPointerDown={(e) => { isDragging.current = true; setPaused(true); startDragX.current = e.clientX; startTrackX.current = trackX.get(); (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId); }}
           onPointerMove={(e) => { if (!isDragging.current) return; trackX.set(startTrackX.current + (e.clientX - startDragX.current) * 1.5); }}
           onPointerUp={(e) => { isDragging.current = false; setPaused(false); (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId); }}
