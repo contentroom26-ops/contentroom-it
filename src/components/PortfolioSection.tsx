@@ -45,7 +45,7 @@ const SLOT_PX = 200;
 const OFFSET_BREAKPOINTS = [-3, -2, -1, 0, 1, 2, 3];
 const SCALE_VALUES = [1.27, 1.11, 0.93, 0.82, 0.93, 1.11, 1.27];
 const ROTATE_VALUES = [82, 56, 30, 0, -30, -56, -82];
-// distanze cumulative dal mockup (d1=160, d2=200, d3=240px → cumulate)
+// distanze cumulative — ultimo valore confermato in chat
 const X_VALUES = [-950, -560, -260, 0, 260, 560, 950];
 
 // Oltre offset 3 la card sfuma a invisibile (cuscinetto ampio prima del
@@ -134,40 +134,45 @@ const PortfolioSection = () => {
 
   return (
     <section className="section-dark relative px-6 py-20 md:py-28 overflow-hidden bg-black">
-      <div className="max-w-6xl mx-auto relative z-10">
-        <motion.div initial={{ opacity: 0, y: 60 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12">
-          <div className="flex items-center gap-4 mb-6">
-            <div className="w-12 h-0.5 bg-brand-orange" />
-            <span className="font-body font-bold text-xs tracking-[0.4em] uppercase text-brand-orange">Portfolio</span>
-          </div>
-          <h2 className="font-display font-black text-4xl md:text-5xl tracking-tight text-white">
-            Progetti <span className="text-primary">selezionati.</span>
-          </h2>
-        </motion.div>
-      </div>
+      {/* ⚠️ PERSONALIZZA: gap-10/gap-14 = spazio UNICO fra titolo, card e CTA.
+          Cambia solo questi due valori per stringere/allargare in modo
+          equispaziato — niente più margini sparsi (mb-12/mt-6 rimossi). */}
+      <div className="flex flex-col gap-10 md:gap-14">
 
-      <div
-        className="relative w-full h-[550px] overflow-visible select-none"
-        style={{
-          perspective: "1600px",
-          transformStyle: "preserve-3d",
-          overflow: "visible"
-        }}
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
-        onPointerDown={(e) => { isDragging.current = true; setPaused(true); startDragX.current = e.clientX; startTrackX.current = trackX.get(); (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId); }}
-        onPointerMove={(e) => { if (!isDragging.current) return; trackX.set(startTrackX.current + (e.clientX - startDragX.current) * 1.5); }}
-        onPointerUp={(e) => { isDragging.current = false; setPaused(false); (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId); }}
-      >
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-32 md:w-80 z-20 bg-gradient-to-r from-black via-black/80 to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-32 md:w-80 z-20 bg-gradient-to-l from-black via-black/80 to-transparent" />
-        <div className="relative w-full h-full" style={{ transformStyle: "preserve-3d" }}>
-          {trackItems.map((p) => <ProjectCard key={p.slotIndex} p={p} slotIndex={p.slotIndex} trackX={trackX} />)}
+        <div className="max-w-6xl mx-auto relative z-10 w-full">
+          <motion.div initial={{ opacity: 0, y: 60 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-12 h-0.5 bg-brand-orange" />
+              <span className="font-body font-bold text-xs tracking-[0.4em] uppercase text-brand-orange">Portfolio</span>
+            </div>
+            <h2 className="font-display font-black text-4xl md:text-5xl tracking-tight text-white">
+              Progetti <span className="text-primary">selezionati.</span>
+            </h2>
+          </motion.div>
         </div>
-      </div>
 
-      <div className="max-w-6xl mx-auto relative z-10 mt-6">
-        <InlineCTA caption="Esplora tutti i nostri progetti e lasciati ispirare." label="Vedi il portfolio" to="/portfolio" />
+        <div
+          className="relative w-full h-[420px] overflow-visible select-none"
+          style={{
+            perspective: "1600px",
+            transformStyle: "preserve-3d",
+            overflow: "visible"
+          }}
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onPointerDown={(e) => { isDragging.current = true; setPaused(true); startDragX.current = e.clientX; startTrackX.current = trackX.get(); (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId); }}
+          onPointerMove={(e) => { if (!isDragging.current) return; trackX.set(startTrackX.current + (e.clientX - startDragX.current) * 1.5); }}
+          onPointerUp={(e) => { isDragging.current = false; setPaused(false); (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId); }}
+        >
+          <div className="relative w-full h-full" style={{ transformStyle: "preserve-3d" }}>
+            {trackItems.map((p) => <ProjectCard key={p.slotIndex} p={p} slotIndex={p.slotIndex} trackX={trackX} />)}
+          </div>
+        </div>
+
+        <div className="max-w-6xl mx-auto relative z-10 w-full">
+          <InlineCTA caption="Esplora tutti i nostri progetti e lasciati ispirare." label="Vedi il portfolio" to="/portfolio" />
+        </div>
+
       </div>
     </section>
   );
