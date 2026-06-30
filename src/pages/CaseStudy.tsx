@@ -21,9 +21,9 @@ const CELESTE = "hsl(192 49% 76%)";
 
 interface GalleryItem {
   video?: string;   // mp4, se presente ha priorità sull'immagine statica
-  poster?: string;  // copertina del video (obbligatoria di fatto se "video" è presente)
+  poster?: string;  // copertina del video
   img?: string;      // usato solo se "video" è assente (gallery di sole foto)
-  caption?: string;  // mostrata solo per item-immagine, non per video (coperta dai controlli nativi)
+  caption?: string;  // mostrata solo per item-immagine, non per video
 }
 
 interface CaseDetail {
@@ -31,14 +31,12 @@ interface CaseDetail {
   solution: string;
   metrics: { value: string; label: string }[];
   // ⚠️ Opzionale: se presente, sostituisce INTERAMENTE la sezione metriche
-  // con una gallery di immagini/video stile reel. Usalo per progetti dove
-  // il risultato si racconta meglio per immagini che per numeri.
+  // con una gallery di immagini/video stile reel.
   gallery?: GalleryItem[];
 }
 /* ⚠️ PERSONALIZZA — luxe-fashion, gusto-ristorante, fitpro-academy e glow-skincare
    sono dati placeholder. Sostituisci con dati reali prima di rendere pubblico il portfolio.
-   sigillo e setup-events sono clienti reali. Nessun case study ha ancora una
-   "gallery" reale: aggiungila quando avrai foto/screenshot dei contenuti prodotti. */
+   sigillo, setup-events, miamo e shade sono clienti reali. */
 const details: Record<string, CaseDetail> = {
   "luxe-fashion": {
     goal: "Aumentare la brand awareness e posizionare il marchio nel segmento luxury fashion italiano, intercettando un pubblico premium su Instagram e TikTok.",
@@ -78,7 +76,7 @@ const details: Record<string, CaseDetail> = {
   },
   "sigillo": {
     goal: "Dare a una manifattura artigiana attiva da oltre 40 anni in private-label per maison di lusso una presenza digitale all'altezza del proprio savoir-faire, nel rispetto della riservatezza richiesta dal settore.",
-    solution: "Rebranding con nuovo logo e sito editoriale strutturato per capitoli, che racconta la filiera Made in Italy, la concia vegetale e il know-how artigianale senza mai esporre i nomi dei brand serviti.",
+    solution: "Abbiamo progettato un sito editoriale strutturato per capitoli, che racconta la filiera Made in Italy, la concia vegetale e il know-how artigianale senza mai esporre i nomi dei brand serviti.",
     metrics: [
       { value: "40", label: "Anni di esperienza artigiana" },
       { value: "30+", label: "Maison di lusso servite" },
@@ -238,7 +236,7 @@ const CaseStudy = () => {
                 </h2>
               </div>
 
-             {hasGallery ? (
+              {hasGallery ? (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
                   {detail.gallery!.map((g, i) => (
                     <motion.div
@@ -253,9 +251,11 @@ const CaseStudy = () => {
                         <video
                           src={g.video}
                           poster={g.poster}
-                          controls
+                          autoPlay
+                          loop
+                          muted
                           playsInline
-                          preload="metadata"
+                          preload="auto"
                           className="absolute inset-0 w-full h-full object-cover"
                         />
                       ) : g.img ? (
