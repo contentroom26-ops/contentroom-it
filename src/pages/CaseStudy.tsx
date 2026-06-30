@@ -10,6 +10,12 @@ import miamoVideo2 from "@/assets/miamo-2.mp4";
 import miamoPoster2 from "@/assets/miamo-2-poster.jpg";
 import miamoVideo3 from "@/assets/miamo-3.mp4";
 import miamoPoster3 from "@/assets/miamo-3-poster.jpg";
+import shadeVideo1 from "@/assets/shade-1.mp4";
+import shadePoster1 from "@/assets/shade-1-poster.jpg";
+import shadeVideo2 from "@/assets/shade-2.mp4";
+import shadePoster2 from "@/assets/shade-2-poster.jpg";
+import shadeVideo3 from "@/assets/shade-3.mp4";
+import shadePoster3 from "@/assets/shade-3-poster.jpg";
 
 const CELESTE = "hsl(192 49% 76%)";
 
@@ -103,9 +109,9 @@ const details: Record<string, CaseDetail> = {
     solution: "Shooting fotografico dedicato e riprese BTS durante la produzione del brano, pensati per alimentare i canali social dell'artista nelle settimane di lancio.",
     metrics: [],
     gallery: [
-      {},
-      {},
-      {},
+      { video: shadeVideo1, poster: shadePoster1 },
+      { video: shadeVideo2, poster: shadePoster2 },
+      { video: shadeVideo3, poster: shadePoster3 },
     ],
   },
 };
