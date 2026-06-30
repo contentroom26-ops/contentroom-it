@@ -4,12 +4,20 @@ import { ArrowLeft, ArrowRight, Play } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { cases } from "./Portfolio";
+import miamoVideo1 from "@/assets/miamo-1.mp4";
+import miamoPoster1 from "@/assets/miamo-1-poster.jpg";
+import miamoVideo2 from "@/assets/miamo-2.mp4";
+import miamoPoster2 from "@/assets/miamo-2-poster.jpg";
+import miamoVideo3 from "@/assets/miamo-3.mp4";
+import miamoPoster3 from "@/assets/miamo-3-poster.jpg";
 
 const CELESTE = "hsl(192 49% 76%)";
 
 interface GalleryItem {
-  img: string;
-  caption?: string;
+  video?: string;   // mp4, se presente ha priorità sull'immagine statica
+  poster?: string;  // copertina del video (obbligatoria di fatto se "video" è presente)
+  img?: string;      // usato solo se "video" è assente (gallery di sole foto)
+  caption?: string;  // mostrata solo per item-immagine, non per video (coperta dai controlli nativi)
 }
 
 interface CaseDetail {
@@ -78,6 +86,26 @@ const details: Record<string, CaseDetail> = {
       { value: "—", label: "⚠️ PERSONALIZZA: inserisci una metrica reale" },
       { value: "—", label: "⚠️ PERSONALIZZA: inserisci una metrica reale" },
       { value: "—", label: "⚠️ PERSONALIZZA: inserisci una metrica reale" },
+    ],
+  },
+  "miamo": {
+    goal: "Raccontare l'apertura della nuova MIAMO Lounge all'interno dell'Helvetia & Bristol di Firenze, trasformando l'inaugurazione in contenuti capaci di comunicare l'esperienza del brand oltre la serata stessa.",
+    solution: "Riprese sul campo durante l'evento — backstage, ospiti, ambientazione dell'hotel — montate in formati verticali pensati per Instagram e TikTok.",
+    metrics: [],
+    gallery: [
+      { video: miamoVideo1, poster: miamoPoster1 },
+      { video: miamoVideo2, poster: miamoPoster2 },
+      { video: miamoVideo3, poster: miamoPoster3 },
+    ],
+  },
+  "shade": {
+    goal: "Accompagnare l'uscita del brano \"Toxic\" di Shade con un racconto visivo capace di rafforzarne l'identità, curando sia le foto ufficiali che i contenuti dietro le quinte.",
+    solution: "Shooting fotografico dedicato e riprese BTS durante la produzione del brano, pensati per alimentare i canali social dell'artista nelle settimane di lancio.",
+    metrics: [],
+    gallery: [
+      {},
+      {},
+      {},
     ],
   },
 };
@@ -204,7 +232,7 @@ const CaseStudy = () => {
                 </h2>
               </div>
 
-              {hasGallery ? (
+             {hasGallery ? (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
                   {detail.gallery!.map((g, i) => (
                     <motion.div
@@ -215,16 +243,33 @@ const CaseStudy = () => {
                       transition={{ duration: 0.6, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
                       className="relative rounded-2xl overflow-hidden aspect-[9/16] bg-black"
                     >
-                      <img src={g.img} alt={g.caption ?? caseItem.client} className="absolute inset-0 w-full h-full object-cover" />
-                      <div className="absolute inset-0 bg-black/15" />
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-14 h-14 rounded-full bg-black/40 border border-white/40 flex items-center justify-center">
-                          <Play className="w-5 h-5 text-white ml-0.5" fill="white" />
-                        </div>
-                      </div>
-                      {g.caption && (
-                        <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-                          <p className="font-body text-xs text-white/90 text-center">{g.caption}</p>
+                      {g.video ? (
+                        <video
+                          src={g.video}
+                          poster={g.poster}
+                          controls
+                          playsInline
+                          preload="metadata"
+                          className="absolute inset-0 w-full h-full object-cover"
+                        />
+                      ) : g.img ? (
+                        <>
+                          <img src={g.img} alt={g.caption ?? caseItem.client} className="absolute inset-0 w-full h-full object-cover" />
+                          <div className="absolute inset-0 bg-black/15 pointer-events-none" />
+                          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <div className="w-14 h-14 rounded-full bg-black/40 border border-white/40 flex items-center justify-center">
+                              <Play className="w-5 h-5 text-white ml-0.5" fill="white" />
+                            </div>
+                          </div>
+                          {g.caption && (
+                            <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent pointer-events-none">
+                              <p className="font-body text-xs text-white/90 text-center">{g.caption}</p>
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <p className="font-body text-xs text-white/40 text-center px-4">⚠️ PERSONALIZZA: contenuto in arrivo</p>
                         </div>
                       )}
                     </motion.div>
