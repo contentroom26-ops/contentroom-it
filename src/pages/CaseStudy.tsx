@@ -22,13 +22,16 @@ const CELESTE = "hsl(192 49% 76%)";
 
 /* Sincronizza N elementi <video> indipendenti che derivano dallo stesso
    piano sequenza (es. crop sinistra/centro/destra di un video largo).
-   Senza questo, ogni video parte in autoplay non appena I SUOI dati sono
-   pronti — momenti leggermente diversi — e la deriva aumenta nel tempo
-   perché ogni loop riparte in autonomia. Qui: aspettiamo che tutti siano
-   pronti, li avviamo nello stesso istante, poi correggiamo lo scarto
-   ogni ~2s se supera 150ms. */
-function useSyncedVideos(refs: React.RefObject<HTMLVideoElement>[]) {
+   IMPORTANTE: l'effect dipende SOLO da "enabled" (booleano primitivo),
+   MAI dall'array di ref — un array literal è un nuovo riferimento a ogni
+   render, e usarlo come dipendenza farebbe rilanciare l'effect di
+   continuo, resettando i video a currentTime=0 ad ogni render (bug
+   precedente: i video sembravano "fermi" perché ripartivano da zero
+   decine di volte al secondo). Gli oggetti ref di useRef sono già
+   stabili tra i render, non serve includerli nelle dipendenze. */
+function useSyncedVideos(refs: React.RefObject<HTMLVideoElement>[], enabled: boolean) {
   useEffect(() => {
+    if (!enabled) return;
     const videos = refs.map((r) => r.current).filter(Boolean) as HTMLVideoElement[];
     if (videos.length < 2) return;
 
@@ -57,25 +60,22 @@ function useSyncedVideos(refs: React.RefObject<HTMLVideoElement>[]) {
       clearInterval(resync);
       videos.forEach((v) => v.removeEventListener("canplay", tryStart));
     };
-  }, [refs]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [enabled]);
 }
 
 interface GalleryItem {
-  video?: string;   // mp4, se presente ha priorità sull'immagine statica
-  poster?: string;  // copertina del video
-  img?: string;      // usato solo se "video" è assente (gallery di sole foto)
-  caption?: string;  // mostrata solo per item-immagine, non per video
+  video?: string;
+  poster?: string;
+  img?: string;
+  caption?: string;
 }
 
 interface CaseDetail {
   goal: string;
   solution: string;
   metrics: { value: string; label: string }[];
-  // ⚠️ Opzionale: se presente, sostituisce INTERAMENTE la sezione metriche
-  // con una gallery di immagini/video stile reel.
   gallery?: GalleryItem[];
-  // ⚠️ true SOLO quando i video della gallery sono crop dello stesso
-  // piano sequenza e devono restare a tempo fra loro (es. Shade).
   syncVideos?: boolean;
 }
 /* ⚠️ PERSONALIZZA — luxe-fashion, gusto-ristorante, fitpro-academy e glow-skincare
@@ -168,7 +168,7 @@ const CaseStudy = () => {
   const videoRef2 = useRef<HTMLVideoElement>(null);
   const videoRef3 = useRef<HTMLVideoElement>(null);
   const videoRefs = [videoRef1, videoRef2, videoRef3];
-  useSyncedVideos(detail?.syncVideos ? videoRefs : []);
+  useSyncedVideos(videoRefs, !!detail?.syncVideos);
 
   if (!caseItem || !detail) return <Navigate to="/portfolio" replace />;
 
@@ -200,7 +200,6 @@ const CaseStudy = () => {
             </motion.div>
 
             <div className="grid md:grid-cols-2 gap-6 md:gap-8 items-stretch">
-              {/* Immagine con nome cliente sovrapposto */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.97 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -222,7 +221,6 @@ const CaseStudy = () => {
                 </div>
               </motion.div>
 
-              {/* Obiettivo + Soluzione, impilati */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -259,7 +257,6 @@ const CaseStudy = () => {
           </div>
         </section>
 
-        {/* Risultati (metriche) OPPURE Gallery — beige. Mai entrambe. */}
         <section className="section-light py-20 md:py-28 px-6">
           <div className="max-w-6xl mx-auto">
             <motion.div
@@ -362,7 +359,6 @@ const CaseStudy = () => {
           </div>
         </section>
 
-        {/* Next case + CTA — nera */}
         <section className="section-dark py-20 md:py-28 px-6">
           <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
             <Link
