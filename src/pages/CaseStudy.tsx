@@ -64,7 +64,7 @@ const details: Record<string, CaseDetail> = {
   },
   "sigillo": {
     goal: "Dare a una manifattura artigiana attiva da oltre 40 anni in private-label per maison di lusso una presenza digitale all'altezza del proprio savoir-faire, nel rispetto della riservatezza richiesta dal settore.",
-    solution: "Abbiamo progettato un sito editoriale strutturato per capitoli, che racconta la filiera Made in Italy, la concia vegetale e il know-how artigianale senza mai esporre i nomi dei brand serviti.",
+    solution: "Rebranding con nuovo logo e sito editoriale strutturato per capitoli, che racconta la filiera Made in Italy, la concia vegetale e il know-how artigianale senza mai esporre i nomi dei brand serviti.",
     metrics: [
       { value: "40", label: "Anni di esperienza artigiana" },
       { value: "30+", label: "Maison di lusso servite" },
