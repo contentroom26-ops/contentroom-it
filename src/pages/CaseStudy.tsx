@@ -17,18 +17,12 @@ import shadeVideo2 from "@/assets/shade-2.mp4";
 import shadePoster2 from "@/assets/shade-2-poster.jpg";
 import shadeVideo3 from "@/assets/shade-3.mp4";
 import shadePoster3 from "@/assets/shade-3-poster.jpg";
+import jasonDerulo1 from "@/assets/jason-derulo-1.jpg";
+import jasonDerulo2 from "@/assets/jason-derulo-2.jpg";
+import jasonDerulo3 from "@/assets/jason-derulo-3.jpg";
 
 const CELESTE = "hsl(192 49% 76%)";
 
-/* Sincronizza N elementi <video> indipendenti che derivano dallo stesso
-   piano sequenza (es. crop sinistra/centro/destra di un video largo).
-   IMPORTANTE: l'effect dipende SOLO da "enabled" (booleano primitivo),
-   MAI dall'array di ref — un array literal è un nuovo riferimento a ogni
-   render, e usarlo come dipendenza farebbe rilanciare l'effect di
-   continuo, resettando i video a currentTime=0 ad ogni render (bug
-   precedente: i video sembravano "fermi" perché ripartivano da zero
-   decine di volte al secondo). Gli oggetti ref di useRef sono già
-   stabili tra i render, non serve includerli nelle dipendenze. */
 function useSyncedVideos(refs: React.RefObject<HTMLVideoElement>[], enabled: boolean) {
   useEffect(() => {
     if (!enabled) return;
@@ -78,9 +72,7 @@ interface CaseDetail {
   gallery?: GalleryItem[];
   syncVideos?: boolean;
 }
-/* ⚠️ PERSONALIZZA — luxe-fashion, gusto-ristorante, fitpro-academy e glow-skincare
-   sono dati placeholder. Sostituisci con dati reali prima di rendere pubblico il portfolio.
-   sigillo, setup-events, miamo e shade sono clienti reali. */
+
 const details: Record<string, CaseDetail> = {
   "luxe-fashion": {
     goal: "Aumentare la brand awareness e posizionare il marchio nel segmento luxury fashion italiano, intercettando un pubblico premium su Instagram e TikTok.",
@@ -157,6 +149,16 @@ const details: Record<string, CaseDetail> = {
       { video: shadeVideo3, poster: shadePoster3 },
     ],
   },
+  "jason-derulo": {
+    goal: "Documentare in modo esclusivo la presenza di Jason Derulo al Central Club di Firenze il 1 giugno 2026, con accesso privilegiato prima, durante e dopo l'evento.",
+    solution: "Copertura fotografica completa dell'artista — nei momenti privati prima del palco, sul palco durante l'esibizione e nel backstage a evento concluso — per restituire un racconto visivo autentico e non disponibile nei canali ufficiali.",
+    metrics: [],
+    gallery: [
+      { img: jasonDerulo1 },
+      { img: jasonDerulo2 },
+      { img: jasonDerulo3 },
+    ],
+  },
 };
 
 const CaseStudy = () => {
@@ -181,19 +183,10 @@ const CaseStudy = () => {
       <main className="relative z-10 min-h-screen overflow-x-hidden">
         <Navbar />
 
-        {/* Panoramica progetto — nera, immagine + testo affiancati */}
         <section className="section-dark pt-40 pb-20 px-6">
           <div className="max-w-6xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6 }}
-              className="mb-8"
-            >
-              <Link
-                to="/portfolio"
-                className="inline-flex items-center gap-2 font-body text-xs tracking-[0.3em] uppercase text-white/60 hover:text-white transition-colors"
-              >
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }} className="mb-8">
+              <Link to="/portfolio" className="inline-flex items-center gap-2 font-body text-xs tracking-[0.3em] uppercase text-white/60 hover:text-white transition-colors">
                 <ArrowLeft className="w-4 h-4" />
                 Tutti i progetti
               </Link>
@@ -212,10 +205,7 @@ const CaseStudy = () => {
                   <p className="font-body text-[10px] font-bold tracking-[0.4em] uppercase mb-3 text-brand-orange">
                     {caseItem.service} · {caseItem.category}
                   </p>
-                  <h1
-                    className="font-display font-black tracking-tight leading-[1.05] text-white"
-                    style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)" }}
-                  >
+                  <h1 className="font-display font-black tracking-tight leading-[1.05] text-white" style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)" }}>
                     {caseItem.client}
                   </h1>
                 </div>
@@ -230,27 +220,17 @@ const CaseStudy = () => {
                 <div>
                   <div className="flex items-center gap-3 mb-3">
                     <div className="w-8 h-px bg-brand-orange" />
-                    <p className="font-body text-[10px] font-bold tracking-[0.4em] uppercase text-brand-orange">
-                      Obiettivo
-                    </p>
+                    <p className="font-body text-[10px] font-bold tracking-[0.4em] uppercase text-brand-orange">Obiettivo</p>
                   </div>
-                  <p className="font-display text-lg md:text-xl leading-[1.45] text-white">
-                    {detail.goal}
-                  </p>
+                  <p className="font-display text-lg md:text-xl leading-[1.45] text-white">{detail.goal}</p>
                 </div>
-
                 <div className="h-px bg-white/10" />
-
                 <div>
                   <div className="flex items-center gap-3 mb-3">
                     <div className="w-8 h-px bg-brand-orange" />
-                    <p className="font-body text-[10px] font-bold tracking-[0.4em] uppercase text-brand-orange">
-                      Soluzione
-                    </p>
+                    <p className="font-body text-[10px] font-bold tracking-[0.4em] uppercase text-brand-orange">Soluzione</p>
                   </div>
-                  <p className="font-display text-lg md:text-xl leading-[1.45] text-white">
-                    {detail.solution}
-                  </p>
+                  <p className="font-display text-lg md:text-xl leading-[1.45] text-white">{detail.solution}</p>
                 </div>
               </motion.div>
             </div>
@@ -272,10 +252,7 @@ const CaseStudy = () => {
                     {hasGallery ? "Produzione" : "Risultati"}
                   </p>
                 </div>
-                <h2
-                  className="font-display font-black tracking-tight leading-[1.05]"
-                  style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
-                >
+                <h2 className="font-display font-black tracking-tight leading-[1.05]" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}>
                   {hasGallery ? (
                     <>Contenuti <span className="text-primary">realizzati.</span></>
                   ) : (
@@ -312,11 +289,6 @@ const CaseStudy = () => {
                         <>
                           <img src={g.img} alt={g.caption ?? caseItem.client} className="absolute inset-0 w-full h-full object-cover" />
                           <div className="absolute inset-0 bg-black/15 pointer-events-none" />
-                          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                            <div className="w-14 h-14 rounded-full bg-black/40 border border-white/40 flex items-center justify-center">
-                              <Play className="w-5 h-5 text-white ml-0.5" fill="white" />
-                            </div>
-                          </div>
                           {g.caption && (
                             <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent pointer-events-none">
                               <p className="font-body text-xs text-white/90 text-center">{g.caption}</p>
@@ -342,15 +314,10 @@ const CaseStudy = () => {
                       transition={{ duration: 0.7, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
                       className="text-center md:text-left"
                     >
-                      <span
-                        className="font-display font-black block leading-none mb-4 text-primary"
-                        style={{ fontSize: "clamp(3.5rem, 8vw, 6rem)" }}
-                      >
+                      <span className="font-display font-black block leading-none mb-4 text-primary" style={{ fontSize: "clamp(3.5rem, 8vw, 6rem)" }}>
                         {m.value}
                       </span>
-                      <p className="font-body text-sm md:text-base text-[hsl(0_0%_30%)]">
-                        {m.label}
-                      </p>
+                      <p className="font-body text-sm md:text-base text-[hsl(0_0%_30%)]">{m.label}</p>
                     </motion.div>
                   ))}
                 </div>
@@ -361,30 +328,20 @@ const CaseStudy = () => {
 
         <section className="section-dark py-20 md:py-28 px-6">
           <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
-            <Link
-              to={`/portfolio/${next.slug}`}
-              className="group relative block rounded-2xl overflow-hidden aspect-[4/3]"
-            >
+            <Link to={`/portfolio/${next.slug}`} className="group relative block rounded-2xl overflow-hidden aspect-[4/3]">
               <img src={next.img} alt={next.client} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
               <div className="absolute inset-0 bg-black/55 group-hover:bg-black/40 transition-colors duration-500" />
               <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
-                <p className="font-body text-[10px] tracking-[0.4em] uppercase mb-3" style={{ color: CELESTE }}>
-                  Prossimo progetto
-                </p>
+                <p className="font-body text-[10px] tracking-[0.4em] uppercase mb-3" style={{ color: CELESTE }}>Prossimo progetto</p>
                 <h3 className="font-display font-bold text-2xl md:text-3xl text-white">{next.client}</h3>
               </div>
             </Link>
 
             <div className="flex flex-col items-start justify-center p-8 md:p-10 rounded-2xl bg-[hsl(0_0%_12%)] border border-white/10">
-              <h3
-                className="font-display font-black tracking-tight leading-[1.05] mb-6 text-white"
-                style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)" }}
-              >
+              <h3 className="font-display font-black tracking-tight leading-[1.05] mb-6 text-white" style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)" }}>
                 Vuoi risultati simili?
               </h3>
-              <p className="font-body text-base mb-8 text-white/65">
-                Raccontaci il tuo progetto. Ti ricontattiamo entro 24h.
-              </p>
+              <p className="font-body text-base mb-8 text-white/65">Raccontaci il tuo progetto. Ti ricontattiamo entro 24h.</p>
               <Link
                 to="/contatti"
                 className="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl font-body text-sm font-bold tracking-wide transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 text-[hsl(192_35%_16%)] bg-primary hover:brightness-105"
