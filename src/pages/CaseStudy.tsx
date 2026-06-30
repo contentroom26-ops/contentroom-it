@@ -98,9 +98,7 @@ const CaseStudy = () => {
       <main className="relative z-10 min-h-screen overflow-x-hidden">
         <Navbar />
 
-        {/* Panoramica progetto — nera. Immagine 40% / testo 60%, immagine
-            sempre 0.75:1 (stesso rapporto della card portfolio: un solo
-            asset per progetto, niente crop dedicati separati). */}
+        {/* Panoramica progetto — nera, immagine + testo affiancati */}
         <section className="section-dark pt-40 pb-20 px-6">
           <div className="max-w-6xl mx-auto">
             <motion.div
@@ -118,35 +116,35 @@ const CaseStudy = () => {
               </Link>
             </motion.div>
 
-            <div className="grid md:grid-cols-5 gap-6 md:gap-8 items-start">
-              {/* Immagine — 40% (2/5), rapporto fisso 0.75:1 */}
+            <div className="grid md:grid-cols-2 gap-6 md:gap-8 items-stretch">
+              {/* Immagine con nome cliente sovrapposto */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.97 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                className="relative rounded-2xl overflow-hidden aspect-[3/4] md:col-span-2"
+                className="relative rounded-2xl overflow-hidden aspect-[4/3] md:aspect-auto"
               >
                 <img src={caseItem.img} alt={caseItem.client} className="absolute inset-0 w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
-                <div className="absolute bottom-0 left-0 p-6">
+                <div className="absolute bottom-0 left-0 p-6 md:p-8">
                   <p className="font-body text-[10px] font-bold tracking-[0.4em] uppercase mb-3 text-brand-orange">
                     {caseItem.service} · {caseItem.category}
                   </p>
                   <h1
                     className="font-display font-black tracking-tight leading-[1.05] text-white"
-                    style={{ fontSize: "clamp(1.5rem, 3vw, 2.2rem)" }}
+                    style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)" }}
                   >
                     {caseItem.client}
                   </h1>
                 </div>
               </motion.div>
 
-              {/* Obiettivo + Soluzione — 60% (3/5) */}
+              {/* Obiettivo + Soluzione, impilati */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-                className="rounded-2xl p-7 md:p-9 bg-[hsl(0_0%_12%)] border border-white/10 flex flex-col justify-center gap-7 md:col-span-3"
+                className="rounded-2xl p-7 md:p-9 bg-[hsl(0_0%_12%)] border border-white/10 flex flex-col justify-center gap-7"
               >
                 <div>
                   <div className="flex items-center gap-3 mb-3">
