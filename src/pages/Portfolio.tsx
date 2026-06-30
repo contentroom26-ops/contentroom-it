@@ -7,6 +7,8 @@ import portfolio1 from "@/assets/portfolio-1.jpg";
 import portfolio2 from "@/assets/portfolio-2.jpg";
 import portfolio3 from "@/assets/portfolio-3.jpg";
 import portfolio4 from "@/assets/portfolio-4.jpg";
+import portfolioSigillo from "@/assets/portfolio-sigillo.jpg";
+import portfolioSetupEvents from "@/assets/portfolio-setupevents.jpg";
 
 const CELESTE = "hsl(192 49% 76%)";
 
@@ -48,14 +50,17 @@ export interface CaseItem {
   category: CaseCategory;
   result: string;
 }
-/* ⚠️ PERSONALIZZA — questi sono dati placeholder. Sostituisci con i tuoi clienti reali
-   (nome, immagine, servizio, categoria, risultato). Lo slug deve restare coerente
-   con l'oggetto "details" in CaseStudy.tsx e con l'array "projects" in PortfolioSection.tsx. */
+/* ⚠️ PERSONALIZZA — luxe-fashion, gusto-ristorante, fitpro-academy e glow-skincare
+   sono dati placeholder. Sigillo e SetupEvents sono clienti reali (dati ricavati
+   dai rispettivi siti pubblici). Lo slug deve restare coerente con l'oggetto
+   "details" in CaseStudy.tsx e con l'array "projects" in PortfolioSection.tsx. */
 export const cases: CaseItem[] = [
   { slug: "luxe-fashion", img: portfolio1, client: "Luxe Fashion", service: "Strategy & Production", category: "Social", result: "+200k views" },
   { slug: "gusto-ristorante", img: portfolio2, client: "Gusto Ristorante", service: "Content & Social", category: "Video", result: "+150% engagement" },
   { slug: "fitpro-academy", img: portfolio3, client: "FitPro Academy", service: "Growth & Ads", category: "Social", result: "+80k followers" },
   { slug: "glow-skincare", img: portfolio4, client: "Glow Skincare", service: "E-commerce Strategy", category: "Web", result: "+300% vendite" },
+  { slug: "sigillo", img: portfolioSigillo, client: "Sigillo", service: "Sito Web & Brand", category: "Web", result: "Nuovo sito corporate" },
+  { slug: "setup-events", img: portfolioSetupEvents, client: "SetupEvents", service: "Sito Web", category: "Web", result: "Nuovo sito corporate" },
 ];
 
 const filters = ["Tutti", "Video", "Social", "Web"] as const;
