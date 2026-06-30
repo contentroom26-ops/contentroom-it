@@ -1,5 +1,5 @@
 import { motion, useMotionValue, useTransform, useAnimationFrame } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRef, useState } from "react";
 import InlineCTA from "./InlineCTA";
 import portfolio1 from "@/assets/portfolio-1.jpg";
@@ -29,10 +29,6 @@ const CARD_WIDTH = 260;
 const CARD_HEIGHT = 346;
 
 // ⚠️ PERSONALIZZA: quante volte ripetere i progetti nel "nastro".
-// Serve solo a riciclare le card per il loop infinito — NON influenza
-// quante se ne vedono contemporaneamente (quello lo decide OPACITY_*
-// più sotto). Più alto = riciclo più "morbido", ma 3 è già ampiamente
-// sufficiente vista la zona invisibile di cuscinetto (vedi sotto).
 const DUPLICATE_COUNT = 3;
 
 const trackItems = Array.from({ length: projects.length * DUPLICATE_COUNT }, (_, i) => ({
@@ -42,22 +38,25 @@ const trackItems = Array.from({ length: projects.length * DUPLICATE_COUNT }, (_,
 const TOTAL_SLOTS = trackItems.length;
 const HALF_SLOTS = TOTAL_SLOTS / 2;
 
-// ⚠️ PERSONALIZZA: quanti px di trackX (drag o autoplay) servono per
-// spostarsi di UNO slot. Più basso = scorrimento più rapido a parità di drag/autoplay.
+// ⚠️ PERSONALIZZA: quanti px di trackX (drag o autoplay) servono per spostarsi di UNO slot.
 const SLOT_PX = 200;
 
-// Curve calibrate sul mockup HTML validato a occhio sulla reference
-// (Versione E3 — vedi conversazione precedente). offset 0 = card centrale.
 const OFFSET_BREAKPOINTS = [-3, -2, -1, 0, 1, 2, 3];
 const SCALE_VALUES = [1.27, 1.11, 0.93, 0.82, 0.93, 1.11, 1.27];
 const ROTATE_VALUES = [82, 56, 30, 0, -30, -56, -82];
-// distanze cumulative — ultimo valore confermato in chat
 const X_VALUES = [-950, -560, -260, 0, 260, 560, 950];
 
-// Oltre offset 3 la card sfuma a invisibile (cuscinetto ampio prima del
-// riciclo a metà nastro, quindi il "salto" del loop non si vede mai)
 const OPACITY_BREAKPOINTS = [-4, -3, 3, 4];
 const OPACITY_VALUES = [0, 1, 1, 0];
+
+// ⚠️ Soglia in px: sotto questo spostamento il gesto è considerato un
+// "click", non un drag. Necessario perché setPointerCapture sul
+// contenitore esterno (sotto) intercetta il click nativo dell'<a>
+// annidato nella card — senza questo fix, click su QUALSIASI card
+// non naviga mai, indipendentemente da quale card o quanto vicino al
+// centro: è un comportamento sistemico del drag-handler, non un bug
+// di singole card.
+const CLICK_THRESHOLD_PX = 6;
 
 function ProjectCard({ p, slotIndex, trackX }: { p: any, slotIndex: number, trackX: any }) {
   const offset = useTransform(trackX, (latestX: number) => {
@@ -74,6 +73,7 @@ function ProjectCard({ p, slotIndex, trackX }: { p: any, slotIndex: number, trac
 
   return (
     <motion.div
+      data-slug={p.slug}
       style={{
         x,
         scale,
@@ -98,6 +98,13 @@ function ProjectCard({ p, slotIndex, trackX }: { p: any, slotIndex: number, trac
         draggable={false}
         className="relative w-full h-full rounded-2xl overflow-hidden cursor-pointer group block"
         style={{ transformStyle: "preserve-3d" }}
+        onClick={(e) => {
+          // Il click nativo è intercettato dal pointer capture del
+          // contenitore (vedi onPointerUp sotto, che naviga manualmente
+          // sui tap). Lo preveniamo qui per evitare doppia-navigazione
+          // nei rari casi in cui il click nativo riesca comunque a passare.
+          e.preventDefault();
+        }}
       >
         <img
           src={p.img}
@@ -125,11 +132,13 @@ function ProjectCard({ p, slotIndex, trackX }: { p: any, slotIndex: number, trac
 const AUTOPLAY_SPEED = 30;
 
 const PortfolioSection = () => {
+  const navigate = useNavigate();
   const trackX = useMotionValue(0);
   const [paused, setPaused] = useState(false);
   const isDragging = useRef(false);
   const startDragX = useRef(0);
   const startTrackX = useRef(0);
+  const totalMove = useRef(0);
 
   useAnimationFrame((_, delta) => {
     if (paused || isDragging.current) return;
@@ -138,9 +147,6 @@ const PortfolioSection = () => {
 
   return (
     <section className="section-dark relative px-6 py-20 md:py-28 overflow-hidden bg-black">
-      {/* ⚠️ PERSONALIZZA: gap-10/gap-14 = spazio UNICO fra titolo, card e CTA.
-          Cambia solo questi due valori per stringere/allargare in modo
-          equispaziato — niente più margini sparsi (mb-12/mt-6 rimossi). */}
       <div className="flex flex-col gap-10 md:gap-14">
 
         <div className="max-w-6xl mx-auto relative z-10 w-full">
@@ -163,10 +169,40 @@ const PortfolioSection = () => {
             overflow: "visible",
             touchAction: "pan-y"
           }}
-          onPointerDown={(e) => { isDragging.current = true; setPaused(true); startDragX.current = e.clientX; startTrackX.current = trackX.get(); (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId); }}
-          onPointerMove={(e) => { if (!isDragging.current) return; trackX.set(startTrackX.current + (e.clientX - startDragX.current) * 1.5); }}
-          onPointerUp={(e) => { isDragging.current = false; setPaused(false); (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId); }}
-          onPointerCancel={(e) => { isDragging.current = false; setPaused(false); try { (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId); } catch {} }}
+          onPointerDown={(e) => {
+            isDragging.current = true;
+            setPaused(true);
+            startDragX.current = e.clientX;
+            startTrackX.current = trackX.get();
+            totalMove.current = 0;
+            (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+          }}
+          onPointerMove={(e) => {
+            if (!isDragging.current) return;
+            const delta = e.clientX - startDragX.current;
+            totalMove.current = Math.abs(delta);
+            trackX.set(startTrackX.current + delta * 1.5);
+          }}
+          onPointerUp={(e) => {
+            isDragging.current = false;
+            setPaused(false);
+            (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
+
+            // Tap (movimento minimo) → naviga manualmente al case study.
+            // Necessario perché setPointerCapture sopra impedisce al
+            // click nativo dell'<a> annidato di scattare normalmente.
+            if (totalMove.current < CLICK_THRESHOLD_PX) {
+              const cardEl = (e.target as HTMLElement).closest("[data-slug]") as HTMLElement | null;
+              if (cardEl?.dataset.slug) {
+                navigate(`/portfolio/${cardEl.dataset.slug}`);
+              }
+            }
+          }}
+          onPointerCancel={(e) => {
+            isDragging.current = false;
+            setPaused(false);
+            try { (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId); } catch {}
+          }}
         >
           <div className="relative w-full h-full" style={{ transformStyle: "preserve-3d" }}>
             {trackItems.map((p) => <ProjectCard key={p.slotIndex} p={p} slotIndex={p.slotIndex} trackX={trackX} />)}
