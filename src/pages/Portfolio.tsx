@@ -7,18 +7,11 @@ import portfolio1 from "@/assets/portfolio-1.jpg";
 import portfolio2 from "@/assets/portfolio-2.jpg";
 import portfolio3 from "@/assets/portfolio-3.jpg";
 import portfolio4 from "@/assets/portfolio-4.jpg";
-import portfolioSigillo from "@/assets/portfolio-4.jpg";
-import portfolioSetupEvents from "@/assets/portfolio-setupevents.jpeg";
+import portfolioSigillo from "@/assets/portfolio-sigillo.jpg";
+import portfolioSetupEvents from "@/assets/portfolio-setupevents.jpg";
 
 const CELESTE = "hsl(192 49% 76%)";
 
-/*
-  PROVA: stesso video/overlay di GlobalVideoBackground, ma contenuto solo
-  in questa sezione (position: absolute dentro un genitore relative),
-  non più fixed su tutta la viewport. Se la prova non convince, basta
-  rimuovere questo componente e il suo utilizzo qui sotto — non tocca
-  nessun altro file, l'effetto è isolato a questa sola sezione.
-*/
 const PortfolioSectionVideoBackground = () => (
   <div className="absolute inset-0 overflow-hidden pointer-events-none">
     <video
@@ -51,9 +44,9 @@ export interface CaseItem {
   result: string;
 }
 /* ⚠️ PERSONALIZZA — luxe-fashion, gusto-ristorante, fitpro-academy e glow-skincare
-   sono dati placeholder. Sigillo e SetupEvents sono clienti reali (dati ricavati
-   dai rispettivi siti pubblici). Lo slug deve restare coerente con l'oggetto
-   "details" in CaseStudy.tsx e con l'array "projects" in PortfolioSection.tsx. */
+   sono dati placeholder. Sigillo e SetupEvents sono clienti reali. Tutte le
+   immagini "img" sono ora usate sia in card che in hero CaseStudy (rapporto
+   0.75:1 fisso, semplifica la gestione: un solo asset per progetto). */
 export const cases: CaseItem[] = [
   { slug: "luxe-fashion", img: portfolio1, client: "Luxe Fashion", service: "Strategy & Production", category: "Social", result: "+200k views" },
   { slug: "gusto-ristorante", img: portfolio2, client: "Gusto Ristorante", service: "Content & Social", category: "Video", result: "+150% engagement" },
@@ -79,7 +72,6 @@ const Portfolio = () => {
       <main className="relative z-10 min-h-screen overflow-x-hidden">
         <Navbar />
 
-        {/* Hero — nera */}
         <section className="section-dark pt-40 pb-16 px-6">
           <div className="max-w-6xl mx-auto">
             <motion.div
@@ -107,7 +99,6 @@ const Portfolio = () => {
           </div>
         </section>
 
-        {/* Filtri + Grid — beige, con prova video di sfondo marmorizzato */}
         <section className="section-light relative pt-12 pb-28 px-6 overflow-hidden">
           <PortfolioSectionVideoBackground />
           <div className="max-w-6xl mx-auto relative z-10">
@@ -154,7 +145,6 @@ const Portfolio = () => {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent" />
 
-                      {/* Hover overlay */}
                       <div className="absolute inset-0 bg-black/75 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center p-6">
                         <div className="text-center">
                           <p
@@ -172,7 +162,6 @@ const Portfolio = () => {
                         </div>
                       </div>
 
-                      {/* Default label */}
                       <div className="absolute bottom-0 left-0 p-6 group-hover:opacity-0 transition-opacity duration-300">
                         <p
                           className="font-display font-bold text-sm mb-1"
