@@ -8,6 +8,8 @@ import portfolio3 from "@/assets/portfolio-3.jpg";
 import portfolio4 from "@/assets/portfolio-4.jpg";
 import portfolioSigillo from "@/assets/portfolio-sigillo.jpg";
 import portfolioSetupEvents from "@/assets/portfolio-setupevents.jpg";
+import portfolioMiamo from "@/assets/portfolio-miamo.jpg";
+import portfolioShade from "@/assets/portfolio-shade.jpg";
 
 const ACCENT = "hsl(192 49% 76%)";
 
@@ -18,13 +20,15 @@ const projects = [
   { slug: "glow-skincare", img: portfolio4, name: "Glow Skincare", result: "+300% vendite", tag: "E-commerce Strategy" },
   { slug: "sigillo", img: portfolioSigillo, name: "Sigillo", result: "Nuovo sito corporate", tag: "Sito Web & Brand" },
   { slug: "setup-events", img: portfolioSetupEvents, name: "SetupEvents", result: "Nuovo sito corporate", tag: "Sito Web" },
+  { slug: "miamo", img: portfolioMiamo, name: "MIAMO", result: "Inaugurazione MIAMO Lounge", tag: "Content & Production" },
+  { slug: "shade", img: portfolioShade, name: "Shade", result: "Lancio singolo \"Toxic\"", tag: "Content & Production" },
   { slug: "placeholder-7", img: portfolio3, name: "Progetto 7", result: "+XXk risultati", tag: "Da personalizzare" },
 ];
 
 const CARD_WIDTH = 260;
 const CARD_HEIGHT = 346;
 
-// ⚠️ PERSONALIZZA: quante volte ripetere i 7 progetti nel "nastro".
+// ⚠️ PERSONALIZZA: quante volte ripetere i progetti nel "nastro".
 // Serve solo a riciclare le card per il loop infinito — NON influenza
 // quante se ne vedono contemporaneamente (quello lo decide OPACITY_*
 // più sotto). Più alto = riciclo più "morbido", ma 3 è già ampiamente
@@ -35,7 +39,7 @@ const trackItems = Array.from({ length: projects.length * DUPLICATE_COUNT }, (_,
   ...projects[i % projects.length],
   slotIndex: i,
 }));
-const TOTAL_SLOTS = trackItems.length; // 21
+const TOTAL_SLOTS = trackItems.length;
 const HALF_SLOTS = TOTAL_SLOTS / 2;
 
 // ⚠️ PERSONALIZZA: quanti px di trackX (drag o autoplay) servono per
@@ -58,8 +62,6 @@ const OPACITY_VALUES = [0, 1, 1, 0];
 function ProjectCard({ p, slotIndex, trackX }: { p: any, slotIndex: number, trackX: any }) {
   const offset = useTransform(trackX, (latestX: number) => {
     let raw = slotIndex - latestX / SLOT_PX;
-    // wrap centrato su [-HALF_SLOTS, HALF_SLOTS) per riciclare all'infinito
-    // senza che il salto sia mai visibile (cade ben oltre la zona opaca)
     raw = (((raw + HALF_SLOTS) % TOTAL_SLOTS) + TOTAL_SLOTS) % TOTAL_SLOTS - HALF_SLOTS;
     return raw;
   });
