@@ -10,6 +10,7 @@ import portfolioSigillo from "@/assets/portfolio-sigillo.jpg";
 import portfolioSetupEvents from "@/assets/portfolio-setupevents.jpg";
 import portfolioMiamo from "@/assets/portfolio-miamo.jpg";
 import portfolioShade from "@/assets/portfolio-shade.jpg";
+import portfolioJasonDerulo from "@/assets/portfolio-jason-derulo.jpg";
 
 const ACCENT = "hsl(192 49% 76%)";
 
@@ -22,13 +23,12 @@ const projects = [
   { slug: "setup-events", img: portfolioSetupEvents, name: "SetupEvents", result: "Nuovo sito corporate", tag: "Sito Web" },
   { slug: "miamo", img: portfolioMiamo, name: "MIAMO", result: "Inaugurazione MIAMO Lounge", tag: "Content & Production" },
   { slug: "shade", img: portfolioShade, name: "Shade", result: "Lancio singolo \"Toxic\"", tag: "Content & Production" },
-  { slug: "placeholder-7", img: portfolio3, name: "Progetto 7", result: "+XXk risultati", tag: "Da personalizzare" },
+  { slug: "jason-derulo", img: portfolioJasonDerulo, name: "Jason Derulo", result: "Copertura esclusiva live", tag: "Photo & Video" },
 ];
 
 const CARD_WIDTH = 260;
 const CARD_HEIGHT = 346;
 
-// ⚠️ PERSONALIZZA: quante volte ripetere i progetti nel "nastro".
 const DUPLICATE_COUNT = 3;
 
 const trackItems = Array.from({ length: projects.length * DUPLICATE_COUNT }, (_, i) => ({
@@ -38,7 +38,6 @@ const trackItems = Array.from({ length: projects.length * DUPLICATE_COUNT }, (_,
 const TOTAL_SLOTS = trackItems.length;
 const HALF_SLOTS = TOTAL_SLOTS / 2;
 
-// ⚠️ PERSONALIZZA: quanti px di trackX (drag o autoplay) servono per spostarsi di UNO slot.
 const SLOT_PX = 200;
 
 const OFFSET_BREAKPOINTS = [-3, -2, -1, 0, 1, 2, 3];
@@ -49,12 +48,6 @@ const X_VALUES = [-950, -560, -260, 0, 260, 560, 950];
 const OPACITY_BREAKPOINTS = [-4, -3, 3, 4];
 const OPACITY_VALUES = [0, 1, 1, 0];
 
-// ⚠️ Soglia in px: sotto questo spostamento il gesto è considerato un
-// "click", non un drag. Necessario perché setPointerCapture sul
-// contenitore esterno (sotto) intercetta il click nativo dell'<a>
-// annidato nella card, e ritarget-a ANCHE pointerup verso il
-// contenitore — per questo la card di partenza va salvata al
-// pointerdown (vedi pendingTarget), non letta da e.target al pointerup.
 const CLICK_THRESHOLD_PX = 6;
 
 function ProjectCard({ p, slotIndex, trackX }: { p: any, slotIndex: number, trackX: any }) {
@@ -74,18 +67,11 @@ function ProjectCard({ p, slotIndex, trackX }: { p: any, slotIndex: number, trac
     <motion.div
       data-slug={p.slug}
       style={{
-        x,
-        scale,
-        rotateY,
-        opacity,
-        zIndex,
+        x, scale, rotateY, opacity, zIndex,
         position: 'absolute',
-        left: '50%',
-        top: '50%',
-        width: `${CARD_WIDTH}px`,
-        height: `${CARD_HEIGHT}px`,
-        marginLeft: `-${CARD_WIDTH / 2}px`,
-        marginTop: `-${CARD_HEIGHT / 2}px`,
+        left: '50%', top: '50%',
+        width: `${CARD_WIDTH}px`, height: `${CARD_HEIGHT}px`,
+        marginLeft: `-${CARD_WIDTH / 2}px`, marginTop: `-${CARD_HEIGHT / 2}px`,
         transformOrigin: "50% 50%",
         transformStyle: "preserve-3d",
         backfaceVisibility: "hidden",
@@ -97,21 +83,9 @@ function ProjectCard({ p, slotIndex, trackX }: { p: any, slotIndex: number, trac
         draggable={false}
         className="relative w-full h-full rounded-2xl overflow-hidden cursor-pointer group block"
         style={{ transformStyle: "preserve-3d" }}
-        onClick={(e) => {
-          // Il click nativo è gestito manualmente via onPointerUp del
-          // contenitore (pointer capture lo intercetterebbe comunque).
-          // preventDefault evita una doppia-navigazione nei rari casi
-          // in cui il click nativo riesca comunque a passare.
-          e.preventDefault();
-        }}
+        onClick={(e) => { e.preventDefault(); }}
       >
-        <img
-          src={p.img}
-          alt={p.name}
-          loading="lazy"
-          draggable={false}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-        />
+        <img src={p.img} alt={p.name} loading="lazy" draggable={false} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent" />
         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
           <div className="text-center px-6">
@@ -163,22 +137,13 @@ const PortfolioSection = () => {
 
         <div
           className="relative w-full h-[420px] overflow-visible select-none"
-          style={{
-            perspective: "1600px",
-            transformStyle: "preserve-3d",
-            overflow: "visible",
-            touchAction: "pan-y"
-          }}
+          style={{ perspective: "1600px", transformStyle: "preserve-3d", overflow: "visible", touchAction: "pan-y" }}
           onPointerDown={(e) => {
             isDragging.current = true;
             setPaused(true);
             startDragX.current = e.clientX;
             startTrackX.current = trackX.get();
             totalMove.current = 0;
-            // Catturiamo la card QUI, prima che setPointerCapture sotto
-            // "ritarget-i" tutti gli eventi successivi del gesto (incluso
-            // pointerup) verso il contenitore esterno invece che verso
-            // la card reale su cui è avvenuto il tap.
             pendingTarget.current = (e.target as HTMLElement).closest("[data-slug]") as HTMLElement | null;
             (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
           }}
@@ -192,10 +157,6 @@ const PortfolioSection = () => {
             isDragging.current = false;
             setPaused(false);
             (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
-
-            // Tap (movimento minimo) → naviga manualmente usando la card
-            // salvata al pointerdown, NON e.target (ritarget-ato dal
-            // pointer capture verso il contenitore esterno).
             if (totalMove.current < CLICK_THRESHOLD_PX && pendingTarget.current?.dataset.slug) {
               navigate(`/portfolio/${pendingTarget.current.dataset.slug}`);
             }
