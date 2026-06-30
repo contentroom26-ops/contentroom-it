@@ -12,8 +12,18 @@ interface CaseDetail {
   solution: string;
   metrics: { value: string; label: string }[];
 }
-/* ⚠️ PERSONALIZZA — obiettivo, soluzione e metriche placeholder.
-   Sostituisci con i dati reali di ogni cliente prima di rendere pubblico il portfolio. */
+/* ⚠️ PERSONALIZZA — luxe-fashion, gusto-ristorante, fitpro-academy e glow-skincare
+   sono dati placeholder. Sostituisci con dati reali prima di rendere pubblico il portfolio.
+
+   sigillo: dati ricavati dal sito pubblico del cliente (sigillosrl.lovable.app) —
+   metriche reali dichiarate dal cliente stesso (40 anni attività, 30+ maison, 3 continenti).
+
+   setup-events: il sito è in JS lato client, non sono riuscito a leggerne il
+   contenuto testuale (solo i meta tag). Goal/solution sono una bozza basata sui
+   meta-description pubblici — VERIFICA prima di pubblicare. Le metriche sono
+   PLACEHOLDER ESPLICITI (nessun numero falso inserito): sostituiscile con un
+   risultato reale (es. lead generati, tempo medio sul sito, richieste preventivo)
+   o rimuovi la sezione "Risultati" per questo case se non hai dati. */
 const details: Record<string, CaseDetail> = {
   "luxe-fashion": {
     goal: "Aumentare la brand awareness e posizionare il marchio nel segmento luxury fashion italiano, intercettando un pubblico premium su Instagram e TikTok.",
@@ -49,6 +59,24 @@ const details: Record<string, CaseDetail> = {
       { value: "+300%", label: "Vendite mensili" },
       { value: "3.8x", label: "ROAS medio" },
       { value: "+45%", label: "Conversion rate sito" },
+    ],
+  },
+  "sigillo": {
+    goal: "Dare a una manifattura artigiana attiva da oltre 40 anni in private-label per maison di lusso una presenza digitale all'altezza del proprio savoir-faire, nel rispetto della riservatezza richiesta dal settore.",
+    solution: "Abbiamo progettato un sito editoriale strutturato per capitoli, che racconta la filiera Made in Italy, la concia vegetale e il know-how artigianale senza mai esporre i nomi dei brand serviti.",
+    metrics: [
+      { value: "40", label: "Anni di esperienza artigiana" },
+      { value: "30+", label: "Maison di lusso servite" },
+      { value: "3", label: "Continenti raggiunti" },
+    ],
+  },
+  "setup-events": {
+    goal: "Dotare un'agenzia di organizzazione eventi aziendali a Firenze di un sito vetrina capace di comunicare credibilità verso le aziende e generare richieste di preventivo.",
+    solution: "Sito web realizzato da zero con focus sui servizi offerti (hostess, steward, promoter, allestimenti su misura) e un percorso chiaro verso la richiesta di preventivo gratuito.",
+    metrics: [
+      { value: "—", label: "⚠️ PERSONALIZZA: inserisci una metrica reale" },
+      { value: "—", label: "⚠️ PERSONALIZZA: inserisci una metrica reale" },
+      { value: "—", label: "⚠️ PERSONALIZZA: inserisci una metrica reale" },
     ],
   },
 };
