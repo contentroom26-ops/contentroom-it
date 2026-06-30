@@ -52,10 +52,9 @@ const OPACITY_VALUES = [0, 1, 1, 0];
 // ⚠️ Soglia in px: sotto questo spostamento il gesto è considerato un
 // "click", non un drag. Necessario perché setPointerCapture sul
 // contenitore esterno (sotto) intercetta il click nativo dell'<a>
-// annidato nella card — senza questo fix, click su QUALSIASI card
-// non naviga mai, indipendentemente da quale card o quanto vicino al
-// centro: è un comportamento sistemico del drag-handler, non un bug
-// di singole card.
+// annidato nella card, e ritarget-a ANCHE pointerup verso il
+// contenitore — per questo la card di partenza va salvata al
+// pointerdown (vedi pendingTarget), non letta da e.target al pointerup.
 const CLICK_THRESHOLD_PX = 6;
 
 function ProjectCard({ p, slotIndex, trackX }: { p: any, slotIndex: number, trackX: any }) {
@@ -99,10 +98,10 @@ function ProjectCard({ p, slotIndex, trackX }: { p: any, slotIndex: number, trac
         className="relative w-full h-full rounded-2xl overflow-hidden cursor-pointer group block"
         style={{ transformStyle: "preserve-3d" }}
         onClick={(e) => {
-          // Il click nativo è intercettato dal pointer capture del
-          // contenitore (vedi onPointerUp sotto, che naviga manualmente
-          // sui tap). Lo preveniamo qui per evitare doppia-navigazione
-          // nei rari casi in cui il click nativo riesca comunque a passare.
+          // Il click nativo è gestito manualmente via onPointerUp del
+          // contenitore (pointer capture lo intercetterebbe comunque).
+          // preventDefault evita una doppia-navigazione nei rari casi
+          // in cui il click nativo riesca comunque a passare.
           e.preventDefault();
         }}
       >
@@ -139,6 +138,7 @@ const PortfolioSection = () => {
   const startDragX = useRef(0);
   const startTrackX = useRef(0);
   const totalMove = useRef(0);
+  const pendingTarget = useRef<HTMLElement | null>(null);
 
   useAnimationFrame((_, delta) => {
     if (paused || isDragging.current) return;
@@ -176,8 +176,9 @@ const PortfolioSection = () => {
             startTrackX.current = trackX.get();
             totalMove.current = 0;
             // Catturiamo la card QUI, prima che setPointerCapture sotto
-            // "ritarget-i" tutti gli eventi successivi (incluso pointerup)
-            // verso il contenitore esterno invece che verso la card reale.
+            // "ritarget-i" tutti gli eventi successivi del gesto (incluso
+            // pointerup) verso il contenitore esterno invece che verso
+            // la card reale su cui è avvenuto il tap.
             pendingTarget.current = (e.target as HTMLElement).closest("[data-slug]") as HTMLElement | null;
             (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
           }}
@@ -192,6 +193,9 @@ const PortfolioSection = () => {
             setPaused(false);
             (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
 
+            // Tap (movimento minimo) → naviga manualmente usando la card
+            // salvata al pointerdown, NON e.target (ritarget-ato dal
+            // pointer capture verso il contenitore esterno).
             if (totalMove.current < CLICK_THRESHOLD_PX && pendingTarget.current?.dataset.slug) {
               navigate(`/portfolio/${pendingTarget.current.dataset.slug}`);
             }
@@ -200,6 +204,7 @@ const PortfolioSection = () => {
           onPointerCancel={(e) => {
             isDragging.current = false;
             setPaused(false);
+            pendingTarget.current = null;
             try { (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId); } catch {}
           }}
         >
