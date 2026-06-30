@@ -175,6 +175,10 @@ const PortfolioSection = () => {
             startDragX.current = e.clientX;
             startTrackX.current = trackX.get();
             totalMove.current = 0;
+            // Catturiamo la card QUI, prima che setPointerCapture sotto
+            // "ritarget-i" tutti gli eventi successivi (incluso pointerup)
+            // verso il contenitore esterno invece che verso la card reale.
+            pendingTarget.current = (e.target as HTMLElement).closest("[data-slug]") as HTMLElement | null;
             (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
           }}
           onPointerMove={(e) => {
@@ -188,15 +192,10 @@ const PortfolioSection = () => {
             setPaused(false);
             (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
 
-            // Tap (movimento minimo) → naviga manualmente al case study.
-            // Necessario perché setPointerCapture sopra impedisce al
-            // click nativo dell'<a> annidato di scattare normalmente.
-            if (totalMove.current < CLICK_THRESHOLD_PX) {
-              const cardEl = (e.target as HTMLElement).closest("[data-slug]") as HTMLElement | null;
-              if (cardEl?.dataset.slug) {
-                navigate(`/portfolio/${cardEl.dataset.slug}`);
-              }
+            if (totalMove.current < CLICK_THRESHOLD_PX && pendingTarget.current?.dataset.slug) {
+              navigate(`/portfolio/${pendingTarget.current.dataset.slug}`);
             }
+            pendingTarget.current = null;
           }}
           onPointerCancel={(e) => {
             isDragging.current = false;
