@@ -1,6 +1,7 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, Play } from "lucide-react";
+import { useEffect, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { cases } from "./Portfolio";
@@ -19,6 +20,46 @@ import shadePoster3 from "@/assets/shade-3-poster.jpg";
 
 const CELESTE = "hsl(192 49% 76%)";
 
+/* Sincronizza N elementi <video> indipendenti che derivano dallo stesso
+   piano sequenza (es. crop sinistra/centro/destra di un video largo).
+   Senza questo, ogni video parte in autoplay non appena I SUOI dati sono
+   pronti — momenti leggermente diversi — e la deriva aumenta nel tempo
+   perché ogni loop riparte in autonomia. Qui: aspettiamo che tutti siano
+   pronti, li avviamo nello stesso istante, poi correggiamo lo scarto
+   ogni ~2s se supera 150ms. */
+function useSyncedVideos(refs: React.RefObject<HTMLVideoElement>[]) {
+  useEffect(() => {
+    const videos = refs.map((r) => r.current).filter(Boolean) as HTMLVideoElement[];
+    if (videos.length < 2) return;
+
+    let started = false;
+    const tryStart = () => {
+      if (started) return;
+      if (videos.every((v) => v.readyState >= 3)) {
+        started = true;
+        videos.forEach((v) => { v.currentTime = 0; v.play().catch(() => {}); });
+      }
+    };
+    videos.forEach((v) => v.addEventListener("canplay", tryStart));
+    tryStart();
+
+    const resync = setInterval(() => {
+      if (!started) return;
+      const lead = videos[0];
+      videos.slice(1).forEach((v) => {
+        if (Math.abs(v.currentTime - lead.currentTime) > 0.15) {
+          v.currentTime = lead.currentTime;
+        }
+      });
+    }, 2000);
+
+    return () => {
+      clearInterval(resync);
+      videos.forEach((v) => v.removeEventListener("canplay", tryStart));
+    };
+  }, [refs]);
+}
+
 interface GalleryItem {
   video?: string;   // mp4, se presente ha priorità sull'immagine statica
   poster?: string;  // copertina del video
@@ -33,6 +74,9 @@ interface CaseDetail {
   // ⚠️ Opzionale: se presente, sostituisce INTERAMENTE la sezione metriche
   // con una gallery di immagini/video stile reel.
   gallery?: GalleryItem[];
+  // ⚠️ true SOLO quando i video della gallery sono crop dello stesso
+  // piano sequenza e devono restare a tempo fra loro (es. Shade).
+  syncVideos?: boolean;
 }
 /* ⚠️ PERSONALIZZA — luxe-fashion, gusto-ristorante, fitpro-academy e glow-skincare
    sono dati placeholder. Sostituisci con dati reali prima di rendere pubblico il portfolio.
@@ -106,6 +150,7 @@ const details: Record<string, CaseDetail> = {
     goal: "Accompagnare l'uscita del brano \"Toxic\" di Shade con un racconto visivo capace di rafforzarne l'identità, curando sia le foto ufficiali che i contenuti dietro le quinte.",
     solution: "Shooting fotografico dedicato e riprese BTS durante la produzione del brano, pensati per alimentare i canali social dell'artista nelle settimane di lancio.",
     metrics: [],
+    syncVideos: true,
     gallery: [
       { video: shadeVideo1, poster: shadePoster1 },
       { video: shadeVideo2, poster: shadePoster2 },
@@ -118,6 +163,12 @@ const CaseStudy = () => {
   const { slug } = useParams<{ slug: string }>();
   const caseItem = cases.find((c) => c.slug === slug);
   const detail = slug ? details[slug] : undefined;
+
+  const videoRef1 = useRef<HTMLVideoElement>(null);
+  const videoRef2 = useRef<HTMLVideoElement>(null);
+  const videoRef3 = useRef<HTMLVideoElement>(null);
+  const videoRefs = [videoRef1, videoRef2, videoRef3];
+  useSyncedVideos(detail?.syncVideos ? videoRefs : []);
 
   if (!caseItem || !detail) return <Navigate to="/portfolio" replace />;
 
@@ -249,14 +300,16 @@ const CaseStudy = () => {
                     >
                       {g.video ? (
                         <video
+                          ref={videoRefs[i]}
                           src={g.video}
                           poster={g.poster}
-                          autoPlay
-                          loop
+                          autoPlay={!detail.syncVideos}
+                          loop={!detail.syncVideos}
                           muted
                           playsInline
                           preload="auto"
                           className="absolute inset-0 w-full h-full object-cover"
+                          onEnded={detail.syncVideos ? (e) => { e.currentTarget.currentTime = 0; e.currentTarget.play().catch(() => {}); } : undefined}
                         />
                       ) : g.img ? (
                         <>
