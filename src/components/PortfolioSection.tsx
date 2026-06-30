@@ -6,8 +6,8 @@ import portfolio1 from "@/assets/portfolio-1.jpg";
 import portfolio2 from "@/assets/portfolio-2.jpg";
 import portfolio3 from "@/assets/portfolio-3.jpg";
 import portfolio4 from "@/assets/portfolio-4.jpg";
-import portfolioSigillo from "@/assets/portfolio-sigillo.jpg";
-import portfolioSetupEvents from "@/assets/portfolio-setupevents.jpg";
+import portfolioSigillo from "@/assets/portfolio-4.jpg";
+import portfolioSetupEvents from "@/assets/portfolio-setupevents.jpeg";
 
 const ACCENT = "hsl(192 49% 76%)";
 
