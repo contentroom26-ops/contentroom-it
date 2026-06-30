@@ -9,6 +9,7 @@ import portfolio3 from "@/assets/portfolio-3.jpg";
 import portfolio4 from "@/assets/portfolio-4.jpg";
 import portfolioSigillo from "@/assets/portfolio-sigillo.jpeg";
 import portfolioSetupEvents from "@/assets/portfolio-setupevents.jpeg";
+import miamoPosterCover from "@/assets/portfolio-miamo.jpg";
 
 const CELESTE = "hsl(192 49% 76%)";
 
@@ -54,6 +55,8 @@ export const cases: CaseItem[] = [
   { slug: "glow-skincare", img: portfolio4, client: "Glow Skincare", service: "E-commerce Strategy", category: "Web", result: "+300% vendite" },
   { slug: "sigillo", img: portfolioSigillo, client: "Sigillo", service: "Sito Web & Brand", category: "Web", result: "Nuovo sito corporate" },
   { slug: "setup-events", img: portfolioSetupEvents, client: "SetupEvents", service: "Sito Web", category: "Web", result: "Nuovo sito corporate" },
+  { slug: "miamo", img: miamoPosterCover, client: "MIAMO", service: "Content & Production", category: "Video", result: "Inaugurazione MIAMO Lounge" },
+  { slug: "shade", img: portfolioShadePlaceholder, client: "Shade", service: "Content & Production", category: "Video", result: "⚠️ PERSONALIZZA" },
 ];
 
 const filters = ["Tutti", "Video", "Social", "Web"] as const;
