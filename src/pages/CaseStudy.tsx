@@ -99,40 +99,12 @@ const details: Record<string, CaseDetail> = {
   "righi": {
     goal: "Raccontare sui social lo studio fotografico di matrimoni più storico di Firenze, trasferendo online la stessa cura artigianale che porta alla realizzazione dei book fotografici, senza perdere il calore di un marchio nato nel 1954.",
     solution: "Content strategy dedicata a Instagram e produzione di video su misura che raccontano il dietro le quinte degli shooting di nozze, valorizzando sia il lavoro fotografico sia la manifattura degli album fine art che da tre generazioni accompagnano gli sposi Righi.",
-    // ⚠️ PERSONALIZZA: metriche heritage (1954 / 70 anni / 3 generazioni) oscurate su richiesta,
-    // vedi nota in chat — recuperabili in un secondo momento con titolo dedicato
+    // ⚠️ PERSONALIZZA: metriche heritage (1954 / 70 anni / 3 generazioni) oscurate su richiesta
     metrics: [],
     gallery: [
       { video: righiVideo1 },
       { video: righiVideo2 },
       { video: righiVideo3 },
-    ],
-  },
-  "gusto-ristorante": {
-    goal: "Trasformare un ristorante locale in un punto di riferimento sui social, generando prenotazioni dirette dal mondo digitale.",
-    solution: "Food content quotidiano, reels virali sui piatti signature e una community management proattivo che ha trasformato gli ospiti in ambassador.",
-    metrics: [
-      { value: "+150%", label: "Engagement medio" },
-      { value: "+60%", label: "Prenotazioni online" },
-      { value: "1.2M", label: "Visualizzazioni totali" },
-    ],
-  },
-  "fitpro-academy": {
-    goal: "Generare lead qualificati per i nuovi corsi e ampliare la community di un centro fitness premium.",
-    solution: "Strategia di growth organica unita a campagne di lead generation Meta Ads, supportate da landing page ottimizzate e funnel email automation.",
-    metrics: [
-      { value: "+80k", label: "Nuovi follower" },
-      { value: "1.8k", label: "Lead generati" },
-      { value: "-40%", label: "Costo per lead" },
-    ],
-  },
-  "glow-skincare": {
-    goal: "Lanciare un nuovo e-commerce skincare e raggiungere il break-even sulle campagne ads entro i primi 90 giorni.",
-    solution: "Restyling completo dello shop Shopify, contenuti prodotto ad alta conversione e funnel pubblicitario multi-step con creatività testate settimanalmente.",
-    metrics: [
-      { value: "+300%", label: "Vendite mensili" },
-      { value: "3.8x", label: "ROAS medio" },
-      { value: "+45%", label: "Conversion rate sito" },
     ],
   },
   "sigillo": {
