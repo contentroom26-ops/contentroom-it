@@ -3,9 +3,9 @@ import { motion, useInView } from "framer-motion";
 import InlineCTA from "./InlineCTA";
 
 const stats = [
-  { value: 500, suffix: "k", prefix: "+", label: "Visualizzazioni generate" },
-  { value: 300, suffix: "%", prefix: "+", label: "Engagement medio" },
-  { value: 50, suffix: "", prefix: "+", label: "Clienti gestiti" },
+  { value: 5, suffix: "M", prefix: "+", label: "Visualizzazioni generate" },
+  { value: 200, suffix: "", prefix: "+", label: "Video prodotti" },
+  { value: 20, suffix: "", prefix: "+", label: "Clienti seguiti" },
 ];
 
 const AnimatedCounter = ({ value, suffix, prefix }: { value: number; suffix: string; prefix: string }) => {
