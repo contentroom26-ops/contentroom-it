@@ -1,6 +1,6 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, Play } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useEffect, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -20,6 +20,9 @@ import shadePoster3 from "@/assets/shade-3-poster.jpg";
 import jasonDerulo1 from "@/assets/jason-derulo-1.jpg";
 import jasonDerulo2 from "@/assets/jason-derulo-2.jpg";
 import jasonDerulo3 from "@/assets/jason-derulo-3.jpg";
+import bonsaltoVideo1 from "@/assets/bonsalto-1.mp4";
+import bonsaltoImg2 from "@/assets/bonsalto-2.jpg";
+import bonsaltoVideo3 from "@/assets/bonsalto-3.mp4";
 
 const CELESTE = "hsl(192 49% 76%)";
 
@@ -71,16 +74,26 @@ interface CaseDetail {
   metrics: { value: string; label: string }[];
   gallery?: GalleryItem[];
   syncVideos?: boolean;
+  // ⚠️ true per progetti Social: mostra metriche E gallery nella stessa
+  // sezione beige (metriche sopra, gallery sotto). Per Video: solo gallery.
+  // Per Web: solo metriche. Default: false.
+  showBoth?: boolean;
 }
 
 const details: Record<string, CaseDetail> = {
-  "luxe-fashion": {
-    goal: "Aumentare la brand awareness e posizionare il marchio nel segmento luxury fashion italiano, intercettando un pubblico premium su Instagram e TikTok.",
-    solution: "Abbiamo costruito una strategia editoriale full-funnel: shooting mensili curati, format video ricorrenti e una campagna ads sempre-on segmentata per interesse e lookalike.",
+  "bonsalto": {
+    goal: "Costruire una presenza digitale autentica per una fattoria vinicola toscana nata negli anni Settanta, trasmettendo sui social lo spirito tradizionale della famiglia Paci senza tradirne l'identità.",
+    solution: "Abbiamo preso in mano l'account Instagram appena dopo l'apertura, definendo una palette cromatica coerente e un tono di voce in linea con i valori della fattoria. Shooting fotografici dedicati, piano editoriale a lungo termine e cura dei dettagli visivi per raccontare il vino, la terra e le persone dietro ogni bottiglia.",
     metrics: [
-      { value: "+200k", label: "Visualizzazioni organiche" },
-      { value: "+85%", label: "Crescita follower" },
-      { value: "4.2x", label: "ROAS campagne ads" },
+      { value: "Piano", label: "Editoriale annuale" },
+      { value: "Shooting", label: "Contenuti fotografici dedicati" },
+      { value: "100%", label: "Varietà toscane raccontate" },
+    ],
+    showBoth: true,
+    gallery: [
+      { video: bonsaltoVideo1 },
+      { img: bonsaltoImg2 },
+      { video: bonsaltoVideo3 },
     ],
   },
   "gusto-ristorante": {
@@ -161,6 +174,58 @@ const details: Record<string, CaseDetail> = {
   },
 };
 
+// Componente gallery riutilizzato sia nella sezione "solo gallery" che in "showBoth"
+function GalleryGrid({ gallery, caseItem, videoRefs, syncVideos }: {
+  gallery: GalleryItem[];
+  caseItem: any;
+  videoRefs: React.RefObject<HTMLVideoElement>[];
+  syncVideos?: boolean;
+}) {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
+      {gallery.map((g, i) => (
+        <motion.div
+          key={i}
+          initial={{ opacity: 0, y: 40, scale: 0.95 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.6, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+          className="relative rounded-2xl overflow-hidden aspect-[9/16] bg-black"
+        >
+          {g.video ? (
+            <video
+              ref={videoRefs[i]}
+              src={g.video}
+              poster={g.poster}
+              autoPlay={!syncVideos}
+              loop={!syncVideos}
+              muted
+              playsInline
+              preload="auto"
+              className="absolute inset-0 w-full h-full object-cover"
+              onEnded={syncVideos ? (e) => { e.currentTarget.currentTime = 0; e.currentTarget.play().catch(() => {}); } : undefined}
+            />
+          ) : g.img ? (
+            <>
+              <img src={g.img} alt={g.caption ?? caseItem.client} className="absolute inset-0 w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-black/15 pointer-events-none" />
+              {g.caption && (
+                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent pointer-events-none">
+                  <p className="font-body text-xs text-white/90 text-center">{g.caption}</p>
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <p className="font-body text-xs text-white/40 text-center px-4">⚠️ PERSONALIZZA: contenuto in arrivo</p>
+            </div>
+          )}
+        </motion.div>
+      ))}
+    </div>
+  );
+}
+
 const CaseStudy = () => {
   const { slug } = useParams<{ slug: string }>();
   const caseItem = cases.find((c) => c.slug === slug);
@@ -176,13 +241,16 @@ const CaseStudy = () => {
 
   const idx = cases.findIndex((c) => c.slug === slug);
   const next = cases[(idx + 1) % cases.length];
-  const hasGallery = detail.gallery && detail.gallery.length > 0;
+  const hasGallery = !!detail.gallery && detail.gallery.length > 0;
+  const hasMetrics = detail.metrics.length > 0;
+  const showBoth = !!detail.showBoth && hasGallery && hasMetrics;
 
   return (
     <>
       <main className="relative z-10 min-h-screen overflow-x-hidden">
         <Navbar />
 
+        {/* Hero — nera */}
         <section className="section-dark pt-40 pb-20 px-6">
           <div className="max-w-6xl mx-auto">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }} className="mb-8">
@@ -237,6 +305,10 @@ const CaseStudy = () => {
           </div>
         </section>
 
+        {/* Sezione beige — metriche e/o gallery secondo il tipo di progetto:
+            - Web:    solo metriche
+            - Video:  solo gallery
+            - Social: entrambe (showBoth=true) — metriche sopra, gallery sotto */}
         <section className="section-light py-20 md:py-28 px-6">
           <div className="max-w-6xl mx-auto">
             <motion.div
@@ -245,66 +317,26 @@ const CaseStudy = () => {
               viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             >
+              {/* Titolo sezione */}
               <div className="mb-12">
                 <div className="flex items-center gap-4 mb-6">
                   <div className="w-12 h-px bg-brand-orange" />
                   <p className="font-body text-xs font-bold tracking-[0.4em] uppercase text-brand-orange">
-                    {hasGallery ? "Produzione" : "Risultati"}
+                    {showBoth ? "Risultati" : hasGallery ? "Produzione" : "Risultati"}
                   </p>
                 </div>
                 <h2 className="font-display font-black tracking-tight leading-[1.05]" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}>
-                  {hasGallery ? (
-                    <>Contenuti <span className="text-primary">realizzati.</span></>
-                  ) : (
+                  {showBoth || !hasGallery ? (
                     <>Numeri <span className="text-primary">che parlano.</span></>
+                  ) : (
+                    <>Contenuti <span className="text-primary">realizzati.</span></>
                   )}
                 </h2>
               </div>
 
-              {hasGallery ? (
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
-                  {detail.gallery!.map((g, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, y: 40, scale: 0.95 }}
-                      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                      viewport={{ once: true, amount: 0.1 }}
-                      transition={{ duration: 0.6, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                      className="relative rounded-2xl overflow-hidden aspect-[9/16] bg-black"
-                    >
-                      {g.video ? (
-                        <video
-                          ref={videoRefs[i]}
-                          src={g.video}
-                          poster={g.poster}
-                          autoPlay={!detail.syncVideos}
-                          loop={!detail.syncVideos}
-                          muted
-                          playsInline
-                          preload="auto"
-                          className="absolute inset-0 w-full h-full object-cover"
-                          onEnded={detail.syncVideos ? (e) => { e.currentTarget.currentTime = 0; e.currentTarget.play().catch(() => {}); } : undefined}
-                        />
-                      ) : g.img ? (
-                        <>
-                          <img src={g.img} alt={g.caption ?? caseItem.client} className="absolute inset-0 w-full h-full object-cover" />
-                          <div className="absolute inset-0 bg-black/15 pointer-events-none" />
-                          {g.caption && (
-                            <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent pointer-events-none">
-                              <p className="font-body text-xs text-white/90 text-center">{g.caption}</p>
-                            </div>
-                          )}
-                        </>
-                      ) : (
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <p className="font-body text-xs text-white/40 text-center px-4">⚠️ PERSONALIZZA: contenuto in arrivo</p>
-                        </div>
-                      )}
-                    </motion.div>
-                  ))}
-                </div>
-              ) : (
-                <div className="grid md:grid-cols-3 gap-8 md:gap-6">
+              {/* Metriche — sempre visibili se hasMetrics (Web e Social) */}
+              {hasMetrics && (
+                <div className="grid md:grid-cols-3 gap-8 md:gap-6 mb-16">
                   {detail.metrics.map((m, i) => (
                     <motion.div
                       key={m.label}
@@ -322,10 +354,34 @@ const CaseStudy = () => {
                   ))}
                 </div>
               )}
+
+              {/* Gallery — visibile se showBoth (Social) o solo gallery (Video) */}
+              {hasGallery && (showBoth || !hasMetrics) && (
+                <>
+                  {showBoth && (
+                    <div className="mb-10">
+                      <div className="flex items-center gap-4 mb-4">
+                        <div className="w-12 h-px bg-brand-orange" />
+                        <p className="font-body text-xs font-bold tracking-[0.4em] uppercase text-brand-orange">Produzione</p>
+                      </div>
+                      <h3 className="font-display font-black tracking-tight leading-[1.05]" style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)" }}>
+                        Contenuti <span className="text-primary">realizzati.</span>
+                      </h3>
+                    </div>
+                  )}
+                  <GalleryGrid
+                    gallery={detail.gallery!}
+                    caseItem={caseItem}
+                    videoRefs={videoRefs}
+                    syncVideos={detail.syncVideos}
+                  />
+                </>
+              )}
             </motion.div>
           </div>
         </section>
 
+        {/* Next case + CTA — nera */}
         <section className="section-dark py-20 md:py-28 px-6">
           <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
             <Link to={`/portfolio/${next.slug}`} className="group relative block rounded-2xl overflow-hidden aspect-[4/3]">
