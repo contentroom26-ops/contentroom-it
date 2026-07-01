@@ -72,6 +72,7 @@ interface CaseDetail {
   goal: string;
   solution: string;
   metrics: { value: string; label: string }[];
+  smallMetrics?: boolean; // true quando i valori sono parole, non numeri brevi
   gallery?: GalleryItem[];
   syncVideos?: boolean;
   // ⚠️ true per progetti Social: mostra metriche E gallery nella stessa
@@ -90,6 +91,7 @@ const details: Record<string, CaseDetail> = {
       { value: "100%", label: "Varietà toscane raccontate" },
     ],
     showBoth: true,
+    smallMetrics: true,
     gallery: [
       { video: bonsaltoVideo1 },
       { img: bonsaltoImg2 },
@@ -346,7 +348,7 @@ const CaseStudy = () => {
                       transition={{ duration: 0.7, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
                       className="text-center md:text-left"
                     >
-                      <span className="font-display font-black block leading-none mb-4 text-primary" style={{ fontSize: "clamp(3.5rem, 8vw, 6rem)" }}>
+                      <span className="font-display font-black block leading-none mb-4 text-primary" style={{ fontSize: detail.smallMetrics ? "clamp(1.8rem, 3vw, 2.5rem)" : "clamp(3.5rem, 8vw, 6rem)" }}
                         {m.value}
                       </span>
                       <p className="font-body text-sm md:text-base text-[hsl(0_0%_30%)]">{m.label}</p>
