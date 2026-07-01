@@ -348,7 +348,7 @@ const CaseStudy = () => {
                       transition={{ duration: 0.7, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
                       className="text-center md:text-left"
                     >
-                      <span className="font-display font-black block leading-none mb-4 text-primary" style={{ fontSize: detail.smallMetrics ? "clamp(1.8rem, 3vw, 2.5rem)" : "clamp(3.5rem, 8vw, 6rem)" }}
+                      <span className="font-display font-black block leading-none mb-4 text-primary" style={{ fontSize: detail.smallMetrics ? "clamp(1.8rem, 3vw, 2.5rem)" : "clamp(3.5rem, 8vw, 6rem)" }}>
                         {m.value}
                       </span>
                       <p className="font-body text-sm md:text-base text-[hsl(0_0%_30%)]">{m.label}</p>
