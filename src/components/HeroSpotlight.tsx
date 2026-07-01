@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-const SPOTLIGHT_RADIUS = 260;
+const SPOTLIGHT_RADIUS = 200;
 
 const HeroSpotlight = () => {
   const containerRef = useRef<HTMLDivElement>(null);
