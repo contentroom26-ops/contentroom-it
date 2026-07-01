@@ -11,11 +11,13 @@ import portfolioMiamo from "@/assets/portfolio-miamo.jpg";
 import portfolioShade from "@/assets/portfolio-shade.jpg";
 import portfolioJasonDerulo from "@/assets/portfolio-jason-derulo.jpg";
 import portfolioBonsalto from "@/assets/portfolio-bonsalto.jpg";
+import portfolioRighi from "@/assets/portfolio-righi.jpg";
 
 const ACCENT = "hsl(192 49% 76%)";
 
 const projects = [
   { slug: "bonsalto", img: portfolioBonsalto, name: "Fattoria Bonsalto", result: "Social & Content Strategy", tag: "Social Media" },
+  { slug: "righi", img: portfolioRighi, name: "Righi Studio", result: "Wedding Content & Social", tag: "Social Media" },
   { slug: "gusto-ristorante", img: portfolio2, name: "Gusto Ristorante", result: "+150% engagement", tag: "Content & Social" },
   { slug: "fitpro-academy", img: portfolio3, name: "FitPro Academy", result: "+80k followers", tag: "Growth & Ads" },
   { slug: "glow-skincare", img: portfolio4, name: "Glow Skincare", result: "+300% vendite", tag: "E-commerce Strategy" },
