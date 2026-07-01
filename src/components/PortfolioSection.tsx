@@ -2,9 +2,6 @@ import { motion, useMotionValue, useTransform, useAnimationFrame } from "framer-
 import { Link, useNavigate } from "react-router-dom";
 import { useRef, useState } from "react";
 import InlineCTA from "./InlineCTA";
-import portfolio2 from "@/assets/portfolio-2.jpg";
-import portfolio3 from "@/assets/portfolio-3.jpg";
-import portfolio4 from "@/assets/portfolio-4.jpg";
 import portfolioSigillo from "@/assets/portfolio-sigillo.jpg";
 import portfolioSetupEvents from "@/assets/portfolio-setupevents.jpg";
 import portfolioMiamo from "@/assets/portfolio-miamo.jpg";
@@ -18,9 +15,6 @@ const ACCENT = "hsl(192 49% 76%)";
 const projects = [
   { slug: "bonsalto", img: portfolioBonsalto, name: "Fattoria Bonsalto", result: "Social & Content Strategy", tag: "Social Media" },
   { slug: "righi", img: portfolioRighi, name: "Righi Studio", result: "Wedding Content & Social", tag: "Social Media" },
-  { slug: "gusto-ristorante", img: portfolio2, name: "Gusto Ristorante", result: "+150% engagement", tag: "Content & Social" },
-  { slug: "fitpro-academy", img: portfolio3, name: "FitPro Academy", result: "+80k followers", tag: "Growth & Ads" },
-  { slug: "glow-skincare", img: portfolio4, name: "Glow Skincare", result: "+300% vendite", tag: "E-commerce Strategy" },
   { slug: "sigillo", img: portfolioSigillo, name: "Sigillo", result: "Nuovo sito corporate", tag: "Sito Web & Brand" },
   { slug: "setup-events", img: portfolioSetupEvents, name: "SetupEvents", result: "Nuovo sito corporate", tag: "Sito Web" },
   { slug: "miamo", img: portfolioMiamo, name: "MIAMO", result: "Inaugurazione MIAMO Lounge", tag: "Content & Production" },
