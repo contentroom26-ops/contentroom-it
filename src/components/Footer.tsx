@@ -65,6 +65,9 @@ const Footer = () => {
               <li className="text-white/45">
                 Via Pietro Francavilla 11, 50142,<br />Firenze (FI), Italia
               </li>
+              <li className="text-white/45">
+                P.Iva 07194320482
+              </li>
             </ul>
           </div>
         </div>
