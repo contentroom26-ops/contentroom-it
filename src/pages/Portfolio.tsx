@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import portfolio1 from "@/assets/portfolio-1.jpg";
 import portfolio2 from "@/assets/portfolio-2.jpg";
 import portfolio3 from "@/assets/portfolio-3.jpg";
 import portfolio4 from "@/assets/portfolio-4.jpg";
@@ -12,6 +11,7 @@ import portfolioSetupEvents from "@/assets/portfolio-setupevents.jpg";
 import portfolioMiamo from "@/assets/portfolio-miamo.jpg";
 import portfolioShade from "@/assets/portfolio-shade.jpg";
 import portfolioJasonDerulo from "@/assets/portfolio-jason-derulo.jpg";
+import portfolioBonsalto from "@/assets/portfolio-bonsalto.jpg";
 
 const CELESTE = "hsl(192 49% 76%)";
 
@@ -35,7 +35,7 @@ export interface CaseItem {
 }
 
 export const cases: CaseItem[] = [
-  { slug: "luxe-fashion", img: portfolio1, client: "Luxe Fashion", service: "Strategy & Production", category: "Social", result: "+200k views" },
+  { slug: "bonsalto", img: portfolioBonsalto, client: "Fattoria Bonsalto", service: "Social Media", category: "Social", result: "Social & Content Strategy" },
   { slug: "gusto-ristorante", img: portfolio2, client: "Gusto Ristorante", service: "Content & Social", category: "Video", result: "+150% engagement" },
   { slug: "fitpro-academy", img: portfolio3, client: "FitPro Academy", service: "Growth & Ads", category: "Social", result: "+80k followers" },
   { slug: "glow-skincare", img: portfolio4, client: "Glow Skincare", service: "E-commerce Strategy", category: "Web", result: "+300% vendite" },
@@ -51,7 +51,6 @@ type Filter = (typeof filters)[number];
 
 const Portfolio = () => {
   const [active, setActive] = useState<Filter>("Tutti");
-
   const visible = useMemo(
     () => (active === "Tutti" ? cases : cases.filter((c) => c.category === active)),
     [active]
