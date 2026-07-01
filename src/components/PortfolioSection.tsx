@@ -2,7 +2,6 @@ import { motion, useMotionValue, useTransform, useAnimationFrame } from "framer-
 import { Link, useNavigate } from "react-router-dom";
 import { useRef, useState } from "react";
 import InlineCTA from "./InlineCTA";
-import portfolio1 from "@/assets/portfolio-1.jpg";
 import portfolio2 from "@/assets/portfolio-2.jpg";
 import portfolio3 from "@/assets/portfolio-3.jpg";
 import portfolio4 from "@/assets/portfolio-4.jpg";
@@ -11,11 +10,12 @@ import portfolioSetupEvents from "@/assets/portfolio-setupevents.jpg";
 import portfolioMiamo from "@/assets/portfolio-miamo.jpg";
 import portfolioShade from "@/assets/portfolio-shade.jpg";
 import portfolioJasonDerulo from "@/assets/portfolio-jason-derulo.jpg";
+import portfolioBonsalto from "@/assets/portfolio-bonsalto.jpg";
 
 const ACCENT = "hsl(192 49% 76%)";
 
 const projects = [
-  { slug: "luxe-fashion", img: portfolio1, name: "Luxe Fashion", result: "+200k views", tag: "Strategy & Production" },
+  { slug: "bonsalto", img: portfolioBonsalto, name: "Fattoria Bonsalto", result: "Social & Content Strategy", tag: "Social Media" },
   { slug: "gusto-ristorante", img: portfolio2, name: "Gusto Ristorante", result: "+150% engagement", tag: "Content & Social" },
   { slug: "fitpro-academy", img: portfolio3, name: "FitPro Academy", result: "+80k followers", tag: "Growth & Ads" },
   { slug: "glow-skincare", img: portfolio4, name: "Glow Skincare", result: "+300% vendite", tag: "E-commerce Strategy" },
