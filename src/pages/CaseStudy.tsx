@@ -23,6 +23,9 @@ import jasonDerulo3 from "@/assets/jason-derulo-3.jpg";
 import bonsaltoVideo1 from "@/assets/bonsalto-1.mp4";
 import bonsaltoImg2 from "@/assets/bonsalto-2.jpg";
 import bonsaltoVideo3 from "@/assets/bonsalto-3.mp4";
+import righiVideo1 from "@/assets/righi-1.mp4";
+import righiVideo2 from "@/assets/righi-2.mp4";
+import righiVideo3 from "@/assets/righi-3.mp4";
 
 const CELESTE = "hsl(192 49% 76%)";
 
@@ -85,17 +88,24 @@ const details: Record<string, CaseDetail> = {
   "bonsalto": {
     goal: "Costruire una presenza digitale autentica per una fattoria vinicola toscana nata negli anni Settanta, trasmettendo sui social lo spirito tradizionale della famiglia Paci senza tradirne l'identità.",
     solution: "Abbiamo preso in mano l'account Instagram appena dopo l'apertura, definendo una palette cromatica coerente e un tono di voce in linea con i valori della fattoria. Shooting fotografici dedicati, piano editoriale a lungo termine e cura dei dettagli visivi per raccontare il vino, la terra e le persone dietro ogni bottiglia.",
-    metrics: [
-      { value: "Piano", label: "Editoriale annuale" },
-      { value: "Shooting", label: "Contenuti fotografici dedicati" },
-      { value: "100%", label: "Varietà toscane raccontate" },
-    ],
-    showBoth: true,
-    smallMetrics: true,
+    // ⚠️ PERSONALIZZA: metriche oscurate in attesa di dati reali dal cliente
+    metrics: [],
     gallery: [
       { video: bonsaltoVideo1 },
       { img: bonsaltoImg2 },
       { video: bonsaltoVideo3 },
+    ],
+  },
+  "righi": {
+    goal: "Raccontare sui social lo studio fotografico di matrimoni più storico di Firenze, trasferendo online la stessa cura artigianale che porta alla realizzazione dei book fotografici, senza perdere il calore di un marchio nato nel 1954.",
+    solution: "Content strategy dedicata a Instagram e produzione di video su misura che raccontano il dietro le quinte degli shooting di nozze, valorizzando sia il lavoro fotografico sia la manifattura degli album fine art che da tre generazioni accompagnano gli sposi Righi.",
+    // ⚠️ PERSONALIZZA: metriche heritage (1954 / 70 anni / 3 generazioni) oscurate su richiesta,
+    // vedi nota in chat — recuperabili in un secondo momento con titolo dedicato
+    metrics: [],
+    gallery: [
+      { video: righiVideo1 },
+      { video: righiVideo2 },
+      { video: righiVideo3 },
     ],
   },
   "gusto-ristorante": {
