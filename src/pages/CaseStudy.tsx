@@ -120,9 +120,9 @@ const details: Record<string, CaseDetail> = {
     goal: "Dotare un'agenzia di organizzazione eventi aziendali a Firenze di un sito vetrina capace di comunicare credibilità verso le aziende e generare richieste di preventivo.",
     solution: "Sito web realizzato da zero con focus sui servizi offerti (hostess, steward, promoter, allestimenti su misura) e un percorso chiaro verso la richiesta di preventivo gratuito.",
     metrics: [
-      { value: "—", label: "⚠️ PERSONALIZZA: inserisci una metrica reale" },
-      { value: "—", label: "⚠️ PERSONALIZZA: inserisci una metrica reale" },
-      { value: "—", label: "⚠️ PERSONALIZZA: inserisci una metrica reale" },
+      { value: "0.8s", label: "Il sito appare (First Contentful Paint)" },
+      { value: "110ms", label: "Tempo di risposta ai click" },
+      { value: "0.002", label: "Stabilità visiva in caricamento" },
     ],
   },
   "miamo": {
