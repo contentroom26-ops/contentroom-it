@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import MagneticButton from "@/components/MagneticButton";
+import HeroSpotlight from "@/components/HeroSpotlight";
 
 const EASE = [0.33, 1, 0.68, 1] as const;
 
@@ -23,7 +24,6 @@ const item: Variants = {
 const HeroSection = () => {
   const ref = useRef<HTMLDivElement>(null);
 
-  // Parallax: background slower than foreground
   const { scrollY } = useScroll();
   const yBg = useTransform(scrollY, [0, 800], [0, 160]);
 
@@ -32,21 +32,12 @@ const HeroSection = () => {
       ref={ref}
       className="relative h-screen overflow-hidden flex items-center"
     >
-      {/* Parallax video background */}
+      {/* Sfondo interattivo provvisorio — sostituisce /hero-video.mov finché non c'è il BTS reale */}
       <motion.div className="absolute inset-0" style={{ y: yBg }}>
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 w-full h-[120%] object-cover"
-          src="/hero-video.mov"
-        />
-        {/* Overlay semplice per leggibilità testo — niente mesh-gradient, solo scurimento piatto */}
-        <div className="absolute inset-0 bg-black/55 pointer-events-none" />
+        <HeroSpotlight />
       </motion.div>
 
-      {/* Foreground content */}
+      {/* Foreground content — invariato */}
       <motion.div
         variants={container}
         initial="hidden"
@@ -90,7 +81,7 @@ const HeroSection = () => {
         </motion.div>
       </motion.div>
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator — invariato */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
