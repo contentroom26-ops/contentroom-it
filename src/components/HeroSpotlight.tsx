@@ -66,7 +66,7 @@ const HeroSpotlight = () => {
       // Un giro completo in ~8s.
       const rx = rect.width  * 0.32;
       const ry = rect.height * 0.18;
-      const PERIOD = 8000; // ms per giro completo
+      const PERIOD = 6000; // ms per giro completo
 
       let lastTs: number | null = null;
 
