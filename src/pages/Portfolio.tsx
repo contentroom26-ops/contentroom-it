@@ -12,6 +12,7 @@ import portfolioMiamo from "@/assets/portfolio-miamo.jpg";
 import portfolioShade from "@/assets/portfolio-shade.jpg";
 import portfolioJasonDerulo from "@/assets/portfolio-jason-derulo.jpg";
 import portfolioBonsalto from "@/assets/portfolio-bonsalto.jpg";
+import portfolioRighi from "@/assets/portfolio-righi.jpg";
 
 const CELESTE = "hsl(192 49% 76%)";
 
@@ -36,6 +37,7 @@ export interface CaseItem {
 
 export const cases: CaseItem[] = [
   { slug: "bonsalto", img: portfolioBonsalto, client: "Fattoria Bonsalto", service: "Social Media", category: "Social", result: "Social & Content Strategy" },
+  { slug: "righi", img: portfolioRighi, client: "Righi Studio", service: "Wedding Photography", category: "Social", result: "Wedding Content & Social" },
   { slug: "gusto-ristorante", img: portfolio2, client: "Gusto Ristorante", service: "Content & Social", category: "Video", result: "+150% engagement" },
   { slug: "fitpro-academy", img: portfolio3, client: "FitPro Academy", service: "Growth & Ads", category: "Social", result: "+80k followers" },
   { slug: "glow-skincare", img: portfolio4, client: "Glow Skincare", service: "E-commerce Strategy", category: "Web", result: "+300% vendite" },
