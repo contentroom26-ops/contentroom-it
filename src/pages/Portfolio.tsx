@@ -3,9 +3,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import portfolio2 from "@/assets/portfolio-2.jpg";
-import portfolio3 from "@/assets/portfolio-3.jpg";
-import portfolio4 from "@/assets/portfolio-4.jpg";
 import portfolioSigillo from "@/assets/portfolio-sigillo.jpg";
 import portfolioSetupEvents from "@/assets/portfolio-setupevents.jpg";
 import portfolioMiamo from "@/assets/portfolio-miamo.jpg";
@@ -38,9 +35,6 @@ export interface CaseItem {
 export const cases: CaseItem[] = [
   { slug: "bonsalto", img: portfolioBonsalto, client: "Fattoria Bonsalto", service: "Social Media", category: "Social", result: "Social & Content Strategy" },
   { slug: "righi", img: portfolioRighi, client: "Righi Studio", service: "Wedding Photography", category: "Social", result: "Wedding Content & Social" },
-  { slug: "gusto-ristorante", img: portfolio2, client: "Gusto Ristorante", service: "Content & Social", category: "Video", result: "+150% engagement" },
-  { slug: "fitpro-academy", img: portfolio3, client: "FitPro Academy", service: "Growth & Ads", category: "Social", result: "+80k followers" },
-  { slug: "glow-skincare", img: portfolio4, client: "Glow Skincare", service: "E-commerce Strategy", category: "Web", result: "+300% vendite" },
   { slug: "sigillo", img: portfolioSigillo, client: "Sigillo", service: "Sito Web & Brand", category: "Web", result: "Nuovo sito corporate" },
   { slug: "setup-events", img: portfolioSetupEvents, client: "SetupEvents", service: "Sito Web", category: "Web", result: "Nuovo sito corporate" },
   { slug: "miamo", img: portfolioMiamo, client: "MIAMO", service: "Content & Production", category: "Video", result: "Inaugurazione MIAMO Lounge" },
