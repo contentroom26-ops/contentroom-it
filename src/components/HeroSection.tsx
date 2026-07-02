@@ -35,7 +35,8 @@ const HeroSection = () => {
           muted
           loop
           playsInline
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700"
+          onCanPlay={(e) => (e.currentTarget.style.opacity = "1")}
         >
           <source src="/MODEL_FINAL_CR.mp4" type="video/mp4" />
         </video>
