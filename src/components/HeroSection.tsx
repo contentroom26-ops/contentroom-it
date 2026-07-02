@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform, Variants } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import MagneticButton from "@/components/MagneticButton";
@@ -20,21 +20,38 @@ const item: Variants = {
 
 const HeroSection = ({ splashDone = false }: { splashDone?: boolean }) => {
   const ref = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const { scrollY } = useScroll();
   const yBg = useTransform(scrollY, [0, 800], [0, 160]);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (splashDone) {
+      // Riporta al primo frame e fa partire
+      video.currentTime = 0;
+      video.play().catch(() => {});
+    } else {
+      // Blocca e resetta finché lo splash è attivo
+      video.pause();
+      video.currentTime = 0;
+    }
+  }, [splashDone]);
 
   return (
     <section
       ref={ref}
       className="relative h-screen overflow-hidden flex items-center"
     >
-      {/* Sfondo video — invisibile finché splashDone non diventa true */}
+      {/* Sfondo video */}
       <motion.div className="absolute inset-0" style={{ y: yBg }}>
         <video
-          autoPlay
+          ref={videoRef}
           muted
           loop
           playsInline
+          preload="auto"
           className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
             splashDone ? "opacity-100" : "opacity-0"
           }`}
