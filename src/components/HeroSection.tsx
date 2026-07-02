@@ -3,15 +3,12 @@ import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import MagneticButton from "@/components/MagneticButton";
-import HeroSpotlight from "@/components/HeroSpotlight";
 
 const EASE = [0.33, 1, 0.68, 1] as const;
-
 const container: Variants = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.15, delayChildren: 0.25 } },
 };
-
 const item: Variants = {
   hidden: { opacity: 0, y: 30 },
   visible: {
@@ -23,7 +20,6 @@ const item: Variants = {
 
 const HeroSection = () => {
   const ref = useRef<HTMLDivElement>(null);
-
   const { scrollY } = useScroll();
   const yBg = useTransform(scrollY, [0, 800], [0, 160]);
 
@@ -32,18 +28,32 @@ const HeroSection = () => {
       ref={ref}
       className="relative h-screen overflow-hidden flex items-center"
     >
-      {/* Sfondo interattivo provvisorio — sostituisce /hero-video.mov finché non c'è il BTS reale */}
+      {/* Sfondo video */}
       <motion.div className="absolute inset-0" style={{ y: yBg }}>
-        <HeroSpotlight />
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="/MODEL_FINAL_CR.mp4" type="video/mp4" />
+        </video>
+        {/* Overlay nero per leggibilità testo */}
+        <div className="absolute inset-0 bg-black/55" />
+        {/* Gradient fade verso il basso — raccordo con sezione beige */}
+        <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-black/80 to-transparent pointer-events-none" />
       </motion.div>
 
-      {/* Foreground content — invariato */}
+      {/* TESTI HERO — commentati temporaneamente, riattivare rimuovendo i tag commento */}
+      {/*
       <motion.div
         variants={container}
         initial="hidden"
         animate="visible"
         className="relative z-10 px-6 md:px-16 max-w-3xl"
       >
+        {/* Eyebrow — localizzazione agenzia *\/}
         <motion.p
           variants={item}
           className="text-brand-orange font-body text-xs md:text-sm font-bold tracking-[0.1em] uppercase mb-5"
@@ -51,6 +61,7 @@ const HeroSection = () => {
           Digital Agency — Firenze
         </motion.p>
 
+        {/* H1 — claim principale. Keyword celeste = "macchine di contenuti" *\/}
         <motion.h1
           variants={item}
           className="font-display font-black text-4xl sm:text-5xl md:text-6xl leading-[1.05] tracking-tight text-white mb-6"
@@ -59,6 +70,7 @@ const HeroSection = () => {
           <span className="text-primary">macchine di contenuti.</span>
         </motion.h1>
 
+        {/* Subheadline — pay-off + servizi *\/}
         <motion.p
           variants={item}
           className="text-white/75 font-body text-base md:text-lg leading-relaxed max-w-xl mb-8"
@@ -67,6 +79,7 @@ const HeroSection = () => {
           video e growth per chi non vuole solo "essere visto".
         </motion.p>
 
+        {/* CTA primaria — porta a /contatti *\/}
         <motion.div variants={item}>
           <MagneticButton radius={60} strength={0.35} className="inline-block">
             <Button
@@ -80,8 +93,9 @@ const HeroSection = () => {
           </MagneticButton>
         </motion.div>
       </motion.div>
+      */}
 
-      {/* Scroll indicator — invariato */}
+      {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
