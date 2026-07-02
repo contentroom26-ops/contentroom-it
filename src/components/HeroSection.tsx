@@ -18,7 +18,7 @@ const item: Variants = {
   },
 };
 
-const HeroSection = () => {
+const HeroSection = ({ splashDone = false }: { splashDone?: boolean }) => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
   const yBg = useTransform(scrollY, [0, 800], [0, 160]);
@@ -28,15 +28,16 @@ const HeroSection = () => {
       ref={ref}
       className="relative h-screen overflow-hidden flex items-center"
     >
-      {/* Sfondo video */}
+      {/* Sfondo video — invisibile finché splashDone non diventa true */}
       <motion.div className="absolute inset-0" style={{ y: yBg }}>
         <video
           autoPlay
           muted
           loop
           playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700"
-          onCanPlay={(e) => (e.currentTarget.style.opacity = "1")}
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
+            splashDone ? "opacity-100" : "opacity-0"
+          }`}
         >
           <source src="/MODEL_FINAL_CR.mp4" type="video/mp4" />
         </video>
@@ -99,8 +100,8 @@ const HeroSection = () => {
       {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2 }}
+        animate={{ opacity: splashDone ? 1 : 0 }}
+        transition={{ duration: 0.6, delay: 0.5 }}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
       >
         <motion.span
