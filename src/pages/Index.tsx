@@ -13,6 +13,7 @@ import SplashScreen from "@/components/SplashScreen";
 import Footer from "@/components/Footer";
 import FAQSection from "@/components/FAQSection";
 import PageTransition from "@/components/PageTransition";
+
 const Index = () => {
   const [splashDone, setSplashDone] = useState(false);
   return (
@@ -51,7 +52,7 @@ const Index = () => {
         <main className="relative z-10 min-h-screen overflow-x-hidden">
           <Navbar />
           <PageTransition>
-            <HeroSection />
+            <HeroSection splashDone={splashDone} />
             <ChiSiamoSection />
             <div id="servizi"><ServicesSection /></div>
             <MethodSection />
@@ -66,4 +67,5 @@ const Index = () => {
     </>
   );
 };
+
 export default Index;
