@@ -9,17 +9,18 @@ import portfolioShade from "@/assets/portfolio-shade.jpg";
 import portfolioJasonDerulo from "@/assets/portfolio-jason-derulo.jpg";
 import portfolioBonsalto from "@/assets/portfolio-bonsalto.jpg";
 import portfolioRighi from "@/assets/portfolio-righi.jpg";
+import sigilloLogo from "@/assets/sigillo-logo.svg";
 
 const ACCENT = "hsl(192 49% 76%)";
 
 const projects = [
-  { slug: "bonsalto", img: portfolioBonsalto, name: "Fattoria Bonsalto", result: "Social & Content Strategy", tag: "Social Media" },
-  { slug: "righi", img: portfolioRighi, name: "Righi Studio", result: "Wedding Content & Social", tag: "Social Media" },
-  { slug: "sigillo", img: portfolioSigillo, name: "Sigillo", result: "Nuovo sito corporate", tag: "Sito Web & Brand" },
-  { slug: "setup-events", img: portfolioSetupEvents, name: "SetupEvents", result: "Nuovo sito corporate", tag: "Sito Web" },
-  { slug: "miamo", img: portfolioMiamo, name: "MIAMO", result: "Inaugurazione MIAMO Lounge", tag: "Content & Production" },
-  { slug: "shade", img: portfolioShade, name: "Shade", result: "Lancio singolo \"Toxic\"", tag: "Content & Production" },
-  { slug: "jason-derulo", img: portfolioJasonDerulo, name: "Jason Derulo", result: "Copertura esclusiva live", tag: "Photo & Video" },
+  { slug: "bonsalto", img: portfolioBonsalto, name: "Fattoria Bonsalto", result: "Social & Content Strategy", tag: "Social Media", logo: undefined },
+  { slug: "righi", img: portfolioRighi, name: "Righi Studio", result: "Wedding Content & Social", tag: "Social Media", logo: undefined },
+  { slug: "sigillo", img: portfolioSigillo, name: "Sigillo", result: "Nuovo sito corporate", tag: "Sito Web & Brand", logo: sigilloLogo },
+  { slug: "setup-events", img: portfolioSetupEvents, name: "SetupEvents", result: "Nuovo sito corporate", tag: "Sito Web", logo: undefined },
+  { slug: "miamo", img: portfolioMiamo, name: "MIAMO", result: "Inaugurazione MIAMO Lounge", tag: "Content & Production", logo: undefined },
+  { slug: "shade", img: portfolioShade, name: "Shade", result: "Lancio singolo \"Toxic\"", tag: "Content & Production", logo: undefined },
+  { slug: "jason-derulo", img: portfolioJasonDerulo, name: "Jason Derulo", result: "Copertura esclusiva live", tag: "Photo & Video", logo: undefined },
 ];
 
 const CARD_WIDTH = 260;
@@ -83,6 +84,11 @@ function ProjectCard({ p, slotIndex, trackX }: { p: any, slotIndex: number, trac
       >
         <img src={p.img} alt={p.name} loading="lazy" draggable={false} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent" />
+        {p.logo && (
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ background: "radial-gradient(ellipse at center, rgba(0,0,0,0.35) 0%, transparent 65%)" }}>
+            <img src={p.logo} alt={`${p.name} logo`} className="w-24 h-auto drop-shadow-2xl opacity-90" style={{ filter: "drop-shadow(0 0 14px rgba(184,160,106,0.4))" }} />
+          </div>
+        )}
         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
           <div className="text-center px-6">
             <p className="font-body text-[10px] tracking-[0.4em] uppercase mb-3" style={{ color: ACCENT }}>{p.tag}</p>
