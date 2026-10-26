@@ -30,13 +30,14 @@ export interface CaseItem {
   service: string;
   category: CaseCategory;
   result: string;
+  url?: string;
 }
 
 export const cases: CaseItem[] = [
   { slug: "bonsalto", img: portfolioBonsalto, client: "Fattoria Bonsalto", service: "Social Media", category: "Social", result: "Social & Content Strategy" },
   { slug: "righi", img: portfolioRighi, client: "Righi Studio", service: "Wedding Photography", category: "Social", result: "Wedding Content & Social" },
-  { slug: "sigillo", img: portfolioSigillo, client: "Sigillo", service: "Sito Web & Brand", category: "Web", result: "Nuovo sito corporate" },
-  { slug: "setup-events", img: portfolioSetupEvents, client: "SetupEvents", service: "Sito Web", category: "Web", result: "Nuovo sito corporate" },
+  { slug: "sigillo", img: portfolioSigillo, client: "Sigillo", service: "Sito Web & Brand", category: "Web", result: "Nuovo sito corporate", url: "https://www.sigillo.it" },
+  { slug: "setup-events", img: portfolioSetupEvents, client: "SetupEvents", service: "Sito Web", category: "Web", result: "Nuovo sito corporate", url: "https://www.setupevents.it" },
   { slug: "miamo", img: portfolioMiamo, client: "MIAMO", service: "Content & Production", category: "Video", result: "Inaugurazione MIAMO Lounge" },
   { slug: "shade", img: portfolioShade, client: "Shade", service: "Content & Production", category: "Video", result: "Lancio singolo \"Toxic\"" },
   { slug: "jason-derulo", img: portfolioJasonDerulo, client: "Jason Derulo", service: "Photo & Video", category: "Video", result: "Copertura esclusiva live" },
