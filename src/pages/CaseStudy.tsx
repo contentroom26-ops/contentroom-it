@@ -1,6 +1,6 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
 import { useEffect, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -26,6 +26,7 @@ import bonsaltoVideo3 from "@/assets/bonsalto-3.mp4";
 import righiVideo1 from "@/assets/righi-1.mp4";
 import righiVideo2 from "@/assets/righi-2.mp4";
 import righiVideo3 from "@/assets/righi-3.mp4";
+import sigilloLogo from "@/assets/sigillo-logo.svg";
 
 const CELESTE = "hsl(192 49% 76%)";
 
@@ -82,6 +83,7 @@ interface CaseDetail {
   // sezione beige (metriche sopra, gallery sotto). Per Video: solo gallery.
   // Per Web: solo metriche. Default: false.
   showBoth?: boolean;
+  logo?: string; // logo SVG/PNG da sovrapporre all'immagine hero (es. Sigillo)
 }
 
 const details: Record<string, CaseDetail> = {
@@ -115,6 +117,7 @@ const details: Record<string, CaseDetail> = {
       { value: "30+", label: "Maison di lusso servite" },
       { value: "3", label: "Continenti raggiunti" },
     ],
+    logo: sigilloLogo,
   },
   "setup-events": {
     goal: "Dotare un'agenzia di organizzazione eventi aziendali a Firenze di un sito vetrina capace di comunicare credibilità verso le aziende e generare richieste di preventivo.",
@@ -253,6 +256,16 @@ const CaseStudy = () => {
               >
                 <img src={caseItem.img} alt={caseItem.client} className="absolute inset-0 w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
+                {detail.logo && (
+                  <div className="absolute inset-0 flex items-center justify-center" style={{ background: "radial-gradient(ellipse at center, rgba(0,0,0,0.45) 0%, transparent 70%)" }}>
+                    <img
+                      src={detail.logo}
+                      alt={`${caseItem.client} logo`}
+                      className="w-48 md:w-64 h-auto drop-shadow-2xl"
+                      style={{ filter: "drop-shadow(0 0 24px rgba(184,160,106,0.35))" }}
+                    />
+                  </div>
+                )}
                 <div className="absolute bottom-0 left-0 p-6 md:p-8">
                   <p className="font-body text-[10px] font-bold tracking-[0.4em] uppercase mb-3 text-brand-orange">
                     {caseItem.service} · {caseItem.category}
@@ -284,6 +297,26 @@ const CaseStudy = () => {
                   </div>
                   <p className="font-display text-lg md:text-xl leading-[1.45] text-white">{detail.solution}</p>
                 </div>
+                {caseItem.url && (
+                  <>
+                    <div className="h-px bg-white/10" />
+                    <div>
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-8 h-px bg-brand-orange" />
+                        <p className="font-body text-[10px] font-bold tracking-[0.4em] uppercase text-brand-orange">Sito web</p>
+                      </div>
+                      <a
+                        href={caseItem.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 font-body text-base font-medium text-primary hover:text-white transition-colors duration-200 group"
+                      >
+                        {caseItem.url.replace(/^https?:\/\//, "")}
+                        <ExternalLink className="w-4 h-4 opacity-60 group-hover:opacity-100 transition-opacity" />
+                      </a>
+                    </div>
+                  </>
+                )}
               </motion.div>
             </div>
           </div>
