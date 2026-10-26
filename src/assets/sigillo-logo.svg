@@ -1,0 +1,17 @@
+<svg width="290" height="72" viewBox="0 0 290 72" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400&amp;display=swap');
+      .wordmark { font-family: 'Josefin Sans', sans-serif; font-size: 58px; font-weight: 400; fill: #b8a06a; letter-spacing: 6px; }
+    </style>
+  </defs>
+  <text x="12" y="58" class="wordmark">SIGILL</text>
+  <!-- y=16 = allineata al cap-height. x=242 = gap leggermente più ampio rispetto alle altre lettere -->
+  <g transform="translate(242, 16)">
+    <rect x="0" y="0" width="36" height="42" rx="4" ry="4"
+          fill="none" stroke="#b8a06a" stroke-width="4" stroke-linejoin="round"/>
+    <line x1="0" y1="21" x2="36" y2="21"
+          stroke="#b8a06a" stroke-width="4" stroke-linecap="square"/>
+    <circle cx="18" cy="21" r="3.5" fill="#b8a06a"/>
+  </g>
+</svg>
