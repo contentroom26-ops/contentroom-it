@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import portfolioSigillo from "@/assets/portfolio-sigillo.jpg";
+import sigilloLogo from "@/assets/sigillo-logo.svg";
 import portfolioSetupEvents from "@/assets/portfolio-setupevents.jpg";
 import portfolioMiamo from "@/assets/portfolio-miamo.jpg";
 import portfolioShade from "@/assets/portfolio-shade.jpg";
@@ -31,12 +32,13 @@ export interface CaseItem {
   category: CaseCategory;
   result: string;
   url?: string;
+  logo?: string;
 }
 
 export const cases: CaseItem[] = [
   { slug: "bonsalto", img: portfolioBonsalto, client: "Fattoria Bonsalto", service: "Social Media", category: "Social", result: "Social & Content Strategy" },
   { slug: "righi", img: portfolioRighi, client: "Righi Studio", service: "Wedding Photography", category: "Social", result: "Wedding Content & Social" },
-  { slug: "sigillo", img: portfolioSigillo, client: "Sigillo", service: "Sito Web & Brand", category: "Web", result: "Nuovo sito corporate", url: "https://www.sigillo.it" },
+  { slug: "sigillo", img: portfolioSigillo, client: "Sigillo", service: "Sito Web & Brand", category: "Web", result: "Nuovo sito corporate", url: "https://www.sigillosrl.com", logo: sigilloLogo },
   { slug: "setup-events", img: portfolioSetupEvents, client: "SetupEvents", service: "Sito Web", category: "Web", result: "Nuovo sito corporate", url: "https://www.setupevents.it" },
   { slug: "miamo", img: portfolioMiamo, client: "MIAMO", service: "Content & Production", category: "Video", result: "Inaugurazione MIAMO Lounge" },
   { slug: "shade", img: portfolioShade, client: "Shade", service: "Content & Production", category: "Video", result: "Lancio singolo \"Toxic\"" },
@@ -112,6 +114,11 @@ const Portfolio = () => {
                     <Link to={`/portfolio/${c.slug}`} className="group relative block rounded-2xl overflow-hidden cursor-pointer aspect-[4/3]">
                       <img src={c.img} alt={c.client} loading="lazy" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent" />
+                      {c.logo && (
+                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ background: "radial-gradient(ellipse at center, rgba(0,0,0,0.35) 0%, transparent 65%)" }}>
+                          <img src={c.logo} alt={`${c.client} logo`} className="w-32 h-auto drop-shadow-2xl opacity-90" style={{ filter: "drop-shadow(0 0 16px rgba(184,160,106,0.4))" }} />
+                        </div>
+                      )}
                       <div className="absolute inset-0 bg-black/75 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center p-6">
                         <div className="text-center">
                           <p className="font-body text-[10px] tracking-[0.4em] uppercase mb-3" style={{ color: CELESTE }}>{c.service}</p>
